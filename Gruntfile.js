@@ -234,6 +234,18 @@ module.exports = function (grunt) {
     },
     // Put files not handled in other tasks here
     copy: {
+    	
+      win7: {
+       files: [{
+    	  expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/scripts/vendor/windows7',
+          dest: '<%= yeoman.app %>/scripts/vendor',
+          src: [
+            '*.*']
+       }]
+      },
+        
       dist: {
         files: [{
           expand: true,
@@ -311,6 +323,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
+      //'copy:win7',              
       'clean:server',
       'concurrent:server',
       'connect:livereload',
@@ -320,6 +333,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
+    //'copy:win7',              
     'clean:server',
     'concurrent:test',
     'connect:test',
@@ -327,6 +341,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
+    //'copy',                           
     'clean:dist',
     'useminPrepare',
     'concurrent:dist',
