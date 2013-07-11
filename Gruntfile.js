@@ -245,6 +245,17 @@ module.exports = function (grunt) {
             '*.*']
        }]
       },
+      
+      android: {
+          files: [{
+       	  expand: true,
+             dot: true,
+             cwd: '<%= yeoman.app %>/scripts/vendor/android',
+             dest: '<%= yeoman.app %>/scripts/vendor',
+             src: [
+               '*.*']
+          }]
+         },
         
       dist: {
         files: [{
@@ -323,7 +334,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
-      //'copy:win7',              
+      'copy:win7',              
       'clean:server',
       'concurrent:server',
       'connect:livereload',
@@ -333,7 +344,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
-    //'copy:win7',              
+    'copy:win7',              
     'clean:server',
     'concurrent:test',
     'connect:test',
@@ -341,7 +352,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
-    //'copy',                           
+    'copy',                           
     'clean:dist',
     'useminPrepare',
     'concurrent:dist',
