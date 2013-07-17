@@ -10,20 +10,23 @@ angular.module('App', [])
        .when('/gear', {
         templateUrl: 'views/gear.html'
       })
-      .when('/regionList', {
+      .when('/region-list', {
         templateUrl: 'views/regionList.html'
       })
-      .when('/regionDetails', {
-        templateUrl: 'views/regionDetails.html'
+      .when('/region-details/:region', {
+        templateUrl: 'views/regionDetails.html',
+        controller: 'RegionDetailsCtrl'
       })
       .when('/danger-scale', {
         templateUrl: 'views/dangerScale.html'
       })
-      .when('/details-info', {
-        templateUrl: 'views/detailsInfo.html'
+      .when('/details-info/:region', {
+        templateUrl: 'views/detailsInfo.html',
+        controller: 'MainCtrl'
       })
-      .when('/problems', {
-        templateUrl: 'views/problems.html'
+      .when('/problems/:region', {
+        templateUrl: 'views/problems.html',
+        controller: 'MainCtrl'
       })
       .when('/about', {
         templateUrl: 'views/about.html'
