@@ -34,6 +34,10 @@ angular.module('App', [])
       .when('/tou', {
         templateUrl: 'views/tou.html'
       })
+      .when('/Map', {
+        templateUrl: 'views/Map.html',
+        controller: 'MapCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
