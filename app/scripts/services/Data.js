@@ -5,15 +5,15 @@ angular.module('App')
 });
 
 angular.module('App')
-.factory('RemoteData', function($http,$rootScope,$q){
+.factory('Data', function($http,$rootScope,$q){
 	
    var apply = function () {$rootScope.$apply();};
    
    return {
-       get: function(region,transform){
+       get: function(file,transform){
      	    var defer = $q.defer();    	   
-    	   	var file = 'http://www.avalanche.ca/dataservices/cac/bulletins/xml/' + region; // \todo make this a config param
-    	   	console.log ("requesting data from " + file);
+    	   	
+     	    console.log ("requesting data from " + file);
             
     	   	$http.get(
                 file,
@@ -30,6 +30,8 @@ angular.module('App')
             
       	  return defer.promise;
        }
+   
+   
    }
    });
 

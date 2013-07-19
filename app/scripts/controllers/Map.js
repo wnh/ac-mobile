@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('App')
-  .controller('MapCtrl', function ($scope, getPosition, RemoteData) {
+  .controller('MapCtrl', function ($scope, getPosition, Data) {
 	 
 	  $scope.latitude = 0;
 	  $scope.longitude = 0;
@@ -21,8 +21,14 @@ angular.module('App')
 	 $scope.remoteData = 'test';   
 	 $scope.region = 'south-coast';
 	 
+	 var getUrlForRegion = function (region){
+		 var bulletinUrl = 'http://www.avalanche.ca/dataservices/cac/bulletins/xml/'; // \todo make this a config param
+		 return bulletinUrl + region; 
+	 }
+	   	
+	 
 	 $scope.getData =  function () {
-		 RemoteData.get($scope.region, transform).then(
+		 Data.get(getUrlForRegion($scope.region), transform).then(
 				 function (data)
 				 {
 					 $scope.remoteData = data; 
