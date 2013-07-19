@@ -11,3 +11,16 @@
             
             <br/>
             <button ng-click="updatePosition()">Current Location</button>
+
+             <div>
+                <label for="region">Region</label>
+                <input name="region" ng-model="region" type="text" />
+            </div>
+            
+            <br/>
+            <button ng-click="getData()">Get Data</button>
+            
+            </br>
+            <div>
+            	{{remoteData}}
+            </div>

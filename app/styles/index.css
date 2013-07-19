@@ -30,7 +30,7 @@ body
 	margin: 0;
 	padding: 0;
 	background: #FFFFFF;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 
 body *
