@@ -1,11 +1,19 @@
-@import "bootstrap-sass/lib/bootstrap";
+/*@import "bootstrap-sass/lib/bootstrap"; */
 
 /* Put your CSS here */
 html, body {
   margin: 20px;
 }
 
+#map-canvas {
+  	width: 100%; 
+  	height: 700px; /* for some reason 100% does not work ?? */
+	}
+
+
 body {
+	height: 100%;
+	width:100%;
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
