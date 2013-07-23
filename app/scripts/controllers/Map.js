@@ -28,12 +28,32 @@ angular.module('App')
 	   	
 	 
 	 $scope.getData =  function () {
-		 Data.get(getUrlForRegion($scope.region), transform).then(
+		 Data.httpGetXml(getUrlForRegion($scope.region), transform).then(
 				 function (data)
 				 {
-					 $scope.remoteData = data; 
+					 $scope.remoteData = data.ObsCollection.observations.Bulletin.bulletinResultsOf.BulletinMeasurements.dangerRatings; 
 				 });
-	 };
+	 };	 
+	
+	 $scope.localFile = 'data.json';
+	 $scope.getLocalData =  function () {
+		 Data.fileRead($scope.localFile).then(
+				 function (data)
+				 {
+					 console.log('data read func', data);
+					 $scope.localData = data;
+				 },
+				 function (error)
+				 {
+					 console.log ('error reading file' + error); 
+				 })
+		 };
+		 
+	 $scope.putData = function () { 
+		 Data.fileWrite($scope.localFile, JSON.stringify($scope.remoteData).split());
+		 } ;	 
+		 
+	 
   });
 
 

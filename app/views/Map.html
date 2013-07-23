@@ -1,4 +1,5 @@
 
+	<div id='Pos'>
             <div>
                 <label for="longitude">Longitude</label>
                 <input name="longitude" ng-model="longitude" type="text" />
@@ -9,26 +10,37 @@
                 <input name="latitude" ng-model="latitude" type="text" />
             </div>
             
-            <br/>
-            <button ng-click="updatePosition()">Current Location</button>
 
+            <button ng-click="updatePosition()">Current Location</button>
+            <br /><br/> 
+	</div>
+	<div id="Data">
              <div>
                 <label for="region">Region</label>
                 <input name="region" ng-model="region" type="text" />
             </div>
             
-            <br/>
-            <button ng-click="getData()">Get Data</button>
+            <div>
+                <label for="localFile">localFile</label>
+                <input name="localFile" ng-model="localFile" type="text" />
+            </div>
             
-            </br>
+            
+            <button ng-click="getData()">Get Data</button>
+            <button ng-click="putData()">Put Data</button>
+            <button ng-click="getLocalData()">Get Local Data</button>
+            
+            <div>
+            	{{ localData }}
+                       	
+            </div>
+          
             <div>
             	{{remoteData}}
             </div>
+            <br /><br /> 
+    </div>
            
-           
-<div class="input-prepend">
-  <span class="add-on">@</span>
-  <input class="span2" id="prependedInput" type="text" placeholder="Username">
-</div>
+       
             
             
