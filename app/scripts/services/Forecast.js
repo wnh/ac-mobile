@@ -25,7 +25,7 @@ angular.module('App')
 
 	   get: function (region)
 	   {
-		   var fileName = "filesystem:http://localhost:9000/.tmp/"+region + ".json";
+		   var fileName = region + ".json";
 		   var defer = $q.defer();    	   
 		   
 		   Data.fileRead(fileName).then(
@@ -42,7 +42,7 @@ angular.module('App')
 								 {
 									 console.log("received data from http");
 									 var forecast = data.ObsCollection.observations.Bulletin.bulletinResultsOf.BulletinMeasurements.dangerRatings; 
-									 Data.fileWrite(fileName, forecast);
+									 Data.fileWrite(fileName, JSON.stringify(forecast).split());
 									 defer.resolve(forecast);
 								 },
 								 function (error)

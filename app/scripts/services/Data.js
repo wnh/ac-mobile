@@ -60,20 +60,23 @@ angular.module('App')
        
        // HTTP Put data to URL
        httpPut: function(url, data){
-    	    console.log ("putting data at " + url);
+    	    //console.log ("putting data at " + url);
    	   		$http.put(url, data);
    	   	},
    	   	
    	   //Read a local file
    	   fileRead: function(file){
    	
+   		   var fileName = 'empty';
+   		   
    		   function fail(e) {
    			   console.log("Error", e);
    			   defer.reject(e);
    		   }
  	   
  	       function getFileSystem (fileSystem) {
- 	    	   fileSystem.root.getFile(file, {create: true, exclusive: true}, gotFileEntry, fail);
+ 	    	   fileName = fileSystem.root.toURL() + file;
+ 	    	   fileSystem.root.getFile(fileName, {create: true, exclusive: true}, gotFileEntry, fail);
  	       }
  	   
  	       function gotFileEntry(fileEntry) {
@@ -81,16 +84,15 @@ angular.module('App')
  	       }
  	       
  	       function readFile(file) {
- 	    	 
- 	         var reader = new FileReader();
+ 		 	 console.log("reading data from file", fileName);
+ 	    	 var reader = new FileReader();
  	         reader.onloadend = function(e) { console.log('load end');defer.resolve(reader.result);};
  	         reader.onError = function(e) {console.log('error'); defer.reject(e);};
- 	         reader.readAsText(file);
+ 	         reader.readAsText(fileName);
  	       }
 
    		   var defer = $q.defer();    	   
 	   	
-	 	   console.log("reading data from file", file);
     	   window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
     	   window.storageInfo = window.storageInfo || window.webkitStorageInfo; 
     	   
@@ -104,12 +106,15 @@ angular.module('App')
    	   // Write to a local file
        fileWrite: function(file, data){
     	   
+    	   var fileName = 'empty';
+    	   
     	   function fail(e) {
     	        console.log("Error", e);
     	    }
     	   
     	   function getFileSystem (fileSystem) {
-    	        fileSystem.root.getFile(file, {create: true, exclusive: false}, gotFileEntry, fail);
+    		    fileName = fileSystem.root.toURL() + file;
+    	        fileSystem.root.getFile(fileName, {create: true, exclusive: false}, gotFileEntry, fail);
     	    }
     	   
     	   function gotFileEntry(fileEntry) {
@@ -118,9 +123,9 @@ angular.module('App')
     	   
     	   function gotFileWriter(fileWriter) {
 
-    		      fileWriter.onwriteend = function(e) {
-    		        console.log('Write completed.');
-    		      };
+          	      fileWriter.onwriteend = function(e) {
+          	    	console.log("Data written to file", fileName);
+      		      };
 
     		      fileWriter.onerror = function(e) {
     		        console.log('Write failed: ' + e.toString());
@@ -129,10 +134,11 @@ angular.module('App')
     		      // Create a new Blob and write it
     		      var blob = new Blob(data, {type: 'text/plain'});
 
+    		      console.log("file Write begun to file", fileName);
     		      fileWriter.write(blob);
     	    }
     	   
-    	   console.log("writing data to file", file);
+
     	   window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
     	   
     	   window.webkitStorageInfo.requestQuota(PERSISTENT, 
