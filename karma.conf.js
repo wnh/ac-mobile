@@ -16,7 +16,7 @@ files = [
 ];
 
 // list of files to exclude
-exclude = ['app/scripts/vendor/**/*.*'];
+exclude = ['app/scripts/vendor/Android/*.*'];
 
 // test results reporter to use
 // possible values: dots || progress || growl
