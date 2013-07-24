@@ -73,17 +73,23 @@ describe('Service: Data', function () {
 	  $httpBackend.flush();
     });
   
-  /*
+
   it('Write/Read file', function(){
 	  var data = ['qwertyuiopasdfghjklzxcvbnm'];
 	  var filename = 'test.data';
 	  console.log("writing data");
 	  Data.fileWrite(filename, data);
-	  console.log("reading data");
+	  /*console.log("reading data");
 	  Data.fileRead(filename).then(
-			  function(result){expect(result).toEqual(data);},
-			  function(error){expect(error).toEqual(data);});
-  });*/
+			  function(result){
+				  	console.log("file read success");
+				  	expect(result).toEqual(data);
+				  },
+			  function(error){
+					console.log("file read success");
+					expect(error).toEqual(data);
+				  });*/
+  });
   
 
 });

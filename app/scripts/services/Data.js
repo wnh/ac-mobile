@@ -72,23 +72,33 @@ angular.module('App')
    		   function fail(e) {
    			   console.log("Error", e);
    			   defer.reject(e);
+   			   $rootScope.$apply();
    		   }
  	   
  	       function getFileSystem (fileSystem) {
- 	    	   fileName = fileSystem.root.toURL() + file;
- 	    	   fileSystem.root.getFile(fileName, {create: true, exclusive: true}, gotFileEntry, fail);
+ 	    	   fileName = /*fileSystem.root.toURL() +*/ file;
+ 	    	   console.log("getFileSystem", fileName);
+ 	    	   fileSystem.root.getFile(fileName, {create: false, exclusive: true}, gotFileEntry, fail);
  	       }
  	   
  	       function gotFileEntry(fileEntry) {
+ 	    	   console.log("gotFileEntry", fileName);  
  	    	   fileEntry.file(readFile, fail);
  	       }
  	       
- 	       function readFile(file) {
+ 	       function readFile(fileEntry) {
  		 	 console.log("reading data from file", fileName);
  	    	 var reader = new FileReader();
- 	         reader.onloadend = function(e) { console.log('load end');defer.resolve(reader.result);};
- 	         reader.onError = function(e) {console.log('error'); defer.reject(e);};
- 	         reader.readAsText(fileName);
+ 	         reader.onloadend  = function(e) {
+ 	        	 	defer.resolve(this.result);
+ 	        	 	$rootScope.$apply();
+ 	        	 };
+ 	         reader.onError = function(e) {
+ 	        	 	console.log('error'); 
+ 	        	 	defer.reject(e); apply();
+ 	        	 	$rootScope.$apply();
+ 	        	 };
+ 	         reader.readAsText(fileEntry);
  	       }
 
    		   var defer = $q.defer();    	   
@@ -105,7 +115,7 @@ angular.module('App')
        
    	   // Write to a local file
        fileWrite: function(file, data){
-    	   
+
     	   var fileName = 'empty';
     	   
     	   function fail(e) {
@@ -113,29 +123,35 @@ angular.module('App')
     	    }
     	   
     	   function getFileSystem (fileSystem) {
-    		    fileName = fileSystem.root.toURL() + file;
-    	        fileSystem.root.getFile(fileName, {create: true, exclusive: false}, gotFileEntry, fail);
+    		   fileName = /*fileSystem.root.toURL() +*/ file; 
+    		   console.log("getFileSystem ", fileName);
+    		   fileSystem.root.getFile(fileName, {create: true}, gotFileEntry, fail);
     	    }
     	   
     	   function gotFileEntry(fileEntry) {
+    		    console.log("gotFileEntry");
     		    fileEntry.createWriter(gotFileWriter, fail);
     	    }
     	   
     	   function gotFileWriter(fileWriter) {
+    		   console.log("gotFileEntry");
+    		   
+          	   fileWriter.onwrite = function(e) {
+          		   console.log("Data writting to file", fileName);
+      		   };
+      		   
+      		 fileWriter.onwriteend = function(e) {
+        		   console.log("Data written to file", fileName);
+    		   };
 
-          	      fileWriter.onwriteend = function(e) {
-          	    	console.log("Data written to file", fileName);
-      		      };
+    		   fileWriter.onerror = function(e) {
+    			   console.log('Write failed: ' + e.toString());
+    		   };
 
-    		      fileWriter.onerror = function(e) {
-    		        console.log('Write failed: ' + e.toString());
-    		      };
+    		   var blob = new Blob(data, {type: 'text/plain'});
 
-    		      // Create a new Blob and write it
-    		      var blob = new Blob(data, {type: 'text/plain'});
-
-    		      console.log("file Write begun to file", fileName);
-    		      fileWriter.write(blob);
+    		   console.log("file Write begun to file", fileName);
+    		   fileWriter.write(blob);
     	    }
     	   
 
