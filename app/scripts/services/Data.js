@@ -1,16 +1,23 @@
 'use strict';
+//Provides services for getting Data from HTTP and local file
+//Does not use any instance specific information instead acts as a facade wrapper
+
+
+// allows  cross origin requests
 angular.module('App')
 .config(function($httpProvider){
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
 
-//HTTP Get and use tranform function to convert to json
+
 angular.module('App')
 .factory('Data', function($http,$rootScope,$q){
 	
    var apply = function () {$rootScope.$apply();};
    
    return {
+	   
+	   //HTTP Get XML and use transform function to convert to json
        httpGetXml: function(url,transform){
      	    var defer = $q.defer();    	   
     	   	
@@ -32,6 +39,7 @@ angular.module('App')
       	  return defer.promise;
        },
    
+       //HTTP Get json
        httpGetJson: function(url){
     	   var defer = $q.defer();    	   
 	   	
@@ -50,19 +58,22 @@ angular.module('App')
 	   		return defer.promise;
        },
        
+       // HTTP Put data to URL
        httpPut: function(url, data){
     	    console.log ("putting data at " + url);
    	   		$http.put(url, data);
    	   	},
    	   	
+   	   //Read a local file
    	   fileRead: function(file){
    	
    		   function fail(e) {
    			   console.log("Error", e);
+   			   defer.reject(e);
    		   }
  	   
  	       function getFileSystem (fileSystem) {
- 	    	   fileSystem.root.getFile(file, {create: true, exclusive: false}, gotFileEntry, fail);
+ 	    	   fileSystem.root.getFile(file, {create: true, exclusive: true}, gotFileEntry, fail);
  	       }
  	   
  	       function gotFileEntry(fileEntry) {
@@ -70,9 +81,10 @@ angular.module('App')
  	       }
  	       
  	       function readFile(file) {
+ 	    	 
  	         var reader = new FileReader();
- 	         reader.onloadend = function(e) { defer.resolve(reader.result);};
- 	         reader.onError = function(e) {defer.reject(e);};
+ 	         reader.onloadend = function(e) { console.log('load end');defer.resolve(reader.result);};
+ 	         reader.onError = function(e) {console.log('error'); defer.reject(e);};
  	         reader.readAsText(file);
  	       }
 
@@ -89,6 +101,7 @@ angular.module('App')
     	   return defer.promise;
    	   },
        
+   	   // Write to a local file
        fileWrite: function(file, data){
     	   
     	   function fail(e) {
@@ -106,7 +119,7 @@ angular.module('App')
     	   function gotFileWriter(fileWriter) {
 
     		      fileWriter.onwriteend = function(e) {
-    		        //console.log('Write completed.');
+    		        console.log('Write completed.');
     		      };
 
     		      fileWriter.onerror = function(e) {

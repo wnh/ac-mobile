@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('App')
-  .controller('MapCtrl', function ($scope, getPosition, Data) {
+  .controller('MapCtrl', function ($scope, location, Data) {
 	  
 	  window.onresize = function(){alert(test); google.maps.event.trigger(map, 'resize');};
 	  
@@ -9,12 +9,14 @@ angular.module('App')
 	  $scope.longitude = 150.644;
 	  
 	  $scope.updatePosition = function () {
-	        getPosition.update().then(
+	        location.getPosition().then(
 	        		function (position){
 	        			  $scope.latitude = position.coords.latitude;
 	        			  $scope.longitude = position.coords.longitude;
 	        		  });
 	    };
+	    
+	    
 	    
 	 var transform = function(result) {
 			var json = x2js.xml_str2json(result);
@@ -71,6 +73,7 @@ angular.module('App')
 
 		  var posUpdate = function (newValue, oldValue) { map.panTo(new google.maps.LatLng(scope.latitude, scope.longitude)) };
 		  scope.$watch('latitude',posUpdate);
+		  scope.$watch('longtitude',posUpdate);
 
 	};
 	

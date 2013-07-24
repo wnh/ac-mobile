@@ -21,12 +21,10 @@ angular.module('App', [])
         templateUrl: 'views/dangerScale.html'
       })
       .when('/details-info/:region', {
-        templateUrl: 'views/detailsInfo.html',
-        controller: 'MainCtrl'
+        templateUrl: 'views/detailsInfo.html'
       })
       .when('/problems/:region', {
-        templateUrl: 'views/problems.html',
-        controller: 'MainCtrl'
+        templateUrl: 'views/problems.html'
       })
       .when('/about', {
         templateUrl: 'views/about.html'
