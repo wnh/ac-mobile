@@ -3,7 +3,7 @@
 angular.module('App')
   .controller('RegionDetailsCtrl', function ($scope, $routeParams, Forecast) {
     $scope.region = $routeParams.region;
-    $scope.data = "qwerty";
+    //$scope.data = "qwerty";
    
     /*
     $scope.dataOut = "Test";

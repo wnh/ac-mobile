@@ -12,9 +12,7 @@ angular.module('App')
 
 angular.module('App')
 .factory('Data', function($http,$rootScope,$q){
-	
-   var apply = function () {$rootScope.$apply();};
-   
+	   
    return {
 	   
 	   //HTTP Get XML and use transform function to convert to json
@@ -30,10 +28,12 @@ angular.module('App')
             success(function(data, status) {
                 console.log("Request succeeded");
                 defer.resolve(data);
+                //$rootScope.$apply();
             }).
             error(function(data, status) {
                 console.log("Request failed " + status);
                 defer.reject(status);
+                //$rootScope.$apply();
             });
             
       	  return defer.promise;
@@ -49,10 +49,12 @@ angular.module('App')
 	   		success(function(data, status) {
 	   			console.log("Request succeeded");
 	   			defer.resolve(data);
+	   			//$rootScope.$apply();
 	   			}).
 	   		error(function(data, status) {
 	   			console.log("Request failed " + status);
 	   			defer.reject(status);
+	   			//$rootScope.$apply();
 	   		});
        
 	   		return defer.promise;
@@ -95,7 +97,7 @@ angular.module('App')
  	        	 };
  	         reader.onError = function(e) {
  	        	 	console.log('error'); 
- 	        	 	defer.reject(e); apply();
+ 	        	 	defer.reject(e);
  	        	 	$rootScope.$apply();
  	        	 };
  	         reader.readAsText(fileEntry);
