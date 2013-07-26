@@ -2,10 +2,8 @@
 
 angular.module('App')
   .controller('MapCtrl', function ($scope, location, Data) {
-	  
-	  window.onresize = function(){alert(test); google.maps.event.trigger(map, 'resize');};
-	  
-	  $scope.latitude = -34.397;
+	  	  
+	  $scope.latitude = -34.397; //\todo make config params
 	  $scope.longitude = 150.644;
 	  
 	  $scope.updatePosition = function () {
@@ -17,7 +15,7 @@ angular.module('App')
 	    };
 	    
 	    
-	    
+	/*    
 	 var transform = function(result) {
 			var json = x2js.xml_str2json(result);
 			return json;
@@ -57,7 +55,7 @@ angular.module('App')
 		 Data.fileWrite($scope.localFile, JSON.stringify($scope.remoteData).split());
 		 } ;	 
 		 
-	 
+	 */
   });
 
 
@@ -69,11 +67,11 @@ angular.module('App')
 		
 		 var mapOptions = {zoom: 8, center: new google.maps.LatLng(scope.latitude, scope.longitude)};
 		 var map = new google.maps.Map(elem[0], mapOptions);
-		 
+		 window.onresize = function(){google.maps.event.trigger(map, 'resize');};
 
-		  var posUpdate = function (newValue, oldValue) { map.panTo(new google.maps.LatLng(scope.latitude, scope.longitude)) };
-		  scope.$watch('latitude',posUpdate);
-		  scope.$watch('longtitude',posUpdate);
+		 var posUpdate = function (newValue, oldValue) { map.panTo(new google.maps.LatLng(scope.latitude, scope.longitude)) };
+		 scope.$watch('latitude',posUpdate);
+		 scope.$watch('longtitude',posUpdate);
 
 	};
 	

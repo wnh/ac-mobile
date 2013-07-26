@@ -3,10 +3,10 @@
 angular.module('App', [])
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
+       .when('/', {
+        templateUrl: 'views/Map.html',
+        controller: 'MapCtrl'
+        })
        .when('/gear', {
         templateUrl: 'views/gear.html'
       })
@@ -37,6 +37,7 @@ angular.module('App', [])
         controller: 'MapCtrl'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/Map',
+        controller: 'MapCtrl'
       });
   });

@@ -12,6 +12,38 @@ angular.module('App')
 
 angular.module('App')
 .factory('Data', function($http,$rootScope,$q){
+
+	   //! setup file
+	 var fileApi = {available : false};
+
+	 window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+
+	   function getFileSystem (fileSystem) {
+		      fileApi.fileSystem = fileSystem;
+		      fileApi.available = true;
+		      console.log("getFileSystem");
+	   }
+
+	   function fail(e) {console.log("Error", e);}
+	
+	
+	   //! HACK ! seems that we need to do things differently for phonegap and web
+	   if (window.webkitStorageInfo){// WEB
+	      
+		  // required to make web compliant
+	      window.webkitStorageInfo.requestQuota(window.PERSISTENT, 
+	   				1024*1024, 
+	   				function(grantedBytes) {window.requestFileSystem(window.PERSISTENT, grantedBytes, getFileSystem, fail);}, 
+	   				fail);	   
+	   } 
+	   else{ // Phonegap
+		   
+		   document.addEventListener('deviceready', function () {
+	          //request quota fails on android / phonegap
+			   var grantedBytes = 0;
+			   window.requestFileSystem(window.PERSISTENT, grantedBytes , getFileSystem, fail);
+			}, false);   
+	   }
 	   
    return {
 	   
@@ -67,25 +99,25 @@ angular.module('App')
    	   	},
    	   	
    	   //Read a local file
-   	   fileRead: function(file){
-   	
-   		   var fileName = 'empty';
+   	   fileRead: function(fileName){
+   		
+   		   var defer = $q.defer();    	 
    		   
-   		   function fail(e) {
+   		   function failAndUpdate(e) {
    			   console.log("Error", e);
    			   defer.reject(e);
    			   $rootScope.$apply();
    		   }
  	   
- 	       function getFileSystem (fileSystem) {
- 	    	   fileName = /*fileSystem.root.toURL() +*/ file;
+ 	       /*function getFileSystem (fileSystem) {
+ 	    	   fileName =  file;
  	    	   console.log("getFileSystem", fileName);
- 	    	   fileSystem.root.getFile(fileName, {create: false, exclusive: true}, gotFileEntry, fail);
- 	       }
+ 	    	   fileSystem.root.getFile(fileName, {create: false, exclusive: true}, gotFileEntry, failAndUpdate);
+ 	       }*/
  	   
  	       function gotFileEntry(fileEntry) {
  	    	   console.log("gotFileEntry", fileName);  
- 	    	   fileEntry.file(readFile, fail);
+ 	    	   fileEntry.file(readFile, failAndUpdate);
  	       }
  	       
  	       function readFile(fileEntry) {
@@ -103,32 +135,36 @@ angular.module('App')
  	         reader.readAsText(fileEntry);
  	       }
 
-   		   var defer = $q.defer();    	   
-	   	
-    	   window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
-    	   window.storageInfo = window.storageInfo || window.webkitStorageInfo; 
-    	   
-    	   window.storageInfo.requestQuota(PERSISTENT, 
-    			   								1024*1024, 
-    			   								function(grantedBytes) {window.requestFileSystem(window.PERSISTENT, grantedBytes, getFileSystem, fail);}, 
-    			   								fail);
-    	   return defer.promise;
+ 	      if (fileApi.available)
+ 	      {
+ 	    	  fileApi.fileSystem.root.getFile(fileName, {create: false, exclusive: true}, gotFileEntry, failAndUpdate);
+ 	      }
+ 	      else
+ 	      {
+ 	    	  failAndUpdate("API Not available");
+ 	      }
+   		
+    	  return defer.promise;
    	   },
        
    	   // Write to a local file
-       fileWrite: function(file, data){
+       fileWrite: function(fileName, data){
 
-    	   var fileName = 'empty';
+    	   //if (fileApi.available){
+    	///	   alert("winning");
+    	   //}
+    		   
+   
+    	   //function fail(e) {
+    	    //    console.log("Error", e);
+    	    //}
     	   
-    	   function fail(e) {
-    	        console.log("Error", e);
-    	    }
     	   
-    	   function getFileSystem (fileSystem) {
-    		   fileName = /*fileSystem.root.toURL() +*/ file; 
+    	   /*function getFileSystem (fileSystem) {
+    		   fileName =  file; 
     		   console.log("getFileSystem ", fileName);
     		   fileSystem.root.getFile(fileName, {create: true}, gotFileEntry, fail);
-    	    }
+    	    }*/
     	   
     	   function gotFileEntry(fileEntry) {
     		    console.log("gotFileEntry");
@@ -157,12 +193,21 @@ angular.module('App')
     	    }
     	   
 
-    	   window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+    	   if (fileApi.available)
+    	   {
+    		   fileApi.fileSystem.root.getFile(fileName, {create: true}, gotFileEntry, fail);
+    	   }
+    	   else
+    	   {
+    		   fail("API Not available");
+    	   }
     	   
-    	   window.webkitStorageInfo.requestQuota(PERSISTENT, 
-    			   								1024*1024, 
-    			   								function(grantedBytes) {window.requestFileSystem(window.PERSISTENT, grantedBytes, getFileSystem, fail);}, 
-    			   								fail);
+    	   //window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+    	   
+    	   //window.webkitStorageInfo.requestQuota(PERSISTENT, 
+    	//		   								1024*1024, 
+    		//	   								function(grantedBytes) {window.requestFileSystem(window.PERSISTENT, grantedBytes, getFileSystem, fail);}, 
+    			//   								fail);*/
        }
        
        

@@ -26,8 +26,8 @@ angular.module('App')
 	   get: function (region)
 	   {
 		   var fileName = region + ".json";
-		   var defer = $q.defer();    	   
-		   
+		   var defer = $q.defer();    	  
+
 		   Data.fileRead(fileName).then(
 					 function (data)
 					 {
@@ -41,7 +41,7 @@ angular.module('App')
 								 function (data)
 								 {
 									 console.log("received data from http");
-									 var forecast = data.ObsCollection.observations.Bulletin.bulletinResultsOf.BulletinMeasurements.dangerRatings; 
+									 var forecast = data.ObsCollection.observations.Bulletin; 
 									 Data.fileWrite(fileName, JSON.stringify(forecast).split());
 									 defer.resolve(forecast);
 								 },
@@ -52,6 +52,7 @@ angular.module('App')
 								 });
  
 					 })
+
            
      	  return defer.promise;			 
        }
