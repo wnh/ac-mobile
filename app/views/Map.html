@@ -1,50 +1,16 @@
 
 	<a href="#/region-list">Region List</a>
 	<div id='Pos'>
-            <div>
                 <label for="longitude">Longitude</label>
                 <input name="longitude" ng-model="longitude" type="text" />
-            </div>
-            
-            <div>
+           
                 <label for="latitude">Latitude</label>
                 <input name="latitude" ng-model="latitude" type="text" />
-            </div>
             
-
-            <button ng-click="updatePosition()">Current Location</button>
-            <br /><br/> 
+                <button ng-click="updatePosition()">Current Location</button>
 	</div>
-	<!-- <div id="Data">
-             <div>
-                <label for="region">Region</label>
-                <input name="region" ng-model="region" type="text" />
-            </div>
-            
-            <div>
-                <label for="localFile">localFile</label>
-                <input name="localFile" ng-model="localFile" type="text" />
-            </div>
-            
-            
-            <button ng-click="getData()">Get Data</button>
-            <button ng-click="putData()">Put Data</button>
-            <button ng-click="getLocalData()">Get Local Data</button>
-            
-            <div>
-            	{{ localData }}
-                       	
-            </div>
-          
-            <div>
-            	{{remoteData}}
-            </div>
-            <br /><br /> 
-            
-    </div> 
-     -->
   
-    		<div id="map-canvas" google-map=""></div>
+   <div id="map-canvas" google-map=""></div>
            
        
             

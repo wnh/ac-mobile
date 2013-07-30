@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('App')
-  .controller('MapCtrl', function ($scope, location, Data) {
-	  	  
+  .controller('MapCtrl', function ($scope, $location, location, Data) {
+	  
 	  $scope.latitude = -34.397; //\todo make config params
 	  $scope.longitude = 150.644;
 	  
@@ -13,67 +13,48 @@ angular.module('App')
 	        			  $scope.longitude = position.coords.longitude;
 	        		  });
 	    };
-	    
-	    
-	/*    
-	 var transform = function(result) {
-			var json = x2js.xml_str2json(result);
-			return json;
-			};   
-	 $scope.remoteData = 'test';   
-	 $scope.region = 'south-coast';
-	 
-	 var getUrlForRegion = function (region){
-		 var bulletinUrl = 'http://www.avalanche.ca/dataservices/cac/bulletins/xml/'; // \todo make this a config param
-		 return bulletinUrl + region; 
-	 }
-	   	
-	 
-	 $scope.getData =  function () {
-		 Data.httpGetXml(getUrlForRegion($scope.region), transform).then(
-				 function (data)
-				 {
-					 $scope.remoteData = data.ObsCollection.observations.Bulletin.bulletinResultsOf.BulletinMeasurements.dangerRatings; 
-				 });
-	 };	 
 	
-	 $scope.localFile = 'data.json';
-	 $scope.getLocalData =  function () {
-		 Data.fileRead($scope.localFile).then(
-				 function (data)
-				 {
-					 console.log('data read func', data);
-					 $scope.localData = data;
-				 },
-				 function (error)
-				 {
-					 console.log ('error reading file' + error); 
-				 })
-		 };
-		 
-	 $scope.putData = function () { 
-		 Data.fileWrite($scope.localFile, JSON.stringify($scope.remoteData).split());
-		 } ;	 
-		 
-	 */
-  });
-
-
+  }); // end controller
 
 
 angular.module('App')
-.directive('googleMap', function(){
+.directive('googleMap', function($window){
 	return function (scope, elem, attrs) {
 		
 		 var mapOptions = {zoom: 8, center: new google.maps.LatLng(scope.latitude, scope.longitude)};
 		 var map = new google.maps.Map(elem[0], mapOptions);
-		 window.onresize = function(){google.maps.event.trigger(map, 'resize');};
+		 
+		 /*
+		 //$('#map-canvas').height = $(window).height();
+		 
+		 window.onresize = function(){
+			 //$('#map-canvas').height = $(window).height();
+			 google.maps.event.trigger(map, 'resize');
+			 };*/
+		 
+		 
+		 //! Add region overlay as KML Layer
+		 var kmlUrl = 'http://avalanche.ca:81/KML/CACBulletinRegions.kml';//'file:///C:/doc.kml'; //'https://developers.google.com/kml/training/westcampus.kml';
+		 var kmlOptions = {
+		   clickable: true,		 
+		   suppressInfoWindows: true, //! \todo enable this and make infowindows display nice information see git issue
+		   preserveViewport: false,
+		   map: map
+		 };
+		 var kmlLayer = new google.maps.KmlLayer(kmlUrl, kmlOptions);
+		 
+		 google.maps.event.addListener(kmlLayer, 'click', function(kmlEvent) {
+			    var region = kmlEvent.featureData.name;
+			    var path = "/#/region-details/" + region;
+			    $window.location.href = path; //outside of scope so $location doesnt seem to work, is there a more angular way to do this *hack*
+			  });
+		 //!
 
+		 //! watch for change in lat or long and call posUpdate if there is one, adjusting the map centre to the specified lat long 	 
 		 var posUpdate = function (newValue, oldValue) { map.panTo(new google.maps.LatLng(scope.latitude, scope.longitude)) };
 		 scope.$watch('latitude',posUpdate);
 		 scope.$watch('longtitude',posUpdate);
+		 //! 
 
 	};
-	
-	
-});
+}); // end directive

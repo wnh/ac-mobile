@@ -6,14 +6,20 @@ html, body {
 }
 
 #map-canvas {
+   border-style:solid;
+   border-width:5px;
   	width: 100%; 
-  	height: 700px; /* for some reason 100% does not work ?? */
+  	height: 400px; /* for some reason 100% does not work ?? */
+  	max-width: none; 
+  	max-height: none;
 	}
+	
+	#map-canvas img { max-width: none; max-height: none; }
 
 
 body {
-	height: 100%;
-	width:100%;
+	 height: 100%;
+	 width:100%;
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
@@ -21,7 +27,8 @@ body {
 
 .hero-unit {
     margin: 50px auto 0 auto;
-    width: 300px;
+    width: 100%;
+    height: 100%;
     font-size: 18px;
     font-weight: 200;
     line-height: 30px;
