@@ -31,7 +31,7 @@ angular.module('App')
 		   Data.fileRead(fileName).then(
 					 function (data)
 					 {
-						 console.log("Request succeeded");
+						 //console.log("Request succeeded");
 			             defer.resolve(data);
 					 },
 					 function (error)
@@ -40,7 +40,7 @@ angular.module('App')
 						 Data.httpGetXml(getUrlForRegion(region), transform).then(
 								 function (data)
 								 {
-									 console.log("received data from http");
+									 console.log("received data from http writing to file");
 									 var forecast = data.ObsCollection.observations.Bulletin; 
 									 Data.fileWrite(fileName, JSON.stringify(forecast).split());
 									 defer.resolve(forecast);

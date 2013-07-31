@@ -10,4 +10,4 @@ Install Steps
 
 npm install
 bower install
-grunt build:<platform>, platform= android|win7|ios
+grunt build:<platform>

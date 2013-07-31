@@ -53,6 +53,8 @@ module.exports = function (grunt) {
         ]
       }
     },
+    
+    // connect
     connect: {
       options: {
         port: 9000,
@@ -70,6 +72,7 @@ module.exports = function (grunt) {
           }
         }
       },
+      
       test: {
         options: {
           middleware: function (connect) {
@@ -95,19 +98,37 @@ module.exports = function (grunt) {
         url: 'http://localhost:<%= connect.options.port %>'
       }
     },
+    // end connect 
+    
+       
+    compress: {
+  	  dist:{
+  	        options: {
+  	            archive: './www.zip',
+  	            mode: 'zip'
+  	        },
+  	        //cwd: '<%= yeoman.dist %>/',
+  	        //src: ['**/*']
+  	        files: [{ src: '<%= yeoman.dist %>/**' }]
+  	  }
+  	},
+  	
     clean: {
       dist: {
         files: [{
           dot: true,
           src: [
             '.tmp',
+            '.zip',
             '<%= yeoman.dist %>/*',
-            '!<%= yeoman.dist %>/.git*'
+            '!<%= yeoman.dist %>/.git*',
+            '<%= yeoman.app %>/scripts/vendor/cordova.js'
           ]
         }]
       },
       server: '.tmp'
     },
+    
     jshint: {
       options: {
         jshintrc: '.jshintrc'
@@ -117,6 +138,7 @@ module.exports = function (grunt) {
         '<%= yeoman.app %>/scripts/{,*/}*.js'
       ]
     },
+    
     coffee: {
       dist: {
         files: [{
@@ -151,6 +173,13 @@ module.exports = function (grunt) {
         httpFontsPath: '/styles/fonts',
         relativeAssets: false
       },
+      pgb: {
+          options: {
+          sassDir: '<%= yeoman.app %>/styles',
+          cssDir: '<%= yeoman.dist %>/styles'
+          }
+        },
+        
       dist: {},
       server: {
         options: {
@@ -246,17 +275,25 @@ module.exports = function (grunt) {
        }]
       },
       
-      android: {
+      pgb: {
           files: [{
-       	  expand: true,
-             dot: true,
-             cwd: '<%= yeoman.app %>/scripts/vendor/android',
-             dest: '<%= yeoman.app %>/scripts/vendor',
-             src: [
-               '*.*']
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>',
+            dest: '<%= yeoman.dist %>',
+            src: [
+              '*.*',
+              '.htaccess',
+              'bower_components/**/*',
+              'scripts/services/**/*',
+              'scripts/controllers/**/*',
+              'scripts/vendor/*',
+              'images/{,*/}*.{gif,webp,svg}',
+              'styles/fonts/*'
+            ]
           }]
-         },
-        
+      },
+          
       dist: {
         files: [{
           expand: true,
@@ -289,6 +326,8 @@ module.exports = function (grunt) {
         'coffee',
         'compass'
       ],
+      pgb:['coffee',
+           'compass:pgb'],
       dist: [
         'coffee',
         'compass:dist',
@@ -350,8 +389,18 @@ module.exports = function (grunt) {
     'connect:test',
     'karma'
   ]);
-
   grunt.registerTask('build', [
+                               'clean:dist',
+                               'useminPrepare',
+                               'concurrent:pgb',
+                               //'cssmin',
+                               'usemin',
+                               'copy:pgb',
+                               'compress:dist'
+                               
+                             ]);
+  
+  /*grunt.registerTask('build', [
     'copy',                           
     'clean:dist',
     'useminPrepare',
@@ -364,11 +413,14 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin'
-  ]);
+  ]);*/
 
   grunt.registerTask('default', [
     'jshint',
     'test',
     'build'
   ]);
+  
+  
+  
 };
