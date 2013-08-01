@@ -24,7 +24,7 @@ angular.module('App')
 		      console.log("getFileSystem");
 	   }
 
-	   function fail(e) {console.log("Error", e);}
+	   function fail(e) {console.log("Error with filesystem", e);}
 	
 	
 	   //! HACK ! seems that we need to do things differently for phonegap and web
@@ -48,6 +48,7 @@ angular.module('App')
    return {
 	   
 	   //HTTP Get XML and use transform function to convert to json
+	   //{
        httpGetXml: function(url,transform){
      	    var defer = $q.defer();    	   
     	   	
@@ -58,7 +59,7 @@ angular.module('App')
                 {transformResponse:transform}
             ).
             success(function(data, status) {
-                console.log("Request succeeded");
+                //console.log("Request succeeded");
                 defer.resolve(data);
                 //$rootScope.$apply();
             }).
@@ -70,6 +71,7 @@ angular.module('App')
             
       	  return defer.promise;
        },
+       //! } End httpGetXml
    
        //HTTP Get json
        httpGetJson: function(url){
@@ -79,7 +81,7 @@ angular.module('App')
        
 	   		$http.get(url).
 	   		success(function(data, status) {
-	   			console.log("Request succeeded");
+	   			//console.log("Request succeeded");
 	   			defer.resolve(data);
 	   			//$rootScope.$apply();
 	   			}).
@@ -91,29 +93,21 @@ angular.module('App')
        
 	   		return defer.promise;
        },
+       //! } End httpGetJson
        
-       // HTTP Put data to URL
-       httpPut: function(url, data){
-    	    //console.log ("putting data at " + url);
-   	   		$http.put(url, data);
-   	   	},
    	   	
-   	   //Read a local file
+   	   //! Read a local file {
    	   fileRead: function(fileName){
    		
+   		   //console.groupCollapsed("File Read");
+   		   
    		   var defer = $q.defer();    	 
    		   
    		   function failAndUpdate(e) {
-   			   console.log("Error", e);
+   			   console.log("Error reading file", e);
    			   defer.reject(e);
    			   $rootScope.$apply();
    		   }
- 	   
- 	       /*function getFileSystem (fileSystem) {
- 	    	   fileName =  file;
- 	    	   console.log("getFileSystem", fileName);
- 	    	   fileSystem.root.getFile(fileName, {create: false, exclusive: true}, gotFileEntry, failAndUpdate);
- 	       }*/
  	   
  	       function gotFileEntry(fileEntry) {
  	    	   console.log("gotFileEntry", fileName);  
@@ -121,18 +115,23 @@ angular.module('App')
  	       }
  	       
  	       function readFile(fileEntry) {
- 		 	 console.log("reading data from file", fileName);
- 	    	 var reader = new FileReader();
- 	         reader.onloadend  = function(e) {
- 	        	 	defer.resolve(this.result);
- 	        	 	$rootScope.$apply();
- 	        	 };
- 	         reader.onError = function(e) {
- 	        	 	console.log('error'); 
- 	        	 	defer.reject(e);
- 	        	 	$rootScope.$apply();
- 	        	 };
- 	         reader.readAsText(fileEntry);
+ 	    	   
+ 	    	   var reader = new FileReader();
+ 	    	   
+ 	    	   reader.onloadend  = function(e) {
+ 	    		   console.log("file read loadend");
+ 	    		   var json = JSON.parse(this.result);
+ 	    		   defer.resolve(json);
+ 	    		   $rootScope.$apply();
+ 	    	   };
+ 	    	   
+ 	    	   reader.onError = function(e) {
+ 	    		   console.log('error'); 
+ 	    		   defer.reject(e);
+ 	    		   $rootScope.$apply();
+ 	    	   };
+ 	    	   
+ 	    	   reader.readAsText(fileEntry);
  	       }
 
  	      if (fileApi.available)
@@ -144,41 +143,27 @@ angular.module('App')
  	    	  failAndUpdate("API Not available");
  	      }
    		
+ 	      
     	  return defer.promise;
    	   },
+       //! } End fileRead
        
-   	   // Write to a local file
+   	   //! Write to a local file {
        fileWrite: function(fileName, data){
-
-    	   //if (fileApi.available){
-    	///	   alert("winning");
-    	   //}
-    		   
-   
-    	   //function fail(e) {
-    	    //    console.log("Error", e);
-    	    //}
     	   
-    	   
-    	   /*function getFileSystem (fileSystem) {
-    		   fileName =  file; 
-    		   console.log("getFileSystem ", fileName);
-    		   fileSystem.root.getFile(fileName, {create: true}, gotFileEntry, fail);
-    	    }*/
+    	   //console.groupCollapsed("FileWrite"); events are asyncronous so we cant group
     	   
     	   function gotFileEntry(fileEntry) {
-    		    console.log("gotFileEntry");
     		    fileEntry.createWriter(gotFileWriter, fail);
     	    }
     	   
     	   function gotFileWriter(fileWriter) {
-    		   console.log("gotFileEntry");
     		   
           	   fileWriter.onwrite = function(e) {
           		   console.log("Data writting to file", fileName);
       		   };
       		   
-      		 fileWriter.onwriteend = function(e) {
+      		   fileWriter.onwriteend = function(e) {
         		   console.log("Data written to file", fileName);
     		   };
 
@@ -188,7 +173,6 @@ angular.module('App')
 
     		   var blob = new Blob(data, {type: 'text/plain'});
 
-    		   console.log("file Write begun to file", fileName);
     		   fileWriter.write(blob);
     	    }
     	   
@@ -202,16 +186,13 @@ angular.module('App')
     		   fail("API Not available");
     	   }
     	   
-    	   //window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+    	   //console.groupEnd();
     	   
-    	   //window.webkitStorageInfo.requestQuota(PERSISTENT, 
-    	//		   								1024*1024, 
-    		//	   								function(grantedBytes) {window.requestFileSystem(window.PERSISTENT, grantedBytes, getFileSystem, fail);}, 
-    			//   								fail);*/
-       }
+    	}
+   	//! } End filewrite
        
-       
-   }
-   });
+   }// End return
+   
+   }); //End Factory
 
 

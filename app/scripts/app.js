@@ -24,7 +24,8 @@ angular.module('App', [])
         templateUrl: 'views/detailsInfo.html'
       })
       .when('/problems/:region', {
-        templateUrl: 'views/problems.html'
+        templateUrl: 'views/problems.html',
+        controller: 'ProblemDetailsCtrl'
       })
       .when('/about', {
         templateUrl: 'views/about.html'

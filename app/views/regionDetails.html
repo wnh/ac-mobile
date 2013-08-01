@@ -3,13 +3,7 @@
 					<section class="title">CAC</section>
 				</div>
 				
-				<div class="test">
-				   <button ng-click="getData()">Get Data</button>
-            
-    		        <div>
-            			{{ data }}
-                    </div>
-				</div>
+	        {{ region }}
 				
 				<section class="content">
 					<div class="contentwrapper">
@@ -27,9 +21,9 @@
 							<section class="bottom">Below Treeline</section>
 						</div>
 						<div class="warnings_overlay">
-							<section class="top"></section>
-							<section class="middle"></section>
-							<section class="bottom"></section>
+							<section class="top">{{today.dangerRatingAlpValue.__text}}</section>
+							<section class="middle">{{today.dangerRatingTlnValue.__text}}</section>
+							<section class="bottom">{{today.dangerRatingBtlValue.__text}}</section>
 						</div>
 						<table class="tomorrow_details">
 							<tbody>
@@ -40,18 +34,18 @@
 								</tr>
 								<tr>
 									<td class="alpine">Alpine</td>
-									<td class="alpine_tomorrow"></td>
-									<td class="alpine_dayaftertomorrow"></td>
+									<td class="alpine_tomorrow">{{tomorrow.dangerRatingAlpValue.__text}}</td>
+									<td class="alpine_dayaftertomorrow">{{dayAfter.dangerRatingAlpValue.__text}}</td>
 								</tr>
 								<tr>
 									<td class="treeline">Treeline</td>
-									<td class="treeline_tomorrow"></td>
-									<td class="treeline_dayaftertomorrow"></td>
+									<td class="treeline_tomorrow">{{tomorrow.dangerRatingTlnValue.__text}}</td>
+									<td class="treeline_dayaftertomorrow">{{dayAfter.dangerRatingTlnValue.__text}}</td>
 								</tr>
 								<tr>
 									<td class="below_treeline">Below Treeline</td>
-									<td class="below_treeline_tomorrow"></td>
-									<td class="below_treeline_dayaftertomorrow"></td>
+									<td class="below_treeline_tomorrow">{{tomorrow.dangerRatingBtlValue.__text}}</td>
+									<td class="below_treeline_dayaftertomorrow">{{dayAfter.dangerRatingBtlValue.__text}}</td>
 								</tr>
 							</tbody>
 						</table>

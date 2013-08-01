@@ -174,12 +174,11 @@ module.exports = function (grunt) {
         relativeAssets: false
       },
       pgb: {
-          options: {
-          sassDir: '<%= yeoman.app %>/styles',
-          cssDir: '<%= yeoman.dist %>/styles'
+    	  options: {
+        	  sassDir: '<%= yeoman.app %>/styles',
+        	  cssDir: '<%= yeoman.dist %>/styles'
           }
-        },
-        
+      },  
       dist: {},
       server: {
         options: {
@@ -288,6 +287,7 @@ module.exports = function (grunt) {
               'scripts/services/**/*',
               'scripts/controllers/**/*',
               'scripts/vendor/*',
+              'views',
               'images/{,*/}*.{gif,webp,svg}',
               'styles/fonts/*'
             ]

@@ -4,15 +4,21 @@ angular.module('App')
   .controller('RegionDetailsCtrl', function ($scope, $routeParams, Forecast) {
     $scope.region = $routeParams.region;
     
-    $scope.getData = function(){
-    	Forecast.get($scope.region).then(
+    Forecast.get($scope.region).then(
     			function(data){
-    				$scope.data = data;
+    				
+    				 //data = data_;
+    				
+    				 //! \todo assumes ordered list and assumes recent  checks against the dates should be made her instead of assuming that bulletin has been published !
+    				 $scope.today = data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[0];
+    				 $scope.tomorrow = data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[1];
+    				 $scope.dayAfter = data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[2];
+    				 				 
     			},
     			function(error){
-    				alert('error', error);
+    				alert('error gettin forecast', error);
     			}
     			
-    	)};
+    	);
     
   });

@@ -14,7 +14,7 @@ angular.module('App')
 	        		  });
 	    };
 	
-  }); // end controller
+  }); // end MapCtrl controller
 
 
 angular.module('App')
@@ -46,7 +46,7 @@ angular.module('App')
 		 google.maps.event.addListener(kmlLayer, 'click', function(kmlEvent) {
 			    var region = kmlEvent.featureData.name;
 			    var path = "/#/region-details/" + region;
-			    $window.location.href = path; //outside of scope so $location doesnt seem to work, is there a more angular way to do this *hack*
+			    $window.location.href = path; //outside of scope so $location doesnt seem to work, is there a more angular way to do this *hack* using this seems to destroy back ability
 			  });
 		 //!
 
@@ -57,4 +57,4 @@ angular.module('App')
 		 //! 
 
 	};
-}); // end directive
+}); // end googleMap directive
