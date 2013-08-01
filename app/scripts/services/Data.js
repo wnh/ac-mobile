@@ -14,13 +14,21 @@ angular.module('App')
 .factory('Data', function($http,$rootScope,$q){
 
 	   //! setup file
-	 var fileApi = {available : false};
+	 var fileApi = {available : false, callBacks : []};
 
 	 window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
 
 	   function getFileSystem (fileSystem) {
 		      fileApi.fileSystem = fileSystem;
 		      fileApi.available = true;
+		      
+		      //! filesystem is available iterate over our callacks that where registered when the API was not available yet
+		      for (var i = 0; i < fileApi.callBacks.length; i++) {
+		    	  var func = fileApi.callBacks[i];
+		    	  func();
+		    	}
+		      //!
+		      
 		      console.log("getFileSystem");
 	   }
 
@@ -42,6 +50,7 @@ angular.module('App')
 	          //request quota fails on android / phonegap
 			   var grantedBytes = 0;
 			   window.requestFileSystem(window.PERSISTENT, grantedBytes , getFileSystem, fail);
+			   
 			}, false);   
 	   }
 	   
@@ -134,13 +143,17 @@ angular.module('App')
  	    	   reader.readAsText(fileEntry);
  	       }
 
+ 	      function getFile(){ fileApi.fileSystem.root.getFile(fileName, {create: false, exclusive: true}, gotFileEntry, failAndUpdate); }
+ 	       
  	      if (fileApi.available)
  	      {
- 	    	  fileApi.fileSystem.root.getFile(fileName, {create: false, exclusive: true}, gotFileEntry, failAndUpdate);
+ 	    	 getFile();
  	      }
  	      else
  	      {
- 	    	  failAndUpdate("API Not available");
+ 	    	  //fileApi no available register callback so this gets called again when it is available
+ 	    	  console.log("API Not available callback has been registered");
+ 	    	  fileApi.callBacks.push(getFile);
  	      }
    		
  	      
@@ -176,15 +189,18 @@ angular.module('App')
     		   fileWriter.write(blob);
     	    }
     	   
-
+    	   function getFile(){ fileApi.fileSystem.root.getFile(fileName, {create: true}, gotFileEntry, fail);};
+    	   
     	   if (fileApi.available)
     	   {
-    		   fileApi.fileSystem.root.getFile(fileName, {create: true}, gotFileEntry, fail);
+    		   getFile();
     	   }
     	   else
     	   {
-    		   fail("API Not available");
-    	   }
+    		   //fileApi no available register callback so this gets called again when it is available
+  	    	  console.log("API Not available callback has been registered");
+  	    	  fileApi.callBacks.push(getFile);
+  	       }
     	   
     	   //console.groupEnd();
     	   
