@@ -21,7 +21,8 @@ angular.module('App', [])
         templateUrl: 'views/dangerScale.html'
       })
       .when('/details-info/:region', {
-        templateUrl: 'views/detailsInfo.html'
+        templateUrl: 'views/detailsInfo.html',
+        controller: 'ForecastDetailsCtrl'
       })
       .when('/problems/:region', {
         templateUrl: 'views/problems.html',

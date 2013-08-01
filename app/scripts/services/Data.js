@@ -24,8 +24,8 @@ angular.module('App')
 		      
 		      //! filesystem is available iterate over our callacks that where registered when the API was not available yet
 		      for (var i = 0; i < fileApi.callBacks.length; i++) {
-		    	  var func = fileApi.callBacks[i];
-		    	  func();
+		    	  var func = fileApi.callBacks.pop();//fileApi.callBacks[i];
+		    	  func ? func() : console.assert(func != NULL, "null function pointer");
 		    	}
 		      //!
 		      

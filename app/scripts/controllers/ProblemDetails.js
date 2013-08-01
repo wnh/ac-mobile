@@ -11,7 +11,7 @@ angular.module('App')
 		    				 				 
 	    			},
 	    			function(error){
-	    				alert('error gettin forecast', error);
+	    				alert('error getting forecast', error);
 	    			}
 	    			
 	    	);
