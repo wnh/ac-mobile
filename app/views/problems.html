@@ -2,7 +2,94 @@
 				<div class="titlebar">
 					<section class="title">Problems {{ region }}</section>
 				</div>
+				
+				       <!--
+                        imgElevation.Width = 160;
+                        imgAspect.Width = 130;
+                        imgSize.Width = 140;
+                        imgLikelihood.Width = 140;
+                        -->
+				
+				
+				<div  class="problemBox">
+   
+                    <div class="problemTitle">
+                        <span>Wind Slabs</span>
+                    </div>
+                    
+                    <div class="problemImages">
+                 
+                        <div class="problemImageBox elevationImageBox">
+                            <span class="problemImageTitle">What Elevation Zone?</span>
+                            <img ng-src="/img/Elevation/Elevation-0-1-1_EN.png" style="width:160px;border-width:0px;">
+                        </div>
+            
+                        <div class="problemImageBox compassImageBox">
+                            <span class="problemImageTitle">Which Slopes?</span>
+                            <img ng-src="/img/Compass/compass-1-1-1-1-0-0-1-1_EN.png" style="width:130px;border-width:0px;">
+                        </div>
+            
+                        <div class="problemImageBox likelihoodImageBox">
+                            <span class="problemImageTitle">Chance of Avalanches?</span>
+                            <img  ng-src="/img/Likelihood/Likelihood-2_EN.png" style="width:140px;border-width:0px;">
+                        </div>
+            
+                        <div class="problemImageBox sizeImageBox">
+                            <span class="problemImageTitle">Expected Size?</span>
+                            <img  ng-src="/img/Size/Size-1-3_EN.png" style="width:140px;border-width:0px;">
+                        </div>
+                    </div>
+                    <div class="problemTextBox">
+                           <p class="p_CC664AAA">
+                              <span class="s_AA239A9B">Generally light but locally gusty winds may have loaded or cross-loaded exposed slopes on a potentially weak interface. Recent winds have blown from the east, making loading on unusual aspects possible.</span>
+                           </p>
+                    </div>
+                    
+                       <div class="travelBox">
+        <div class="problemTitle">
+         <span>Travel and Terrain Advice</span>
+        </div>
+        <div class="travelText">
+            <literal id="ctl00_bc_bulletinUC_problem1_terrainTravel"><ul><li>Watch freshly wind loaded features.</li></ul></literal>
+        </div>
+    </div>
+                
+</div>
+				
+				
+				
 				<section class="content">
-					<div class="contentwrapper">{{ problemDetails }}</div>
+				
+				<div ng-repeat="avProblem in avyProblems">
+				
+				  <h1> {{avProblem.type.__text}}</h1>
+				
+              size {{avProblem.expectedAvSize}}
+              <br />
+              aspect {{ avProblem.validAspect_asArray }}
+              <br />
+              elevation {{ avProblem.validElevation_asArray }}
+              <br />
+              liklihood {{ avProblem.likelihoodOfTriggering }}
+              
+              
+            </div>
+				
+				 
+				
+				<!-- 
+				$scope.size = avProb.expectedAvSize;
+                  $scope.aspect = avProb.validAspect_asArray;
+                  $scope.elevation = avProb.validElevation_asArray;
+                  $scope.liklihood = avProb.likelihoodOfTriggering;
+                  
+				
+					<div class="contentwrapper">{{ problemDetails }}</div>					
+					<div>{{ size }}</div>
+					<div>{{ aspect }}</div>
+					<div>{{ elevation }}</div>
+					<div>{{ liklihood }}</div>
+				 -->	  
+					           
 				</section>
 			</div>
