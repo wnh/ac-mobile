@@ -54,7 +54,7 @@
 			            
 			                        {{ avProblem.validAspect }}
 			                        <div class="problemImageBox compassImageBox">
-			                            <span class="problemImageTitle">Which Slopes? {{ avProblem.validAspect.has('AspectRange_E') && "hello" || "error" }}</span>
+			                            <span class="problemImageTitle">Which Slopes? {{ avProblem.validAspect | filter:{"_xlink:href":"AspectRange_NE"} }} </span>
 			                            <img ng-src="/img/Compass/compass-{{avProblem.validAspect_asArray.indexof('AspectRange_N') < 0 && 1 ||0}}-{{avProblem.validAspect_asArray.indexof('AspectRange_NE') < 0 && 1 ||0}}-{{avProblem.validAspect_asArray.indexof('AspectRange_E') < 0 && 1 ||0}}-{{avProblem.validAspect_asArray.indexof('AspectRange_SE') < 0 && 1 ||0}}-{{avProblem.validAspect_asArray.indexof('AspectRange_S') < 0 && 1 ||0}}-{{avProblem.validAspect_asArray.indexof('AspectRange_SW') < 0 && 1 ||0}}-{{avProblem.validAspect_asArray.indexof('AspectRange_W') < 0 && 1 ||0}}-{{avProblem.validAspect_asArray.indexof('AspectRange_NW') < 0 && 1 ||0}}_EN.png" > <!-- style="width:130px;border-width:0px;" -->
 			                        </div>
 			            
