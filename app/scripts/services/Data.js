@@ -53,11 +53,10 @@ angular.module('CACMobile')
 	          //request quota fails on android / phonegap
 			   var grantedBytes = 0;
 			   console.log("Device Ready");
-         alert("winning");
          window.requestFileSystem(LocalFileSystem.PERSISTENT, 0 , getFileSystem, fail);
 
-         var temp = navigator.network.connection.type 
-         alert(temp);
+         //var temp = navigator.network.connection.type 
+         //alert(temp);
 			   
 			}, false);   
 	   }
