@@ -21,21 +21,13 @@ angular.module('CACMobile')
 
 	   get: function (region)
 	   {
-		   var fileName = region + ".json";
-		   var defer = $q.defer();    	  
+	   	  var fileName = region + ".json";
+		  var defer = $q.defer();
 
-		   Data.fileRead(fileName).then(
-					 function (data)
-					 {
-						 //! Got Data from File {
-						 defer.resolve(data);
-						 //}
-					 },
-					 function (error)
-					 {
-						 //! Error Getting Data from File try from HTTP {
-						 console.log('requesting XML from http');
-						 Data.httpGetXml(getUrlForRegion(region), transform).then(
+
+		  //! Get the file for the region from HTTP as xml convert to json and save locally	
+	   	  function getFromHttp () {
+	   	  	Data.httpGetXml(getUrlForRegion(region), transform).then(
 								 function (data)
 								 {
 									 //! Got Data from HTTP save to file {
@@ -53,6 +45,21 @@ angular.module('CACMobile')
 									defer.reject(error);
 									//! }
 								 });
+	   	  } //! } end function getFromXml  	  
+
+		   Data.fileRead(fileName).then(
+					 function (data)
+					 {
+						 //! Got Data from File {
+						 //if (data.date != today then get from xml)
+						 defer.resolve(data);
+						 //}
+					 },
+					 function (error)
+					 {
+						 //! Error Getting Data from File try from HTTP {
+						 console.log('requesting XML from http');
+						 getFromHttp();
 						 //! }
  
 					 })

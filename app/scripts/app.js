@@ -11,7 +11,8 @@ angular.module('CACMobile', [])
         templateUrl: 'views/gear.html'
       })
       .when('/region-list', {
-        templateUrl: 'views/regionList.html'
+        templateUrl: 'views/regionList.html',
+        controller: 'RegionlistCtrl'
       })
       .when('/region-details/:region', {
         templateUrl: 'views/regionDetails.html',
@@ -38,8 +39,12 @@ angular.module('CACMobile', [])
         templateUrl: 'views/Map.html',
         controller: 'MapCtrl'
       })
+      .when('/Loading', {
+        templateUrl: 'views/Loading.html',
+        controller: 'LoadingCtrl'
+      })
       .otherwise({
-        redirectTo: '/Map',
-        controller: 'MapCtrl'
+        templateUrl: 'views/Loading.html',
+        controller: 'LoadingCtrl'
       });
   });

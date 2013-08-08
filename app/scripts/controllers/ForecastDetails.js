@@ -4,6 +4,10 @@ angular.module('CACMobile')
   .controller('ForecastDetailsCtrl', function ($scope, $routeParams, Forecast) {
 	  
 	  $scope.region = $routeParams.region;
+
+	  $scope.back = function () {
+        window.history.back();
+       }
 	    
 	  Forecast.get($scope.region).then(
 	    			function(data){
