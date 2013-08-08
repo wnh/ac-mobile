@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('App')
+angular.module('CACMobile')
   .controller('MainCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',

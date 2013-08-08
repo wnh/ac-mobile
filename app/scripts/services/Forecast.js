@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('App')
+angular.module('CACMobile')
 .factory('Forecast', function($rootScope,$q, Data){
 	
    var apply = function () {$rootScope.$apply();};

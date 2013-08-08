@@ -109,7 +109,7 @@ module.exports = function (grunt) {
   	        },
   	        //cwd: '<%= yeoman.dist %>/',
   	        //src: ['**/*']
-  	        files: [{ src: '<%= yeoman.dist %>/**' }]
+  	        files: [{ src: 'www/**' }]
   	  }
   	},
   	
@@ -118,11 +118,10 @@ module.exports = function (grunt) {
         files: [{
           dot: true,
           src: [
-            '.tmp',
             '.zip',
+            'www/*',
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*',
-            '<%= yeoman.app %>/scripts/vendor/cordova.js'
           ]
         }]
       },
@@ -176,7 +175,7 @@ module.exports = function (grunt) {
       pgb: {
     	  options: {
         	  sassDir: '<%= yeoman.app %>/styles',
-        	  cssDir: '<%= yeoman.dist %>/styles'
+        	  cssDir: 'www/styles'
           }
       },  
       dist: {},
@@ -268,7 +267,7 @@ module.exports = function (grunt) {
     	  expand: true,
           dot: true,
           cwd: '<%= yeoman.app %>/scripts/vendor/windows7',
-          dest: '<%= yeoman.app %>/scripts/vendor',
+          dest: '<%= yeoman.app %>',
           src: [
             '*.*']
        }]
@@ -279,7 +278,7 @@ module.exports = function (grunt) {
             expand: true,
             dot: true,
             cwd: '<%= yeoman.app %>',
-            dest: '<%= yeoman.dist %>',
+            dest: 'www',
             src: [
               '*.*',
               '.htaccess',
@@ -287,7 +286,9 @@ module.exports = function (grunt) {
               'scripts/services/**/*',
               'scripts/controllers/**/*',
               'scripts/vendor/*',
-              'views',
+              'scripts/*',
+              '!cordova.js',
+              'views/**',
               'images/{,*/}*.{gif,webp,svg}',
               'styles/fonts/*'
             ]
@@ -396,8 +397,7 @@ module.exports = function (grunt) {
                                //'cssmin',
                                'usemin',
                                'copy:pgb',
-                               'compress:dist'
-                               
+                               'compress:dist'                             
                              ]);
   
   /*grunt.registerTask('build', [

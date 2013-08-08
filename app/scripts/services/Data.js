@@ -4,13 +4,13 @@
 
 
 // allows  cross origin requests
-angular.module('App')
+angular.module('CACMobile')
 .config(function($httpProvider){
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
 
 
-angular.module('App')
+angular.module('CACMobile')
 .factory('Data', function($http,$rootScope,$q){
 
 	   //! setup file
@@ -19,6 +19,7 @@ angular.module('App')
 	 window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
 
 	   function getFileSystem (fileSystem) {
+
 		      fileApi.fileSystem = fileSystem;
 		      fileApi.available = true;
 		      
@@ -45,11 +46,18 @@ angular.module('App')
 	   				fail);	   
 	   } 
 	   else{ // Phonegap
+
+      console.log("Event Listener Registered");
 		   
-		   document.addEventListener('deviceready', function () {
+		  document.addEventListener('deviceready', function () {
 	          //request quota fails on android / phonegap
 			   var grantedBytes = 0;
-			   window.requestFileSystem(window.PERSISTENT, grantedBytes , getFileSystem, fail);
+			   console.log("Device Ready");
+         alert("winning");
+         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0 , getFileSystem, fail);
+
+         var temp = navigator.network.connection.type 
+         alert(temp);
 			   
 			}, false);   
 	   }

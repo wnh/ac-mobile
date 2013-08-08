@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('App')
+angular.module('CACMobile')
   .factory('location', function ($rootScope, $q) {
 	  
 	  var apply = function () {

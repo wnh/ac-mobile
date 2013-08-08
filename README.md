@@ -6,9 +6,10 @@ This project is designed to be built on PhoneGap Build
 This project uses HTML5, AngularJS, Twitter Bootstrap and Yeoman
 For more information on this project do not be afraid to contact bshaw@avalanche.ca
 
-Install Steps
+Build Steps
 =================
 
 npm install
 bower install
 grunt build
+upload www.zip to phonegap build

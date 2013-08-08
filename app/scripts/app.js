@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('App', [])
+angular.module('CACMobile', [])
   .config(function ($routeProvider) {
     $routeProvider
        .when('/', {

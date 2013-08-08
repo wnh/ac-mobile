@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('App')
+angular.module('CACMobile')
   .controller('ProblemDetailsCtrl', function ($scope,$routeParams,Forecast) {
     
 	  $scope.region = $routeParams.region;

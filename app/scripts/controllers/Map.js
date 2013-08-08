@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('App')
+angular.module('CACMobile')
   .controller('MapCtrl', function ($scope, $location, location, Data) {
 	  
 	  $scope.latitude = -34.397; //\todo make config params
@@ -17,10 +17,12 @@ angular.module('App')
   }); // end MapCtrl controller
 
 
-angular.module('App')
+angular.module('CACMobile')
 .directive('googleMap', function($window){
 	return function (scope, elem, attrs) {
-		
+
+		if (typeof(google) != undefined){
+
 		 var mapOptions = {zoom: 8, center: new google.maps.LatLng(scope.latitude, scope.longitude)};
 		 var map = new google.maps.Map(elem[0], mapOptions);
 		 
@@ -54,7 +56,10 @@ angular.module('App')
 		 var posUpdate = function (newValue, oldValue) { map.panTo(new google.maps.LatLng(scope.latitude, scope.longitude)) };
 		 scope.$watch('latitude',posUpdate);
 		 scope.$watch('longtitude',posUpdate);
-		 //! 
+		 //!
+
+		} //End if(google)
+		 
 
 	};
 }); // end googleMap directive
