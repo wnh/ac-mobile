@@ -11,7 +11,7 @@ angular.module('CACMobile')
 
 
 angular.module('CACMobile')
-.factory('Data', function($http,$rootScope,$q){
+.factory('Data', function($http,$rootScope,$q, DeviceReady){
 
 	   //! setup file
 	 var fileApi = {available : false, callBacks : []};
@@ -47,18 +47,15 @@ angular.module('CACMobile')
 	   } 
 	   else{ // Phonegap
 
+         
       console.log("Event Listener Registered");
-		   
-		  document.addEventListener('deviceready', function () {
-	          //request quota fails on android / phonegap
-			   var grantedBytes = 0;
-			   console.log("Device Ready");
-         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0 , getFileSystem, fail);
 
-         //var temp = navigator.network.connection.type 
-         //alert(temp);
-			   
-			}, false);   
+      DeviceReady.addEventListener(function () {
+        //request quota fails on android / phonegap
+         console.log("Device Ready");
+         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0 , getFileSystem, fail);
+      });
+		    
 	   }
 	   
    return {

@@ -17,14 +17,30 @@ angular.module('CACMobile')
     }
     //! }
 
-    //! When the device is ready perform the deviceReady function {
-    document.addEventListener('deviceready', deviceReady, false); 
+    //! *hack* !
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+      //! When the device is ready perform the deviceReady function {
+      document.addEventListener('deviceready', deviceReady, false); 
+    } else {
 
+      console.log("web detected skipping waiting for device ready");
+      deviceReady();
+    }
+    
     return {
       // register a callback to be performed when the device is ready {
       addEventListener: function (func) {
-        console.log("Function added to device ready callback que");
-        callBacks.push(func);
+        
+        if(ready ==false)
+        {
+          console.log("Function added to device ready callback que");
+          callBacks.push(func);
+        }
+        else
+        {
+          func();
+        }
+        
       },
       //! } end addEventListener factory method
 
