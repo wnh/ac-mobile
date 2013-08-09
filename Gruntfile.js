@@ -223,6 +223,14 @@ module.exports = function (grunt) {
           src: '{,*/}*.{png,jpg,jpeg}',
           dest: '<%= yeoman.dist %>/images'
         }]
+      },
+      pgb: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>/img',
+          src: '{,*/}*.{png,jpg,jpeg}',
+          dest: 'www/img'
+        }]
       }
     },
     cssmin: {
@@ -395,6 +403,7 @@ module.exports = function (grunt) {
                                'useminPrepare',
                                'concurrent:pgb',
                                //'cssmin',
+                               'imagemin:pgb',
                                'usemin',
                                'copy:pgb',
                                'compress:dist'                             
