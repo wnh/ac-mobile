@@ -1,62 +1,57 @@
 <div class="view" data-viewid="forecast-details">
-				<div class="titlebar">
-					<section class="title">CAC</section>
-					<button class="btn right" ng-click="back()">Back</button>
-				</div>
-				
-	        {{ region }}
-				
-				<section class="content">
-					<div class="contentwrapper">
-						<div class="expiry">
-							<section class="issued"></section>
-							<section class="expires"></section>
-						</div>
-						<div class="mountain">
-							<div class="mountain_image"></div>
-						</div>
-						<div class="labels_overlay">
-							<section class="today"></section>
-							<section class="top">Alpine</section>
-							<section class="middle">Treeline</section>
-							<section class="bottom">Below Treeline</section>
-						</div>
-						<div class="warnings_overlay">
-							<section class="top">{{today.dangerRatingAlpValue.__text}}</section>
-							<section class="middle">{{today.dangerRatingTlnValue.__text}}</section>
-							<section class="bottom">{{today.dangerRatingBtlValue.__text}}</section>
-						</div>
-						<table class="tomorrow_details">
-							<tbody>
-								<tr>
-									<td></td>
-									<td class="tomorrow"></td>
-									<td class="dayaftertomorrow"></td>
-								</tr>
-								<tr>
-									<td class="alpine">Alpine</td>
-									<td class="alpine_tomorrow">{{tomorrow.dangerRatingAlpValue.__text}}</td>
-									<td class="alpine_dayaftertomorrow">{{dayAfter.dangerRatingAlpValue.__text}}</td>
-								</tr>
-								<tr>
-									<td class="treeline">Treeline</td>
-									<td class="treeline_tomorrow">{{tomorrow.dangerRatingTlnValue.__text}}</td>
-									<td class="treeline_dayaftertomorrow">{{dayAfter.dangerRatingTlnValue.__text}}</td>
-								</tr>
-								<tr>
-									<td class="below_treeline">Below Treeline</td>
-									<td class="below_treeline_tomorrow">{{tomorrow.dangerRatingBtlValue.__text}}</td>
-									<td class="below_treeline_dayaftertomorrow">{{dayAfter.dangerRatingBtlValue.__text}}</td>
-								</tr>
-							</tbody>
-						</table>
-						<p class="confidence"></p>
-						<ul class="nav nav-tabs nav-stacked details-tabs">
-							<li><a href="#/problems/{{region}}" class="chev" data-link="problems">Problems</a></li>
-							<li><a href="#/details-info/{{region}}" class="chev" data-link="details-info">Details</a></li>
-							<li><a href="#/danger-scale" class="chev" data-link="danger-scale">Danger Scale</a></li>
-						</ul>
-						 
-					</div>
-				</section>
+	<div class="text-center navbar navbar-fixed-top title">
+		<!--	<section class="title">CAC</section> -->
+		<button class="btn pull-right btn-primary" ng-click="back()">Back</button><h4>{{ region }}</h4>	
+	</div>
+
+
+
+	<div class="contentwrapper">
+		<div class="expiry">
+			<section class="issued"></section>
+			<section class="expires"></section>
+		</div>
+		<div class="mountain">
+			<img src="/img/mountain-now-extended.png" />
+				<div class="top">Alpine</div>
+				<div class="middle">Treeline</div>
+				<div class="bottom">Below Treeline</div>
+				<div class="warntop" ng-class="today.dangerRatingAlpValue.__text">{{today.dangerRatingAlpValue.__text}}</div>
+				<div class="warnmiddle" ng-class="today.dangerRatingTlnValue.__text">{{today.dangerRatingTlnValue.__text}}</div>
+				<div class="warnbottom" ng-class="today.dangerRatingBtlValue.__text">{{today.dangerRatingBtlValue.__text}}</div>
 			</div>
+
+
+		<table class="tomorrow_details">
+			<tbody>
+				<tr>
+					<th></th>
+					<th class="tomorrow">Tomorrow</th>
+					<th class="dayaftertomorrow">Tomorrow+1</th>
+				</tr>
+				<tr>
+					<td class="alpine">Alpine</td>
+					<td class="alpine_tomorrow">{{tomorrow.dangerRatingAlpValue.__text}}</td>
+					<td class="alpine_dayaftertomorrow">{{dayAfter.dangerRatingAlpValue.__text}}</td>
+				</tr>
+				<tr>
+					<td class="treeline">Treeline</td>
+					<td class="treeline_tomorrow">{{tomorrow.dangerRatingTlnValue.__text}}</td>
+					<td class="treeline_dayaftertomorrow">{{dayAfter.dangerRatingTlnValue.__text}}</td>
+				</tr>
+				<tr>
+					<td class="below_treeline">Below Treeline</td>
+					<td class="below_treeline_tomorrow">{{tomorrow.dangerRatingBtlValue.__text}}</td>
+					<td class="below_treeline_dayaftertomorrow">{{dayAfter.dangerRatingBtlValue.__text}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<p class="confidence"></p>
+		<ul class="nav nav-tabs nav-stacked details-tabs">
+			<li><a href="#/problems/{{region}}" class="chev" data-link="problems">Problems</a></li>
+			<li><a href="#/details-info/{{region}}" class="chev" data-link="details-info">Details</a></li>
+			<li><a href="#/danger-scale" class="chev" data-link="danger-scale">Danger Scale</a></li>
+		</ul>
+
+	</div>
+</div>
