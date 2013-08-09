@@ -1,13 +1,21 @@
+<div connection-state=""></div>
+
 <div class="view tabs" data-viewid="forecast-list">
 				<div class="titlebar">
 					<section class="title">Regions</section>
 					<button class="btn right refresh">Refresh</button>
 					<button class="btn right" ng-click="back()">Back</button>
+
 				</div>
 				<section class="content" data-contentid="all">
 					<div class="contentwrapper">
 						<ul id="forecast-tabs" class="nav nav-tabs nav-stacked no-border forecast-tabs">
-							<li><a href="#/region-details/cariboos">North Columbia - Cariboos</a></li>
+
+							<li ng-repeat="region in regionList">
+								<a href="#/region-details/{{ region }}">{{ region }} </a>
+							<li>
+							
+							<!--<li><a href="#/region-details/cariboos">North Columbia - Cariboos</a></li>
 							<li><a href="#/region-details/kananaskis">Kananaskis Country</a></li>
 							<li><a href="#/region-details/kootenay-boundary">Kootenay Boundary</a></li>
 							<li><a href="#/region-details/lizardrange">Lizard Range</a></li>
@@ -19,7 +27,7 @@
 							<li><a href="#/region-details/sea-to-sky">Sea to Sky</a></li>
 							<li><a href="#/region-details/south-coast">South Coast - Inland</a></li>
 							<li><a href="#/region-details/south-columbia">South Columbia</a></li>
-							<li><a href="#/region-details/south-rockies">South Rockies</a></li>
+							<li><a href="#/region-details/south-rockies">South Rockies</a></li>-->
 						</ul>
 					</div>
 				</section>
