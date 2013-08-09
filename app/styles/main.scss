@@ -37,7 +37,9 @@ body {
 }
 
 .container {
-  max-width:500px;
+  max-width:400px;
+  width: auto;
+  height: auto;
     margin:0px auto;
 }
 
@@ -48,14 +50,14 @@ body {
 
 .mountain {
   position:relative;
+  max-width:100%;
+  height:auto;
 }
 
 .mountain img {
-  max-width: 100%;
-  width:100%;
-  /* just in case, to force correct aspect ratio */
-  height: auto !important;
-      display:block;
+    max-width: 100%;
+    height: auto;
+    width: auto;
 }
 
 .mountain .top, .mountain .middle, .mountain .bottom
