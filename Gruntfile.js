@@ -290,7 +290,12 @@ module.exports = function (grunt) {
             src: [
               '*.*',
               '.htaccess',
-              'bower_components/**/*',
+              'bower_components/angular/*',
+              'bower_components/angular-resource/*',
+              'bower_components/jquery/*',
+              'bower_components/json3/*',
+              'bower_components/es5-shim/*',
+              'bower_components/bootstrap-sass/*',
               'scripts/services/**/*',
               'scripts/controllers/**/*',
               'scripts/vendor/*',
@@ -372,6 +377,13 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/scripts/scripts.js'
           ]
         }
+      },
+      pgb: {
+        files: {
+          'www/scripts/*.*': [
+            'www/scripts'
+          ]
+        }
       }
     }
   });
@@ -406,6 +418,7 @@ module.exports = function (grunt) {
                                'imagemin:pgb',
                                'usemin',
                                'copy:pgb',
+                               //'uglify:pgb',
                                'compress:dist'                             
                              ]);
   
