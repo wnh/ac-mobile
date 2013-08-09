@@ -52,8 +52,10 @@ body {
 
 .mountain img {
   max-width: 100%;
+  width:100%;
   /* just in case, to force correct aspect ratio */
   height: auto !important;
+      display:block;
 }
 
 .mountain .top, .mountain .middle, .mountain .bottom
