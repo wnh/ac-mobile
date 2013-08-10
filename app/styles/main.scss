@@ -2,7 +2,7 @@
 
 /* Put your CSS here */
 html, body {
-  margin: 20px;
+  margin: 0;
 }
 
 
@@ -35,9 +35,21 @@ body {
     color: #333;
     margin-top:3em;
 }
+@media all and (max-width: 400px) {
+.container {
+  max-width:320px;
+  }
+}
 
+@media all and (max-width: 450px) {
 .container {
   max-width:400px;
+  }
+}
+
+
+.container {
+  max-width:500px;
   width: auto;
   height: auto;
     margin:0px auto;
@@ -52,10 +64,12 @@ body {
   position:relative;
   max-width:100%;
   height:auto;
+  overflow:hidden;
 }
 
 .mountain img {
     max-width: 100%;
+    min-width:50%;
     height: auto;
     width: auto;
 }
@@ -87,9 +101,10 @@ body {
 {
   position: absolute;
   padding-left:10%;
+  padding-right:-10%;
   width: 48%;
   height: 12%;
-  left: 45%;
+  left: 50%;
   font-size: 0.8em;
   background: url(../img/DnrRtg_NoRating_banner.png) center left no-repeat;
   background-size: 100%;
@@ -138,4 +153,10 @@ body {
 .mountain .Low
 {
   background: url(../img/DnrRtg_Low_banner.png) center left no-repeat;
+}
+
+.issued
+{
+  position:absolute;
+  color:white;
 }
