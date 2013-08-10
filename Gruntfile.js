@@ -416,7 +416,7 @@ module.exports = function (grunt) {
                                'useminPrepare',
                                'concurrent:pgb',
                                //'cssmin',
-                               //'imagemin:pgb',
+                               'imagemin:pgb',
                                'usemin',
                                'copy:pgb',
                                //'uglify:pgb',

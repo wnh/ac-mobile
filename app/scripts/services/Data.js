@@ -133,8 +133,8 @@ angular.module('CACMobile')
  	    	   
  	    	   reader.onloadend  = function(e) {
  	    		   console.log("file read loadend");
- 	    		   var json = JSON.parse(this.result);
- 	    		   defer.resolve(json);
+ 	    		   //var json = JSON.parse(this.result);
+ 	    		   defer.resolve(this.result);
  	    		   $rootScope.$apply();
  	    	   };
  	    	   
@@ -190,6 +190,8 @@ angular.module('CACMobile')
 
     		   var blob = new Blob(data, {type: 'text/plain'});
 
+           //T \todo his sets the position if left out the file is overwritten. a param should be passed to conditionall apply this
+           fileWriter.seek(fileWriter.length);
     		   fileWriter.write(blob);
     	    }
     	   
@@ -208,7 +210,7 @@ angular.module('CACMobile')
     	   
     	   //console.groupEnd();
     	   
-    	}
+    	},
    	//! } End filewrite
        
    }// End return

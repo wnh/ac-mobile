@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('RegionlistCtrl', function ($scope, ConnectionManager) {
+  .controller('RegionlistCtrl', function ($scope, Forecast) {
     
     $scope.back = function () {
     	window.history.back();
     }
 
-
+    $scope.regionList = Forecast.getRegions();
+/*
 ConnectionManager.online(function  () {
 	$scope.regionList = ["cariboos", 
     			  "kananaskis", 
@@ -22,7 +23,7 @@ ConnectionManager.online(function  () {
 
 ConnectionManager.offline( function () {
     $scope.regionList = ["purcells"];
-    			});
+    			});*/
 
 });	
 

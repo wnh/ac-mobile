@@ -59,14 +59,16 @@ angular.module('CACMobile')
     states[conType.CELL]     = 'Cell generic connection';
     states[conType.NONE]     = 'No network connection';*/
 
+    var defaultState = {'type':'unknown'}; //{'type':'wifi'}; //{'type':'unknown'};
+
     function connectionState() {
-        var connection_   = navigator.connection  || {'type':'unknown'};
+        var connection_   = navigator.connection  || defaultState;
         var networkState_ = connection_.type;
         return networkState_;
     }
 
     function online () {
-        var connection_   = navigator.connection  || {'type':'unknown'};
+        var connection_   = navigator.connection  || defaultState;
         var networkState_ = connection_.type;
         return ((networkState_ !=  'none') && (networkState_ !=  'unknown') )  
     }

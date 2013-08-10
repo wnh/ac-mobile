@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('CACMobile')
-.factory('Forecast', function($rootScope,$q, Data){
+.factory('Forecast', function($rootScope,$q, Data, ConnectionManager){
 	
+
+   var regionFileName = "regions.json";
    var apply = function () {$rootScope.$apply();};
    
    var transform = function(result) {
@@ -19,6 +21,41 @@ angular.module('CACMobile')
 		
    return {
 
+   		getRegions: function ()
+   		{
+    		var defer = $q.defer(); 
+
+    		//! if online get the region list from X \\todo
+   			ConnectionManager.online(function  () {
+				
+				var regionList = ["cariboos", 
+    			  "kananaskis", 
+    			  "kootenay-boundary", 
+    			  "lizardrange", 
+    			  "monashees-selkirks", 
+    			  "northwest-coastal", 
+    			  "northwest-inland",
+    			  "north-shore",
+    			  "purcells"];
+
+    			  defer.resolve(regionList);
+    			});
+
+   			//! If offline get the region list from the file of saved regions
+			ConnectionManager.offline( function () {
+			    	
+			    	Data.fileRead(regionFileName).then(
+					 function (data)
+					 {
+					 	var regions = data.replace(/,$/,''); //! if the last char is a , remove it
+					 	defer.resolve(regions.split(","));	
+					 });
+			    	 
+    			});
+
+			return defer.promise;
+   		},
+
 	   get: function (region)
 	   {
 	   	  var fileName = region + ".json";
@@ -34,6 +71,8 @@ angular.module('CACMobile')
 									 console.log("received data from http writing to file");
 									 var forecast = data.ObsCollection.observations.Bulletin; 
 									 Data.fileWrite(fileName, JSON.stringify(forecast).split());
+									 //Data.fileWrite(regionFileName, JSON.stringify({'region': fileName.replace('.json','')}).split());
+									 Data.fileWrite(regionFileName, [fileName.replace('.json','') + ","] );
 									 defer.resolve(forecast);
 									 //! }
 								 },
@@ -52,7 +91,7 @@ angular.module('CACMobile')
 					 {
 						 //! Got Data from File {
 						 //if (data.date != today then get from xml)
-						 defer.resolve(data);
+						 defer.resolve(JSON.parse(data));
 						 //}
 					 },
 					 function (error)

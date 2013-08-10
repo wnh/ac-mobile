@@ -1,11 +1,15 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('MapCtrl', function ($scope, $location, location, Data) {
+  .controller('MapCtrl', function ($scope, $location, location, Data, ConnectionManager) {
 	  
 	  $scope.latitude = -34.397; //\todo make config params
 	  $scope.longitude = 150.644;
 	  
+	  ConnectionManager.offline(function () {
+	  	$location.path("/region-list");
+	  });
+
 	  $scope.updatePosition = function () {
 	        location.getPosition().then(
 	        		function (position){
