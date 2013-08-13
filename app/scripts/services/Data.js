@@ -33,22 +33,19 @@ angular.module('CACMobile')
 		      console.log("getFileSystem");
 	   }
 
-	   function fail(e) {console.log("Error with filesystem", e);}
+	   function fail(e) {console.error("Error with filesystem", e);}
 	
 	
-	   //! HACK ! seems that we need to do things differently for phonegap and web
+	   //! HACK ! seems that we need to do things differently for phonegap and web maybe make this check actual device ?
 	   if (window.webkitStorageInfo){// WEB
 	      
-		  // required to make web compliant
+        // required to make web compliant
 	      window.webkitStorageInfo.requestQuota(window.PERSISTENT, 
 	   				1024*1024, 
 	   				function(grantedBytes) {window.requestFileSystem(window.PERSISTENT, grantedBytes, getFileSystem, fail);}, 
 	   				fail);	   
 	   } 
 	   else{ // Phonegap
-
-         
-      console.log("Event Listener Registered");
 
       DeviceReady.addEventListener(function () {
         //request quota fails on android / phonegap
@@ -107,7 +104,6 @@ angular.module('CACMobile')
 	   		return defer.promise;
        },
        //! } End httpGetJson
-       
    	   	
    	   //! Read a local file {
    	   fileRead: function(fileName){
@@ -132,9 +128,8 @@ angular.module('CACMobile')
  	    	   var reader = new FileReader();
  	    	   
  	    	   reader.onloadend  = function(e) {
- 	    		   console.log("file read loadend");
  	    		   //var json = JSON.parse(this.result);
- 	    		   defer.resolve(this.result);
+ 	    		   defer.resolve(e.target.result);
  	    		   $rootScope.$apply();
  	    	   };
  	    	   
@@ -144,7 +139,13 @@ angular.module('CACMobile')
  	    		   $rootScope.$apply();
  	    	   };
  	    	   
- 	    	   reader.readAsText(fileEntry);
+           try{
+ 	    	     reader.readAsText(fileEntry);
+           }
+           catch (e){
+            console.error("error reading file", e);
+           }
+
  	       }
 
  	      function getFile(){ fileApi.fileSystem.root.getFile(fileName, {create: false, exclusive: true}, gotFileEntry, failAndUpdate); }
@@ -166,7 +167,7 @@ angular.module('CACMobile')
        //! } End fileRead
        
    	   //! Write to a local file {
-       fileWrite: function(fileName, data){
+       fileWrite: function(fileName, data, type, append){
     	   
     	   //console.groupCollapsed("FileWrite"); events are asyncronous so we cant group
     	   
@@ -176,23 +177,58 @@ angular.module('CACMobile')
     	   
     	   function gotFileWriter(fileWriter) {
     		   
-          	   fileWriter.onwrite = function(e) {
+              fileWriter.writeStart = function(e){
+                console.log("data write start");
+              }
+
+          	 fileWriter.onwrite = function(e) {
           		   console.log("Data writting to file", fileName);
       		   };
       		   
       		   fileWriter.onwriteend = function(e) {
         		   console.log("Data written to file", fileName);
-    		   };
+    		     };
 
-    		   fileWriter.onerror = function(e) {
-    			   console.log('Write failed: ' + e.toString());
-    		   };
+    		     fileWriter.onerror = function(e) {
+    			     console.error('Write failed: ' + e.toString());
+    		     };
 
-    		   var blob = new Blob(data, {type: 'text/plain'});
+           
+
 
            //T \todo his sets the position if left out the file is overwritten. a param should be passed to conditionall apply this
-           fileWriter.seek(fileWriter.length);
-    		   fileWriter.write(blob);
+           if (append = true){
+              fileWriter.seek(fileWriter.length);
+           }
+    		   
+           function write(data_) {
+              var blob = new Blob(data_, type);
+              fileWriter.write(blob);
+           }
+
+           //console.log("writing data", data);
+
+           write(data);
+           /*
+           //if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) 
+           if (true)
+           {
+              var chunkSize = 100;
+              chunkSize = data.length < chunkSize ? data.length : chunkSize;  
+
+              var numChunks = data.length / chunkSize;
+
+              for (var i = 0; i < data.length; i += chunkSize)
+              {
+                write(data.slice(i, (i+chunkSize)-1));
+                //fileWriter.seek(i);  
+              }
+           }
+           else
+           {
+              write(data);
+           }*/
+
     	    }
     	   
     	   function getFile(){ fileApi.fileSystem.root.getFile(fileName, {create: true}, gotFileEntry, fail);};
@@ -206,7 +242,7 @@ angular.module('CACMobile')
     		   //fileApi no available register callback so this gets called again when it is available
   	    	  console.log("API Not available callback has been registered");
   	    	  fileApi.callBacks.push(getFile);
-  	       }
+  	     }
     	   
     	   //console.groupEnd();
     	   
