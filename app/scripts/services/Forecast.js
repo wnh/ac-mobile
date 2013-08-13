@@ -69,8 +69,8 @@ angular.module('CACMobile')
 
 		  //! Get the file for the region from HTTP as xml convert to json and save locally	
 	   	  function getFromHttp () {
-	   	  	//Data.httpGetXml(getUrlForRegion(region), transform).then(
-	   	  		Data.httpGetJson("http://json-generator.appspot.com/j/gHOP?indent=4").then(
+	   	  		Data.httpGetXml(getUrlForRegion(region), transform).then(
+	   	  		//Data.httpGetJson("http://json-generator.appspot.com/j/gHOP?indent=4").then(
 								 function (data) // get from http succeeded
 								 {
 									 //! Got Data from HTTP save to file {
