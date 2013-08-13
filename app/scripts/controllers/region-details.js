@@ -9,7 +9,8 @@ angular.module('CACMobile')
                     function(data){
                         
                          //data = data_;
-                        
+                         //$scope.data = data;
+
                          //! \todo assumes ordered list and assumes recent  checks against the dates should be made her instead of assuming that bulletin has been published !
                          $scope.today = data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[0];
                          $scope.tomorrow = data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[1];

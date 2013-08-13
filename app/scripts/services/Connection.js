@@ -44,22 +44,7 @@ angular.module('CACMobile')
 
 
     //! {
-
-    //! Connection constants not defined in web
-    //var conType = (typeof(Connection) == undefined ? {UNKNOWN:0, ETHERNET:1, WIFI:2, CELL_2G:3, CELL_3G:4, CELL_4G:5, CELL: 6, NONE:7} : Connection );
-    /*var conType =  {UNKNOWN:0, ETHERNET:1, WIFI:2, CELL_2G:3, CELL_3G:4, CELL_4G:5, CELL: 6, NONE:7}; 
-
-    var states = {};
-    states[conType.UNKNOWN]  = 'Unknown connection';
-    states[conType.ETHERNET] = 'Ethernet connection';
-    states[conType.WIFI]     = 'WiFi connection';
-    states[conType.CELL_2G]  = 'Cell 2G connection';
-    states[conType.CELL_3G]  = 'Cell 3G connection';
-    states[conType.CELL_4G]  = 'Cell 4G connection';
-    states[conType.CELL]     = 'Cell generic connection';
-    states[conType.NONE]     = 'No network connection';*/
-
-    var defaultState = {'type':'unknown'}; //{'type':'wifi'}; //{'type':'unknown'};
+    var defaultState = {'type':'wifi'}; //{'type':'wifi'}; //{'type':'unknown'};
 
     function connectionState() {
         var connection_   = navigator.connection  || defaultState;

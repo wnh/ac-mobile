@@ -47,6 +47,7 @@ angular.module('CACMobile')
 			    	Data.fileRead(regionFileName).then(
 					 function (data)
 					 {
+					 	console.log("file read regions result", data);
 					 	var regions = data.replace(/,$/,''); //! if the last char is a , remove it
 					 	defer.resolve(regions.split(","));	
 					 });
@@ -61,46 +62,79 @@ angular.module('CACMobile')
 	   	  var fileName = region + ".json";
 		  var defer = $q.defer();
 
+		  //! write to the region file, this is used to store which regions are stored locally
+		  function writeRegionToFile (region) {
+			Data.fileWrite(regionFileName, [region + ","] , {type: 'text/plain'}, true);
+		  }
 
 		  //! Get the file for the region from HTTP as xml convert to json and save locally	
 	   	  function getFromHttp () {
-	   	  	Data.httpGetXml(getUrlForRegion(region), transform).then(
-								 function (data)
+	   	  		Data.httpGetXml(getUrlForRegion(region), transform).then(
+	   	  		//Data.httpGetJson("http://json-generator.appspot.com/j/gHOP?indent=4").then(
+								 function (data) // get from http succeeded
 								 {
 									 //! Got Data from HTTP save to file {
 									 console.log("received data from http writing to file");
 									 var forecast = data.ObsCollection.observations.Bulletin; 
-									 Data.fileWrite(fileName, JSON.stringify(forecast).split());
-									 //Data.fileWrite(regionFileName, JSON.stringify({'region': fileName.replace('.json','')}).split());
-									 Data.fileWrite(regionFileName, [fileName.replace('.json','') + ","] );
+									 var data = (JSON.stringify(forecast)).split("");
+									 Data.fileWrite(fileName, data, {type: 'application/json'} , false); 
+	   	  							 //! }
+
+	   	  							 //! if the stored region file does not already have the region documented then write it {
+									 Data.fileRead(regionFileName).then(
+									 		function (regionData)
+									 		{
+									 			if(regionData.indexOf(region) == -1)
+									 			{
+									 				writeRegionToFile(region);
+									 			}
+									 			
+									 		},
+									 		function (data)
+									 		{
+									 			writeRegionToFile(region);
+									 		}
+									 	);
+									 //}
+
 									 defer.resolve(forecast);
-									 //! }
+									 
 								 },
-								 function (error)
+								 function (error) // get from http failed
 								 {
 									//! Error Getting Data from HTTP 
 									console.log("error getting xml forecast from http for " + region + "error ", error);
-									alert("No Data Available for this region");
 									defer.reject(error);
 									//! }
 								 });
 	   	  } //! } end function getFromXml  	  
 
 		   Data.fileRead(fileName).then(
-					 function (data)
+					 function (data)//! Got Data from File
 					 {
-						 //! Got Data from File {
-						 //if (data.date != today then get from xml)
-						 defer.resolve(JSON.parse(data));
-						 //}
+						 var jsonData = "";
+						 var valid = false;
+
+						 //! Try parse the data we read from file if there are any errors get it from http
+						 try {
+						    jsonData = JSON.parse(data);
+						    valid = true;
+						 } catch (e) {
+						    valid = false;
+						    console.log("error parsing file, fetching from HTTP");
+						    getFromHttp();
+						 }
+
+						 //! if we got valid data from file check the dates on it
+						 if (valid)
+						 {
+						 	defer.resolve(jsonData);
+						 }
 					 },
-					 function (error)
+					 function (error) //! Error Getting Data from File try from HTTP 
 					 {
-						 //! Error Getting Data from File try from HTTP {
 						 console.log('requesting XML from http');
 						 getFromHttp();
-						 //! }
- 
 					 })
 
            
