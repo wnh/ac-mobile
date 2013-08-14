@@ -59,10 +59,16 @@ angular.module('CACMobile')
     }
     //! }
 
-    //! Check connection state and if state is already met then perform action
-    //! Regsiter callback so that on appropriate state change action is performed
-    return {
+    return { 
+      
+      //! return true if online, false is offline or state is unknown
+      isOnline : function(){
+        return online();
+      },
 
+      //! takes a function/action to perform when online
+      //! Check connection state and if state is already met then perform action
+      //! Regsiter callback so that on appropriate state change action is performed
       online: function (funcPtr) {
 
         function onlineHandler() {
@@ -88,6 +94,9 @@ angular.module('CACMobile')
 
       },
 
+      //! takes a function/action to perform when offline
+      //! Check connection state and if state is already met then perform action
+      //! Regsiter callback so that on appropriate state change action is performed
       offline: function (funcPtr) {
 
         function offlineHandler() {

@@ -1,10 +1,10 @@
 <div connection-state=""></div>
 
 <div class="view tabs" data-viewid="forecast-list">
-					<div class="text-center navbar navbar-fixed-top title">
-					<button class="btn pull-left btn-primary">Refresh</button>
+				<div class="text-center navbar navbar-fixed-top title">
+					<button class="btn pull-left btn-primary {{online}}">Map</button>
 					<button class="btn pull-right btn-primary" ng-click="back()">Back</button><h4>Regions</h4>
-	</div>
+				</div>
 				<section class="content" data-contentid="all">
 					<div class="contentwrapper">
 						<ul id="forecast-tabs" class="nav nav-tabs nav-stacked no-border forecast-tabs">
@@ -13,19 +13,6 @@
 								<a href="#/region-details/{{ region }}">{{ region }} </a>
 							<li>
 							
-							<!--<li><a href="#/region-details/cariboos">North Columbia - Cariboos</a></li>
-							<li><a href="#/region-details/kananaskis">Kananaskis Country</a></li>
-							<li><a href="#/region-details/kootenay-boundary">Kootenay Boundary</a></li>
-							<li><a href="#/region-details/lizardrange">Lizard Range</a></li>
-							<li><a href="#/region-details/monashees-selkirks">North Columbia - Monashees and Selkirks</a></li>
-							<li><a href="#/region-details/northwest-coastal">Northwest Coastal</a></li>
-							<li><a href="#/region-details/northwest-inland">Northwest Inland</a></li>
-							<li><a href="#/region-details/north-shore">North Shore</a></li>
-							<li><a href="#/region-details/purcells">Purcells</a></li>
-							<li><a href="#/region-details/sea-to-sky">Sea to Sky</a></li>
-							<li><a href="#/region-details/south-coast">South Coast - Inland</a></li>
-							<li><a href="#/region-details/south-columbia">South Columbia</a></li>
-							<li><a href="#/region-details/south-rockies">South Rockies</a></li>-->
 						</ul>
 					</div>
 				</section>
