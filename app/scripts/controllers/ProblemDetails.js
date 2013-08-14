@@ -40,7 +40,7 @@ angular.module('CACMobile')
 										 {name: 'ElevationLabel_Tln', pos:1}, 
 										 {name: 'ElevationLabel_Alp', pos:2}];
 
-	  $scope.stringBuilder = function (source, target) {
+	  $scope.stringBuilder = function (source, key, target) {
 	  		
 	  		var result = [];
 	  		for (var a =0; a < target.length; ++a)
@@ -52,7 +52,7 @@ angular.module('CACMobile')
 	  		{
 	  			for (var j =0; j < target.length; ++j)
 		  		{
-		  			if (source[i]['_xlink:href'] == target[j].name)
+		  			if (source[i][key] == target[j].name)
 		  			{
 		  				result[j] = 1;
 		  			}

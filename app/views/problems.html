@@ -48,26 +48,25 @@
 					                       
 					              <div class="problemImages">
 					                   
-                                  {{ avProblem }}
 			                        <div class="problemImageBox elevationImageBox">
 			                            <span class="problemImageTitle">What Elevation Zone?</span>
-			                            <img ng-src="/img/Elevation/Elevation-{{stringBuilder(avProblem.validElevation_asArray, elevationRange)}}_EN.png" > <!-- style="width:160px;border-width:0px;" -->
+			                            <img ng-src="/img/Elevation/Elevation-{{stringBuilder(avProblem.validElevation_asArray, '_xlink:href', elevationRange)}}_EN.png" > <!-- style="width:160px;border-width:0px;" -->
 			                        </div>
 
 			                        <div class="problemImageBox compassImageBox">
 			                            <span class="problemImageTitle">Which Slopes? </span>
-			                            <img ng-src="/img/Compass/compass-{{stringBuilder(avProblem.validAspect_asArray, aspectRange)}}_EN.png">
+			                            <img ng-src="/img/Compass/compass-{{stringBuilder(avProblem.validAspect_asArray, '_xlink:href', aspectRange)}}_EN.png">
 
 			                        </div>
 			            
 			                        <div class="problemImageBox likelihoodImageBox">
 			                            <span class="problemImageTitle">Chance of Avalanches?</span>
-			                            <img  ng-src="/img/Likelihood/Likelihood-2_EN.png" > <!-- style="width:140px;border-width:0px;" -->
+			                            <img  ng-src="/img/Likelihood/Likelihood-{{avProblem.likelihoodOfTriggering.Values.typical.__text}}_EN.png" > <!-- style="width:140px;border-width:0px;" -->
 			                        </div>
 			            
 			                        <div class="problemImageBox sizeImageBox">
 			                            <span class="problemImageTitle">Expected Size?</span>
-			                            <img  ng-src="/img/Size/Size-1-3_EN.png"> <!-- style="width:140px;border-width:0px;" -->
+			                            <img  ng-src="/img/Size/Size-{{ avProblem.expectedAvSize.Values.min.__text}}-{{ avProblem.expectedAvSize.Values.max.__text}}_EN.png"> <!-- style="width:140px;border-width:0px;" -->
 			                        </div>
 			                        
 			                    </div>
