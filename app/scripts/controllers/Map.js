@@ -3,31 +3,101 @@
 angular.module('CACMobile')
   .controller('MapCtrl', function ($scope, $location, location, Data, ConnectionManager) {
 	  
-	  $scope.latitude = -34.397; //\todo make config params
-	  $scope.longitude = 150.644;
-	  
-	  ConnectionManager.offline(function () {
-	  	$location.path("/region-list");
-	  });
+		$scope.latitude = 50.9831700;
+		$scope.longitude = -118.2023000;
 
-	  $scope.updatePosition = function () {
-	        location.getPosition().then(
-	        		function (position){
-	        			  $scope.latitude = position.coords.latitude;
-	        			  $scope.longitude = position.coords.longitude;
-	        		  });
+		function getPostion () {
+		  location.getPosition().then(
+				function (position){
+				  $scope.latitude = position.coords.latitude;
+				  $scope.longitude = position.coords.longitude;
+				});
+		}
+
+		ConnectionManager.offline(function () {
+			$location.path("/region-list");			
+		});
+
+		$scope.updatePosition = function () {
+	        getPostion();
 	    };
+
+	   //! Get the current position
+		getPostion();
 	
   }); // end MapCtrl controller
 
 
 angular.module('CACMobile')
 .directive('googleMap', function($window){
+
 	return function (scope, elem, attrs) {
+
+		function ListViewControl(controlDiv, map) {
+			// Set CSS styles for the DIV containing the control
+			// Setting padding to 5 px will offset the control
+			// from the edge of the map
+			controlDiv.style.padding = '5px';
+
+			// Set CSS for the control border
+			var controlUI = document.createElement('div');
+			controlUI.style.backgroundColor = 'white';
+			controlUI.style.borderStyle = 'solid';
+			controlUI.style.borderWidth = '1px';
+			controlUI.style.cursor = 'pointer';
+			controlUI.style.textAlign = 'center';
+			controlUI.title = 'Click view region list';
+			controlDiv.appendChild(controlUI);
+
+			// Set CSS for the control interior
+			var controlText = document.createElement('div');
+			controlText.style.fontFamily = 'Arial,sans-serif';
+			controlText.style.fontSize = '13px';
+			controlText.style.paddingLeft = '4px';
+			controlText.style.paddingRight = '4px';
+			controlText.innerHTML = '<b>Region List</b>';
+			controlUI.appendChild(controlText);
+
+			// Setup the click event listeners: simply set the map to
+			// Chicago
+			google.maps.event.addDomListener(controlUI, 'click', 
+			    function() { $window.location.href = "/#/region-list";});
+		}
+
+		function HomeControl(controlDiv, map) {
+			// Set CSS styles for the DIV containing the control
+			// Setting padding to 5 px will offset the control
+			// from the edge of the map
+			controlDiv.style.padding = '5px';
+
+			// Set CSS for the control border
+			var controlUI = document.createElement('div');
+			controlUI.style.backgroundColor = 'white';
+			controlUI.style.borderStyle = 'solid';
+			controlUI.style.borderWidth = '1px';
+			controlUI.style.cursor = 'pointer';
+			controlUI.style.textAlign = 'center';
+			controlUI.title = 'Click to set the map to Home';
+			controlDiv.appendChild(controlUI);
+
+			// Set CSS for the control interior
+			var controlText = document.createElement('div');
+			controlText.style.fontFamily = 'Arial,sans-serif';
+			controlText.style.fontSize = '13px';
+			controlText.style.paddingLeft = '4px';
+			controlText.style.paddingRight = '4px';
+			controlText.innerHTML = '<b>Home</b>';
+			controlUI.appendChild(controlText);
+
+			// Setup the click event listeners: simply set the map to
+			// Chicago
+			google.maps.event.addDomListener(controlUI, 'click', 
+			    function() { map.setCenter(new google.maps.LatLng(scope.latitude, scope.longitude))});
+		}
 
 		if (typeof(google) != undefined){
 
-		 var mapOptions = {zoom: 8, center: new google.maps.LatLng(scope.latitude, scope.longitude)};
+		 var mapOptions = {zoom: 6, center: new google.maps.LatLng(scope.latitude, scope.longitude)};
 		 var map = new google.maps.Map(elem[0], mapOptions);
 		 
 		 /*
@@ -61,6 +131,21 @@ angular.module('CACMobile')
 		 scope.$watch('latitude',posUpdate);
 		 scope.$watch('longtitude',posUpdate);
 		 //!
+
+		 //! add home button
+		 var homeControlDiv = document.createElement('div');
+		 var homeControl = new HomeControl(homeControlDiv, map);
+		 homeControlDiv.index = 1;
+		 map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+		 //!
+
+		 //! add region list view button
+		 var listlDiv = document.createElement('div');
+		 var lsitControl = new ListViewControl(listlDiv, map);
+		 listlDiv.index = 1;
+		 map.controls[google.maps.ControlPosition.TOP_RIGHT].push(listlDiv);
+		 //!
+
 
 		} //End if(google)
 		 
