@@ -38,11 +38,10 @@ angular.module('CACMobile')
 
 			var controlUI = document.createElement('img');
 			controlUI.title = "MEC";
-			controlUI.height = "5px;"
-			controlUI.style.borderStyle = 'solid';
-			controlUI.style.borderWidth = '1px';
-			controlUI.src = '/img/AvalancheApp_inpartnership_MEC_Logo.png';
+			controlUI.src = 'img/AvalancheApp_inpartnership_MEC_Logo.png';
+			controlUI.height = '10px';
 			controlDiv.appendChild(controlUI);
+
 
 			google.maps.event.addDomListener(controlUI, 'click', 
 			    function() { $window.location.href = "http://www.mec.ca/";});
@@ -52,8 +51,10 @@ angular.module('CACMobile')
 
 			var controlUI = document.createElement('img');
 			controlUI.title = "CAA";
-			controlUI.src = '/img/CAC_Logo.png';
-			controlUI.height = "10px;"
+			controlUI.src = 'img/CAC_Logo.png';
+			//controlUI.height = "1000px;"
+			controlUI.height = '40px';
+			
 			controlDiv.appendChild(controlUI);
 
 			google.maps.event.addDomListener(controlUI, 'click', 
@@ -155,6 +156,7 @@ angular.module('CACMobile')
 		 scope.$watch('longtitude',posUpdate);
 		 //!
 
+		 
 		 //! add home button
 		 var homeControlDiv = document.createElement('div');
 		 var homeControl = new HomeControl(homeControlDiv, map);
@@ -165,21 +167,25 @@ angular.module('CACMobile')
 		 //! add region list view button
 		 var listDiv = document.createElement('div');
 		 var listControl = new ListViewControl(listDiv, map);
-		 listDiv.index = 1;
+		 listDiv.index = 2;
 		 map.controls[google.maps.ControlPosition.TOP_RIGHT].push(listDiv);
 		 //!
 
+		 
 		 //! CAA Logo
-		 var caaDiv = document.createElement('caaDiv');
+		 var caaDiv = document.createElement('div');
 		 var caaControl = new CaaLinkControl(caaDiv, map);
+		 caaDiv.index = 1;
 		 map.controls[google.maps.ControlPosition.TOP_LEFT].push(caaDiv);
-		 //!	
+		 //!
 
 		 //! MEC Logo
-		 var mecDiv = document.createElement('mecDiv');
-		 var mecControl = new MecLinkControl(caaDiv, map);
+		 var mecDiv = document.createElement('div');
+		 var mecControl = new MecLinkControl(mecDiv, map);
+		 mecDiv.index = 1;
 		 map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(mecDiv);
 		 //!
+		 
 
 
 		} //End if(google)
