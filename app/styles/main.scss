@@ -3,6 +3,16 @@
 /* Put your CSS here */
 html, body {
   margin: 0;
+  height: 100%;
+  min-height: 100%;
+  background-color: #000000; 
+}
+
+.content
+{
+   min-height: 100%;
+   border-style: solid;
+   border-width: 5px;  
 }
 
 .offline
@@ -23,7 +33,7 @@ html, body {
    border-style:solid;
    border-width:5px;
   	width: 100%; 
-  	height: 400px; /* for some reason 100% does not work ?? */
+  	min-height: 400px; /* for some reason 100% does not work ?? */
   	max-width: none; 
   	max-height: none;
 	}
@@ -49,13 +59,14 @@ body {
 .container {
   max-width:400px;
   }
+  
 }
 
 
 .container {
   max-width:500px;
-  width: auto;
-  height: auto;
+  /* width: auto; */
+  /* height: auto; */
     margin:0px auto;
 }
 
@@ -159,8 +170,33 @@ body {
   background: url(../img/DnrRtg_Low_banner.png) center left no-repeat;
 }
 
+.header-img
+{
+  max-width:100%; 
+  max-height:80%;
+  border: 2px solid;
+}
+
 .issued
 {
   position:absolute;
   color:white;
+}
+
+.navbar {
+      margin-bottom: 0px;
+}
+
+.footer {
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3em;
+    width: 100%;
+    background-color: #f5f5f5;
+    border-top: 1px solid #cccccc;
+    border-top-color: #b3b3b3;
+    padding-left: 1em;
+    padding-right: 1em;
 }

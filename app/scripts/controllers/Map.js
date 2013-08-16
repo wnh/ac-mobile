@@ -15,12 +15,16 @@ angular.module('CACMobile')
 		}
 
 		ConnectionManager.offline(function () {
-			$location.path("/region-list");			
+			$location.path("region-list");			
 		});
 
 		$scope.updatePosition = function () {
 	        getPostion();
 	    };
+
+	    $scope.redirect = function (url){
+	    		$location.path(url);			
+	    }
 
 	   //! Get the current position
 		getPostion();
@@ -164,6 +168,7 @@ angular.module('CACMobile')
 		 map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
 		 //!
 
+/*
 		 //! add region list view button
 		 var listDiv = document.createElement('div');
 		 var listControl = new ListViewControl(listDiv, map);
@@ -185,7 +190,7 @@ angular.module('CACMobile')
 		 mecDiv.index = 1;
 		 map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(mecDiv);
 		 //!
-		 
+*/		 
 
 
 		} //End if(google)

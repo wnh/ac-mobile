@@ -1,7 +1,17 @@
 
 
-   <div id="map-canvas" google-map=""></div>
-           
-       
-            
+   <div class="text-center navbar navbar-fixed-top title">
+      <div class="row-fluid">
+         <div class="span2 pull-left"><img class="header-img" src="img/CAC_Logo_Basic.png" /></div>
+         <div class="span2 pull-left" ng-click="redirect()"><img class="header-img" src="img/mec_logo.gif" /></div>
+      </div>
+   </div>
+   
+   <div class="content">
+      <div id="map-canvas" google-map=""></div>
+   </div>
+
+   <div class="footer">
+      <button class="btn pull-left btn-primary " ng-click="redirect('/region-list')">List View</button>
+   </div>         
             
