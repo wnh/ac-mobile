@@ -1,70 +1,64 @@
-<div class="view" data-viewid="problems">
-	<div class="text-center navbar navbar-fixed-top title">
-		<!--	<section class="title">CAC</section> -->
-		<button class="btn pull-right btn-primary" ng-click="back()">Back</button>
-      <h4>Problems: {{ region }}</h4>	
-	</div>				
-	
-	<section class="content">
-	  <div>
-	
-	     <ul>
-   
-            <div ng-repeat="avProblem in avyProblems">
-            
-            <li class="accordion-heading">
-               <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion{{$index}}" href="#collapse{{$index}}">
-                  {{avProblem.type.__text}}
-               </a>
-            </li>
-            <li id="collapse{{$index}}" class="accordion-body collapse">
-                <div class="accordion-inner">
-                             
-		              <div class="problemImages">
-		                   
-                        <div class="problemImageBox elevationImageBox">
-                            <span class="problemImageTitle">What Elevation Zone?</span>
-                            <img ng-src="img/Elevation/Elevation-{{stringBuilder(avProblem.validElevation_asArray, '_xlink:href', elevationRange)}}_EN.png" > <!-- style="width:160px;border-width:0px;" -->
-                        </div>
+<div class="text-center navbar navbar-fixed-top title">
+  <!--	<section class="title">CAC</section> -->
+  <button class="btn pull-right btn-primary" ng-click="back()">Back</button>
+  <h4>Problems: {{ region }}</h4>	
+</div>				
 
-                        <div class="problemImageBox compassImageBox">
-                            <span class="problemImageTitle">Which Slopes? </span>
-                            <img ng-src="img/Compass/compass-{{stringBuilder(avProblem.validAspect_asArray, '_xlink:href', aspectRange)}}_EN.png">
+<div class="content">
+  <ul class="nav nav-tabs nav-stacked no-border">
 
-                        </div>
-            
-                        <div class="problemImageBox likelihoodImageBox">
-                            <span class="problemImageTitle">Chance of Avalanches?</span>
-                            <img  ng-src="img/Likelihood/Likelihood-{{avProblem.likelihoodOfTriggering.Values.typical.__text}}_EN.png" > <!-- style="width:140px;border-width:0px;" -->
-                        </div>
-            
-                        <div class="problemImageBox sizeImageBox">
-                            <span class="problemImageTitle">Expected Size?</span>
-                            <img  ng-src="img/Size/Size-{{ avProblem.expectedAvSize.Values.min.__text}}-{{ avProblem.expectedAvSize.Values.max.__text}}_EN.png"> <!-- style="width:140px;border-width:0px;" -->
-                        </div>
-                        
-                    </div>
-                    <div class="problemTextBox">
-                        {{ avProblem.comment.__text }}
-                    </div>
-           
-                    <div class="travelBox">
-					        <div class="problemTitle">
-					          Travel and Terrain Advice
-					        </div>
-					        <div class="travelText">
-					            <ul>
-						             <li ng-repeat="travelAdvisoryComment in avProblem.travelAdvisoryComment_asArray">
-						                {{ travelAdvisoryComment.__text }}
-						             </li>
-					             </ul>
-					        </div>
-		              </div>  
-               </li>
+    <div ng-repeat="avProblem in avyProblems">
+
+        <li class="accordion-heading">
+           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion{{$index}}" href="#collapse{{$index}}">
+              {{avProblem.type.__text}}
+          </a>
+      </li>
+      <li id="collapse{{$index}}" class="accordion-body collapse">
+        <div class="accordion-inner">
+
+            <div class="problemImages">
+
+                <div class="problemImageBox elevationImageBox">
+                    <div class="problemImageTitle">What Elevation Zone?</div>
+                    <img ng-src="img/Elevation/Elevation-{{stringBuilder(avProblem.validElevation_asArray, '_xlink:href', elevationRange)}}_EN.png" > <!-- style="width:160px;border-width:0px;" -->
+                </div>
+
+                <div class="problemImageBox compassImageBox">
+                    <div class="problemImageTitle">Which Slopes? </div>
+                    <img ng-src="img/Compass/compass-{{stringBuilder(avProblem.validAspect_asArray, '_xlink:href', aspectRange)}}_EN.png">
+                </div>
+
+                <div class="problemImageBox likelihoodImageBox">
+                    <div class="problemImageTitle">Chance of Avalanches?</div>
+                    <img  ng-src="img/Likelihood/Likelihood-{{avProblem.likelihoodOfTriggering.Values.typical.__text}}_EN.png" > <!-- style="width:140px;border-width:0px;" -->
+                </div>
+
+                <div class="problemImageBox sizeImageBox">
+                    <div class="problemImageTitle">Expected Size?</div>
+                    <img  ng-src="img/Size/Size-{{ avProblem.expectedAvSize.Values.min.__text}}-{{ avProblem.expectedAvSize.Values.max.__text}}_EN.png"> <!-- style="width:140px;border-width:0px;" -->
+                </div>
+
             </div>
-         </ul>		
-	  </div>
+            <div class="problemTextBox">
+                {{ avProblem.comment.__text }}
+            </div>
 
-		           
-	</section>
+            <div class="travelBox">
+             <div class="problemTitle">
+               Travel and Terrain Advice
+           </div>
+           <div class="travelText">
+            <ul>
+                <li ng-repeat="travelAdvisoryComment in avProblem.travelAdvisoryComment_asArray">
+                    {{ travelAdvisoryComment.__text }}
+                </li>
+            </ul>
+        </div>
+    </div>  
 </div>
+</li>
+</div>
+</ul>		
+</div>
+<div class="clear">

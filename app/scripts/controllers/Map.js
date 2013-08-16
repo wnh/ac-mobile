@@ -149,7 +149,7 @@ angular.module('CACMobile')
 		 
 		 google.maps.event.addListener(kmlLayer, 'click', function(kmlEvent) {
 			    var region = kmlEvent.featureData.name;
-			    var path = "/#/region-details/" + region;
+			    var path = "#/region-details/" + region;
 			    $window.location.href = path; //outside of scope so $location doesnt seem to work, is there a more angular way to do this *hack* using this seems to destroy back ability
 			  });
 		 //!
