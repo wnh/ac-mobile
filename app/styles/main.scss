@@ -26,6 +26,9 @@ html, body {
   	height: 400px; /* for some reason 100% does not work ?? */
   	max-width: none; 
   	max-height: none;
+      -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
 	}
 	
 	#map-canvas img { max-width: none; max-height: none; }

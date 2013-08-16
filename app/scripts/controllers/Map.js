@@ -61,7 +61,7 @@ angular.module('CACMobile')
 			// Setup the click event listeners: simply set the map to
 			// Chicago
 			google.maps.event.addDomListener(controlUI, 'click', 
-			    function() { $window.location.href = "/#/region-list";});
+			    function() { $window.location.href = "#/region-list";});
 		}
 
 		function HomeControl(controlDiv, map) {

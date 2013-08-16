@@ -41,7 +41,7 @@ angular.module('CACMobile')
 	      
         // required to make web compliant
 	      window.webkitStorageInfo.requestQuota(window.PERSISTENT, 
-	   				1024*1024, 
+	   				1024*1024*5, 
 	   				function(grantedBytes) {window.requestFileSystem(window.PERSISTENT, grantedBytes, getFileSystem, fail);}, 
 	   				fail);	   
 	   } 
