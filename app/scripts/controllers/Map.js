@@ -15,12 +15,16 @@ angular.module('CACMobile')
 		}
 
 		ConnectionManager.offline(function () {
-			$location.path("/region-list");			
+			$location.path("region-list");			
 		});
 
 		$scope.updatePosition = function () {
 	        getPostion();
 	    };
+
+	    $scope.redirect = function (url){
+	    		$location.path(url);			
+	    }
 
 	   //! Get the current position
 		getPostion();
@@ -32,6 +36,34 @@ angular.module('CACMobile')
 .directive('googleMap', function($window){
 
 	return function (scope, elem, attrs) {
+
+
+		function MecLinkControl (controlDiv, map) {
+
+			var controlUI = document.createElement('img');
+			controlUI.title = "MEC";
+			controlUI.src = 'img/AvalancheApp_inpartnership_MEC_Logo.png';
+			controlUI.height = '10px';
+			controlDiv.appendChild(controlUI);
+
+
+			google.maps.event.addDomListener(controlUI, 'click', 
+			    function() { $window.location.href = "http://www.mec.ca/";});
+		}
+
+		function CaaLinkControl (controlDiv, map) {
+
+			var controlUI = document.createElement('img');
+			controlUI.title = "CAA";
+			controlUI.src = 'img/CAC_Logo.png';
+			//controlUI.height = "1000px;"
+			controlUI.height = '40px';
+			
+			controlDiv.appendChild(controlUI);
+
+			google.maps.event.addDomListener(controlUI, 'click', 
+			    function() { $window.location.href = "http://avalanche.ca/cac";});
+		}
 
 		function ListViewControl(controlDiv, map) {
 			// Set CSS styles for the DIV containing the control
@@ -58,8 +90,6 @@ angular.module('CACMobile')
 			controlText.innerHTML = '<b>Region List</b>';
 			controlUI.appendChild(controlText);
 
-			// Setup the click event listeners: simply set the map to
-			// Chicago
 			google.maps.event.addDomListener(controlUI, 'click', 
 			    function() { $window.location.href = "#/region-list";});
 		}
@@ -89,8 +119,6 @@ angular.module('CACMobile')
 			controlText.innerHTML = '<b>Home</b>';
 			controlUI.appendChild(controlText);
 
-			// Setup the click event listeners: simply set the map to
-			// Chicago
 			google.maps.event.addDomListener(controlUI, 'click', 
 			    function() { map.setCenter(new google.maps.LatLng(scope.latitude, scope.longitude))});
 		}
@@ -132,6 +160,7 @@ angular.module('CACMobile')
 		 scope.$watch('longtitude',posUpdate);
 		 //!
 
+		 
 		 //! add home button
 		 var homeControlDiv = document.createElement('div');
 		 var homeControl = new HomeControl(homeControlDiv, map);
@@ -139,12 +168,29 @@ angular.module('CACMobile')
 		 map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
 		 //!
 
+/*
 		 //! add region list view button
-		 var listlDiv = document.createElement('div');
-		 var lsitControl = new ListViewControl(listlDiv, map);
-		 listlDiv.index = 1;
-		 map.controls[google.maps.ControlPosition.TOP_RIGHT].push(listlDiv);
+		 var listDiv = document.createElement('div');
+		 var listControl = new ListViewControl(listDiv, map);
+		 listDiv.index = 2;
+		 map.controls[google.maps.ControlPosition.TOP_RIGHT].push(listDiv);
 		 //!
+
+		 
+		 //! CAA Logo
+		 var caaDiv = document.createElement('div');
+		 var caaControl = new CaaLinkControl(caaDiv, map);
+		 caaDiv.index = 1;
+		 map.controls[google.maps.ControlPosition.TOP_LEFT].push(caaDiv);
+		 //!
+
+		 //! MEC Logo
+		 var mecDiv = document.createElement('div');
+		 var mecControl = new MecLinkControl(mecDiv, map);
+		 mecDiv.index = 1;
+		 map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(mecDiv);
+		 //!
+*/		 
 
 
 		} //End if(google)
