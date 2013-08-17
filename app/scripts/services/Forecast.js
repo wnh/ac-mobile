@@ -23,38 +23,38 @@ angular.module('CACMobile')
 
    		getRegions: function ()
    		{
-    		var defer = $q.defer(); 
+       		var defer = $q.defer(); 
 
-    		//! if online get the region list from X \\todo
-   			ConnectionManager.online(function  () {
-				
-				var regionList = ["cariboos", 
-    			  "kananaskis", 
-    			  "kootenay-boundary", 
-    			  "lizardrange", 
-    			  "monashees-selkirks", 
-    			  "northwest-coastal", 
-    			  "northwest-inland",
-    			  "north-shore",
-    			  "purcells"];
+       		//! if online get the region list from X \\todo
+   			ConnectionManager.online(
+               function  () {
+      				var regionList = ["cariboos", 
+                         			  "kananaskis", 
+                         			  "kootenay-boundary", 
+                         			  "lizardrange", 
+                         			  "monashees-selkirks", 
+                         			  "northwest-coastal", 
+                         			  "northwest-inland",
+                         			  "north-shore",
+                         			  "purcells"];
 
-    			  defer.resolve(regionList);
-    			});
+       			  defer.resolve(regionList);
+       			});
 
-   			//! If offline get the region list from the file of saved regions
-			ConnectionManager.offline( function () {
-			    	
-			    	Data.fileRead(regionFileName).then(
-					 function (data)
-					 {
-					 	console.log("file read regions result", data);
-					 	var regions = data.replace(/,$/,''); //! if the last char is a , remove it
-					 	defer.resolve(regions.split(","));	
-					 });
-			    	 
-    			});
+      		//! If offline get the region list from the file of saved regions
+   			ConnectionManager.offline( 
+               function () 
+               { 	
+                  Data.fileRead(regionFileName).then(
+                     function (data)
+                     {
+                        console.log("file read regions result", data);
+                        var regions = data.replace(/,$/,''); //! if the last char is a , remove it
+                        defer.resolve(regions.split(","));	
+                     });
+               });
 
-			return defer.promise;
+            return defer.promise;
    		},
 
 	   get: function (region)

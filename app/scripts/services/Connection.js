@@ -11,10 +11,23 @@ angular.module('CACMobile')
 
     function performCallBack (cb) {
             
-      for (var i = 0; i < cb.length; i++) {
+      var numItems = cb.length;
+      for (var i = 0; i < numItems; i++) {
         var func = cb.pop();
-        func ? func() : console.assert(func != NULL, "null function pointer");
+
+        if(func != null)
+        {
+          console.log("performing device ready callback ConnectionManager");
+          func();
+        }
+        else
+        {
+          console.error("null function pointer ConnectionManager");
+        }
+
       }
+      console.assert(cb.length == 0, "Connection.js callback not performed list length should be 0");
+
 
     }
 
@@ -31,15 +44,15 @@ angular.module('CACMobile')
     }
 
     function performDeviceReadyCallback () {
-      document.addEventListener("online", performOnlineCallback, false);
-      document.addEventListener("offline", performOfflineCallback, false);
+      //document.addEventListener("online", performOnlineCallback, false);
+      //document.addEventListener("offline", performOfflineCallback, false);
 
       console.log("Connection Device Ready");
 
-      performCallBack(deviceReadyCallBacks);
+      //performCallBack(deviceReadyCallBacks);
     }
 
-    DeviceReady.addEventListener(performDeviceReadyCallback);    
+    //DeviceReady.addEventListener(performDeviceReadyCallback);    
     //! }
 
 
@@ -85,12 +98,11 @@ angular.module('CACMobile')
         if (DeviceReady.ready())
         {
           onlineHandler();
-        }
-        else
+        }/*
         {
           console.log("online device callback pushed");
           deviceReadyCallBacks.push(onlineHandler);
-        }
+        }*/
 
       },
 
@@ -114,12 +126,11 @@ angular.module('CACMobile')
         if (DeviceReady.ready())
         {
           offlineHandler();
-        }
-        else
+        }/*
         {
           console.log("offline device callback pushed");
           deviceReadyCallBacks.push(offlineHandler);
-        }
+        }*/
 
       },
 
