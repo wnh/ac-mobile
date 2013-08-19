@@ -233,3 +233,54 @@ body {
     padding-left: 1em;
     padding-right: 1em;
 }
+
+.confidence {
+  padding:.5em;
+  background-color: grey;
+}
+
+.table {
+  margin-bottom:0;
+}
+
+.details-tab-tabs a
+{
+  box-sizing: border-box;
+  padding-left: 50px !important;
+  background-position: 5px center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.details-tab-tabs a[data-accordion="avalanche"]
+{
+  background-image: url(../img/icons/icon_mountain.png);
+}
+.details-tab-tabs a[data-accordion="snowpack"]
+{
+  background-image: url(../img/icons/icon_snowflake.png);
+}
+.details-tab-tabs a[data-accordion="weather"]
+{
+  background-image: url(../img/icons/icon_cloud.png);
+}
+
+.accordion-heading {
+  background-color:#333;
+}
+
+.accordion-toggle {
+  color:white;
+}
+
+.problemImageTitle {
+  background-color:#333;
+  color:white;
+  padding: .2em;
+}
+
+.nav {
+  margin-bottom: 0;
+}
+.nav li {
+  margin-bottom: .2em;
+}
