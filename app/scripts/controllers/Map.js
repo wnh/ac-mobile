@@ -22,10 +22,6 @@ angular.module('CACMobile')
 	        getPostion();
 	    };
 
-	    $scope.redirect = function (url){
-	    		$location.path(url);			
-	    }
-
 	   //! Get the current position
 		getPostion();
 	
