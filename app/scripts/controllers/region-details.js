@@ -24,11 +24,6 @@ angular.module('CACMobile')
     } // end function getForecast
     
     $scope.region = $routeParams.region;
-
-    $scope.back = function () {
-        window.history.back();
-    }
-
     getForecast();
     
 

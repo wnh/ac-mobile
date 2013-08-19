@@ -1,20 +1,18 @@
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl'>
+           <img class="header-img" src="img/CAC_Logo_Basic.png"><img class="header-img" src="img/MEC_Logo_Basic.png">
+              <button class="btn pull-right btn-primary" ng-click="back()">Back</button>
+  <h4>Region Map</h4>   
 
+</div>   
 
-   <div class="text-center navbar navbar-fixed-top title">
-      <div class="content">
-           <a class="brand" href="index.html"> <img class="header-img" src="img/CAC_Logo_Basic.png"></a>
-      </div>
-      <!--<div class="row-fluid">
-         <div class="span2 pull-left"><img class="header-img" src="img/CAC_Logo_Basic.png" /></div>
-         <div class="span2 pull-left" ng-click="redirect()"><img class="header-img" src="img/mec_logo.gif" /></div>
-      </div>-->
-   </div>
-   
    <div class="content">
       <div id="map-canvas" google-map=""></div>
    </div>
 
-   <div class="footer">
-      <button class="btn pull-left btn-primary " ng-click="redirect('/region-list')"><i class="icon-gear"></i></button>
+   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl'>
+      <button class="btn btn-primary " ng-click="redirect('/region-list')">List</i></button>
+       <button class="btn btn-primary " ng-click="redirect('/')">Map</i></button>
+       <button class="btn btn-primary " ng-click="redirect('/gear')">Gear</i></button>
+       <button class="btn btn-primary " ng-click="redirect('/about')">About</i></button>
    </div>         
             

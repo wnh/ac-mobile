@@ -2,10 +2,6 @@
 
 angular.module('CACMobile')
   .controller('ProblemDetailsCtrl', function ($scope,$routeParams,Forecast) {
-    
-	   $scope.back = function () {
-	    	window.history.back();
-	   }
 
 	  $scope.region = $routeParams.region;
 	    
