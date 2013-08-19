@@ -7,13 +7,27 @@ angular.module('CACMobile')
     var ready = false;
 
     //! Iterate over callback list and perform each function {
-    function deviceReady (argument) {
+    function deviceReady () {
+      
+      var numItems = callBacks.length;
+      console.log("numItems", numItems);
+
+      for (var i = 0; i < numItems; i++) {
+        var func = callBacks.pop();
+        
+        if (func != null)
+        {
+          console.log("Function performed from device ready callback que");
+          func();
+        }
+        else
+        {
+          console.error("error performing callback");
+        }
+      }
+      console.assert(callBacks.length == 0, "DeviceReady.js callback not performed list length should be 0");
       ready = true;
-      for (var i = 0; i < callBacks.length; i++) {
-            console.log("Function performed from device ready callback que");
-            var func = callBacks.pop();
-            func ? func() : console.assert(func != NULL, "null function pointer");
-          }
+      
     }
     //! }
 
@@ -31,9 +45,9 @@ angular.module('CACMobile')
       // register a callback to be performed when the device is ready {
       addEventListener: function (func) {
         
-        if(ready ==false)
+        if(ready === false)
         {
-          console.log("Function added to device ready callback que");
+          console.log("Function added to device ready callback que", callBacks.length);
           callBacks.push(func);
         }
         else

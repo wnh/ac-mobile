@@ -1,18 +1,10 @@
 @import "bootstrap-sass/lib/bootstrap";
 
 /* Put your CSS here */
-html, {
+html, body {
   margin: 0;
   height: 100%;
   min-height: 100%;
-}
-
-body {
-   height: 100%;
-   width:100%;
-    background: #fafafa;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333;
 }
 
 .icon-gear {
@@ -22,14 +14,12 @@ body {
 
 .content
 {
-  height: auto;
-   border-style: solid;
-   border-width: .2em; 
-   margin-top:3.5em; 
-   margin-bottom:2em;
-  -moz-box-sizing:    border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing:        border-box;
+   min-height: 100%;
+}
+
+.brand
+{
+  
 }
 
 .offline
@@ -40,7 +30,7 @@ body {
 .title {
   background-color: #f5f5f5;
   height: 3em;
-  border-bottom: .1em solid #cccccc;
+  border-bottom: 1px solid #cccccc;
   border-bottom-color: #b3b3b3;
   padding-left:1em;
   padding-right:1em;
@@ -48,43 +38,48 @@ body {
 
 #map-canvas {
    border-style:solid;
-   border-width:.1em;
+   border-width:5px;
   	width: 100%; 
   	min-height: 400px; /* for some reason 100% does not work ?? */
   	max-width: none; 
   	max-height: none;
-      -moz-box-sizing:    border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing:        border-box;
 	}
 	
 	#map-canvas img { max-width: none; max-height: none; }
 
 
-
-@media all and (max-device-width: 400px) {
+body {
+	 height: 100%;
+	 width:100%;
+    background: #fafafa;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+    margin-top:3em;
+}
+@media all and (max-width: 400px) {
 .container {
   max-width:320px;
   }
 }
 
-@media all and (max-device-width: 450px) {
+@media all and (max-width: 450px) {
 .container {
   max-width:400px;
-  } 
+  }
+  
 }
 
-@media all and (max-device-width: 499px) {
-.container {
-  max-width:450px;
-  } 
-}
 
 .container {
   max-width:500px;
-  width: auto;
-  height: auto;
-  margin:0px auto;
+  /* width: auto; */
+  /* height: auto; */
+    margin:0px auto;
+}
+
+.contentwrapper {
+    margin: auto;
+    width:100%;
 }
 
 .mountain {
@@ -159,27 +154,6 @@ body {
 
 .below_treeline {
   background: #6fa469;
-}
-
-.Extreme
-{
-  background: #000000;
-}
-.High
-{
-  background: #e0000d;
-}
-.Considerable
-{
-  background: #f06c00;
-}
-.Moderate
-{
-  background: #fff600;
-}
-.Low
-{
-  background: #32a423;
 }
 
 .mountain .Extreme

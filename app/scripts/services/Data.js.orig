@@ -26,9 +26,9 @@ angular.module('CACMobile')
     fileApi.available = true;
     
     for (var i = 0; i < numItems; i++) {
-  	  
+      
       var func = fileApi.callBacks.pop();
-  	  
+      
       if(func != null)
       {
         console.log("Action from File API Callback stack performed")
@@ -39,24 +39,12 @@ angular.module('CACMobile')
         console.error("null function pointer Data File API");
       }
 
-  	}
+    }
     console.assert(fileApi.callBacks.length == 0, "Data.js callback not performed list length should be 0");
     //!
     console.log("getFileSystem");
 
-	   function fail(e) {console.error("Error with filesystem", e);}
-	
-	
-	   //! HACK ! seems that we need to do things differently for phonegap and web maybe make this check actual device ?
-	   if (window.webkitStorageInfo){// WEB
-	      
-        // required to make web compliant
-	      window.webkitStorageInfo.requestQuota(window.PERSISTENT, 
-	   				1024*1024, 
-	   				function(grantedBytes) {window.requestFileSystem(window.PERSISTENT, grantedBytes, getFileSystem, fail);}, 
-	   				fail);	   
-	   } 
-	   else{ // Phonegap
+  }
 
   function fail(e) {console.error("Error with filesystem", e);}
 
@@ -79,17 +67,17 @@ angular.module('CACMobile')
           fail);     
         }
     });
-	   
+     
    return {
-	   
-	   //HTTP Get XML and use transform function to convert to json
-	   //{
+     
+     //HTTP Get XML and use transform function to convert to json
+     //{
        httpGetXml: function(url,transform){
-     	    var defer = $q.defer();    	   
-    	   	
-     	    console.log ("requesting data from " + url);
+          var defer = $q.defer();        
+          
+          console.log ("requesting data from " + url);
             
-    	   	$http.get(
+          $http.get(
                 url,
                 {transformResponse:transform}
             ).
@@ -104,38 +92,38 @@ angular.module('CACMobile')
                 //$rootScope.$apply();
             });
             
-      	  return defer.promise;
+          return defer.promise;
        },
        //! } End httpGetXml
    
        //HTTP Get json
       httpGetJson: function(url){
-        var defer = $q.defer();    	   
+        var defer = $q.defer();        
 
         console.log ("requesting data from " + url);
 
         $http.get(url).
         success(function(data, status) {
-        	//console.log("Request succeeded");
-        	defer.resolve(data);
-        	//$rootScope.$apply();
-        	}).
+          //console.log("Request succeeded");
+          defer.resolve(data);
+          //$rootScope.$apply();
+          }).
         error(function(data, status) {
-        	console.log("Request failed " + status);
-        	defer.reject(status);
-        	//$rootScope.$apply();
+          console.log("Request failed " + status);
+          defer.reject(status);
+          //$rootScope.$apply();
         });
 
         return defer.promise;
       },
        //! } End httpGetJson
-   	   	
+        
       //! Read a local file {
       fileRead: function(fileName){
-   		
-   		   //console.groupCollapsed("File Read");
-   		   
-        var defer = $q.defer();    	 
+      
+         //console.groupCollapsed("File Read");
+         
+        var defer = $q.defer();      
 
         function failAndUpdate(e) {
           console.log("Error reading file", e);
@@ -147,7 +135,7 @@ angular.module('CACMobile')
           console.log("gotFileEntry", fileName);  
           fileEntry.file(readFile, failAndUpdate);
         }
-   	       
+           
         function readFile(fileEntry) {
 
           var reader = new FileReader();
@@ -173,33 +161,33 @@ angular.module('CACMobile')
 
         }
 
- 	      function getFile(){ fileApi.fileSystem.root.getFile(fileName, {create: false, exclusive: true}, gotFileEntry, failAndUpdate); }
- 	       
- 	      if (fileApi.available == true)
- 	      {
+        function getFile(){ fileApi.fileSystem.root.getFile(fileName, {create: false, exclusive: true}, gotFileEntry, failAndUpdate); }
+         
+        if (fileApi.available == true)
+        {
           getFile();
- 	      }
- 	      else
- 	      {
- 	    	  //fileApi no available register callback so this gets called again when it is available
- 	    	  console.log("API Not available callback has been registered file read ");
- 	    	  fileApi.callBacks.push(getFile);
- 	      }
-   		
- 	      
-    	  return defer.promise;
-   	   },
+        }
+        else
+        {
+          //fileApi no available register callback so this gets called again when it is available
+          console.log("API Not available callback has been registered file read ");
+          fileApi.callBacks.push(getFile);
+        }
+      
+        
+        return defer.promise;
+       },
        //! } End fileRead
        
-   	   //! Write to a local file {
+       //! Write to a local file {
        fileWrite: function(fileName, data, type, append){
-    	   
-    	   //console.groupCollapsed("FileWrite"); events are asyncronous so we cant group
-    	   
-    	   function gotFileEntry(fileEntry) {
-    		    fileEntry.createWriter(gotFileWriter, fail);
-    	    }
-    	   
+         
+         //console.groupCollapsed("FileWrite"); events are asyncronous so we cant group
+         
+         function gotFileEntry(fileEntry) {
+            fileEntry.createWriter(gotFileWriter, fail);
+          }
+         
           function gotFileWriter(fileWriter) {
 
             fileWriter.writeStart = function(e){
@@ -230,8 +218,8 @@ angular.module('CACMobile')
             write(data);
           }
 
-    	  function getFile(){ fileApi.fileSystem.root.getFile(fileName, {create: true}, gotFileEntry, fail);};
-    	   
+        function getFile(){ fileApi.fileSystem.root.getFile(fileName, {create: true}, gotFileEntry, fail);};
+         
         if (fileApi.available == true)
         {
           getFile();
@@ -242,12 +230,11 @@ angular.module('CACMobile')
           console.log("API Not available callback has been registered file write");
           fileApi.callBacks.push(getFile);
         }
-    	   
-    	},
-   	//! } End filewrite
+         
+      },
+    //! } End filewrite
        
    }// End return
    
    }); //End Factory
-
 

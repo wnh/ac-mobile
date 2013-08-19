@@ -7,21 +7,23 @@ html, {
   min-height: 100%;
 }
 
+<<<<<<< HEAD
 body {
    height: 100%;
    width:100%;
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
-}
-
+=======
 .icon-gear {
     background-image: url(../img/icon_shovel.png) center left no-repeat;
     background-position: center center;
+>>>>>>> add39fc5c71ed93d2db7d79b291e8dcd14126f74
 }
 
 .content
 {
+<<<<<<< HEAD
   height: auto;
    border-style: solid;
    border-width: .2em; 
@@ -30,6 +32,14 @@ body {
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
   box-sizing:        border-box;
+=======
+   min-height: 100%;
+}
+
+.brand
+{
+  
+>>>>>>> add39fc5c71ed93d2db7d79b291e8dcd14126f74
 }
 
 .offline
@@ -232,4 +242,55 @@ body {
     border-top-color: #b3b3b3;
     padding-left: 1em;
     padding-right: 1em;
+}
+
+.confidence {
+  padding:.5em;
+  background-color: grey;
+}
+
+.table {
+  margin-bottom:0;
+}
+
+.details-tab-tabs a
+{
+  box-sizing: border-box;
+  padding-left: 50px !important;
+  background-position: 5px center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.details-tab-tabs a[data-accordion="avalanche"]
+{
+  background-image: url(../img/icons/icon_mountain.png);
+}
+.details-tab-tabs a[data-accordion="snowpack"]
+{
+  background-image: url(../img/icons/icon_snowflake.png);
+}
+.details-tab-tabs a[data-accordion="weather"]
+{
+  background-image: url(../img/icons/icon_cloud.png);
+}
+
+.accordion-heading {
+  background-color:#333;
+}
+
+.accordion-toggle {
+  color:white;
+}
+
+.problemImageTitle {
+  background-color:#333;
+  color:white;
+  padding: .2em;
+}
+
+.nav {
+  margin-bottom: 0;
+}
+.nav li {
+  margin-bottom: .2em;
 }
