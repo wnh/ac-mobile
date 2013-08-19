@@ -22,6 +22,9 @@ body {
    border-width: .2em; 
    margin-top:3.5em; 
    margin-bottom:2em;
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
 }
 
 .offline
@@ -54,25 +57,29 @@ body {
 
 
 
-@media all and (max-width: 400px) {
+@media all and (max-device-width: 400px) {
 .container {
   max-width:320px;
   }
 }
 
-@media all and (max-width: 450px) {
+@media all and (max-device-width: 450px) {
 .container {
   max-width:400px;
-  }
-  
+  } 
 }
 
+@media all and (max-device-width: 499px) {
+.container {
+  max-width:450px;
+  } 
+}
 
 .container {
   max-width:500px;
-  /* width: auto; */
-  /* height: auto; */
-    margin:0px auto;
+  width: auto;
+  height: auto;
+  margin:0px auto;
 }
 
 .mountain {
