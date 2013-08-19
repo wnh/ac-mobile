@@ -1,14 +1,13 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl'>
-           <img class="header-img" src="img/CAC_Logo_Basic.png"><img class="header-img" src="img/MEC_Logo_Basic.png">
+           <img class="header-img" src="img/CAC_Logo.png">
+              <button class="btn pull-right btn-primary" ng-click="redirect('/about')">About</button>
               <button class="btn pull-right btn-primary" ng-click="back()">Back</button>
-              					<button class="btn pull-right" onclick="goToMEC()">Shop @ MEC</button>
-  <h4>Gear</h4>   
-
 </div>   
 				<div class="content">
+				              					<button class="btn pull-right" onclick="goToMEC()">Shop @ MEC</button>
 						<ul class="nav nav-tabs nav-stacked no-border">
-							<li class="accordion-heading"><a href="#" data-accordion="backpacks">Avalanche Backpacks</a></li>
-							<li class="accordion" data-parent="backpacks">
+							<li class="accordion-heading"><a class="accordion-toggle Extreme" href="#" data-accordion="backpacks">Avalanche Backpacks</a></li>
+							<li class="accordion-inner" data-parent="backpacks">
 								<p>Avalanche airbags improve your odds of surviving an avalanche. Properly deployed, they can reduce the depth of burial or even keep you on the surface of an avalanche. Also, the big red bags make you more visible, increasing the ease and speed of rescue.</p>
 								<button class="btn btn-primary" onclick="openLinkInSafari('http://www.mec.ca/AST/ShopMEC/Snowsports/BackcountrySafety/AvalancheVests.jsp')">Shop avalanche backpacks at mec.ca</button>
 							</li>
@@ -37,9 +36,14 @@
 
 
    <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl'>
-      <button class="btn btn-primary " ng-click="redirect('/region-list')">List</i></button>
-       <button class="btn btn-primary " ng-click="redirect('/')">Map</i></button>
-       <button class="btn btn-primary " ng-click="redirect('/gear')">Gear</i></button>
-       <button class="btn btn-primary " ng-click="redirect('/about')">About</i></button>
-   </div>         
+     <div>
+       <div class="quarterleft">
+        <button class="btn btn-primary " ng-click="redirect('/')">Map</i></button>  
+      </div>
+      <img class="half" src="img/MEC_Logo.jpg" ng-click="redirect('/gear')" />
+      <div class="quarterright"></div>      
+
+
+    </div>         
+    
             

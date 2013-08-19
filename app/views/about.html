@@ -1,14 +1,11 @@
-
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl'>
-	<img class="header-img" src="img/CAC_Logo_Basic.png"><img class="header-img" src="img/MEC_Logo_Basic.png">
-	<button class="btn pull-right btn-primary" ng-click="back()">Back</button>
-	<button class="btn right" data-link="tou">Terms of Use</button>
-	<h4>About</h4>   
-
-</div> 
-
+           <img class="header-img" src="img/CAC_Logo.png">
+              <button class="btn pull-right btn-primary" ng-click="redirect('/about')">About</button>
+              <button class="btn pull-right btn-primary" ng-click="back()">Back</button>
+</div>  
 
 				<div class="content">
+					<button class="btn right" data-link="tou">Terms of Use</button>
 						<img src="img/CAC_Logo.png" class="about_logo" />
 						<p><strong>CAC Mobile App Version 2.0</strong></p>
 						<p>Funding generously provided by <a href="#" onclick="javascript:goToMEC()">Mountain Equipment Co-op</a></p>
@@ -17,9 +14,12 @@
 					</div>
 
    <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl'>
-      <button class="btn btn-primary " ng-click="redirect('/region-list')">List</i></button>
-       <button class="btn btn-primary " ng-click="redirect('/')">Map</i></button>
-       <button class="btn btn-primary " ng-click="redirect('/gear')">Gear</i></button>
-       <button class="btn btn-primary " ng-click="redirect('/about')">About</i></button>
-   </div>         
-            
+     <div>
+       <div class="quarterleft">
+        <button class="btn btn-primary " ng-click="redirect('/')">Map</i></button>  
+      </div>
+      <img class="half" src="img/MEC_Logo.jpg" ng-click="redirect('/gear')" />
+      <div class="quarterright"></div>      
+
+
+    </div>         
