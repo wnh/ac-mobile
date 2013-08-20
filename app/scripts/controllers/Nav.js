@@ -10,6 +10,6 @@ angular.module('CACMobile')
         window.history.back();
       }
    
-     $scope.openMec = function() { CallVenderApp.call(); }
+     $scope.openMec = function() { CallVenderApp.mec(); }
     
   });

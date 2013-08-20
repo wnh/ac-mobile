@@ -14,6 +14,10 @@ angular.module('CACMobile')
                          $scope.today = data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[0];
                          $scope.tomorrow = data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[1];
                          $scope.dayAfter = data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[2];
+
+                         $scope.confidence = data.bulletinResultsOf.BulletinMeasurements.bulletinConfidence.Components.confidenceLevel;
+
+                         $scope.valid = data.validTime.TimePeriod; //! valid.beginPosition.__text | valid.endPosition.__text 
                                          
                     },
                     function(error){

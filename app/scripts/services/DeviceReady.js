@@ -40,7 +40,7 @@ angular.module('CACMobile')
     } else {
 
       console.log("web detected skipping waiting for device ready");
-      deviceReady();
+      deviceReadyCallback();
     }
     
     return {

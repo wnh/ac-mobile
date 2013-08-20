@@ -4,7 +4,7 @@ angular.module('CACMobile')
   .factory('CallVenderApp', function ($location) {
     
     return {
-     call : function () {
+     mec : function () {
 
         function fail() { console.log("CallVenderApp succeeded"); }
         function success() {onsole.error("CallVenderApp Error :",error); }
