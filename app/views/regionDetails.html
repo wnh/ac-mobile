@@ -22,9 +22,8 @@
 	<table class="table forecast-table">
 		<tr>
 			<th></th>
-			<th class="tomorrow">Tomorrow</th>
-
-			<th class="dayaftertomorrow">Tomorrow+1</th>
+			<th>Tomorrow</th>
+			<th>Tomorrow+1</th>
 		</tr>
 		<tr>
 			<td class="alpine">Alpine</td>
@@ -42,7 +41,7 @@
 			<td ng-class="dayAfter.dangerRatingBtlValue.__text">{{dayAfter.dangerRatingBtlValue.__text}}</td>
 		</tr>
 	</table>
-	<div class="confidence">Confidence</div>
+	<div class="confidence">Confidence:</div>
 	<ul class="nav nav-tabs nav-stacked details-tabs">
 		<li class="accordion-heading"><a href="#/problems/{{region}}">Problems</a></li>
 		<li class="accordion-heading"><a href="#/details-info/{{region}}">Details</a></li>

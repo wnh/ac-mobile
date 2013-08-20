@@ -28,17 +28,17 @@
 }
 .mountain .top
 {
-  top: 30%;
+  top: 33%;
   left: 18%;
 }
 .mountain .middle
 {
-  top: 50%;
+  top: 53%;
   left: 14%;
 }
 .mountain .bottom
 {
-  top:67%;
+  top:72%;
   left: 8%;
 }
 
@@ -50,30 +50,30 @@
   width: 48%;
   height: 12%;
   left: 50%;
-  font-size: 0.8em;
+  font-size: 1em;
+  font-weight:bold;
   background: url(../img/DnrRtg_NoRating_banner.png) center left no-repeat;
   background-size: 100%;
+  line-height:2em
 
 }
 .mountain .warntop
 {
-  top: 12%;
+  top: 15%;
 }
 .mountain .warnmiddle
 {
-  top: 40%
+  top: 43%
 }
 .mountain .warnbottom
 {
-  top: 69%;
+  top: 72%;
 }
 
 .mountain .Extreme
 {
   background: url(../img/DnrRtg_Extreme_banner.png) center left no-repeat;
-        border-color: black;
-  border-style: solid;
-  border-width: .1em;
+
 }
 .mountain .High
 {
@@ -135,7 +135,11 @@
 
 .confidence {
   padding:.5em;
-  background-color: grey;
+  background-color: #eee;
+  border-color: black;
+  border-style: solid;
+  border-width: .1em;
+  border-top:none;
 }
 
 .details-tab-tabs a
@@ -179,6 +183,7 @@
   border-width: .1em;
   border-collapse:collapse;
   margin-top:-1px;
+  font-weight:bold;
 }
 
 .forecast-table td {
@@ -189,6 +194,7 @@
 	height:29px;
 	margin:0;
 	padding:0;
+	padding-left:8px;
 	color:white;
 	background: url(../img/problem-header-bg.png) repeat-x 0 0;
 }
