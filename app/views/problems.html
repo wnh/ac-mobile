@@ -2,11 +2,10 @@
 
 <div class="content">
   <div class="region">Problems: {{region}}</div>
-  <ul class="nav nav-tabs nav-stacked no-border">
-    <div ng-repeat="avProblem in avyProblems">
 
-        <li class="accordion-heading nav-gradient">
-           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion{{$index}}" href="#collapse{{$index}}">
+            <ul class="nav nav-tabs nav-stacked no-border" ng-repeat="avProblem in avyProblems">
+              <li class="accordion-heading nav-gradient">
+           <a class="accordion-toggle" data-accordion="foo" data-toggle="collapse" data-parent="#accordion{{$index}}" href="#collapse{{$index}}">
               {{avProblem.type.__text}}
           </a>
       </li>
@@ -54,7 +53,6 @@
     </div>  
 </div>
 </li>
-</div>
 </ul>		
 </div>
 

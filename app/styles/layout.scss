@@ -45,14 +45,3 @@ body {
   margin-bottom:$bottom-nav-height+0.5;
   @include border-fix;
 }
-
-.nav-gradient {
-  @include gradient-bg;
-  @include border-fix;
-  @include thin-black-borders;
-}
-
-.nav-gradient a {
-  color:white;
-  font-weight:bold;
-}

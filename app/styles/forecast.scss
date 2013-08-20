@@ -146,14 +146,6 @@
 
 }
 
-.details-tab-tabs a
-{
-  box-sizing: border-box;
-  padding-left: 50px !important;
-  background-position: 5px center;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
 .details-tab-tabs a[data-accordion="avalanche"]
 {
   background-image: url(../img/icons/icon_mountain.png);
@@ -231,4 +223,20 @@
 {
 padding-left:.5em;
 font-weight:bold;
+}
+
+.nav-gradient {
+  @include gradient-bg;
+  @include border-fix;
+  @include thin-black-borders;
+}
+
+.nav-gradient a {
+  color:white;
+  font-weight:bold;
+}
+
+.nav-gradient a:hover {
+  color:#333;
+  font-weight:bold;
 }
