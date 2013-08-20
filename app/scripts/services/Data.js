@@ -40,7 +40,6 @@ angular.module('CACMobile')
       }
 
     }
-    console.assert(fileApi.callBacks.length == 0, "Data.js callback not performed list length should be 0");
     //!
     console.log("getFileSystem");
 

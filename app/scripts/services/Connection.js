@@ -42,8 +42,6 @@ angular.module('CACMobile')
         }
 
       }
-      console.assert(cb.length == 0, "Connection.js callback not performed list length should be 0");
-
 
     }
 

@@ -7,10 +7,10 @@ angular.module('CACMobile')
     var ready = false;
 
     //! Iterate over callback list and perform each function {
-    function deviceReady () {
+    function deviceReadyCallback() {
       
       var numItems = callBacks.length;
-      console.log("numItems", numItems);
+      console.log("numItems " + numItems);
 
       for (var i = 0; i < numItems; i++) {
         var func = callBacks.pop();
@@ -25,16 +25,18 @@ angular.module('CACMobile')
           console.error("error performing callback");
         }
       }
-      console.assert(callBacks.length == 0, "DeviceReady.js callback not performed list length should be 0");
+      //console.assert(callBacks.length == 0, "DeviceReady.js callback not performed list length should be 0");
       ready = true;
       
     }
     //! }
 
+
     //! *hack* !
     if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
-      //! When the device is ready perform the deviceReady function {
-      document.addEventListener('deviceready', deviceReady, false); 
+      //! When the device is ready perform the deviceReady function
+      console.log("Device Ready Event Listener");
+      document.addEventListener('deviceready', deviceReadyCallback, false); 
     } else {
 
       console.log("web detected skipping waiting for device ready");
