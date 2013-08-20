@@ -1,0 +1,47 @@
+/* Put your CSS here */
+html, body{
+  margin: 0; padding: 0; 
+  height: 100%;
+  width:100%
+}
+
+body {
+    background: #fafafa;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+}
+
+.container {
+  max-width:500px;
+  width: auto;
+  height: auto;
+  margin:0px auto;
+}
+
+@media all and (max-device-width: 400px) {
+.container {
+  max-width:320px;
+  }
+}
+
+@media all and (max-device-width: 450px) {
+.container {
+  max-width:400px;
+  } 
+}
+
+@media all and (max-device-width: 499px) {
+.container {
+  max-width:450px;
+  } 
+}
+
+.content
+{
+  width: 100%;
+  margin-top:3.5em; 
+  margin-bottom:3.5em;
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
