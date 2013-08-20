@@ -17,7 +17,7 @@ angular.module('CACMobile')
                                          
                     },
                     function(error){
-                        alert('error gettin forecast', error);
+                        console.error('error getting forecast', error);
                     }
                     
             );

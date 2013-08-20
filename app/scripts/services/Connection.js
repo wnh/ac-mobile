@@ -3,6 +3,22 @@
 angular.module('CACMobile')
   .factory('ConnectionManager', function($rootScope, DeviceReady) {
     
+    //! {
+    var defaultState = {'type':'wifi'}; //{'type':'wifi'}; //{'type':'unknown'};
+
+    function connectionState() {
+        var connection_   =  (navigator.connection === undefined) ? defaultState : navigator.connection ;
+        var networkState_ = connection_.type;
+        return networkState_;
+    }
+
+    function online () {
+        var connection_   = (navigator.connection === undefined) ? defaultState : navigator.connection;
+        var networkState_ = connection_.type;
+        return ((networkState_ !=  'none') && (networkState_ !=  'unknown') )  
+    }
+    //! }
+
 
     //! Handle Change of connection device state { 
     var deviceReadyCallBacks = [];
@@ -44,32 +60,20 @@ angular.module('CACMobile')
     }
 
     function performDeviceReadyCallback () {
-      //document.addEventListener("online", performOnlineCallback, false);
-      //document.addEventListener("offline", performOfflineCallback, false);
+      document.addEventListener("online", performOnlineCallback, false);
+      document.addEventListener("offline", performOfflineCallback, false);
 
       console.log("Connection Device Ready");
 
-      //performCallBack(deviceReadyCallBacks);
+      if (online() == false)
+      { 
+        alert("No connection detected, check back soon for a version with offline capability.");
+      }
+
+      performCallBack(deviceReadyCallBacks);
     }
 
-    //DeviceReady.addEventListener(performDeviceReadyCallback);    
-    //! }
-
-
-    //! {
-    var defaultState = {'type':'wifi'}; //{'type':'wifi'}; //{'type':'unknown'};
-
-    function connectionState() {
-        var connection_   = navigator.connection  || defaultState;
-        var networkState_ = connection_.type;
-        return networkState_;
-    }
-
-    function online () {
-        var connection_   = navigator.connection  || defaultState;
-        var networkState_ = connection_.type;
-        return ((networkState_ !=  'none') && (networkState_ !=  'unknown') )  
-    }
+    DeviceReady.addEventListener(performDeviceReadyCallback);    
     //! }
 
     return { 
@@ -98,11 +102,11 @@ angular.module('CACMobile')
         if (DeviceReady.ready())
         {
           onlineHandler();
-        }/*
+        }
         {
           console.log("online device callback pushed");
           deviceReadyCallBacks.push(onlineHandler);
-        }*/
+        }
 
       },
 
@@ -126,11 +130,11 @@ angular.module('CACMobile')
         if (DeviceReady.ready())
         {
           offlineHandler();
-        }/*
+        }
         {
           console.log("offline device callback pushed");
           deviceReadyCallBacks.push(offlineHandler);
-        }*/
+        }
 
       },
 

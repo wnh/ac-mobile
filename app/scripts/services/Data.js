@@ -82,14 +82,10 @@ angular.module('CACMobile')
                 {transformResponse:transform}
             ).
             success(function(data, status) {
-                //console.log("Request succeeded");
                 defer.resolve(data);
-                //$rootScope.$apply();
             }).
             error(function(data, status) {
-                console.log("Request failed " + status);
                 defer.reject(status);
-                //$rootScope.$apply();
             });
             
           return defer.promise;
@@ -104,14 +100,10 @@ angular.module('CACMobile')
 
         $http.get(url).
         success(function(data, status) {
-          //console.log("Request succeeded");
           defer.resolve(data);
-          //$rootScope.$apply();
-          }).
+        }).
         error(function(data, status) {
-          console.log("Request failed " + status);
           defer.reject(status);
-          //$rootScope.$apply();
         });
 
         return defer.promise;

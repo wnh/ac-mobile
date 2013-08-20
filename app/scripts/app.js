@@ -30,10 +30,12 @@ angular.module('CACMobile', [])
         controller: 'ProblemDetailsCtrl'
       })
       .when('/about', {
-        templateUrl: 'views/about.html'
+        templateUrl: 'views/about.html',
+        controller: 'NavCtrl' 
       })
       .when('/tou', {
-        templateUrl: 'views/tou.html'
+        templateUrl: 'views/tou.html',
+          controller: 'NavCtrl'
       })
       .when('/Map', {
         templateUrl: 'views/Map.html',

@@ -12,7 +12,7 @@ angular.module('CACMobile')
 	    				$scope.weather =  data.bulletinResultsOf.BulletinMeasurements.wxSynopsisComment;
 	    			},
 	    			function(error){
-	    				alert('error getting forecast', error);
+	    				console.error('error getting forecast', error);
 	    			}
 	    			
 	    	);
