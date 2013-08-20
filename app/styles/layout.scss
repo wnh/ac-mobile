@@ -46,13 +46,13 @@ body {
   @include border-fix;
 }
 
-.accordion-heading {
+.nav-gradient {
   @include gradient-bg;
   @include border-fix;
   @include thin-black-borders;
 }
 
-.accordion-heading a {
+.nav-gradient a {
   color:white;
   font-weight:bold;
 }
