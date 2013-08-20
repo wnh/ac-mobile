@@ -119,6 +119,7 @@
 .Moderate
 {
   background: $moderate;
+  color:black;
 }
 .Low
 {
@@ -203,4 +204,31 @@
 	padding-left:8px;
 	color:white;
 	background: url(../img/problem-header-bg.png) repeat-x 0 0;
+}
+
+
+.offline
+{
+  display:none;
+}
+
+
+.expiry
+{
+  @include thin-black-borders;
+  @include border-fix;
+  width:100%;
+  height:auto;
+  background-color:#eee;
+  color:black;
+  padding: 0.5em;
+  margin-top:-.5em;
+  border-bottom:none;
+  border-top:none;
+
+}
+.issued
+{
+padding-left:.5em;
+
 }
