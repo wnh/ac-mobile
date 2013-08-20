@@ -1,9 +1,9 @@
+@import "defs";
+
 #map-canvas {
     width: 100%; 
     height: 400px; /* for some reason 100% does not work ?? */
-      -moz-box-sizing:    border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing:        border-box;
+    @include border-fix;
   }
 
 
