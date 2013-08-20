@@ -1,0 +1,31 @@
+@import "compass";
+
+$extreme:#000000;
+$high:#e0000d;
+$considerable:#f06c00;
+$moderate:#fff600;
+$low:#32a423;
+$alpine: #e6f0fc;
+$treeline: #c1d831;
+$belowtreeline: #6fa469;
+
+$top-nav-height: 3em;
+$bottom-nav-height: 3em;
+
+@mixin thin-black-borders {
+  border-color: black;
+  border-style: solid;
+  border-width: .1em;
+}
+
+@mixin border-fix {
+	      -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+@mixin gradient-bg {
+background-color: #989898; // Old browsers
+@include filter-gradient(#989898, #363636, vertical); // IE6-9
+@include background-image(linear-gradient(top, #989898 0%,#363636 100%));
+}

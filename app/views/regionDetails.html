@@ -1,15 +1,10 @@
-
-<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl'>
-	<img class="header-img" src="img/CAC_Logo_Basic.png"><img class="header-img" src="img/MEC_Logo_Basic.png">
-	<button class="btn pull-right btn-primary" ng-click="back()">Back</button>
-	<h4>{{ region }}</h4>   
-
-</div> 
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header_back.html'"></div>  
 
 <div class="content">
+	<div class="region">Region: {{region}}</div>
 	<div class="expiry">
-		<section class="issued"></section>
-		<section class="expires"></section>
+		<section class="issued">Issued:</section>
+		<section class="expires">Expires:</section>
 	</div>
 
 	<div class="mountain">
@@ -24,11 +19,11 @@
 	</div>
 
 
-	<table class="table">
+	<table class="table forecast-table">
 		<tr>
 			<th></th>
-			<th class="tomorrow">Tomorrow</th>
-			<th class="dayaftertomorrow">Tomorrow+1</th>
+			<th>Tomorrow</th>
+			<th>Tomorrow+1</th>
 		</tr>
 		<tr>
 			<td class="alpine">Alpine</td>
@@ -46,18 +41,14 @@
 			<td ng-class="dayAfter.dangerRatingBtlValue.__text">{{dayAfter.dangerRatingBtlValue.__text}}</td>
 		</tr>
 	</table>
-	<div class="confidence">Confidence</div>
+	<div class="confidence">Confidence:</div>
 	<ul class="nav nav-tabs nav-stacked details-tabs">
-		<li><a href="#/problems/{{region}}">Problems</a></li>
-		<li><a href="#/details-info/{{region}}">Details</a></li>
-		<li><a href="#/danger-scale">Danger Scale</a></li>
+		<li class="accordion-heading"><a href="#/problems/{{region}}">Problems</a></li>
+		<li class="accordion-heading"><a href="#/details-info/{{region}}">Details</a></li>
+		<li class="accordion-heading"><a href="#/danger-scale">Danger Scale</a></li>
 	</ul>
 
 </div>
-		<div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl'>
-			<button class="btn btn-primary " ng-click="redirect('/region-list')">List</i></button>
-			<button class="btn btn-primary " ng-click="redirect('/')">Map</i></button>
-			<button class="btn btn-primary " ng-click="redirect('/gear')">Gear</i></button>
-			<button class="btn btn-primary " ng-click="redirect('/about')">About</i></button>
-		</div>         
-		
+   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
+    </div>           
+    

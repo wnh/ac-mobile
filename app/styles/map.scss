@@ -1,0 +1,29 @@
+@import "defs";
+
+#map-canvas {
+    width: 100%; 
+    height: 400px; /* for some reason 100% does not work ?? */
+    @include border-fix;
+  }
+
+
+  @media all and (max-height: 500px) {
+#map-canvas {
+  height:350px;
+  } 
+}
+
+  @media all and (max-height: 600px) and (min-height:501px){
+#map-canvas {
+  height:450px;
+  } 
+}
+
+  @media all and (max-height: 2000px) and (min-height:601px) {
+#map-canvas {
+  height:550px;
+  } 
+}
+
+	
+	#map-canvas img { max-width: none; max-height: none; }

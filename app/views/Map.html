@@ -1,18 +1,14 @@
-<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl'>
-           <img class="header-img" src="img/CAC_Logo_Basic.png"><img class="header-img" src="img/MEC_Logo_Basic.png">
-              <button class="btn pull-right btn-primary" ng-click="back()">Back</button>
-  <h4>Region Map</h4>   
-
-</div>   
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>   
 
    <div class="content">
       <div id="map-canvas" google-map=""></div>
    </div>
 
    <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl'>
-      <button class="btn btn-primary " ng-click="redirect('/region-list')">List</i></button>
-       <button class="btn btn-primary " ng-click="redirect('/')">Map</i></button>
-       <button class="btn btn-primary " ng-click="redirect('/gear')">Gear</i></button>
-       <button class="btn btn-primary " ng-click="redirect('/about')">About</i></button>
-   </div>         
-            
+       <div class="quarterleft">
+                <img class="footer-img" src="img/icons/icon_mountain.png" ng-click="redirect('/region-list')" />
+      </div>
+      <img class="footer-img" src="img/MEC_Logo.jpg" ng-click="redirect('/gear')" />
+      <div class="quarterright"></div>      
+</div>   
+    

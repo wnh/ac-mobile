@@ -1,0 +1,201 @@
+@import "defs";
+
+.mountain {
+  position:relative;
+  max-width:100%;
+  height:auto;
+  overflow:hidden;
+    border-color: black;
+  border-style: solid;
+  border-width: .1em;
+  border-bottom:none;
+}
+
+.mountain img {
+    max-width: 100%;
+    min-width:50%;
+    height: auto;
+    width: auto;
+}
+
+.mountain .top, .mountain .middle, .mountain .bottom
+{
+  position: absolute;
+  font-weight: bold;
+  color: #000;
+  font-size: 0.9em;
+
+}
+.mountain .top
+{
+  top: 33%;
+  left: 18%;
+}
+.mountain .middle
+{
+  top: 53%;
+  left: 14%;
+}
+.mountain .bottom
+{
+  top:72%;
+  left: 8%;
+}
+
+.mountain .warntop, .mountain .warnmiddle, .mountain .warnbottom
+{
+  position: absolute;
+  padding-left:10%;
+  padding-right:-10%;
+  width: 48%;
+  height: 12%;
+  left: 50%;
+  font-size: 1em;
+  font-weight:bold;
+  background: url(../img/DnrRtg_NoRating_banner.png) center left no-repeat;
+  background-size: 100%;
+  line-height:2em
+
+}
+.mountain .warntop
+{
+  top: 15%;
+}
+.mountain .warnmiddle
+{
+  top: 43%
+}
+.mountain .warnbottom
+{
+  top: 72%;
+}
+
+.mountain .Extreme
+{
+  background: url(../img/DnrRtg_Extreme_banner.png) center left no-repeat;
+
+}
+.mountain .High
+{
+  background: url(../img/DnrRtg_High_banner.png) center left no-repeat;
+}
+.mountain .Moderate
+{
+  background: url(../img/DnrRtg_Moderate_banner.png) center left no-repeat;
+}
+.mountain .Considerable
+{
+  background: url(../img/DnrRtg_Considerable_banner.png) center left no-repeat;
+}
+.mountain .Low
+{
+  background: url(../img/DnrRtg_Low_banner.png) center left no-repeat;
+}
+
+.alpine {
+  background: $alpine;
+}
+
+.treeline {
+  background: $treeline;
+}
+
+.below_treeline {
+  background: $belowtreeline;
+}
+
+.Extreme
+{
+  background: $extreme;
+}
+.High
+{
+  background: $high;
+}
+.Considerable
+{
+  background: $considerable;
+}
+.Moderate
+{
+  background: $moderate;
+}
+.Low
+{
+  background: $low;
+}
+
+.issued
+{
+  position:absolute;
+  color:white;
+}
+
+
+
+.confidence {
+  padding:.5em;
+  background-color: #eee;
+  border-color: black;
+  border-style: solid;
+  border-width: .1em;
+  border-top:none;
+}
+
+.details-tab-tabs a
+{
+  box-sizing: border-box;
+  padding-left: 50px !important;
+  background-position: 5px center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.details-tab-tabs a[data-accordion="avalanche"]
+{
+  background-image: url(../img/icons/icon_mountain.png);
+}
+.details-tab-tabs a[data-accordion="snowpack"]
+{
+  background-image: url(../img/icons/icon_snowflake.png);
+}
+.details-tab-tabs a[data-accordion="weather"]
+{
+  background-image: url(../img/icons/icon_cloud.png);
+}
+
+.problemImageTitle {
+  background-color:#333;
+  color:white;
+  padding: .2em;
+}
+
+.region {
+  @include thin-black-borders;
+  @include border-fix;
+  width:100%;
+  height:auto;
+  background-color:#979797;
+  color:white;
+  padding: 0.5em;
+}
+
+.forecast-table {
+  @include thin-black-borders;
+  margin-bottom:0;
+  border-collapse:collapse;
+  margin-top:-1px;
+  font-weight:bold;
+}
+
+.forecast-table td {
+	  border-color: black;
+}
+
+.forecast-table th {
+	height:29px;
+	margin:0;
+	padding:0;
+	padding-left:8px;
+	color:white;
+	background: url(../img/problem-header-bg.png) repeat-x 0 0;
+}
