@@ -80,19 +80,19 @@ body {
   }
 
 
-  @media all and (max-device-height: 500px) {
+  @media all and (max-height: 500px) {
 #map-canvas {
   height:350px;
   } 
 }
 
-  @media all and (max-device-height: 600px) {
+  @media all and (max-height: 600px) and (min-height:501px){
 #map-canvas {
   height:450px;
   } 
 }
 
-  @media all and (max-device-height: 2000px) {
+  @media all and (max-height: 2000px) and (min-height:601px) {
 #map-canvas {
   height:550px;
   } 
