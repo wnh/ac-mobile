@@ -54,7 +54,8 @@
   font-weight:bold;
   background: url(../img/DnrRtg_NoRating_banner.png) center left no-repeat;
   background-size: 100%;
-  line-height:2em
+  padding-top:.5em;
+  padding-bottom:.5em;
 
 }
 .mountain .warntop
@@ -119,7 +120,6 @@
 .Moderate
 {
   background: $moderate;
-  color:black;
 }
 .Low
 {
@@ -230,5 +230,5 @@
 .issued
 {
 padding-left:.5em;
-
+font-weight:bold;
 }
