@@ -1,9 +1,9 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header_back.html'"></div>  
 
 				<div class="content">
-					<button class="btn right" data-link="tou">Terms of Use</button>
+
 						<img src="img/CAC_Logo.png" class="about_logo" />
-						<p><strong>CAC Mobile App Version 2.0</strong></p>
+						<p><strong>CAC Mobile App Version 2.0 </strong><button class="btn right" ng-click="redirect('/tou')" ng-controller='NavCtrl'>Terms of Use</button></p>
 						<p>Funding generously provided by <a href="#" onclick="javascript:goToMEC()">Mountain Equipment Co-op</a></p>
 						<p>Support: <a href="mailto:support@avalanche.ca">support@avalanche.ca</a></p>
 						<img src="img/AvalancheApp_inpartnership_MEC_Logo.png" class="about_mec" />
