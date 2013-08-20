@@ -25,7 +25,7 @@ $bottom-nav-height: 3em;
 }
 
 @mixin gradient-bg {
-background-color: #989898; // Old browsers
-@include filter-gradient(#989898, #363636, vertical); // IE6-9
-@include background-image(linear-gradient(top, #989898 0%,#363636 100%));
+background-color: rgb(167,207,223); // Old browsers
+@include filter-gradient(#a7cfdf, #23538a, vertical); // IE6-9
+@include background-image(linear-gradient(top, rgba(167,207,223,1) 0%,rgba(35,83,138,1) 100%));
 }
