@@ -43,9 +43,15 @@ body {
   width: 100%;
   margin-top:$top-nav-height+0.5; 
   margin-bottom:$bottom-nav-height+0.5;
-  @include border-fix
+  @include border-fix;
 }
 
 .accordion-heading {
   @include gradient-bg;
+  @include border-fix;
+  @include thin-black-borders;
+}
+
+.accordion-heading a {
+  color:white
 }
