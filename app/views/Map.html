@@ -1,7 +1,4 @@
-<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl'>
-           <img class="header-img" src="img/CAC_Logo.png">
-              <button class="btn pull-right btn-primary" ng-click="redirect('/about')">About</button>
-</div>   
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>   
 
    <div class="content">
       <div id="map-canvas" google-map=""></div>

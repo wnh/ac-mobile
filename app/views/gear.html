@@ -1,8 +1,4 @@
-<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl'>
-           <img class="header-img" src="img/CAC_Logo.png">
-              <button class="btn pull-right btn-primary" ng-click="redirect('/about')">About</button>
-              <button class="btn pull-right btn-primary" ng-click="back()">Back</button>
-</div>   
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header_back.html'"></div>  
 				<div class="content">
 				              					<button class="btn pull-right" onclick="goToMEC()">Shop @ MEC</button>
 						<ul class="nav nav-tabs nav-stacked no-border">
