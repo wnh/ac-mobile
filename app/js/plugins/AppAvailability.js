@@ -1,0 +1,1 @@
+/* This file should be empty it is simply a placeholder for the AppAvilability plugin injected by the PhoneGapBuild System. This file should NOT be included in any builds */

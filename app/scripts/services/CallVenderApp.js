@@ -8,11 +8,9 @@ angular.module('CACMobile')
 
         var mecAppUrl = 'fb206084672860640://';
 
-        //! todo this should ge generalised function so that multiple apps can be registered
-
+        //! todo this should be generalised function so that multiple apps can be registered (each just takes appUrl, website and device list as params)
         if(navigator.userAgent.match(/(iPhone|iPod|iPad)/)) //! extend this for each device that the mec app is available for
         {
-          alert("redirect");
           window.appavailability(mecAppUrl, function(availability) {
               if(availability==true) 
               { 
@@ -25,8 +23,6 @@ angular.module('CACMobile')
                 window.open('http://www.mec.ca','_blank','location=no');
               }
             });
-
-          //PhoneGap.exec(success, fail, "callvenderapp", "run", ['fb206084672860640://', 'http://mec.ca/']);
         }
         else
         {
