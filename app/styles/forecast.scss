@@ -174,8 +174,8 @@
   font-weight:bold;
 }
 
-.forecast-table td {
-	  border-color: black;
+.forecast-table tr td {
+  @include thin-black-borders;
 }
 
 .forecast-table th {
