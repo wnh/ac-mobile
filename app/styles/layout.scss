@@ -45,3 +45,8 @@ body {
   margin-bottom:$bottom-nav-height+0.5;
   @include border-fix;
 }
+
+[class^="icon-"], [class*=" icon-"] {
+margin-top:.5em;
+margin-right:.5em;
+}
