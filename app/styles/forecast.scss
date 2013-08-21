@@ -146,18 +146,7 @@
 
 }
 
-.details-tab-tabs a[data-accordion="avalanche"]
-{
-  background-image: url(../img/icons/icon_mountain.png);
-}
-.details-tab-tabs a[data-accordion="snowpack"]
-{
-  background-image: url(../img/icons/icon_snowflake.png);
-}
-.details-tab-tabs a[data-accordion="weather"]
-{
-  background-image: url(../img/icons/icon_cloud.png);
-}
+
 
 .problemImageTitle {
   background-color:#333;
@@ -234,9 +223,28 @@ font-weight:bold;
 .nav-gradient a {
   color:white;
   font-weight:bold;
+  background-position: 5px center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .nav-gradient a:hover {
   color:#333;
   font-weight:bold;
+}
+
+.nav-gradient a[data-accordion="avalanche"]
+{
+  background-image: url(../img/icons/icon_mountain.png);
+    padding-left: 50px !important;
+}
+.nav-gradient a[data-accordion="snowpack"]
+{
+  background-image: url(../img/icons/icon_snowflake.png);
+    padding-left: 50px !important;
+}
+.nav-gradient a[data-accordion="weather"]
+{
+  background-image: url(../img/icons/icon_cloud.png);
+    padding-left: 50px !important;
 }
