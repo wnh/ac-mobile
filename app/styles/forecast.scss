@@ -1,5 +1,37 @@
 @import "defs";
 
+.region {
+  @include thin-black-borders;
+  @include border-fix;
+  width:100%;
+  height:auto;
+  background-color:#979797;
+  color:white;
+  padding: 0.5em;
+  margin-bottom:.5em;
+  font-weight:bold;
+}
+
+.expiry
+{
+  @include thin-black-borders;
+  @include border-fix;
+  width:100%;
+  height:auto;
+  background-color:#eee;
+  color:black;
+  padding: 0.5em;
+  margin-top:-.5em;
+  border-bottom:none;
+  border-top:none;
+
+}
+.issued
+{
+padding-left:.5em;
+font-weight:bold;
+}
+
 .mountain {
   position:relative;
   max-width:100%;
@@ -46,7 +78,6 @@
 {
   position: absolute;
   padding-left:10%;
-  padding-right:-10%;
   width: 48%;
   height: 12%;
   left: 50%;
@@ -73,24 +104,23 @@
 
 .mountain .Extreme
 {
-  background: url(../img/DnrRtg_Extreme_banner.png) center left no-repeat;
-
+  background: $extremeimg center left no-repeat;
 }
 .mountain .High
 {
-  background: url(../img/DnrRtg_High_banner.png) center left no-repeat;
+  background: $highimg center left no-repeat;
 }
 .mountain .Moderate
 {
-  background: url(../img/DnrRtg_Moderate_banner.png) center left no-repeat;
+  background: $moderateimg center left no-repeat;
 }
 .mountain .Considerable
 {
-  background: url(../img/DnrRtg_Considerable_banner.png) center left no-repeat;
+  background: $considerableimg center left no-repeat;
 }
 .mountain .Low
 {
-  background: url(../img/DnrRtg_Low_banner.png) center left no-repeat;
+  background: $lowimg center left no-repeat;
 }
 
 .alpine {
@@ -126,46 +156,6 @@
   background: $low;
 }
 
-.issued
-{
-  position:absolute;
-  color:white;
-}
-
-
-
-.confidence {
-  padding:.5em;
-  background-color: #eee;
-  border-color: black;
-  border-style: solid;
-  border-width: .1em;
-  border-top:none;
-  margin-bottom:1em;
-
-
-}
-
-
-
-.problemImageTitle {
-  background-color:#333;
-  color:white;
-  padding: .2em;
-}
-
-.region {
-  @include thin-black-borders;
-  @include border-fix;
-  width:100%;
-  height:auto;
-  background-color:#979797;
-  color:white;
-  padding: 0.5em;
-    margin-bottom:.5em;
-    font-weight:bold;
-}
-
 .forecast-table {
   @include thin-black-borders;
   margin-bottom:0;
@@ -187,31 +177,31 @@
 	background: url(../img/problem-header-bg.png) repeat-x 0 0;
 }
 
+.confidence {
+  padding:.5em;
+  background-color: #eee;
+  border-color: black;
+  border-style: solid;
+  border-width: .1em;
+  border-top:none;
+  margin-bottom:1em;
+  }
 
 .offline
 {
   display:none;
 }
 
-
-.expiry
-{
-  @include thin-black-borders;
-  @include border-fix;
-  width:100%;
-  height:auto;
-  background-color:#eee;
-  color:black;
-  padding: 0.5em;
-  margin-top:-.5em;
-  border-bottom:none;
-  border-top:none;
-
-}
 .issued
 {
-padding-left:.5em;
-font-weight:bold;
+  position:absolute;
+  color:white;
+}
+
+.problemImageTitle {
+  background-color:#333;
+  color:white;
+  padding: .2em;
 }
 
 .nav-gradient {
@@ -247,4 +237,35 @@ font-weight:bold;
 {
   background-image: url(../img/icons/icon_cloud.png);
     padding-left: 50px !important;
+}
+
+.danger a {
+  color:black;
+  font-weight:bold;
+}
+
+.danger .Extreme, .danger .High, .danger .Considerable, .danger .Moderate, .danger .Low {
+    padding-left:45px;
+}
+
+.danger .Extreme, .danger .Extreme:hover
+{
+  background: $extreme $extremeimg center left no-repeat;
+  color:white;
+}
+.danger .High, .danger .High:hover
+{
+  background: $high $highimg center left no-repeat;
+}
+.danger .Moderate, .danger .Moderate:hover
+{
+  background: $moderate $moderateimg center left no-repeat;
+}
+.danger .Considerable, .danger .Considerable:hover
+{
+  background: $considerable $considerableimg center left no-repeat;
+}
+.danger .Low, .danger .Low:hover
+{
+  background: $low $lowimg center left no-repeat;
 }
