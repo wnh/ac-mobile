@@ -26,10 +26,37 @@
 	<!-- PhoneGap API -->
 	<access subdomains="true" uri="file:///store/home" />
 	<access subdomains="true" uri="file:///SDCard" />
+
+   <!-- Plugins -->
+   <!-- check app availability --> 
+   <gap:plugin name="com.ohh2ahh.plugins.appavailability" />
  
 	<!-- Expose access to all URIs, including the file and http protocols -->
 	<access origin="*" subdomains="true"  />
-	
+
+   <!-- Icon -->
+	<icon src="img/CAA_button.png" />
+   <icon src="img/CAA_button.png57px"  gap:platform="android"    gap:density="ldpi" />
+   <icon src="img/CAA_button.png72px"  gap:platform="android"    gap:density="mdpi" />
+   <icon src="img/CAA_button.png114px" gap:platform="android"    gap:density="hdpi" />
+   <icon src="img/CAA_button.png144px" gap:platform="android"    gap:density="xhdpi" />
+   <icon src="img/CAA_button57px.png"  gap:platform="ios"        width="57" height="57" />
+   <icon src="img/CAA_button72px.png"  gap:platform="ios"        width="72" height="72" />
+   <icon src="img/CAA_button114px.png" gap:platform="ios"        width="114" height="114" />
+   <icon src="img/CAA_button144px.png" gap:platform="ios"        width="144" height="144" />
+
+   <!-- Splash screen -->
+   <gap:splash src="img/CAA_button.png"  gap:platform="android" gap:density="ldpi" />
+   <gap:splash src="img/CAA_button.png"  gap:platform="android" gap:density="mdpi" />
+   <gap:splash src="img/CAA_button.png"  gap:platform="android" gap:density="hdpi" />
+   <gap:splash src="img/CAA_button.png" gap:platform="android" gap:density="xhdpi" />
+   <gap:splash src="img/CAA_button.png"         gap:platform="blackberry" />
+   <gap:splash src="img/CAA_button.png"    gap:platform="ios"     width="320" height="480" />
+   <gap:splash src="img/CAA_button.png" gap:platform="ios"     width="640" height="960" />
+   <gap:splash src="img/CAA_button.png"      gap:platform="ios"     width="768" height="1024" />
+   <gap:splash src="img/CAA_button.png"     gap:platform="ios"     width="1024" height="768" />
+
+
     <author href="www.avalanche.ca" email="support@avalanche.ca">
         Ben Shaw on behalf of the Canadian Avalanche Association
     </author>
