@@ -57,7 +57,7 @@ angular.module('CACMobile')
 				 function (data) // get from http succeeded
 				 {
 					 //! Got Data from HTTP save to file {
-					 console.log("received data from http writing to file");
+					 console.log("received data from http");
 					 var forecast = data.ObsCollection.observations.Bulletin; 
 					 //! }
 
