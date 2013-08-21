@@ -36,10 +36,10 @@
 
    <!-- Icon -->
 	<icon src="img/button/CAA_button.png" />
-   <icon src="img/button/CAA_button.png57px"  gap:platform="android"    gap:density="ldpi" />
-   <icon src="img/button/CAA_button.png72px"  gap:platform="android"    gap:density="mdpi" />
-   <icon src="img/button/CAA_button.png114px" gap:platform="android"    gap:density="hdpi" />
-   <icon src="img/button/CAA_button.png144px" gap:platform="android"    gap:density="xhdpi" />
+   <icon src="img/button/CAA_button57px.png"  gap:platform="android"    gap:density="ldpi" />
+   <icon src="img/button/CAA_button72px.png"  gap:platform="android"    gap:density="mdpi" />
+   <icon src="img/button/CAA_button114px.png" gap:platform="android"    gap:density="hdpi" />
+   <icon src="img/button/CAA_button144px.png" gap:platform="android"    gap:density="xhdpi" />
    <icon src="img/button/CAA_button57px.png"  gap:platform="ios"        width="57" height="57" />
    <icon src="img/button/CAA_button72px.png"  gap:platform="ios"        width="72" height="72" />
    <icon src="img/button/CAA_button114px.png" gap:platform="ios"        width="114" height="114" />
