@@ -1,19 +1,18 @@
 @import "defs";
 
 .header {
-  background-color: #f5f5f5;
+    @include gradient-bg;
   height:$top-nav-height;
-  border-bottom: .1em solid #cccccc;
-  border-bottom-color: #b3b3b3;
+  border-bottom: .1em solid black;
+  border-bottom-color: black;
   padding-left:1em;
   padding-right:1em;
 }
 
 .footer {
-  background-color: #f5f5f5;
+    @include gradient-bg;
   height:auto;
-  border-top: .1em solid #cccccc;
-  border-top-color: #b3b3b3;
+  border-top: .1em solid black;
   padding-left:1em;
   padding-right:1em;
 }

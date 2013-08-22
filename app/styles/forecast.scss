@@ -5,7 +5,7 @@
   @include border-fix;
   width:100%;
   height:auto;
-  background-color:#979797;
+  @include gradient-bg;
   color:white;
   padding: 0.5em;
   margin-bottom:.5em;
