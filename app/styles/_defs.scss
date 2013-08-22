@@ -37,3 +37,9 @@ background-color: #989898; // Old browsers
 @include filter-gradient(#989898, #363636, vertical); // IE6-9
 @include background-image(linear-gradient(top, #989898 0%,#363636 100%));
 }
+
+@mixin gradient-links {
+background-color: rgb(252,255,244); // Old browsers
+@include filter-gradient(#fcfff4, #b3bead, horizontal); // IE6-9
+@include background-image(linear-gradient(left, rgba(252,255,244,1) 0%,rgba(223,229,215,1) 40%,rgba(179,190,173,1) 100%));
+}

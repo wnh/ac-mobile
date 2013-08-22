@@ -50,3 +50,10 @@ body {
 margin-top:.5em;
 margin-right:.5em;
 }
+
+.accordion-heading {
+  // needs latest Compass, add '@import "compass"' to your scss
+background-color: rgb(252,255,244); // Old browsers
+@include filter-gradient(#fcfff4, #b3bead, horizontal); // IE6-9
+@include background-image(linear-gradient(left, rgba(252,255,244,1) 0%,rgba(223,229,215,1) 40%,rgba(179,190,173,1) 100%));
+}

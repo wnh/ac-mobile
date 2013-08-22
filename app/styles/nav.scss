@@ -1,7 +1,9 @@
 @import "defs";
 
 .header {
-    @include gradient-bg;
+  background-color: rgb(75,74,74); // Old browsers
+  @include filter-gradient(#4b4a4a, #2c2a2b, vertical); // IE6-9
+  @include background-image(linear-gradient(top, rgba(75,74,74,1) 0%,rgba(44,42,43,1) 100%));
   height:$top-nav-height;
   border-bottom: .1em solid black;
   border-bottom-color: black;
@@ -10,7 +12,9 @@
 }
 
 .footer {
-    @include gradient-bg;
+  background-color: rgb(98,98,98); // Old browsers
+  @include filter-gradient(#626262, #454444, vertical); // IE6-9
+  @include background-image(linear-gradient(top, rgba(98,98,98,1) 0%,rgba(69,68,68,1) 100%));
   height:auto;
   border-top: .1em solid black;
   padding-left:1em;
