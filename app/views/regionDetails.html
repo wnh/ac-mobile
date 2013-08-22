@@ -13,9 +13,9 @@
 		<div class="top">Alpine</div>
 		<div class="middle">Treeline</div>
 		<div class="bottom">Below Treeline</div>
-		<div class="warntop" ng-class="today.dangerRatingAlpValue.__text">{{today.dangerRatingAlpValue.__text}}</div>
-		<div class="warnmiddle" ng-class="today.dangerRatingTlnValue.__text">{{today.dangerRatingTlnValue.__text}}</div>
-		<div class="warnbottom" ng-class="today.dangerRatingBtlValue.__text">{{today.dangerRatingBtlValue.__text}}</div>
+		<div class="warntop" ng-class="today.alpine.css">{{today.alpine.text}}</div>
+		<div class="warnmiddle" ng-class="today.alpine.css">{{today.alpine.text}}</div>
+		<div class="warnbottom" ng-class="today.belowTreeline.css">{{today.belowTreeline.text}}</div>
 	</div>
 
 
@@ -27,18 +27,18 @@
 		</tr>
 		<tr>
 			<td class="alpine">Alpine</td>
-			<td ng-class="tomorrow.dangerRatingAlpValue.__text">{{tomorrow.dangerRatingAlpValue.__text}}</td>
-			<td ng-class="dayAfter.dangerRatingAlpValue.__text">{{dayAfter.dangerRatingAlpValue.__text}}</td>
+			<td ng-class="tomorrow.alpine.css">{{tomorrow.alpine.text}}</td>
+			<td ng-class="dayAfter.alpine.css">{{dayAfter.alpine.text}}</td>
 		</tr>
 		<tr>
 			<td class="treeline">Treeline</td>
-			<td ng-class="tomorrow.dangerRatingTlnValue.__text">{{tomorrow.dangerRatingTlnValue.__text}}</td>
-			<td ng-class="dayAfter.dangerRatingTlnValue.__text">{{dayAfter.dangerRatingTlnValue.__text}}</td>
+			<td ng-class="tomorrow.treeline.css">{{tomorrow.treeline.text}}</td>
+			<td ng-class="dayAfter.treeline.css">{{dayAfter.treeline.text}}</td>
 		</tr>
 		<tr>
 			<td class="below_treeline">Below Treeline</td>
-			<td ng-class="tomorrow.dangerRatingBtlValue.__text">{{tomorrow.dangerRatingBtlValue.__text}}</td>
-			<td ng-class="dayAfter.dangerRatingBtlValue.__text">{{dayAfter.dangerRatingBtlValue.__text}}</td>
+			<td ng-class="tomorrow.belowTreeline.css">{{tomorrow.belowTreeline.text}}</td>
+			<td ng-class="dayAfter.belowTreeline.css">{{dayAfter.belowTreeline.text}}</td>
 		</tr>
 	</table>
 	<div class="confidence"><strong>Confidence:</strong> {{ confidence.__text }}</div>

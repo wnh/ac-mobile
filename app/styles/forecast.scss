@@ -83,7 +83,6 @@ font-weight:bold;
   left: 50%;
   font-size: 1em;
   font-weight:bold;
-  background: url(../img/DnrRtg_NoRating_banner.png) center left no-repeat;
   background-size: 100%;
   padding-top:.5em;
   padding-bottom:.5em;
@@ -102,25 +101,30 @@ font-weight:bold;
   top: 72%;
 }
 
-.mountain .Extreme
+.mountain .extreme
 {
   background: $extremeimg center left no-repeat;
 }
-.mountain .High
+.mountain .high
 {
   background: $highimg center left no-repeat;
 }
-.mountain .Moderate
+.mountain .moderate
 {
   background: $moderateimg center left no-repeat;
 }
-.mountain .Considerable
+.mountain .considerable
 {
   background: $considerableimg center left no-repeat;
 }
-.mountain .Low
+.mountain .low
 {
   background: $lowimg center left no-repeat;
+}
+
+.mountain .none
+{
+  background: $noneimg center left no-repeat;
 }
 
 .alpine {
@@ -135,23 +139,23 @@ font-weight:bold;
   background: $belowtreeline;
 }
 
-.Extreme
+.extreme
 {
   background: $extreme;
 }
-.High
+.high
 {
   background: $high;
 }
-.Considerable
+.considerable
 {
   background: $considerable;
 }
-.Moderate
+.moderate
 {
   background: $moderate;
 }
-.Low
+.low
 {
   background: $low;
 }
@@ -244,28 +248,28 @@ font-weight:bold;
   font-weight:bold;
 }
 
-.danger .Extreme, .danger .High, .danger .Considerable, .danger .Moderate, .danger .Low {
+.danger .extreme, .danger .high, .danger .considerable, .danger .moderate, .danger .low {
     padding-left:45px;
 }
 
-.danger .Extreme, .danger .Extreme:hover
+.danger .extreme, .danger .extreme:hover
 {
   background: $extreme $extremeimg center left no-repeat;
   color:white;
 }
-.danger .High, .danger .High:hover
+.danger .high, .danger .high:hover
 {
   background: $high $highimg center left no-repeat;
 }
-.danger .Moderate, .danger .Moderate:hover
+.danger .moderate, .danger .moderate:hover
 {
   background: $moderate $moderateimg center left no-repeat;
 }
-.danger .Considerable, .danger .Considerable:hover
+.danger .considerable, .danger .considerable:hover
 {
   background: $considerable $considerableimg center left no-repeat;
 }
-.danger .Low, .danger .Low:hover
+.danger .low, .danger .low:hover
 {
   background: $low $lowimg center left no-repeat;
 }
