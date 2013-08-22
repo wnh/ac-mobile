@@ -46,13 +46,11 @@ angular.module('CACMobile')
     }
 
     function performOnlineCallback () {
-      alert("Online");
       performCallBack(onlineCallbacks);
       $rootScope.apply();
     }
 
     function performOfflineCallback () {
-      alert("Offline");
       performCallBack(offlineCallbacks);
       $rootScope.apply();
     }
