@@ -28,25 +28,6 @@ angular.module('CACMobile')
 		
    return {
 
-      getRegions: function ()
-      {
-   		var defer = $q.defer(); 
-
-      	var regionList = ["cariboos", 
-                			  "kananaskis", 
-                			  "kootenay-boundary", 
-                			  "lizardrange", 
-                			  "monashees-selkirks", 
-                			  "northwest-coastal", 
-                			  "northwest-inland",
-                			  "north-shore",
-                			  "purcells"];
-
-         defer.resolve(regionList);
-      		
-         return defer.promise;
-      },
-
 	   get: function (region)
 	   {
          var defer = $q.defer();
