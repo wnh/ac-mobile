@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('RegionDetailsCtrl', function ($scope, $routeParams, Forecast) {
+  .controller('RegionDetailsCtrl', function ($scope, $routeParams, Forecast, Data) {
 
     function getForecast() {    
         Forecast.get($scope.region).then(
@@ -45,6 +45,23 @@ angular.module('CACMobile')
                          $scope.valid = data.validTime.TimePeriod; //! valid.beginPosition.__text | valid.endPosition.__text 
                          $scope.valid.issued = $scope.valid.beginPosition.__text.replace("T"," ");
                          $scope.valid.expires = $scope.valid.endPosition.__text.replace("T"," ");
+ 
+                         Data.httpGetJson("config/regions.json").then(
+                              function (data) {
+                                var regions = data.regions;
+                                //! seriously there has to be a better way !    
+                                for(var i = 0; i < regions.length; ++i)
+                                {
+                                    if(regions[i].name = $scope.region)
+                                    {
+                                        $scope.regionDisplayName = regions[i].display;
+                                    }
+                                    
+                                }
+                              },
+                              function (error) {
+                                console.error("Error fetching region list", error);
+                              })
                                          
                     },
                     function(error){
