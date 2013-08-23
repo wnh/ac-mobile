@@ -297,7 +297,6 @@ module.exports = function (grunt) {
 //              'bower_components/json3/**/*',
 //              'bower_components/es5-shim/**/*',
 //              'bower_components/bootstrap-sass/**/*',
-              'config/**/*',
               'scripts/services/**/*',
               'scripts/controllers/**/*',
               'scripts/vendor/*',
