@@ -1,24 +1,16 @@
 @import "defs";
 
 .header {
-  background-color: rgb(75,74,74); // Old browsers
-  @include filter-gradient(#4b4a4a, #2c2a2b, vertical); // IE6-9
-  @include background-image(linear-gradient(top, rgba(75,74,74,1) 0%,rgba(44,42,43,1) 100%));
+  @include nav-gradient-bg;
   height:$top-nav-height;
-  border-bottom: .1em solid black;
-  border-bottom-color: black;
-  padding-left:1em;
-  padding-right:1em;
+  border-bottom: .2em solid black;
 }
 
 .footer {
-  background-color: rgb(98,98,98); // Old browsers
-  @include filter-gradient(#626262, #454444, vertical); // IE6-9
-  @include background-image(linear-gradient(top, rgba(98,98,98,1) 0%,rgba(69,68,68,1) 100%));
+  @include nav-gradient-bg;
   height:auto;
-  border-top: .1em solid black;
-  padding-left:1em;
-  padding-right:1em;
+  border-top: .2em solid black;
+
 }
 
 .navbar {
@@ -41,18 +33,12 @@
 .footer-img {
   width:auto;
   height:auto;
-    max-height:$bottom-nav-height;
+  max-height:$bottom-nav-height;
 }
 
 // Todo: This isn't very nice, and the heights are hardcoded
 .quarterleft {
 float:left;
-  width: 25%;
-  height:$bottom-nav-height;
-}
-
-.quarterright {
-float:right;
   width: 25%;
   height:$bottom-nav-height;
 }

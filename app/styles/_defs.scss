@@ -43,3 +43,9 @@ background-color: rgb(252,255,244); // Old browsers
 @include filter-gradient(#fcfff4, #b3bead, horizontal); // IE6-9
 @include background-image(linear-gradient(left, rgba(252,255,244,1) 0%,rgba(223,229,215,1) 40%,rgba(179,190,173,1) 100%));
 }
+
+@mixin nav-gradient-bg {
+   background-color: rgb(240,249,255); // Old browsers
+@include filter-gradient(#f0f9ff, #333334, vertical); // IE6-9
+@include background-image(linear-gradient(top, rgba(240,249,255,1) 0%,rgba(84,84,84,1) 0%,rgba(51,51,52,1) 100%));
+}
