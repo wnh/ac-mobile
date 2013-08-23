@@ -46,22 +46,18 @@ angular.module('CACMobile')
                          $scope.valid.issued = $scope.valid.beginPosition.__text.replace("T"," ");
                          $scope.valid.expires = $scope.valid.endPosition.__text.replace("T"," ");
  
-                         Data.httpGetJson("config/regions.json").then(
-                              function (data) {
-                                var regions = data.regions;
-                                //! seriously there has to be a better way !    
-                                for(var i = 0; i < regions.length; ++i)
-                                {
-                                    if(regions[i].name = $scope.region)
-                                    {
-                                        $scope.regionDisplayName = regions[i].display;
-                                    }
-                                    
-                                }
-                              },
-                              function (error) {
-                                console.error("Error fetching region list", error);
-                              })
+
+                        var regions = RegionDefinition.get();
+                        //! seriously there has to be a better way !    
+                        for(var i = 0; i < regions.length; ++i)
+                        {
+                            if(regions[i].name = $scope.region)
+                            {
+                                $scope.regionDisplayName = regions[i].display;
+                            }
+                            
+                        }
+
                                          
                     },
                     function(error){
