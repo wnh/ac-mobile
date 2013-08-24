@@ -3,6 +3,7 @@
 .region {
   @include thin-black-borders;
   @include border-fix;
+  text-align:center;
   width:100%;
   height:auto;
   @include gradient-bg;

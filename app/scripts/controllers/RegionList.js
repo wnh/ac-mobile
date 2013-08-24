@@ -9,7 +9,8 @@ angular.module('CACMobile')
 
     $scope.online = ConnectionManager.isOnline() ? "online" : "offline";
      
-    $scope.regionList = RegionDefinition.get();
+    $scope.regionList = RegionDefinition.getArray();
+    console.log($scope.regionList);
 
 });	
 

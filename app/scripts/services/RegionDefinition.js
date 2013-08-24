@@ -5,23 +5,31 @@ angular.module('CACMobile')
     // Service logic
     // ...
 
-    var regions = {"regions": [
-          {"name":"cariboos", "display":"North Columbia Cariboos"},
-          {"name":"kananaskis", "display":"Kananaskis"},
-          {"name":"kootenay-boundary", "display":"Kootenay Boundary"},
-          {"name":"lizardrange", "display":"Lizard Range"},
-          {"name":"monashees-selkirks", "display":"North Columbia Monashees & Selkirks"},
-          {"name":"northwest-coastal", "display":"Northwest-Coastal"},
-          {"name":"northwest-inland", "display":"Northwest-Inland"},
-          {"name":"north-shore", "display":"North Shore"},
-          {"name":"purcells", "display":"Purcells"}
-        ]
-    };
+    var regions = {
+          "Cariboos":"North Columbia Cariboos",
+          "Kananaskis":"Kananaskis",
+          "Kootenay-Boundary":"Kootenay Boundary",
+          "Lizardrange":"Lizard Range",
+          "Monashees-Selkirks":"North Columbia Monashees & Selkirks",
+          "Northwest-Coastal":"Northwest-Coastal",
+          "Northwest-Inland":"Northwest-Inland",
+          "North-Shore":"North Shore",
+          "Purcells":"Purcells",
+          "South-Columbia":"South Columbia"
+        };
 
     // Public API here
     return {
       get: function () {
         return regions;
+      },
+      getArray: function () {
+        var keys = Object.keys(regions);
+        var regionArray = [];
+        for (var i=0;i<keys.length;i++) {
+          regionArray.push({name:keys[i],display:regions[keys[i]]});
+        }
+        return regionArray;
       }
     };
   });

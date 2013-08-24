@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('RegionDetailsCtrl', function ($scope, $routeParams, Forecast, Data) {
+  .controller('RegionDetailsCtrl', function ($scope, $routeParams, Forecast, Data, RegionDefinition) {
 
     function getForecast() {    
         Forecast.get($scope.region).then(
@@ -48,15 +48,16 @@ angular.module('CACMobile')
  
 
                         var regions = RegionDefinition.get();
-                        //! seriously there has to be a better way !    
-                        for(var i = 0; i < regions.length; ++i)
-                        {
-                            if(regions[i].name = $scope.region)
-                            {
-                                $scope.regionDisplayName = regions[i].display;
-                            }
-                            
-                        }
+                        $scope.regionDisplayName = regions[$scope.region];
+                        
+                        //! seriously there has to be a better way !  
+                       // for(var i = 0; i < regions.length; ++i)
+                       // {
+                       //     if(regions[i].name = $scope.region)
+                       //     {
+                       //         $scope.regionDisplayName = regions[i].display;
+                       //     }
+                       // }
 
                                          
                     },
