@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.phonegap.example"
-        versionCode="10" 
-        version   = "1.0.01">
+        id        = "com.CAC.Mobile"
+        versionCode="1" 
+        version   = "0.0.1">
 
     <!-- versionCode is optional and Android only -->
 
     <name>CAC Mobile</name>
 
-    <description>
-        Description
+   <description>
+        This Application is designed to assist in decision making in avalanche terrain.
 	</description>
 	
 	<content src="index.html" />
@@ -26,12 +26,38 @@
 	<!-- PhoneGap API -->
 	<access subdomains="true" uri="file:///store/home" />
 	<access subdomains="true" uri="file:///SDCard" />
+
+   <!-- Plugins -->
+   <!-- check app availability --> 
+   <gap:plugin name="com.ohh2ahh.plugins.appavailability" />
  
 	<!-- Expose access to all URIs, including the file and http protocols -->
 	<access origin="*" subdomains="true"  />
-	
+
+   <!-- Icon -->
+	<icon src="img/button/CAA_button.png" />
+   <icon src="img/button/CAA_button57px.png"  gap:platform="android"    gap:density="ldpi" />
+   <icon src="img/button/CAA_button72px.png"  gap:platform="android"    gap:density="mdpi" />
+   <icon src="img/button/CAA_button114px.png" gap:platform="android"    gap:density="hdpi" />
+   <icon src="img/button/CAA_button144px.png" gap:platform="android"    gap:density="xhdpi" />
+   <icon src="img/button/CAA_button57px.png"  gap:platform="ios"        width="57" height="57" />
+   <icon src="img/button/CAA_button72px.png"  gap:platform="ios"        width="72" height="72" />
+   <icon src="img/button/CAA_button114px.png" gap:platform="ios"        width="114" height="114" />
+   <icon src="img/button/CAA_button144px.png" gap:platform="ios"        width="144" height="144" />
+
+   <!-- Splash screen -->
+   <gap:splash src="img/splashscreen/app_splash_200x320"       gap:platform="android" gap:density="ldpi" />
+   <gap:splash src="img/splashscreen/app_splash_320x480.png"   gap:platform="android" gap:density="mdpi" />
+   <gap:splash src="img/splashscreen/app_splash_480x800.png"   gap:platform="android" gap:density="hdpi" />
+   <gap:splash src="img/splashscreen/app_splash_1280x720.png"  gap:platform="android" gap:density="xhdpi" />
+   <gap:splash src="img/splashscreen/app_splash_320x480.png"   gap:platform="ios"     width="320" height="480" />
+   <gap:splash src="img/splashscreen/app_splash_640x960.png"   gap:platform="ios"     width="640" height="960" />
+   <gap:splash src="img/splashscreen/app_splash_768x1024.png"  gap:platform="ios"     width="768" height="1024" />
+   <gap:splash src="img/splashscreen/app_splash_1024x768.png"  gap:platform="ios"     width="1024" height="768" />
+
+
     <author href="www.avalanche.ca" email="support@avalanche.ca">
-        Ben Shaw on behalf of the Canadian Avalanche Association
+        Canadian Avalanche Centre
     </author>
 
 </widget>

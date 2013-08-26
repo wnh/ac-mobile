@@ -1,0 +1,51 @@
+@import "compass";
+
+$extreme:#050707;
+$extremeimg:url(../img/DnrRtg_Extreme_banner.png);
+$high:#ee1c25;
+$highimg:url(../img/DnrRtg_High_banner.png);
+$considerable:#f7941d;
+$considerableimg:url(../img/DnrRtg_Considerable_banner.png);
+$moderate:#fff100;
+$moderateimg:url(../img/DnrRtg_Moderate_banner.png);
+$low:#4cb847;
+$lowimg:url(../img/DnrRtg_Low_banner.png);
+$none:white;
+$noneimg:url(../img/DnrRtg_NoRating_banner.png);
+
+$alpine: #e6f0fc;
+$treeline: #c1d831;
+$belowtreeline: #6fa469;
+
+$top-nav-height: 3em;
+$bottom-nav-height: 3em;
+
+@mixin thin-black-borders {
+  border-color: black;
+  border-style: solid;
+  border-width: .1em;
+}
+
+@mixin border-fix {
+	      -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+@mixin gradient-bg {
+background-color: #989898; // Old browsers
+@include filter-gradient(#989898, #363636, vertical); // IE6-9
+@include background-image(linear-gradient(top, #989898 0%,#363636 100%));
+}
+
+@mixin gradient-links {
+background-color: rgb(252,255,244); // Old browsers
+@include filter-gradient(#fcfff4, #b3bead, horizontal); // IE6-9
+@include background-image(linear-gradient(left, rgba(252,255,244,1) 0%,rgba(223,229,215,1) 40%,rgba(179,190,173,1) 100%));
+}
+
+@mixin nav-gradient-bg {
+   background-color: rgb(240,249,255); // Old browsers
+@include filter-gradient(#f0f9ff, #333334, vertical); // IE6-9
+@include background-image(linear-gradient(top, rgba(240,249,255,1) 0%,rgba(84,84,84,1) 0%,rgba(51,51,52,1) 100%));
+}

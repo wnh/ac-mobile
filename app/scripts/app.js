@@ -8,7 +8,8 @@ angular.module('CACMobile', [])
         controller: 'MapCtrl'
         })
        .when('/gear', {
-        templateUrl: 'views/gear.html'
+        templateUrl: 'views/gear.html',
+        controller: 'NavCtrl' 
       })
       .when('/region-list', {
         templateUrl: 'views/regionList.html',
@@ -30,10 +31,12 @@ angular.module('CACMobile', [])
         controller: 'ProblemDetailsCtrl'
       })
       .when('/about', {
-        templateUrl: 'views/about.html'
+        templateUrl: 'views/about.html',
+        controller: 'NavCtrl' 
       })
       .when('/tou', {
-        templateUrl: 'views/tou.html'
+        templateUrl: 'views/tou.html',
+          controller: 'NavCtrl'
       })
       .when('/Map', {
         templateUrl: 'views/Map.html',

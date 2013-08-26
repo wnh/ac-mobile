@@ -1,0 +1,31 @@
+.accordion-heading a {
+	  background-position: 5px center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.accordion-heading a[data-accordion="backpacks"]
+{
+  background-image: url(../img/icons/icon_backpack.png);
+    padding-left: 50px !important;
+}
+.accordion-heading a[data-accordion="helmets"]
+{
+  background-image: url(../img/icons/icon_helmet.png);
+    padding-left: 50px !important;
+}
+.accordion-heading a[data-accordion="shovels"]
+{
+  background-image: url(../img/icons/icon_shovel.png);
+    padding-left: 50px !important;
+}
+.accordion-heading a[data-accordion="probes"]
+{
+  background-image: url(../img/icons/icon_probe.png);
+    padding-left: 50px !important;
+}
+.accordion-heading a[data-accordion="transceivers"]
+{
+  background-image: url(../img/icons/icon_transceiver.png);
+    padding-left: 50px !important;
+}

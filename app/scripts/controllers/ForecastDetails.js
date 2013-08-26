@@ -4,10 +4,6 @@ angular.module('CACMobile')
   .controller('ForecastDetailsCtrl', function ($scope, $routeParams, Forecast) {
 	  
 	  $scope.region = $routeParams.region;
-
-	  $scope.back = function () {
-        window.history.back();
-       }
 	    
 	  Forecast.get($scope.region).then(
 	    			function(data){
@@ -16,7 +12,7 @@ angular.module('CACMobile')
 	    				$scope.weather =  data.bulletinResultsOf.BulletinMeasurements.wxSynopsisComment;
 	    			},
 	    			function(error){
-	    				alert('error getting forecast', error);
+	    				console.error('error getting forecast', error);
 	    			}
 	    			
 	    	);

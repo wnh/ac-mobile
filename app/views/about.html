@@ -1,15 +1,17 @@
-<div class="view" data-viewid="about">
-				<div class="titlebar">
-					<section class="title">About</section>
-					<button class="btn right" data-link="tou">Terms of Use</button>
-				</div>
-				<section class="content">
-					<div class="contentwrapper">
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header_back.html'"></div>  
+
+
+				<div class="content">
 						<img src="img/CAC_Logo.png" class="about_logo" />
-						<p><strong>CAC Mobile App Version 2.0</strong></p>
-						<p>Funding generously provided by <a href="#" onclick="javascript:goToMEC()">Mountain Equipment Co-op</a></p>
-						<p>Support: <a href="mailto:support@avalanche.ca">support@avalanche.ca</a></p>
-						<img src="img/AvalancheApp_inpartnership_MEC_Logo.png" class="about_mec" />
+						<p>
+													<button class="btn btn-primary pull-right" ng-click="redirect('/tou')">Terms of Use</button>
+							<strong>CAC Mobile App Version 2.0</strong>
+
+						</p>
+								<p>Support: <a href="mailto:support@avalanche.ca">support@avalanche.ca</a></p>
+						<p>Funding generously provided by <a href="#" ng-click='openMec()'>Mountain Equipment Co-op</a></p>
+						<img src="img/MEC_Logo_Large.png" class="about_mec" />
 					</div>
-				</section>
+					
+			   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
 			</div>

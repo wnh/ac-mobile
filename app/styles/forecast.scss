@@ -1,0 +1,276 @@
+@import "defs";
+
+.region {
+  @include thin-black-borders;
+  @include border-fix;
+  text-align:center;
+  width:100%;
+  height:auto;
+  @include gradient-bg;
+  color:white;
+  padding: 0.5em;
+  margin-bottom:.5em;
+  font-weight:bold;
+}
+
+.expiry
+{
+  @include thin-black-borders;
+  @include border-fix;
+  width:100%;
+  height:auto;
+  background-color:#eee;
+  color:black;
+  padding: 0.5em;
+  margin-top:-.5em;
+  border-bottom:none;
+  border-top:none;
+
+}
+.issued
+{
+padding-left:.5em;
+font-weight:bold;
+}
+
+.mountain {
+  position:relative;
+  max-width:100%;
+  height:auto;
+  overflow:hidden;
+    border-color: black;
+  border-style: solid;
+  border-width: .1em;
+  border-bottom:none;
+}
+
+.mountain img {
+    max-width: 100%;
+    min-width:50%;
+    height: auto;
+    width: auto;
+}
+
+.mountain .top, .mountain .middle, .mountain .bottom
+{
+  position: absolute;
+  font-weight: bold;
+  color: #000;
+  font-size: 0.9em;
+
+}
+.mountain .top
+{
+  top: 33%;
+  left: 18%;
+}
+.mountain .middle
+{
+  top: 53%;
+  left: 14%;
+}
+.mountain .bottom
+{
+  top:72%;
+  left: 8%;
+}
+
+.mountain .warntop, .mountain .warnmiddle, .mountain .warnbottom
+{
+  position: absolute;
+  padding-left:10%;
+  width: 48%;
+  height: 12%;
+  left: 50%;
+  font-size: 1em;
+  font-weight:bold;
+  background-size: 100%;
+  padding-top:.5em;
+  padding-bottom:.5em;
+
+}
+.mountain .warntop
+{
+  top: 15%;
+}
+.mountain .warnmiddle
+{
+  top: 43%
+}
+.mountain .warnbottom
+{
+  top: 72%;
+}
+
+.mountain .extreme
+{
+  background: $extremeimg center left no-repeat;
+}
+.mountain .high
+{
+  background: $highimg center left no-repeat;
+}
+.mountain .moderate
+{
+  background: $moderateimg center left no-repeat;
+}
+.mountain .considerable
+{
+  background: $considerableimg center left no-repeat;
+}
+.mountain .low
+{
+  background: $lowimg center left no-repeat;
+}
+
+.mountain .none
+{
+  background: $noneimg center left no-repeat;
+}
+
+.alpine {
+  background: $alpine;
+}
+
+.treeline {
+  background: $treeline;
+}
+
+.below_treeline {
+  background: $belowtreeline;
+}
+
+.extreme
+{
+  background: $extreme;
+}
+.high
+{
+  background: $high;
+}
+.considerable
+{
+  background: $considerable;
+}
+.moderate
+{
+  background: $moderate;
+}
+.low
+{
+  background: $low;
+}
+
+.forecast-table {
+  @include thin-black-borders;
+  margin-bottom:0;
+  border-collapse:collapse;
+  margin-top:-1px;
+  font-weight:bold;
+}
+
+.forecast-table tr td {
+  @include thin-black-borders;
+}
+
+.forecast-table th {
+	height:29px;
+	margin:0;
+	padding:0;
+	padding-left:8px;
+	color:white;
+	background: url(../img/problem-header-bg.png) repeat-x 0 0;
+}
+
+.confidence {
+  padding:.5em;
+  background-color: #eee;
+  border-color: black;
+  border-style: solid;
+  border-width: .1em;
+  border-top:none;
+  margin-bottom:1em;
+  }
+
+.offline
+{
+  display:none;
+}
+
+.issued
+{
+  position:absolute;
+  color:white;
+}
+
+.problemImageTitle {
+  background-color:#333;
+  color:white;
+  padding: .2em;
+}
+
+.nav-gradient {
+  @include gradient-bg;
+  @include border-fix;
+  @include thin-black-borders;
+}
+
+.nav-gradient a {
+  color:white;
+  font-weight:bold;
+  background-position: 5px center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.nav-gradient a:hover {
+  color:#333;
+  font-weight:bold;
+}
+
+.nav-gradient a[data-accordion="avalanche"]
+{
+  background-image: url(../img/icons/icon_mountain.png);
+    padding-left: 50px !important;
+}
+.nav-gradient a[data-accordion="snowpack"]
+{
+  background-image: url(../img/icons/icon_snowflake.png);
+    padding-left: 50px !important;
+}
+.nav-gradient a[data-accordion="weather"]
+{
+  background-image: url(../img/icons/icon_cloud.png);
+    padding-left: 50px !important;
+}
+
+.danger a {
+  color:black;
+  font-weight:bold;
+}
+
+.danger .extreme, .danger .high, .danger .considerable, .danger .moderate, .danger .low {
+    padding-left:45px;
+}
+
+.danger .extreme, .danger .extreme:hover
+{
+  background: $extreme $extremeimg center left no-repeat;
+  color:white;
+}
+.danger .high, .danger .high:hover
+{
+  background: $high $highimg center left no-repeat;
+}
+.danger .moderate, .danger .moderate:hover
+{
+  background: $moderate $moderateimg center left no-repeat;
+}
+.danger .considerable, .danger .considerable:hover
+{
+  background: $considerable $considerableimg center left no-repeat;
+}
+.danger .low, .danger .low:hover
+{
+  background: $low $lowimg center left no-repeat;
+}

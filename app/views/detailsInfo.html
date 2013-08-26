@@ -1,13 +1,9 @@
-<div class="view" data-viewid="details-info">
-				<div class="titlebar">
-					<section class="title">Details</section>
-					<button class="btn right" ng-click="back()">Back</button>
-				</div>
-				<section class="content">
-					<div class="contentwrapper">
-						<ul class="nav nav-tabs nav-stacked no-border details-tab-tabs">
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header_back.html'"></div>  
+				<div class="content">
+				<div class="region">Details: {{region}}</div>
+						<ul class="nav nav-tabs nav-stacked no-border">
 							
-							<li class="accordion-heading">
+							<li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-down pull-right"></i>
 		      				<a class="accordion-toggle" data-accordion="avalanche" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
 		        				Avalanche Summary
 		      				</a>
@@ -19,7 +15,7 @@
 		      					 
 		      			</li>
 		    				
-		    				<li class="accordion-heading">
+		    				<li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-down pull-right"></i>
 		      				<a class="accordion-toggle" data-accordion="snowpack" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
 		        				Snowpack Summary
 		      				</a>
@@ -30,7 +26,7 @@
 		      					 </div>
 		    				</li>
 							
-		    				<li class="accordion-heading">
+		    				<li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-down pull-right"></i>
 		      				<a class="accordion-toggle" data-accordion="weather" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
 		        				Weather Summary
 		      				</a>
@@ -46,5 +42,8 @@
 
 						</ul>
 					</div>
-				</section>
-			</div>
+
+   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
+    </div>         
+     
+		

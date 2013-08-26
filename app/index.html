@@ -49,6 +49,10 @@
     </script>
 
 	<script src="scripts/vendor/xml2json.js"></script>
+    <!-- these dependencies should be managed properly!, investigate bower -->
+
+    <script src="js/plugins/AppAvailability.js"></script>
+
 	<script src="cordova.js"></script>
     <script src="bower_components/angular/angular.js"></script>
 
@@ -59,7 +63,7 @@
     <!-- endbuild -->
     
     	<!--  Google Maps - \todo need to make these available offline ? -->
-    	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    	<script src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyDWPmV7Swoj4wAQ8R7hxHBtfJweaV2As4s"></script>
   		<!-- End Google maps -->
 
         <!-- build:js scripts/plugins.js -->
@@ -93,6 +97,9 @@
         <script src="scripts/services/Connection.js"></script>
         <script src="scripts/controllers/Loading.js"></script>
         <script src="scripts/directives/ConnectionState.js"></script>
+        <script src="scripts/controllers/Nav.js"></script>
+        <script src="scripts/services/CallVenderApp.js"></script>
+        <script src="scripts/services/RegionDefinition.js"></script>
         <!-- endbuild -->
 </body>
 </html>

@@ -1,61 +1,54 @@
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header_back.html'"></div>  
 
+<div class="content">
+	<div class="region">Region: {{regionDisplayName}}</div>
+	<div class="expiry">
+		<div>Issued: {{valid.issued}}</div>
+		<div>Expires: {{valid.expires}}</div>
+	</div>
 
-	 <div class="text-center navbar navbar-fixed-top title">
-		<button class="btn pull-right btn-primary" ng-click="back()">Back</button><h4>{{ region }}</h4>	
+	<div class="mountain">
+		<div class="issued">{{today.day}}</div>
+		<img src="img/mountain-now-extended.png" />
+		<div class="top">Alpine</div>
+		<div class="middle">Treeline</div>
+		<div class="bottom">Below Treeline</div>
+		<div class="warntop" ng-class="today.alpine.css">{{today.alpine.text}}</div>
+		<div class="warnmiddle" ng-class="today.alpine.css">{{today.alpine.text}}</div>
+		<div class="warnbottom" ng-class="today.belowTreeline.css">{{today.belowTreeline.text}}</div>
 	</div>
 
 
+	<table class="table forecast-table">
+		<tr>
+			<th></th>
+			<th>{{tomorrow.day}}</th>
+			<th>{{dayAfter.day}}</th>
+		</tr>
+		<tr>
+			<td class="alpine">Alpine</td>
+			<td ng-class="tomorrow.alpine.css">{{tomorrow.alpine.text}}</td>
+			<td ng-class="dayAfter.alpine.css">{{dayAfter.alpine.text}}</td>
+		</tr>
+		<tr>
+			<td class="treeline">Treeline</td>
+			<td ng-class="tomorrow.treeline.css">{{tomorrow.treeline.text}}</td>
+			<td ng-class="dayAfter.treeline.css">{{dayAfter.treeline.text}}</td>
+		</tr>
+		<tr>
+			<td class="below_treeline">Below Treeline</td>
+			<td ng-class="tomorrow.belowTreeline.css">{{tomorrow.belowTreeline.text}}</td>
+			<td ng-class="dayAfter.belowTreeline.css">{{dayAfter.belowTreeline.text}}</td>
+		</tr>
+	</table>
+	<div class="confidence"><strong>Confidence:</strong> {{ confidence.__text }}</div>
+	<ul class="nav nav-tabs nav-stacked">
+		<li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-right pull-right"></i><a href="#/problems/{{region}}">Problems</a></li>
+		<li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-right pull-right"></i><a href="#/details-info/{{region}}">Details</a></li>
+		<li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-right pull-right"></i><a href="#/danger-scale">Danger Scale</a></li>
+	</ul>
 
-	<div class="contentwrapper">
-		<div class="expiry">
-			<section class="issued"></section>
-			<section class="expires"></section>
-		</div>
-
-		<div class="mountain">
-		<div class="issued">Issued: Today</div>
-			<img src="img/mountain-now-extended.png" />
-				<div class="top">Alpine</div>
-				<div class="middle">Treeline</div>
-				<div class="bottom">Below Treeline</div>
-				<div class="warntop" ng-class="today.dangerRatingAlpValue.__text">{{today.dangerRatingAlpValue.__text}}</div>
-				<div class="warnmiddle" ng-class="today.dangerRatingTlnValue.__text">{{today.dangerRatingTlnValue.__text}}</div>
-				<div class="warnbottom" ng-class="today.dangerRatingBtlValue.__text">{{today.dangerRatingBtlValue.__text}}</div>
-			</div>
-
-
-		<table class="table">
-			<tbody>
-				<tr>
-					<th></th>
-					<th class="tomorrow">Tomorrow</th>
-					<th class="dayaftertomorrow">Tomorrow+1</th>
-				</tr>
-				<tr>
-					<td class="alpine">Alpine</td>
-					<td class="alpine_tomorrow">{{tomorrow.dangerRatingAlpValue.__text}}</td>
-					<td class="alpine_dayaftertomorrow">{{dayAfter.dangerRatingAlpValue.__text}}</td>
-				</tr>
-				<tr>
-					<td class="treeline">Treeline</td>
-					<td class="treeline_tomorrow">{{tomorrow.dangerRatingTlnValue.__text}}</td>
-					<td class="treeline_dayaftertomorrow">{{dayAfter.dangerRatingTlnValue.__text}}</td>
-				</tr>
-				<tr>
-					<td class="below_treeline">Below Treeline</td>
-					<td class="below_treeline_tomorrow">{{tomorrow.dangerRatingBtlValue.__text}}</td>
-					<td class="below_treeline_dayaftertomorrow">{{dayAfter.dangerRatingBtlValue.__text}}</td>
-				</tr>
-			</tbody>
-		</table>
-		<p class="confidence"></p>
-		<ul class="nav nav-tabs nav-stacked details-tabs">
-			<li><a href="#/problems/{{region}}" class="chev" data-link="problems">Problems</a></li>
-			<li><a href="#/details-info/{{region}}" class="chev" data-link="details-info">Details</a></li>
-			<li><a href="#/danger-scale" class="chev" data-link="danger-scale">Danger Scale</a></li>
-		</ul>
-
-		<div>{{ data }}</div>
-
-
-	</div>
+</div>
+   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
+    </div>           
+    
