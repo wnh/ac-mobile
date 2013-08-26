@@ -2,15 +2,13 @@
 
 
 				<div class="content">
-						<img src="img/CAC_Logo.png" class="about_logo" />
 						<p>
-													<button class="btn btn-primary pull-right" ng-click="redirect('/tou')">Terms of Use</button>
+							<button class="btn btn-primary pull-right" ng-click="redirect('/tou')">Terms of Use</button>
 							<strong>CAC Mobile App Version 2.0</strong>
-
 						</p>
-								<p>Support: <a href="mailto:support@avalanche.ca">support@avalanche.ca</a></p>
-						<p>Funding generously provided by <a href="#" ng-click='openMec()'>Mountain Equipment Co-op</a></p>
-						<img src="img/MEC_Logo_Large.png" class="about_mec" />
+						<p>Support: <a href="mailto:support@avalanche.ca">support@avalanche.ca</a></p>
+						<p>Funding generously provided by <a ng-click='openMec()'>Mountain Equipment Co-op</a> and <a ng-click='openUrl("http://www.tecterra.com/")'>Tecterra</a></p>
+						<img src="img/MEC_Logo_Large.png" class="about_mec pull-left" ng-click='openMec()'/> <img src="img/TECTERRA_Logo.png" class='about_tecterra pull-right' ng-click='openUrl("http://www.tecterra.com/")'/>			
 					</div>
 					
 			   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
