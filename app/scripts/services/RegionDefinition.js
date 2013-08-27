@@ -15,7 +15,8 @@ angular.module('CACMobile')
           "Northwest-Inland":"Northwest-Inland",
           "North-Shore":"North Shore",
           "Purcells":"Purcells",
-          "South-Columbia":"South Columbia"
+          "South-Columbia":"South Columbia",
+          "Sea-to-Sky":"Sea To Sky"
         };
 
     // Public API here
