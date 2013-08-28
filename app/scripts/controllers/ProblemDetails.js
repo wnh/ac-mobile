@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('ProblemDetailsCtrl', function ($scope,$routeParams,Forecast) {
+  .controller('ProblemDetailsCtrl', function ($scope,$routeParams,Forecast, RegionDefinition) {
 
 	  $scope.region = $routeParams.region;
+	  var regions = RegionDefinition.get();
+     $scope.regionDisplayName = regions[$scope.region];
 	    
 	  Forecast.get($scope.region).then(
 	    			function(data){
