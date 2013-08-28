@@ -95,6 +95,7 @@ angular.module('CACMobile')
 		 var homeControlDiv = document.createElement('div');
 		 var homeControl = new HomeControl(homeControlDiv, map);
 		 homeControlDiv.index = 1;
+		 homeControlDiv.style.zIndex = '1000';
 		 map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
 		 //!
 

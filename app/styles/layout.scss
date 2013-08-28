@@ -7,43 +7,46 @@ html, body{
   width:100%
 }
 
+.container {
+  height:100%;
+  width: auto;
+  margin:0px auto;
+}
+
 body {
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
 }
 
-.container {
-  max-width:500px;
-  width: auto;
-  height: auto;
+.content
+{
   margin:0px auto;
+  max-width:500px;
+  width: 100%;
+  min-height:100%;
+  height:auto;
+  padding-top:$top-nav-height+0.5; 
+  padding-bottom:$bottom-nav-height+0.5;
+  @include border-fix;
 }
 
 @media all and (max-device-width: 400px) {
-.container {
+.content {
   max-width:320px;
   }
 }
 
 @media all and (max-device-width: 450px) {
-.container {
+.content {
   max-width:400px;
   } 
 }
 
 @media all and (max-device-width: 499px) {
-.container {
+.content {
   max-width:450px;
   } 
-}
-
-.content
-{
-  width: 100%;
-  margin-top:$top-nav-height+0.5; 
-  margin-bottom:$bottom-nav-height+0.5;
-  @include border-fix;
 }
 
 [class^="icon-"], [class*=" icon-"] {
