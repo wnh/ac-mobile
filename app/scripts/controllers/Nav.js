@@ -13,7 +13,6 @@ angular.module('CACMobile')
         if (TOU.accepted() == false) {
           hide = true;
         }
-        alert($location.path());
         var noBackRoutes = ["/Map","/region-list","/"];
         if (jQuery.inArray($location.path(),noBackRoutes) > -1) {
           hide = true
