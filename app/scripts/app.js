@@ -50,4 +50,13 @@ angular.module('CACMobile', [])
         templateUrl: 'views/Loading.html',
         controller: 'LoadingCtrl'
       });
-  });
+  })
+.run( function($rootScope, $location, TOU) {
+
+    // register listener to watch route changes
+    $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+      if ( TOU.accepted() == false ) {
+          $location.path( "/tou" );
+        }        
+    });
+ });

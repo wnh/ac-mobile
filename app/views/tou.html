@@ -1,7 +1,8 @@
-<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header_back.html'"></div>  
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>  
 
 				<div class="content">
-				<!-- <button class="btn right touaccept">Accept</button> -->
+				<div class="text-wrapper">
+				<button class="btn btn-primary pull-right" ng-hide="acceptedTOU" ng-click="acceptTOU()">Accept</button>
 			<h3>CAC Mobile Application Terms of Use</h3>
 			<h4>PLEASE READ THIS DOCUMENT CAREFULLY.<br />IT SIGNIFICANTLY ALTERS YOUR LEGAL RIGHTS AND REMEDIES.</h4>
 			<p>This is a legal agreement between the Canadian Avalanche Centre ("<strong>we</strong>" or "<strong>us</strong>" or "<strong>CAC</strong>") and you regarding your use of the CAC Avalanche Forecast iPhone application (the "<strong>App</strong>"). If you do not accept these terms, you must not use the App.</p>
@@ -89,6 +90,8 @@
 			<p>No consent or waiver by any party to or of any breach or default by any other party in its performance of its obligations under this agreement will be: (a) deemed or construed to be a consent to or waiver of a continuing breach or default or any other breach or default of those or any other obligations of that party; or (b) effective unless in writing and signed by all parties.</p>
 			<p>The parties have expressly requested and required that this agreement and all other related documents be drawn up in the English language. Les parties conviennentet exigent expressement que ce Contrat et tous les documents qui s'y rapportent soient rediges en Anglais.</p>
 			<p>Any rights not expressly granted by this agreement are reserved by CAC.</p>
+							<button class="btn btn-primary" ng-hide="acceptedTOU" ng-click="acceptTOU()">Accept</button>
+			</div>
 		</div>
 			   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
 			</div>
