@@ -75,10 +75,24 @@ angular.module('CACMobile')
 			  });
 		 //!
 
+		   var myLatlng = new google.maps.LatLng(scope.latitude,scope.longitude);
+
+
+  		var marker = new google.maps.Marker({
+      	position: myLatlng,
+      	map: map,
+      	title:"My Location"
+  		});
+
 		 //! watch for change in lat or long and call posUpdate if there is one, adjusting the map centre to the specified lat long 	 
-		 var posUpdate = function (newValue, oldValue) { map.panTo(new google.maps.LatLng(scope.latitude, scope.longitude)) };
+		 var posUpdate = function (newValue, oldValue) { 
+		 	var newLatLng = new google.maps.LatLng(scope.latitude, scope.longitude);
+		 	map.panTo(newLatLng);
+			marker.setPosition(newLatLng);
+		 };
 		 scope.$watch('latitude',posUpdate);
-		 scope.$watch('longtitude',posUpdate);
+		 scope.$watch('longitude',posUpdate);
+
 		 //!
 
 		 //! add home button
