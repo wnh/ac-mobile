@@ -37,26 +37,16 @@ angular.module('CACMobile')
 			// Set CSS styles for the DIV containing the control
 			// Setting padding to 5 px will offset the control
 			// from the edge of the map
-			controlDiv.style.padding = '5px';
+			controlDiv.className = 'map-control-container'
 
-			// Set CSS for the control border
 			var controlUI = document.createElement('div');
-			controlUI.style.backgroundColor = 'white';
-			controlUI.style.borderStyle = 'solid';
-			controlUI.style.borderWidth = '1px';
-			controlUI.style.borderColor = 'lightGrey';
-			controlUI.style.cursor = 'pointer';
-			//ontrolUI.style.textAlign = 'center';
+			controlUI.className = 'map-control';
 			controlUI.title = 'Click to set the map to Home';
 			controlDiv.appendChild(controlUI);
 
-			// Set CSS for the control interior
 			var controlText = document.createElement('div');
-			controlText.style.paddingLeft = '4px';
-			controlText.style.paddingBottom = '1px';
-			controlText.style.paddingTop = '1px';
-			controlText.style.paddingRight = '4px';
-			controlText.innerHTML = '<b>Home</b>';
+			controlText.className = 'map-control-text'
+			controlText.innerHTML = '<strong>Home</strong>';
 			controlUI.appendChild(controlText);
 
 			google.maps.event.addDomListener(controlUI, 'click', 
@@ -94,7 +84,7 @@ angular.module('CACMobile')
 		 //! add home button
 		 var homeControlDiv = document.createElement('div');
 		 var homeControl = new HomeControl(homeControlDiv, map);
-		 homeControlDiv.index = 1;
+		 //homeControlDiv.index = 1;
 		 map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
 		 //!
 
