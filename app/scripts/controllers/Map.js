@@ -1,38 +1,36 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('MapCtrl', function ($scope, $location, location, Data, ConnectionManager) {
-	  
-		$scope.latitude = 50.9831700;
-		$scope.longitude = -118.2023000;
+.controller('MapCtrl', function ($scope, $location, location, Data, ConnectionManager) {
 
-		function getPostion () {
-		  location.getPosition().then(
-				function (position){
-				  $scope.latitude = position.coords.latitude;
-				  $scope.longitude = position.coords.longitude;
-				});
-		}
+	$scope.latitude = 50.9831700;
+	$scope.longitude = -118.2023000;
 
-		ConnectionManager.offline(function () {
-			$location.path("region-list");			
-		});
+	function getPostion () {
+		location.getPosition().then(
+			function (position){
+				$scope.latitude = position.coords.latitude;
+				$scope.longitude = position.coords.longitude;
+			});
+	}
 
-		$scope.updatePosition = function () {
-	        getPostion();
-	    };
+	ConnectionManager.offline(function () {
+		$location.path("region-list");			
+	});
+
+	$scope.updatePosition = function () {
+		getPostion();
+	};
 
 	   //! Get the current position
-		getPostion();
-	
-  }); // end MapCtrl controller
+	   getPostion();
 
+  }); // end MapCtrl controller
 
 angular.module('CACMobile')
 .directive('googleMap', function($window){
 
 	return function (scope, elem, attrs) {
-
 		function HomeControl(controlDiv, map) {
 			// Set CSS styles for the DIV containing the control
 			// Setting padding to 5 px will offset the control
@@ -50,45 +48,64 @@ angular.module('CACMobile')
 			controlUI.appendChild(controlText);
 
 			google.maps.event.addDomListener(controlUI, 'click', 
-			    function() { map.setCenter(new google.maps.LatLng(scope.latitude, scope.longitude))});
+				function() { map.setCenter(new google.maps.LatLng(scope.latitude, scope.longitude))});
 		}
 
 		if (typeof(google) != undefined){
 
-		 var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: false, center: new google.maps.LatLng(scope.latitude, scope.longitude)};
-		 var map = new google.maps.Map(elem[0], mapOptions);
-		 
+			var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: false, center: new google.maps.LatLng(scope.latitude, scope.longitude)};
+			var map = new google.maps.Map(elem[0], mapOptions);
+
 		 //! Add region overlay as KML Layer
 		 var kmlUrl = 'http://avalanche.ca:81/KML/CACBulletinRegions.kml'; //\todo make this a config parameter //to force update of kml add and increment num ?a=1 //'file:///C:/doc.kml'; //'https://developers.google.com/kml/training/westcampus.kml';
 		 var kmlOptions = {
-		   clickable: true,		 
+		 	clickable: true,		 
 		   suppressInfoWindows: true, //! \todo enable this and make infowindows display nice information see git issue
 		   preserveViewport: true,
 		   map: map
-		 };
-		 var kmlLayer = new google.maps.KmlLayer(kmlUrl, kmlOptions);
-		 
-		 google.maps.event.addListener(kmlLayer, 'click', function(kmlEvent) {
-			    var region = kmlEvent.featureData.name;
-			    var path = "#/region-details/" + region;
+		};
+		var kmlLayer = new google.maps.KmlLayer(kmlUrl, kmlOptions);
+
+		google.maps.event.addListener(kmlLayer, 'click', function(kmlEvent) {
+			var region = kmlEvent.featureData.name;
+			var path = "#/region-details/" + region;
 			    $window.location.href = path; //outside of scope so $location doesnt seem to work, is there a more angular way to do this *hack* using this seems to destroy back ability
-			  });
+			 });
 		 //!
 
-		   var myLatlng = new google.maps.LatLng(scope.latitude,scope.longitude);
+		 var myLatlng = new google.maps.LatLng(scope.latitude,scope.longitude);
 
 
-  		var marker = new google.maps.Marker({
-      	position: myLatlng,
-      	map: map,
-      	title:"My Location"
-  		});
+		 var marker = new google.maps.Marker({
+		 	position: myLatlng,
+		 	map: map,
+		 	title:"My Location"
+		 });
+
+		 var contentString = '<strong>You are here!</strong>'+'<br />'+
+		 'Tap a region to see its forecast';
+
+		 var infoWindow = new google.maps.InfoWindow({
+		 	content: contentString
+		 });
+
+		 if (window.localStorage.getItem("first") != "1") {
+		 	infoWindow.open(map,marker); 	
+		 }
+
+		 google.maps.event.addListener(infoWindow,'closeclick',function(){
+			window.localStorage.setItem("first", "1");	
+		});
+
+		 google.maps.event.addListener(marker, 'click', function() {
+ 			 infoWindow.open(map,marker);
+		});
 
 		 //! watch for change in lat or long and call posUpdate if there is one, adjusting the map centre to the specified lat long 	 
 		 var posUpdate = function (newValue, oldValue) { 
 		 	var newLatLng = new google.maps.LatLng(scope.latitude, scope.longitude);
 		 	map.panTo(newLatLng);
-			marker.setPosition(newLatLng);
+		 	marker.setPosition(newLatLng);
 		 };
 		 scope.$watch('latitude',posUpdate);
 		 scope.$watch('longitude',posUpdate);
@@ -103,7 +120,7 @@ angular.module('CACMobile')
 		 //!
 
 		} //End if(google)
-		 
+
 
 	};
 }); // end googleMap directive
