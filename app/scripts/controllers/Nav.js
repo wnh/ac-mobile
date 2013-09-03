@@ -26,7 +26,7 @@ angular.module('CACMobile')
 
       //! open a url in the web browser
       $scope.openUrl = function(url){
-         window.open(url,'_blank','location=no');
+         window.open(url,'_system','location=no');
       }
    
       $scope.openMec = function() { 
