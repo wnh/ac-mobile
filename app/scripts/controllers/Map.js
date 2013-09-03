@@ -83,7 +83,7 @@ angular.module('CACMobile')
 		 });
 
 		 var contentString = '<strong>You are here!</strong>'+'<br />'+
-		 'Tap a region to see its forecast';
+		 'Tap region to see forecast';
 
 		 var infoWindow = new google.maps.InfoWindow({
 		 	content: contentString
