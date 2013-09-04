@@ -146,8 +146,8 @@ angular.module('CACMobile')
                               data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[8]);
 
       this.confidence =  data.bulletinResultsOf.BulletinMeasurements.bulletinConfidence.Components.confidenceLevel;
-      this.validTime =  this.validTime = { issued  : data.validTime.TimePeriod.beginPosition.replace("T"," ") ,
-                         expires : data.validTime.TimePeriod.endPosition.replace("T"," ") };
+      this.validTime =  this.validTime = { issued  : data.validTime.TimePeriod.beginPosition.replace("T"," ").split(".")[0] ,
+                         expires : data.validTime.TimePeriod.endPosition.replace("T"," ").split(".")[0] };
 
       this.avyProblems =  ProblemList();
 
