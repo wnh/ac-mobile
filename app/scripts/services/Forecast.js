@@ -31,11 +31,11 @@ angular.module('CACMobile')
       //! remove HTML tags
       var div = document.createElement('div');
       div.innerHTML = str;
+      var styles = div.getElementsByTagName("style");
+      for (var i = 0; i < styles.length; i++) {
+        styles[i].remove();
+      }
       var out =   div.textContent || div.innerText || "" ;
-
-      //! remove style (everything that falls between { and })
-      out.replace(new RegExp("^.", 'g'), "");
-
       return out;
    }
 
