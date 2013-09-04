@@ -155,9 +155,9 @@ angular.module('CACMobile')
       this.validTime =  this.validTime = { issued  : data.validTime.TimePeriod.beginPosition.replace("T"," ") ,
                          expires : data.validTime.TimePeriod.endPosition.replace("T"," ") };
 
-      this.avSummary = data.bulletinResultsOf.BulletinMeasurements.avActivityComment;
-      this.snowPackSummary = data.bulletinResultsOf.BulletinMeasurements.snowpackStructureComment;
-      this.weatherSummary =  data.bulletinResultsOf.BulletinMeasurements.wxSynopsisComment;   
+      this.avSummary = stringCleaner(data.bulletinResultsOf.BulletinMeasurements.avActivityComment);
+      this.snowPackSummary = stringCleaner(data.bulletinResultsOf.BulletinMeasurements.snowpackStructureComment);
+      this.weatherSummary =  stringCleaner(data.bulletinResultsOf.BulletinMeasurements.wxSynopsisComment);   
 
       this.avyProblems =  ProblemList();
 
