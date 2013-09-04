@@ -31,11 +31,13 @@ angular.module('CACMobile')
       //! remove HTML tags
       var div = document.createElement('div');
       div.innerHTML = str;
+
       var styles = div.getElementsByTagName("style");
       for (var i = 0; i < styles.length; i++) {
         styles[i].remove();
       }
       var out =   div.textContent || div.innerText || "" ;
+
       return out;
    }
 
@@ -74,6 +76,10 @@ angular.module('CACMobile')
       this.confidence =  data.bulletinResultsOf.BulletinMeasurements.bulletinConfidence.Components.confidenceLevel.__text ;
       this.validTime = { issued  : data.validTime.TimePeriod.beginPosition.__text.replace("T"," ") ,
                          expires : data.validTime.TimePeriod.endPosition.__text.replace("T"," ") };
+
+      this.avSummary = data.bulletinResultsOf.BulletinMeasurements.avActivityComment.__text ;
+      this.snowPackSummary = data.bulletinResultsOf.BulletinMeasurements.snowpackStructureComment.__text ;
+      this.weatherSummary =  data.bulletinResultsOf.BulletinMeasurements.wxSynopsisComment.__text ;
 
       this.avyProblems =  ProblemList();
 
@@ -148,6 +154,10 @@ angular.module('CACMobile')
       this.confidence =  data.bulletinResultsOf.BulletinMeasurements.bulletinConfidence.Components.confidenceLevel;
       this.validTime =  this.validTime = { issued  : data.validTime.TimePeriod.beginPosition.replace("T"," ").split(".")[0] ,
                          expires : data.validTime.TimePeriod.endPosition.replace("T"," ").split(".")[0] };
+
+      this.avSummary = stringCleaner(data.bulletinResultsOf.BulletinMeasurements.avActivityComment);
+      this.snowPackSummary = stringCleaner(data.bulletinResultsOf.BulletinMeasurements.snowpackStructureComment);
+      this.weatherSummary =  stringCleaner(data.bulletinResultsOf.BulletinMeasurements.wxSynopsisComment);   
 
       this.avyProblems =  ProblemList();
 
@@ -241,7 +251,7 @@ angular.module('CACMobile')
 				 {
 					 //! Got Data from HTTP save to file {
 					 console.log("received data from http");
-                console.log(data);
+                //console.log(data);
                 
 					 var forecast = "";
 
