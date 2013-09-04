@@ -59,7 +59,7 @@ angular.module('CACMobile')
 		 var map = new google.maps.Map(elem[0], mapOptions);
 		 
 		 //! Add region overlay as KML Layer
-		 var kmlUrl = 'http://avalanche.ca:81/KML/CACBulletinRegions.kml'; //\todo make this a config parameter //to force update of kml add and increment num ?a=1 //'file:///C:/doc.kml'; //'https://developers.google.com/kml/training/westcampus.kml';
+		 var kmlUrl = 'http://avalanche.ca:81/KML/CACBulletinRegions.kml?a=1'; //\todo make this a config parameter //to force update of kml add and increment num ?a=1 //'file:///C:/doc.kml'; //'https://developers.google.com/kml/training/westcampus.kml';
 		 var kmlOptions = {
 		   clickable: true,		 
 		   suppressInfoWindows: true, //! \todo enable this and make infowindows display nice information see git issue
