@@ -135,10 +135,10 @@ angular.module('CACMobile')
       this.validTime =  this.validTime = { issued  : data.validTime.TimePeriod.beginPosition.replace("T"," ") ,
                          expires : data.validTime.TimePeriod.endPosition.replace("T"," ") };
 
-this.avyProblems =  ProblemList();
+      this.avyProblems =  ProblemList();
 
       function ProblemList (){
-         var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray;
+         var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.AvProblem_asArray;
          var size = problemList.length;
          var result = [];
          for (var i = 0; i < size; ++i)
@@ -161,11 +161,11 @@ this.avyProblems =  ProblemList();
          return{
             elevationImg : "img/Elevation/Elevation-" + stringBuilder(problem.validElevation_asArray, '_xlink:href', elevationRange) + "_EN.png",
             aspectImg : "img/Compass/compass-" + stringBuilder(problem.validAspect_asArray, '_xlink:href', aspectRange) + "_EN.png",
-            liklihoodImg : "img/Likelihood/Likelihood-" + problem.likelihoodOfTriggering.Values.typical.__text + "_EN.png",
-            sizeImg : "img/Size/Size-" + problem.expectedAvSize.Values.min.__text + "-"+ problem.expectedAvSize.Values.max.__text + "_EN.png" ,
-            comment : problem.comment.__text ,
-            probType: problem.type.__text,
-            advisoryComment: problem.travelAdvisoryComment.__text //! this was previoulsy an array, is there really ever more than one of these ?
+            liklihoodImg : "img/Likelihood/Likelihood-" + problem.likelihoodOfTriggering.Values.typical + "_EN.png",
+            sizeImg : "img/Size/Size-" + problem.expectedAvSize.Values.min + "-"+ problem.expectedAvSize.Values.max + "_EN.png" ,
+            comment : problem.comment ,
+            probType: problem.type,
+            advisoryComment: problem.travelAdvisoryComment //! this was previoulsy an array, is there really ever more than one of these ?
 
             //avProblem.travelAdvisoryComment_asArray
          }
