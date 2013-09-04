@@ -17,11 +17,6 @@ angular.module('CACMobile')
 	    			
 	    	);
 
-	  
-
 	  // build image strings
 	   
   });
-
-
-

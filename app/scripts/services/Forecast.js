@@ -26,6 +26,20 @@ angular.module('CACMobile')
                          {name: 'ElevationLabel_Tln', pos:1}, 
                          {name: 'ElevationLabel_Alp', pos:2}];
 
+   function stringCleaner (str){
+      
+      //! remove HTML tags
+      var div = document.createElement('div');
+      div.innerHTML = str;
+      var out =   div.textContent || div.innerText || "" ;
+
+      //! remove style (everything that falls between { and })
+      out.replace(new RegExp("^.", 'g'), "");
+
+      return out;
+   }
+
+
    function stringBuilder (source, key, target) {
          
          var result = [];
@@ -151,21 +165,27 @@ angular.module('CACMobile')
       
       function processProblem(problem)
       {
-         /*
-         advisoryCommentArray = [];
-         for (var i = 0; i < problem.travelAdvisoryComment_asArray.size, ++i)
-         {
-            advisoryCommentArray[i] = problem.travelAdvisoryComment_asArray[i].__text; 
-         }*/
+         
+         var liklihoodAsInt = {
+            "unlikely" : 1,
+            "Unlikely-Possible" : 2,
+            "Possible" : 3,
+            "Possible-Likely":4,
+            "Likely":5,
+            "Likely-Very Likely":6,
+            "Very Likely":7,
+            "Very Likely-Certain":8,
+            "Certain" : 9 
+         }
 
          return{
             elevationImg : "img/Elevation/Elevation-" + stringBuilder(problem.validElevation_asArray, '_xlink:href', elevationRange) + "_EN.png",
             aspectImg : "img/Compass/compass-" + stringBuilder(problem.validAspect_asArray, '_xlink:href', aspectRange) + "_EN.png",
-            liklihoodImg : "img/Likelihood/Likelihood-" + problem.likelihoodOfTriggering.Values.typical + "_EN.png",
-            sizeImg : "img/Size/Size-" + problem.expectedAvSize.Values.min + "-"+ problem.expectedAvSize.Values.max + "_EN.png" ,
-            comment : problem.comment ,
+            liklihoodImg : "img/Likelihood/Likelihood-" + liklihoodAsInt[problem.likelihoodOfTriggering.Values.typical] + "_EN.png",
+            sizeImg : "img/Size/Size-" + (problem.expectedAvSize.Values.min | 0) + "-"+ (problem.expectedAvSize.Values.max | 0) + "_EN.png" ,
             probType: problem.type,
-            advisoryComment: problem.travelAdvisoryComment //! this was previoulsy an array, is there really ever more than one of these ?
+            comment : stringCleaner(problem.comment),
+            advisoryComment: stringCleaner(problem.travelAdvisoryComment) //! this was previoulsy an array, is there really ever more than one of these ?
 
             //avProblem.travelAdvisoryComment_asArray
          }
