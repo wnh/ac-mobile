@@ -37,12 +37,25 @@ angular.module('CACMobile')
 
       $scope.acceptTOU = function() {
         TOU.accept();
-        $location.path('/')
+        $location.path('/');
       }
 
       $scope.$watch(function () { return TOU.accepted(); },
       function() {
           $scope.acceptedTOU = TOU.accepted();
         },true)
+
+      // Assume Android, and check for iPhone/iPod/iPad
+
+      $scope.company = "Google"
+      $scope.appstore = "Google Play"
+      $scope.os = "Android"
+
+      if(navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
+        $scope.company = "Apple"
+        $scope.appstore = "App Store"
+        $scope.os = "iOS"
+      }
+
     
   });
