@@ -84,13 +84,18 @@ angular.module('CACMobile')
       this.avyProblems =  ProblemList();
 
       function ProblemList (){
-         var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray;
-         var size = problemList.length;
          var result = [];
-         for (var i = 0; i < size; ++i)
+         
+         if (data.bulletinResultsOf.BulletinMeasurements.avProblems_asArray.length > 1)
          {
-            result[i] = processProblem(problemList[i]);
+            var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray;
+            var size = problemList.length;
+            for (var i = 0; i < size; ++i)
+            {
+               result[i] = processProblem(problemList[i]);
+            }
          }
+
          return result;
          //! \todo assert result.size = problemList.size
       }
@@ -162,12 +167,17 @@ angular.module('CACMobile')
       this.avyProblems =  ProblemList();
 
       function ProblemList (){
-         var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.AvProblem_asArray;
-         var size = problemList.length;
+
          var result = [];
-         for (var i = 0; i < size; ++i)
+
+         if (data.bulletinResultsOf.BulletinMeasurements.avProblems_asArray.length > 1)
          {
-            result[i] = processProblem(problemList[i]);
+            var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.AvProblem_asArray;
+            var size = problemList.length;
+            for (var i = 0; i < size; ++i)
+            {
+               result[i] = processProblem(problemList[i]);
+            }
          }
          return result;
          //! \todo assert result.size = problemList.size
@@ -251,28 +261,37 @@ angular.module('CACMobile')
 				 {
 					 //! Got Data from HTTP save to file {
 					 console.log("received data from http");
-                //console.log(data);
+                console.log(data);
                 
-					 var forecast = "";
+                 if (data != null && typeof data != 'undefined')
+                 {
+                      var forecast = "";
 
-                if ( RegionDefinition.get()[region].type === 'cac' )
-                {
-                  forecast = new CacData(data);
-                }
-                else if ( RegionDefinition.get()[region].type === 'parks' )
-                {
-                  forecast = new ParksData(data);
-                }
-                else
-                {
-                  alert('unsuported region');
-                }
 
+                      if ( RegionDefinition.get()[region].type === 'cac' )
+                      {
+                        forecast = new CacData(data);
+                      }
+                      else if ( RegionDefinition.get()[region].type === 'parks' )
+                      {
+                        forecast = new ParksData(data);
+                      }
+                      else
+                      {
+                        alert('unsuported region');
+                      }
+
+                         defer.resolve(forecast);               
+            
+                  }
+                  else
+                  {
+                     defer.reject("Null Data");
+                  }
                 //data.CaamlData.observations.Bulletin
                 //var forecast =  
 					 //! }
 
-					 defer.resolve(forecast);					 
 				 },
 
 				 function (error) // get from http failed
