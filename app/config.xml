@@ -46,14 +46,17 @@
    <icon src="img/button/CAA_button144px.png" gap:platform="ios"        width="144" height="144" />
 
    <!-- Splash screen -->
-   <gap:splash src="img/splashscreen/app_splash_200x320"       gap:platform="android" gap:density="ldpi" />
+   <gap:splash src="img/splashscreen/app_splash_200x320.png"       gap:platform="android" gap:density="ldpi" />
    <gap:splash src="img/splashscreen/app_splash_320x480.png"   gap:platform="android" gap:density="mdpi" />
    <gap:splash src="img/splashscreen/app_splash_480x800.png"   gap:platform="android" gap:density="hdpi" />
    <gap:splash src="img/splashscreen/app_splash_1280x720.png"  gap:platform="android" gap:density="xhdpi" />
    <gap:splash src="img/splashscreen/app_splash_320x480.png"   gap:platform="ios"     width="320" height="480" />
    <gap:splash src="img/splashscreen/app_splash_640x960.png"   gap:platform="ios"     width="640" height="960" />
+   <gap:splash src="img/splashscreen/app_splash_640x1136.png"  gap:platform="ios"     width="640" height="1136" />
    <gap:splash src="img/splashscreen/app_splash_768x1024.png"  gap:platform="ios"     width="768" height="1024" />
    <gap:splash src="img/splashscreen/app_splash_1024x768.png"  gap:platform="ios"     width="1024" height="768" />
+   <gap:splash src="img/splashscreen/app_splash_2048x1496.png"  gap:platform="ios"     width="2048" height="1496" />
+   <gap:splash src="img/splashscreen/app_splash_1536x2008.png"  gap:platform="ios"     width="1536" height="2008" />
 
 
     <author href="www.avalanche.ca" email="support@avalanche.ca">
