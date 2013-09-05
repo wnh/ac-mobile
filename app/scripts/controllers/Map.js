@@ -82,8 +82,8 @@ angular.module('CACMobile')
 		 	title:"My Location"
 		 });
 
-		 var contentString = '<strong>You are here!</strong>'+'<br />'+
-		 'Tap region to see forecast';
+		 var contentString = '<div id="infoWindowContent"><strong>You are here!</strong>'+'<br />'+
+		 'Tap region to see forecast</div>';
 
 		 var infoWindow = new google.maps.InfoWindow({
 		 	content: contentString
@@ -100,6 +100,15 @@ angular.module('CACMobile')
 		 google.maps.event.addListener(marker, 'click', function() {
  			 infoWindow.open(map,marker);
 		});
+
+// This is a hack to get around some infowindow closing bug with Android 2.3
+// https://code.google.com/p/gmaps-api-issues/issues/detail?id=5397
+		 google.maps.event.addListener(infoWindow, 'domready', function() {
+		 	var infoWindowCloseButton = $($($("#infoWindowContent").parents()[2]).children()[0]);
+		 	infoWindowCloseButton.click(function(){
+		 		infoWindow.close();
+		 	});
+		 });
 
 		 //! watch for change in lat or long and call posUpdate if there is one, adjusting the map centre to the specified lat long 	 
 		 var posUpdate = function (newValue, oldValue) { 
