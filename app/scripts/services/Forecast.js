@@ -250,50 +250,67 @@ angular.module('CACMobile')
 	   get: function (region)
 	   {
          var defer = $q.defer();
+         var errorCount  = 0;
 		  
          //! Get the file for the region from HTTP as xml convert to json
          function getFromHttp () {
 
             var url = RegionDefinition.getUrl(region);
-
    	  		Data.httpGetXml(url, transform).then(
 				 function (data) // get from http succeeded
 				 {
 					 //! Got Data from HTTP save to file {
             console.log("received data from http");
-                //console.log(data);
-                var validResponse = false; 
-                var forecast = "";
-                if (data != null && typeof data != 'undefined')
-                {
-                  if ( RegionDefinition.get()[region].type === 'cac' )
-                  {
-                    if (data.ObsCollection != null && typeof data.ObsCollection != 'undefined') {
-                      forecast = new CacData(data);
-                      validResponse = true;
-                    } else {
-                      console.log("Unexpected data format for CacData")
-                    }
-                  }
-                  else if ( RegionDefinition.get()[region].type === 'parks' )
-                  {
-                    if (data.CaamlData != null && typeof data.CaamlData != 'undefined') {
-                      forecast = new ParksData(data);
-                      validResponse = true;
-                    } else {
-                      console.log("Unexpected data format for ParksData")
-                    }
-                  }
-                  else
-                  {
-                    alert('unsuported region');
-                  }             
-                }
-                if (validResponse) {
-                  defer.resolve(forecast);  
+            //console.log(data);
+            var validResponse = false; 
+            var forecast = "";
+            if (data != null && typeof data != 'undefined')
+            {
+              if ( RegionDefinition.get()[region].type === 'cac' )
+              {
+                if (data.ObsCollection != null && typeof data.ObsCollection != 'undefined') {
+                  forecast = new CacData(data);
+                  validResponse = true;
                 } else {
-                  defer.reject("Null Data");
+                  console.error("Unexpected data format for CacData");
                 }
+              }
+              else if ( RegionDefinition.get()[region].type === 'parks' )
+              {
+                if (data.CaamlData != null && typeof data.CaamlData != 'undefined') {
+                  forecast = new ParksData(data);
+                  validResponse = true;
+                } else {
+                  console.error("Unexpected data format for ParksData");
+                }
+              }
+              else
+              {
+                console.error('unsupported region');
+              }   
+            }
+
+                              
+            if (validResponse) 
+            {
+              defer.resolve(forecast);
+            } 
+            else 
+            {
+              errorCount ++;
+              console.error("invalid data");
+
+              if (errorCount < 2)
+              {
+                getFromHttp();
+              }
+              else
+              {
+                defer.reject("Invalid Response To many Retries");
+              }
+                
+            }
+                
          },
 
 				 function (error) // get from http failed
@@ -303,6 +320,7 @@ angular.module('CACMobile')
 					defer.reject(error);
 					//! }
 				 });
+
          } //! } end function getFromXml  	  
       
          getFromHttp();
