@@ -260,37 +260,41 @@ angular.module('CACMobile')
 				 function (data) // get from http succeeded
 				 {
 					 //! Got Data from HTTP save to file {
-					 console.log("received data from http");
+            console.log("received data from http");
                 //console.log(data);
-                
-                 if (data != null && typeof data != 'undefined')
-                 {
-                      var forecast = "";
-
-                      if ( RegionDefinition.get()[region].type === 'cac' )
-                      {
-                        forecast = new CacData(data);
-                      }
-                      else if ( RegionDefinition.get()[region].type === 'parks' )
-                      {
-                        forecast = new ParksData(data);
-                      }
-                      else
-                      {
-                        alert('unsuported region');
-                      }
-
-                      defer.resolve(forecast);               
+                var validResponse = false; 
+                var forecast = "";
+                if (data != null && typeof data != 'undefined')
+                {
+                  if ( RegionDefinition.get()[region].type === 'cac' )
+                  {
+                    if (data.ObsCollection != null && typeof data.ObsCollection != 'undefined') {
+                      forecast = new CacData(data);
+                      validResponse = true;
+                    } else {
+                      console.log("Unexpected data format for CacData")
+                    }
+                  }
+                  else if ( RegionDefinition.get()[region].type === 'parks' )
+                  {
+                    if (data.CaamlData != null && typeof data.CaamlData != 'undefined') {
+                      forecast = new ParksData(data);
+                      validResponse = true;
+                    } else {
+                      console.log("Unexpected data format for ParksData")
+                    }
                   }
                   else
                   {
-                     defer.reject("Null Data");
-                  }
-                //data.CaamlData.observations.Bulletin
-                //var forecast =  
-					 //! }
-
-				 },
+                    alert('unsuported region');
+                  }             
+                }
+                if (validResponse) {
+                  defer.resolve(forecast);  
+                } else {
+                  defer.reject("Null Data");
+                }
+         },
 
 				 function (error) // get from http failed
 				 {
