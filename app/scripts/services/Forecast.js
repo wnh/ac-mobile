@@ -261,12 +261,11 @@ angular.module('CACMobile')
 				 {
 					 //! Got Data from HTTP save to file {
 					 console.log("received data from http");
-                console.log(data);
+                //console.log(data);
                 
                  if (data != null && typeof data != 'undefined')
                  {
                       var forecast = "";
-
 
                       if ( RegionDefinition.get()[region].type === 'cac' )
                       {
@@ -281,8 +280,7 @@ angular.module('CACMobile')
                         alert('unsuported region');
                       }
 
-                         defer.resolve(forecast);               
-            
+                      defer.resolve(forecast);               
                   }
                   else
                   {
