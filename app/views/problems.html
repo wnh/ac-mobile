@@ -1,12 +1,12 @@
-<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header_back.html'"></div>  
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>  
 
 <div class="content">
-  <div class="region">Problems: {{region}}</div>
+  <div class="region">Problems: {{regionDisplayName}}</div>
 
             <ul class="nav nav-tabs nav-stacked no-border" ng-repeat="avProblem in avyProblems">
               <li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-down pull-right"></i>
            <a class="accordion-toggle" data-accordion="foo" data-toggle="collapse" data-parent="#accordion{{$index}}" href="#collapse{{$index}}">
-              {{avProblem.type.__text}}
+              {{avProblem.probType}}
           </a>
       </li>
       <li id="collapse{{$index}}" class="accordion-body collapse">
@@ -16,27 +16,27 @@
 
                 <div class="problemImageBox elevationImageBox">
                     <div class="problemImageTitle">What Elevation Zone?</div>
-                    <img ng-src="img/Elevation/Elevation-{{stringBuilder(avProblem.validElevation_asArray, '_xlink:href', elevationRange)}}_EN.png" > <!-- style="width:160px;border-width:0px;" -->
+                    <img ng-src={{avProblem.elevationImg}} > <!-- style="width:160px;border-width:0px;" -->
                 </div>
 
                 <div class="problemImageBox compassImageBox">
                     <div class="problemImageTitle">Which Slopes? </div>
-                    <img ng-src="img/Compass/compass-{{stringBuilder(avProblem.validAspect_asArray, '_xlink:href', aspectRange)}}_EN.png">
+                    <img ng-src={{avProblem.aspectImg}}>
                 </div>
 
                 <div class="problemImageBox likelihoodImageBox">
                     <div class="problemImageTitle">Chance of Avalanches?</div>
-                    <img  ng-src="img/Likelihood/Likelihood-{{avProblem.likelihoodOfTriggering.Values.typical.__text}}_EN.png" > <!-- style="width:140px;border-width:0px;" -->
+                    <img  ng-src={{avProblem.liklihoodImg}} > <!-- style="width:140px;border-width:0px;" -->
                 </div>
 
                 <div class="problemImageBox sizeImageBox">
                     <div class="problemImageTitle">Expected Size?</div>
-                    <img  ng-src="img/Size/Size-{{ avProblem.expectedAvSize.Values.min.__text}}-{{ avProblem.expectedAvSize.Values.max.__text}}_EN.png"> <!-- style="width:140px;border-width:0px;" -->
+                    <img  ng-src={{avProblem.sizeImg}}> <!-- style="width:140px;border-width:0px;" -->
                 </div>
 
             </div>
             <div class="problemTextBox">
-                {{ avProblem.comment.__text }}
+                {{ avProblem.comment }}
             </div>
 
             <div class="travelBox">
@@ -45,9 +45,12 @@
            </div>
            <div class="travelText">
             <ul>
-                <li ng-repeat="travelAdvisoryComment in avProblem.travelAdvisoryComment_asArray">
-                    {{ travelAdvisoryComment.__text }}
-                </li>
+                <!--<li ng-repeat="travelAdvisoryComment in avProblem.travelAdvisoryComments">
+                    {{ travelAdvisoryComment }}
+                </li> -->
+                <li >
+                  {{ avProblem.advisoryComment }}
+                </li>  
             </ul>
         </div>
     </div>  

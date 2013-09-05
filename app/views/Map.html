@@ -1,22 +1,23 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>   
-
    <div class="content">
+      <div class="region">
+         Forecast Map
+      </div>
+   </div>
+   <div class="map-content">
       <div id="map-canvas" google-map=""></div>
    </div>
 
    <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl'>
-<div class="quarterleft text-center">
+<div class="nav-item text-center">
        <img class="footer-img" src="img/icons/icon_forecast.png" ng-click="redirect('/region-list')" />
 </div>
-<div class="quarterleft text-center">
+<div class="nav-item text-center">
    <img class="footer-img" src="img/icons/icon_gear.png" ng-click="redirect('/gear')" />
 </div>
-<div class="quarterleft text-center">
+<div class="nav-item text-center">
    <img class="footer-img" src="img/MEC_Logo.png" ng-click="openMec()" />
 </div>
-<div class="quarterleft text-center">
-</div>
 
- 
 </div>   
     

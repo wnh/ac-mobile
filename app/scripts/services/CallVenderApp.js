@@ -15,19 +15,19 @@ angular.module('CACMobile')
               if(availability==true) 
               { 
                 console.log('App is available'); 
-                window.open(mecAppUrl,'_blank','location=no');
+                window.open(mecAppUrl,'_self','location=no');
               }
               else
               {
                 console.log('App unavailable');  
-                window.open('http://www.mec.ca','_blank','location=no');
+                window.open('http://www.mec.ca','_system','location=no');
               }
             });
         }
         else
         {
           console.log("open mec website in a new window");
-          window.open('http://www.mec.ca','_blank','location=no');
+          window.open('http://www.mec.ca','_system','location=no');
         }
 
       }

@@ -1,6 +1,7 @@
-<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header_back.html'"></div>  
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>  
 
 <div class="content">
+<img src="img/loading.gif" class="loading" ng-show="loading">
 	<div class="region">Region: {{regionDisplayName}}</div>
 	<div class="expiry">
 		<div>Issued: {{valid.issued}}</div>
@@ -41,7 +42,7 @@
 			<td ng-class="dayAfter.belowTreeline.css">{{dayAfter.belowTreeline.text}}</td>
 		</tr>
 	</table>
-	<div class="confidence"><strong>Confidence:</strong> {{ confidence.__text }}</div>
+	<div class="confidence"><strong>Confidence:</strong> {{ confidence }}</div>
 	<ul class="nav nav-tabs nav-stacked">
 		<li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-right pull-right"></i><a href="#/problems/{{region}}">Problems</a></li>
 		<li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-right pull-right"></i><a href="#/details-info/{{region}}">Details</a></li>

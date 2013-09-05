@@ -1,6 +1,6 @@
-<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header_back.html'"></div>  
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>  
 				<div class="content">
-				<div class="region">Details: {{region}}</div>
+				<div class="region">Details: {{regionDisplayName}}</div>
 						<ul class="nav nav-tabs nav-stacked no-border">
 							
 							<li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-down pull-right"></i>
@@ -10,7 +10,7 @@
 		    				</li>
 		    				<li id="collapseOne" class="accordion-body collapse">
 		     					 <div class="accordion-inner">
-		        					<p><strong> {{ av.__text }}</strong></p>
+		        					<p><strong> {{ av}}</strong></p>
 		      					 </div>
 		      					 
 		      			</li>
@@ -22,7 +22,7 @@
 		    				</li>
 		    				<li id="collapseTwo" class="accordion-body collapse">
 		     					 <div class="accordion-inner">
-		        					<p><strong> {{ snowPack.__text }}</strong></p>
+		        					<p><strong> {{ snowPack }}</strong></p>
 		      					 </div>
 		    				</li>
 							
@@ -33,7 +33,7 @@
 		    				</li>
 		    				<li id="collapseThree" class="accordion-body collapse">
 		     					 <div class="accordion-inner">
-		        					<p><strong> {{ weather.__text }}</strong></p>
+		        					<p><strong> {{ weather }}</strong></p>
 		      					 </div>
 		    				</li>
 							

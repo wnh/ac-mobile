@@ -1,29 +1,50 @@
 @import "defs";
 
+.map-content {
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  margin:0px auto;
+  max-width:500px;
+  width: 100%;
+  min-height:100%;
+  height:auto;
+  padding-top:$top-nav-height+3.5; 
+  padding-bottom:$bottom-nav-height+0.5;
+  @include border-fix;
+}
 #map-canvas {
-    width: 100%; 
-    height: 400px; /* for some reason 100% does not work ?? */
-    @include border-fix;
-  }
-
-
-  @media all and (max-height: 500px) {
-#map-canvas {
-  height:350px;
-  } 
+  position: relative;
+  width: 100%; 
+  height: 100%;
+  @include border-fix;
 }
 
-  @media all and (max-height: 600px) and (min-height:501px){
-#map-canvas {
-  height:450px;
-  } 
+#map-canvas img { 
+  max-width: none; max-height: none; 
 }
 
-  @media all and (max-height: 2000px) and (min-height:601px) {
-#map-canvas {
-  height:550px;
-  } 
+.map-control-container {
+  padding:.5em;
+  z-index:100000;
 }
 
-	
-	#map-canvas img { max-width: none; max-height: none; }
+.map-control {
+  background-color:white;
+  border-style:solid;
+  border-width:.1em;
+  border-color:lightGray;
+  z-index:100001;
+  cursor:pointer;
+}
+
+.map-control-text {
+  padding: .1em .4em;
+  z-index:100002;
+}
+
+.gmnoprint, .map-control, .map-control-container, .map-control-text { 
+  -webkit-transform:translate3d(0,0,0); 
+}

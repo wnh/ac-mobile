@@ -81,12 +81,26 @@ angular.module('CACMobile')
                 {transformResponse:transform}
             ).
             success(function(data, status) {
-                defer.resolve(data);
+
+                if (data == null)
+                {
+                  console.error("Got NULL Data From HTTP");
+                  console.error(status);
+                  defer.reject("NULL Data");
+
+                }
+                else
+                {
+                  console.log("Got Data From HTTP status=", status);
+                  defer.resolve(data);
+                }
+                
             }).
             error(function(data, status) {
                 defer.reject(status);
             });
             
+
           return defer.promise;
        },
        //! } End httpGetXml

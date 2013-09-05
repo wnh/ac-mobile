@@ -220,7 +220,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.{png,jpg,jpeg}',
+          src: '{,*/}*.{png,jpg,jpeg,.gif}',
           dest: '<%= yeoman.dist %>/images'
         }]
       },
@@ -228,7 +228,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/img',
-          src: '{,*/}*.{png,jpg,jpeg}',
+          src: '{,*/}*.{png,jpg,jpeg, .gif}',
           dest: 'www/img'
         }]
       }
@@ -303,7 +303,7 @@ module.exports = function (grunt) {
               'scripts/*',
               '!cordova.js',
               'views/**',
-              'images/{,*/}*.{gif,webp,svg}',
+              'img/{,*/}*.{gif,webp,svg}',
               'styles/fonts/*'
             ]
           }]
