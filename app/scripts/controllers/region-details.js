@@ -2,6 +2,8 @@
 
 angular.module('CACMobile')
   .controller('RegionDetailsCtrl', function ($scope, $routeParams, Forecast, Data, RegionDefinition) {
+    $scope.loading = true;
+    console.log("loading icon up");
 
     function getForecast() {    
         Forecast.get($scope.region).then(
@@ -10,7 +12,9 @@ angular.module('CACMobile')
                          //data = data_;
                          //$scope.data = data;
 
-                         
+                         $scope.loading = false;
+                          console.log("loading icon down");
+
                          $scope.today = fx.today;
                          $scope.tomorrow = fx.tomorrow;
                          $scope.dayAfter = fx.dayAfter;
