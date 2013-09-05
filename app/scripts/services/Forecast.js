@@ -34,7 +34,7 @@ angular.module('CACMobile')
 
       var styles = div.getElementsByTagName("style");
       for (var i = 0; i < styles.length; i++) {
-        styles[i].remove();
+        jQuery(styles[i]).remove();
       }
       var out =   div.textContent || div.innerText || "" ;
 
