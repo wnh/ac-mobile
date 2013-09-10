@@ -21,7 +21,7 @@
 	<feature name="http://api.phonegap.com/1.0/media"/>
 
 	<!-- PhoneGap API -->
-	<feature id="phonegap" required="true" version="1.0.0" />
+ <preference name="phonegap-version" value="2.9.0" /> 
 	
 	<!-- PhoneGap API -->
 	<access subdomains="true" uri="file:///store/home" />
@@ -35,7 +35,7 @@
 	<access origin="*" subdomains="true"  />
 
    <!-- Icon -->
-	<icon src="img/button/CAA_button.png" />
+	 <icon src="img/button/CAA_button.png" />
    <icon src="img/button/CAA_button57px.png"  gap:platform="android"    gap:density="ldpi" />
    <icon src="img/button/CAA_button72px.png"  gap:platform="android"    gap:density="mdpi" />
    <icon src="img/button/CAA_button114px.png" gap:platform="android"    gap:density="hdpi" />
@@ -47,17 +47,16 @@
 
    <!-- Splash screen -->
    <gap:splash src="img/splashscreen/app_splash_200x320.png"       gap:platform="android" gap:density="ldpi" />
-   <gap:splash src="img/splashscreen/Default~iphone.png"   gap:platform="android" gap:density="mdpi" />
+   <gap:splash src="img/splashscreen/app_splash_320x480.png"   gap:platform="android" gap:density="mdpi" />
    <gap:splash src="img/splashscreen/app_splash_480x800.png"   gap:platform="android" gap:density="hdpi" />
    <gap:splash src="img/splashscreen/app_splash_1280x720.png"  gap:platform="android" gap:density="xhdpi" />
-   
-   <gap:splash src="img/splashscreen/Default~iphone.png"   gap:platform="ios"     width="320" height="480" />
-   <gap:splash src="img/splashscreen/Default@2x~iphone.png"   gap:platform="ios"     width="640" height="960" />
-   <gap:splash src="img/splashscreen/Default-568h@2x~iphone.png"  gap:platform="ios"     width="640" height="1136" />
-   <gap:splash src="img/splashscreen/Default-Portrait~ipad.png"  gap:platform="ios"     width="768" height="1024" />
-   <gap:splash src="img/splashscreen/Default-Landscape~ipad.png"  gap:platform="ios"     width="1024" height="768" />
-   <gap:splash src="img/splashscreen/Default-Landscape@2x~ipad.png"  gap:platform="ios"     width="2048" height="1496" />
-   <gap:splash src="img/splashscreen/Default-Portrait@2x~ipad.png"  gap:platform="ios"     width="1536" height="2008" />
+   <gap:splash src="img/splashscreen/app_splash_320x480.png"   gap:platform="ios"     width="320" height="480" />
+   <gap:splash src="img/splashscreen/app_splash_640x960.png"   gap:platform="ios"     width="640" height="960" />
+   <gap:splash src="img/splashscreen/app_splash_640x1136.png"  gap:platform="ios"     width="640" height="1136" />
+   <gap:splash src="img/splashscreen/app_splash_768x1024.png"  gap:platform="ios"     width="768" height="1024" />
+   <gap:splash src="img/splashscreen/app_splash_1024x768.png"  gap:platform="ios"     width="1024" height="768" />
+   <gap:splash src="img/splashscreen/app_splash_2048x1496.png"  gap:platform="ios"     width="2048" height="1496" />
+   <gap:splash src="img/splashscreen/app_splash_1536x2008.png"  gap:platform="ios"     width="1536" height="2008" />
 
 
     <author href="www.avalanche.ca" email="support@avalanche.ca">
