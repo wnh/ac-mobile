@@ -85,8 +85,8 @@ angular.module('CACMobile')
 
       function ProblemList (){
          var result = [];
-         
-         if (data.bulletinResultsOf.BulletinMeasurements.avProblems_asArray.length > 1)
+
+         if (data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray.length > 1)
          {
             var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray;
             var size = problemList.length;
@@ -170,7 +170,7 @@ angular.module('CACMobile')
 
          var result = [];
 
-         if (data.bulletinResultsOf.BulletinMeasurements.avProblems_asArray.length > 1)
+         if (data.bulletinResultsOf.BulletinMeasurements.avProblems.AvProblem_asArray.length > 1)
          {
             var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.AvProblem_asArray;
             var size = problemList.length;
@@ -187,14 +187,14 @@ angular.module('CACMobile')
       {
          
          var liklihoodAsInt = {
-            "unlikely" : 1,
-            "Unlikely-Possible" : 2,
+            "Unlikely" : 1,
+            "Possible - Unlikely" : 2,
             "Possible" : 3,
-            "Possible-Likely":4,
-            "Likely":5,
-            "Likely-Very Likely":6,
-            "Very Likely":7,
-            "Very Likely-Certain":8,
+            "Likely - Possible" : 4,
+            "Likely" : 5,
+            "Very Likely - Likely" : 6,
+            "Very Likely" : 7,
+            "Certain - Very Likely" : 8,
             "Certain" : 9 
          }
 
