@@ -1,0 +1,16 @@
+<form ng-upload method="POST" action="http://0.0.0.0:9999/observation">
+       <p>
+           <label>Your picture (file will not be saved on the server):</label>
+           <input type="file" name="file" />
+       </p>
+       <p>
+           <input type="submit" class="btn" value="Submit"
+             upload-submit="uploadComplete(content, completed)" />
+       </p>
+</form>
+
+<div class="alert alert-info">Server Response: {{response | json}}</div>
+
+<div>
+  Picture: {{response.pictureUrl}}
+</div>

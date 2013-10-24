@@ -9,7 +9,7 @@ angular.module('CACMobile', [])
         })
        .when('/gear', {
         templateUrl: 'views/gear.html',
-        controller: 'NavCtrl' 
+        controller: 'NavCtrl'
       })
       .when('/region-list', {
         templateUrl: 'views/regionList.html',
@@ -32,7 +32,7 @@ angular.module('CACMobile', [])
       })
       .when('/about', {
         templateUrl: 'views/about.html',
-        controller: 'NavCtrl' 
+        controller: 'NavCtrl'
       })
       .when('/tou', {
         templateUrl: 'views/tou.html',
@@ -46,6 +46,10 @@ angular.module('CACMobile', [])
         templateUrl: 'views/Loading.html',
         controller: 'LoadingCtrl'
       })
+      .when('/Observation', {
+        templateUrl: 'views/Observation.html',
+        controller: 'ObservationCtrl'
+      })
       .otherwise({
         templateUrl: 'views/Loading.html',
         controller: 'LoadingCtrl'
@@ -57,6 +61,6 @@ angular.module('CACMobile', [])
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
       if ( TOU.accepted() == false ) {
           $location.path( "/tou" );
-        }        
+        }
     });
  });
