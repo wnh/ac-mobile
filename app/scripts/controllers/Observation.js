@@ -1,13 +1,15 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('ObservationCtrl', function ($scope) {
+  .controller('ObservationCtrl', function ($scope, uploadService) {
 
-
-$scope.uploadComplete = function (content, completed) {
-    if (completed && content.length > 0) {
+$scope.obs = {};
+$scope.uploadComplete = function (content) {
       $scope.response = JSON.parse(content); // Presumed content is a json string!
-    }
   };
+
+  $scope.saveObs = function() {
+   uploadService.send($scope.obs,$scope)
+  }
 
   });

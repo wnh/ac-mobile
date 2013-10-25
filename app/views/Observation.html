@@ -1,16 +1,34 @@
-<form ng-upload method="POST" action="http://0.0.0.0:9999/observation">
-       <p>
-           <label>Your picture (file will not be saved on the server):</label>
-           <input type="file" name="file" />
-       </p>
-       <p>
-           <input type="submit" class="btn" value="Submit"
-             upload-submit="uploadComplete(content, completed)" />
-       </p>
-</form>
+<form class="form-horizontal css-form" novalidate name="form">
 
-<div class="alert alert-info">Server Response: {{response | json}}</div>
+   <div class="control-group">
+      <label class="control-label" for="email">Token</label>
+      <div class="controls">
+         <input type="text" ng-model="obs.token" name = "token"/>
+      </div>
+   </div>
+   <div class="control-group">
+      <label class="control-label" for="email">Latitude</label>
+      <div class="controls">
+         <input type="number" ng-model="obs.latitude" name = "latitude"/>
+      </div>
+   </div>
+      <div class="control-group">
+      <label class="control-label" for="email">Longitude</label>
+      <div class="controls">
+         <input type="number" ng-model="obs.longitude" name = "longitude"/>
+      </div>
+   </div>
+      <div class="control-group">
+      <label class="control-label" for="email">File</label>
+      <div class="controls">
+         <input id="file-input" type="file" ng-model="file" name="file" file-change/>
+      </div>
+   </div>
+      <div class="control-group">
+         <div class="controls">
+            <button ng-click="saveObs()">Save</button>
+         </div>
+      </div>
+   </form>
 
-<div>
-  Picture: {{response.pictureUrl}}
-</div>
+   <div class="alert alert-info">Server Response: {{response}}</div>
