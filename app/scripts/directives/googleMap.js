@@ -24,7 +24,7 @@ angular.module('CACMobile')
           function() { map.setCenter(new google.maps.LatLng(scope.latitude, scope.longitude))});
        }
 
-       if (typeof(google) != undefined){
+       if (typeof(google) != undefined) {
 
          var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: false, center: new google.maps.LatLng(scope.latitude, scope.longitude)};
          var map = new google.maps.Map(elem[0], mapOptions);
@@ -76,22 +76,26 @@ angular.module('CACMobile')
 
 // This is a hack to get around some infowindow closing bug with Android 2.3
 // https://code.google.com/p/gmaps-api-issues/issues/detail?id=5397
-google.maps.event.addListener(infoWindow, 'domready', function() {
- var infoWindowCloseButton = $($($("#infoWindowContent").parents()[2]).children()[0]);
- infoWindowCloseButton.click(function(){
-  infoWindow.close();
-});
-});
+      google.maps.event.addListener(infoWindow, 'domready', function() {
+        var infoWindowCloseButton = $($($("#infoWindowContent").parents()[2]).children()[0]);
+        infoWindowCloseButton.click(function(){
+          infoWindow.close();
+        });
+      });
 
-var obsUpdate = function(newValue,oldValue) {
-  var obslength = 0
-  if (scope.observations)  {
-    obslength = scope.observations.length
-  }
-  for (var i=0; i < obslength; i++) {
-    var obs = scope.observations[i];
-    var coords = obs.location.geom.coordinates;
-    var obsLatlng = new google.maps.LatLng(coords[0],coords[1]);
+      var obsUpdate = function(newValue,oldValue) {
+        console.log("Loading markers as observations have changed...")
+        var obslength = 0
+        if (scope.observations)  {
+          obslength = scope.observations.length
+        }
+        for (var i=0; i < obslength; i++) {
+          createObsMarker(scope.observations[i]);
+        }
+      }
+
+      var createObsMarker = function(obs) {
+    var obsLatlng = new google.maps.LatLng(obs.location.latitude,obs.location.longitude);
 
 
     var obsMarker = new google.maps.Marker({
@@ -103,8 +107,8 @@ var obsUpdate = function(newValue,oldValue) {
     var time = obs.recorded_at || obs.submitted_at;
     var obsContent = "Observation made at " + time + "<br />";
     if (obs.photo) {
-    obsContent += "<img src='"+obs.photo.tmb_url+"'/>";
-  }
+      obsContent += "<img src='"+obs.photo.tmb_url+"'/>";
+    }
 
     var obsInfoWindow = new google.maps.InfoWindow({
       content: obsContent
@@ -113,9 +117,7 @@ var obsUpdate = function(newValue,oldValue) {
     google.maps.event.addListener(obsMarker, 'click', function() {
       obsInfoWindow.open(map,obsMarker);
     });
-  }
-
-}
+      }
 
 
 

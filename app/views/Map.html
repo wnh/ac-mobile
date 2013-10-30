@@ -1,18 +1,21 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>   
-   <div class="content">
-      <div class="region">
-         Forecast Map
-      </div>
+<div class="content">
+   <div class="region">
+      Forecast Map
    </div>
-   <div class="map-content">
-      <div id="map-canvas" google-map=""></div>
-   </div>
-
-   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl'>
-<div class="nav-item text-center">
-       <img class="footer-img" src="img/icons/icon_forecast.png" ng-click="redirect('/region-list')" />
 </div>
-<div class="nav-item text-center">
+<div class="map-content">
+   <div id="map-canvas" google-map></div>
+</div>
+
+<div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl'>
+   <div class="nav-item text-center">
+   <img class="footer-img" src="img/icons/icon_obs.png" ng-click="redirect('/Observation')" />
+   </div>
+   <div class="nav-item text-center">
+     <img class="footer-img" src="img/icons/icon_forecast.png" ng-click="redirect('/region-list')" />
+  </div>
+  <div class="nav-item text-center">
    <img class="footer-img" src="img/icons/icon_gear.png" ng-click="redirect('/gear')" />
 </div>
 <div class="nav-item text-center">
@@ -20,4 +23,3 @@
 </div>
 
 </div>   
-    

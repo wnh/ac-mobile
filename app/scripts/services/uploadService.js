@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .factory('uploadService', ['$rootScope', function ($rootScope) {
+  .factory('uploadService', [function () {
     return {
         send: function (obs,scope) {
             var data = new FormData(),
@@ -9,6 +9,7 @@ angular.module('CACMobile')
 
             //var fileInput = document.getElementById('file-input');
             //var file = fileInput.files[0];
+            data.append('comment', obs.comment)
             data.append('file', obs.file);
             data.append('token',obs.token)
             data.append('latitude',obs.latitude)

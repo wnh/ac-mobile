@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('CACMobile', [])
+angular.module('CACMobile', 
+  [
+    'ngResource'
+  ])
   .config(function ($routeProvider) {
     $routeProvider
        .when('/', {
