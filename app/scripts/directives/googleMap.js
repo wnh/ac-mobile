@@ -26,7 +26,9 @@ angular.module('CACMobile')
 
        if (typeof(google) != undefined) {
 
-         var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: false, center: new google.maps.LatLng(scope.latitude, scope.longitude)};
+        var activeInfoWindow = null;
+
+         var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: false, center: new google.maps.LatLng(scope.latitude, scope.longitude), mapTypeId: google.maps.MapTypeId.TERRAIN};
          var map = new google.maps.Map(elem[0], mapOptions);
 
        //! Add region overlay as KML Layer
@@ -62,8 +64,10 @@ angular.module('CACMobile')
          content: contentString
        });
 
+
        if (window.localStorage.getItem("first") != "1") {
          infoWindow.open(map,marker);  
+         activeInfoWindow = infoWindow;
        }
 
        google.maps.event.addListener(infoWindow,'closeclick',function(){
@@ -71,53 +75,71 @@ angular.module('CACMobile')
        });
 
        google.maps.event.addListener(marker, 'click', function() {
-        infoWindow.open(map,marker);
+            if (activeInfoWindow) {
+              activeInfoWindow.close();
+            };
+            infoWindow.open(map,marker);
+    activeInfoWindow = infoWindow;
+  });
+        
       });
 
 // This is a hack to get around some infowindow closing bug with Android 2.3
 // https://code.google.com/p/gmaps-api-issues/issues/detail?id=5397
-      google.maps.event.addListener(infoWindow, 'domready', function() {
-        var infoWindowCloseButton = $($($("#infoWindowContent").parents()[2]).children()[0]);
-        infoWindowCloseButton.click(function(){
-          infoWindow.close();
-        });
-      });
+google.maps.event.addListener(infoWindow, 'domready', function() {
+  var infoWindowCloseButton = $($($("#infoWindowContent").parents()[2]).children()[0]);
+  infoWindowCloseButton.click(function(){
+    infoWindow.close();
+  });
+});
 
-      var obsUpdate = function(newValue,oldValue) {
-        console.log("Loading markers as observations have changed...")
-        var obslength = 0
-        if (scope.observations)  {
-          obslength = scope.observations.length
-        }
-        for (var i=0; i < obslength; i++) {
-          createObsMarker(scope.observations[i]);
-        }
-      }
+var obsMarkers = [];
+var activeInfoWindow = null;
 
-      var createObsMarker = function(obs) {
-    var obsLatlng = new google.maps.LatLng(obs.location.latitude,obs.location.longitude);
+var obsUpdate = function(newValue,oldValue) {
+  console.log("Loading markers as observations have changed...")
+  var obslength = 0
+  if (scope.observations)  {
+    obslength = scope.observations.length
+  }
+  for (var i=0; i < obsMarkers.length; i++) {
+    obsMarkers.pop().setMap(null);
+  }
+  for (var i=0; i < obslength; i++) {
+    obsMarkers.push(createObsMarker(scope.observations[i]));
+  }
+}
+
+var createObsMarker = function(obs) {
+  var obsLatlng = new google.maps.LatLng(obs.location.latitude,obs.location.longitude);
 
 
-    var obsMarker = new google.maps.Marker({
-      position: obsLatlng,
-      map: map,
-      title:"Observation Marker"
-    });
-    var comment = obs.comment || "";
-    var time = obs.recorded_at || obs.submitted_at;
-    var obsContent = "Observation made at " + time + "<br />";
-    if (obs.photo) {
-      obsContent += "<img src='"+obs.photo.tmb_url+"'/>";
+  var obsMarker = new google.maps.Marker({
+    position: obsLatlng,
+    map: map,
+    title:"Observation Marker"
+  });
+  var comment = obs.comment || "";
+  var time = obs.recorded_at || obs.submitted_at;
+  var obsContent = "Observation made at " + time + "<br />";
+  if (obs.photo) {
+    obsContent += "<img src='"+obs.photo.tmb_url+"'/>";
+  }
+
+  var obsInfoWindow = new google.maps.InfoWindow({
+    content: obsContent
+  });
+
+  google.maps.event.addListener(obsMarker, 'click', function() {
+    if (activeInfoWindow) {
+      activeInfoWindow.close();
     }
+    obsInfoWindow.open(map,obsMarker);
+    activeInfoWindow = obsInfoWindow;
+  });
+  return obsMarker;
+}
 
-    var obsInfoWindow = new google.maps.InfoWindow({
-      content: obsContent
-    });
-
-    google.maps.event.addListener(obsMarker, 'click', function() {
-      obsInfoWindow.open(map,obsMarker);
-    });
-      }
 
 
 
