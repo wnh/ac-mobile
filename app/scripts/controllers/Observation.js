@@ -66,13 +66,31 @@ angular.module('CACMobile')
     var photoResource = ResourceFactory.photo();
     photoResource.create($scope.photo,
     function(response){
-      $scope.photo_id = response.id;
-    },
-    function(response){
-       alert(response.data.error[0]);
+      $scope.photo.id = response.id;
     });
   }
   //! }
+
+
+//! Location {
+  $scope.location = {id:null, token:null, observation_id:null, latitude:50.9831700, longitude: -118.2023000};
+
+  $scope.saveLocation = function(token, obs_id) {
+
+    $scope.location.token = token;
+    $scope.location.obs_id = obs_id;
+
+    var locResource = ResourceFactory.location();
+    locResource.create($scope.obs,
+    function(response){
+      $scope.location.id = response.id;
+    },
+    function(response){
+      alert(response.data.error[0]);
+    }); //! params, data, success, fail
+  };
+  //! } End Observation
+
 
   /*
   //$scope.saveObs = function() {

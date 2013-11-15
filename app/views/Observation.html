@@ -68,6 +68,14 @@
       </div>
 
       <div> Photo</div>
+
+      <div class="control-group">
+         <label class="control-label" for="id">ID</label>
+         <div class="controls">
+            <input type="text" ng-model="photo.id" name="id"/>
+         </div>
+      </div>
+
       <div class="control-group">
          <label class="control-label" for="token">Token</label>
          <div class="controls">
@@ -90,7 +98,7 @@
       </div>
 
       <div class="control-group">
-        <label class="control-label" for="image">File</label>
+        <label class="control-label" for="image">Image File</label>
         <div class="controls">
          <input type="file" name="image" file-upload="photo.image"/>
         </div>
@@ -99,6 +107,42 @@
       <div class="control-group">
         <div class="controls">
          <button ng-click="savePhoto(session.token, obs.id)">Send Photo</button>
+        </div>
+      </div>
+
+
+     <div> Location</div>
+      <div class="control-group">
+         <label class="control-label" for="token">Token</label>
+         <div class="controls">
+            <input type="text" ng-model="location.token" name="token"/>
+         </div>
+      </div>
+
+      <div class="control-group">
+         <label class="control-label" for="obs_id">Obs Id</label>
+         <div class="controls">
+            <input type="text" ng-model="location.observation_id" name="obs_id"/>
+         </div>
+      </div>
+
+      <div class="control-group">
+         <label class="control-label" for="latitude">latitude</label>
+         <div class="controls">
+            <input type="text" ng-model="location.latitude" name="latitude" />
+         </div>
+      </div>
+
+      <div class="control-group">
+         <label class="control-label" for="longitude">longitude</label>
+         <div class="controls">
+            <input type="text" ng-model="location.longitude" name="longitude" />
+         </div>
+      </div>
+
+      <div class="control-group">
+        <div class="controls">
+         <button ng-click="saveLocation(session.token, obs.id)">Send Location</button>
         </div>
       </div>
 

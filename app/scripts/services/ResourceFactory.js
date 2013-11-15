@@ -57,7 +57,7 @@ angular.module('CACMobile')
 
         //! Cannot post file obj using resource instead overwrite the save function
         //! \todo put a betetr description/comment here LN ?
-        photoObj.create = function (obj)
+        photoObj.create = function (obj, callback)
           {
             var data = new FormData(),
                 xhr = new XMLHttpRequest();
@@ -75,7 +75,7 @@ angular.module('CACMobile')
             xhr.send(data);
 
             //! \todo feedback ?
-            //scope.uploadComplete(xhr.response);
+            callback(xhr.response);
           }
 
           return photoObj;
@@ -86,7 +86,7 @@ angular.module('CACMobile')
       location: function (){
         var locObj = $resource(apiUrl+'/location', {},
         {
-          all: { method: 'GET', isArray:true }
+          create: { method: 'POST'}
         });
 
         return locObj;
