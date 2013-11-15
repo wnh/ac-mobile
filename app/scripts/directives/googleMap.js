@@ -20,7 +20,7 @@ angular.module('CACMobile')
          controlText.innerHTML = '<strong>Home</strong>';
          controlUI.appendChild(controlText);
 
-         google.maps.event.addDomListener(controlUI, 'click', 
+         google.maps.event.addDomListener(controlUI, 'click',
           function() { map.setCenter(new google.maps.LatLng(scope.latitude, scope.longitude))});
        }
 
@@ -34,7 +34,7 @@ angular.module('CACMobile')
        //! Add region overlay as KML Layer
        var kmlUrl = 'http://avalanche.ca:81/KML/CACBulletinRegions.kml?a=1'; //\todo make this a config parameter //to force update of kml add and increment num ?a=1 //'file:///C:/doc.kml'; //'https://developers.google.com/kml/training/westcampus.kml';
        var kmlOptions = {
-         clickable: true,      
+         clickable: true,
          suppressInfoWindows: true, //! \todo enable this and make infowindows display nice information see git issue
          preserveViewport: true,
          map: map
@@ -66,12 +66,12 @@ angular.module('CACMobile')
 
 
        if (window.localStorage.getItem("first") != "1") {
-         infoWindow.open(map,marker);  
+         infoWindow.open(map,marker);
          activeInfoWindow = infoWindow;
        }
 
        google.maps.event.addListener(infoWindow,'closeclick',function(){
-         window.localStorage.setItem("first", "1");   
+         window.localStorage.setItem("first", "1");
        });
 
        google.maps.event.addListener(marker, 'click', function() {
@@ -81,8 +81,8 @@ angular.module('CACMobile')
             infoWindow.open(map,marker);
     activeInfoWindow = infoWindow;
   });
-        
-      });
+
+      //});
 
 // This is a hack to get around some infowindow closing bug with Android 2.3
 // https://code.google.com/p/gmaps-api-issues/issues/detail?id=5397
@@ -144,8 +144,8 @@ var createObsMarker = function(obs) {
 
 
 
-       //! watch for change in lat or long and call posUpdate if there is one, adjusting the map centre to the specified lat long    
-       var posUpdate = function (newValue, oldValue) { 
+       //! watch for change in lat or long and call posUpdate if there is one, adjusting the map centre to the specified lat long
+       var posUpdate = function (newValue, oldValue) {
          var newLatLng = new google.maps.LatLng(scope.latitude, scope.longitude);
          map.panTo(newLatLng);
          marker.setPosition(newLatLng);

@@ -23,7 +23,7 @@ angular.module('CACMobile')
       session: function (){
         var sessionObj = $resource(apiUrl+'/session', {},
         {
-          all: { method: 'GET', isArray:true }
+          create: { method: 'POST' }
         });
 
         return sessionObj;
@@ -33,7 +33,8 @@ angular.module('CACMobile')
       observation: function (){
         var obsObj = $resource(apiUrl+'/observation', {},
         {
-          test: { method: 'POST' }//, isArray:true }
+          get: { method: 'GET', isArray:true },
+          create: { method: 'POST' }
         });
 
         return obsObj;
@@ -52,13 +53,11 @@ angular.module('CACMobile')
       //! \todo comment
       photo: function (){
         var photoObj = $resource(apiUrl+'/photo', {},
-        {
-          all: { method: 'GET', isArray:true }
-        });
+        {});
 
         //! Cannot post file obj using resource instead overwrite the save function
         //! \todo put a betetr description/comment here LN ?
-        photoObj.$save = function ()
+        photoObj.create = function (obj)
           {
             var data = new FormData(),
                 xhr = new XMLHttpRequest();
@@ -66,10 +65,10 @@ angular.module('CACMobile')
             //var fileInput = document.getElementById('file-input');
             //var file = fileInput.files[0];
 
-            data.append('token', this.token);
-            data.append('observation_id', this.observation_id);
-            data.append('comment', this.comment);
-            data.append('image', this.image);
+            data.append('token', obj.token);
+            data.append('observation_id', obj.observation_id);
+            data.append('comment', obj.comment);
+            data.append('image', obj.image);
 
             //! \todo is there a better way of doing this ?
             xhr.open('POST', apiUrl+'/photo' ,false);

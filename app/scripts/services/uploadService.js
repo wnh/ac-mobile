@@ -16,13 +16,13 @@ angular.module('CACMobile')
             data.append('longitude',obs.longitude)
             if (obs.altitude != null) {
                data.append('altitude',obs.altitude)
-            }  
+            }
             if (obs.accuracy != null) {
                data.append('accuracy',obs.accuracy)
             }
             if (obs.altitudeAccuracy != null) {
                data.append('altitude_accuracy',obs.altitudeAccuracy)
-            }    
+            }
             data.append('recorded_at',obs.recordedAt)
             data.append('type',obs.type)
             xhr.open('POST', 'http://obsnet.herokuapp.com/observation',false);

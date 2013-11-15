@@ -1,4 +1,4 @@
-<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>  
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
 <div class="content">
    <div class="region">
       Observations
@@ -6,6 +6,105 @@
 
    <form class="form-horizontal css-form" novalidate name="form">
 
+      <div> Session / Sign In</div>
+      <div class="control-group">
+         <label class="control-label" for="token">Email</label>
+         <div class="controls">
+            <input type="text" ng-model="session.email" name="email"/>
+         </div>
+      </div>
+
+      <div class="control-group">
+         <label class="control-label" for="latitude">Password</label>
+         <div class="controls">
+            <input type="text" ng-model="session.password" name="password"/>
+         </div>
+      </div>
+
+      <div class="control-group">
+         <label class="control-label" for="latitude">Token</label>
+         <div class="controls">
+            <input type="text" ng-model="session.token" name="token"/>
+         </div>
+      </div>
+
+      <div class="control-group">
+        <div class="controls">
+         <button ng-click="saveSession()"> Login </button>
+        </div>
+      </div>
+
+      <div> Observation</div>
+      <div class="control-group">
+         <label class="control-label" for="token">Token</label>
+         <div class="controls">
+            <input type="text" ng-model="obs.token" name = "token"/>
+         </div>
+      </div>
+
+      <div class="control-group">
+         <label class="control-label" for="id">Id</label>
+         <div class="controls">
+            <input type="text" ng-model="obs.id" name = "id"/>
+         </div>
+      </div>
+
+      <div class="control-group">
+         <label class="control-label" for="recorded_at">recorded_at</label>
+         <div class="controls">
+            <input type="textarea" ng-model="obs.recorded_at" name = "recorded_at" step="any"/>
+         </div>
+      </div>
+      <div class="control-group">
+         <label class="control-label" for="Visibility">Visibility</label>
+         <div class="controls">
+            <input type="text" ng-model="obs.visibility" name = "visibility" />
+         </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+         <button ng-click="saveObs(session.token)">Send Observation</button>
+        </div>
+      </div>
+
+      <div> Photo</div>
+      <div class="control-group">
+         <label class="control-label" for="token">Token</label>
+         <div class="controls">
+            <input type="text" ng-model="photo.token" name="token"/>
+         </div>
+      </div>
+
+      <div class="control-group">
+         <label class="control-label" for="obs_id">Obs Id</label>
+         <div class="controls">
+            <input type="text" ng-model="photo.observation_id" name="obs_id"/>
+         </div>
+      </div>
+
+      <div class="control-group">
+         <label class="control-label" for="comment">comment</label>
+         <div class="controls">
+            <input type="text" ng-model="photo.comment" name="comment" />
+         </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="image">File</label>
+        <div class="controls">
+         <input type="file" name="image" file-upload="photo.image"/>
+        </div>
+    </div>
+
+      <div class="control-group">
+        <div class="controls">
+         <button ng-click="savePhoto(session.token, obs.id)">Send Photo</button>
+        </div>
+      </div>
+
+
+
+  <!--
       <div class="control-group">
          <label class="control-label" for="token">Token</label>
          <div class="controls">
@@ -31,24 +130,7 @@
             <input type="number" ng-model="obs.longitude" name = "longitude" step="any"/>
          </div>
       </div>
-      <div class="control-group">
-         <label class="control-label" for="accuracy">Accuracy</label>
-         <div class="controls">
-            <input ng-model="obs.accuracy" name="accuracy" disabled/>
-         </div>
-      </div>
-      <div class="control-group">
-         <label class="control-label" for="altitude">Altitude</label>
-         <div class="controls">
-            <input type="number" ng-model="obs.altitude" name = "altitude" step="any"/>
-         </div>
-      </div>
-      <div class="control-group">
-         <label class="control-label" for="altitudeAccuracy">Altitude Accuracy</label>
-         <div class="controls">
-            <input ng-model="obs.altitudeAccuracy" name = "altitudeAccuracy" disabled/>
-         </div>
-      </div>
+
       <div class="control-group">
       <label class="control-label" for="recordedAt">Recorded At</label>
          <div class="controls">
@@ -72,15 +154,17 @@
       <div class="controls">
          <input type="file" name="file" file-upload="obs.file"/>
       </div>
-   </div>
-   <div class="control-group">
+   </div>    <div class="control-group">
       <div class="controls">
          <button ng-click="saveObs()">Send Observation</button>
       </div>
-   </div>
+   </div>-->
+
+
+
 </form>
 
 <div class="alert alert-info">Server Response: {{response}}</div>
 
 <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
-</div>             
+</div>
