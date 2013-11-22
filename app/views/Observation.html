@@ -110,15 +110,7 @@
         </div>
       </div> -->
 
-      <div class="control-group">
-        <div class="controls">
-         <button ng-click="savePhoto(session.token, obs.id)">Send Photo</button>
-        </div>
-      </div>
-
-
-
-      <div ng-controller="ModalDemoCtrl">
+      <div class="control-group" ng-controller="SelectPhotoModalCtrl">
           <script type="text/ng-template" id="myModalContent.html">
               <div class="modal-header">
                   <h3> Pick Source</h3>
@@ -142,10 +134,17 @@
               </div>
           </script>
 
-          <button class="btn" ng-click="open()">Open me!</button>
-          <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+          <div class="controls">
+            <button class="btn" ng-click="open()">Select Image</button>
+          </div>
+          <div ng-show="photo.image">Selection from a modal: {{ photo.image }}</div>
       </div>
 
+      <div class="control-group">
+        <div class="controls">
+         <button class="btn" ng-click="savePhoto(session.token, obs.id)">Send Photo</button>
+        </div>
+      </div>
 
 
 

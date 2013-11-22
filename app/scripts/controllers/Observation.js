@@ -92,7 +92,49 @@ angular.module('CACMobile')
   };
   //! } End Observation
 
+//! Load Photo Modal Dialog {
+  $scope.SelectPhotoModalCtrl = function ($scope, $modal, $log) {
 
+    $scope.open = function () {
+
+      var modalInstance = $modal.open({
+        templateUrl: 'myModalContent.html',
+        controller: ModalCtrl,
+        resolve: {
+          image: function () {
+            return $scope.photo;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (image) {
+        $scope.image = image;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    };
+  };
+
+  var ModalCtrl = function ($scope, $modalInstance, image) {
+
+    /*
+    $scope.items = items;
+    $scope.selected = {
+      item: $scope.items[0]
+    };
+    */
+
+    $scope.photo = image;
+
+    $scope.ok = function () {
+      $modalInstance.close($scope.photo.image);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  };
+  //! }
 
 
 /*
@@ -140,44 +182,4 @@ angular.module('CACMobile')
   });
 
 
-  //! Load Photo Modal Dialog {
-  var ModalDemoCtrl = function ($scope, $modal, $log) {
 
-    $scope.items = ['item1', 'item2', 'item3'];
-
-    $scope.open = function () {
-
-      var modalInstance = $modal.open({
-        templateUrl: 'myModalContent.html',
-        controller: ModalInstanceCtrl,
-        resolve: {
-          items: function () {
-            return $scope.items;
-          }
-        }
-      });
-
-      modalInstance.result.then(function (selectedItem) {
-        $scope.selected = selectedItem;
-      }, function () {
-        $log.info('Modal dismissed at: ' + new Date());
-      });
-    };
-  };
-
-  var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
-
-    $scope.items = items;
-    $scope.selected = {
-      item: $scope.items[0]
-    };
-
-    $scope.ok = function () {
-      $modalInstance.close($scope.selected.item);
-    };
-
-    $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
-    };
-  };
-  //! }
