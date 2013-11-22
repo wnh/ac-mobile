@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('ObservationCtrl', function ($scope, ResourceFactory, location, $resource) {
+  .controller('ObservationCtrl', function ($scope, ResourceFactory, location, $resource, $modal) {
 
 
    //! Position
@@ -27,12 +27,12 @@ angular.module('CACMobile')
   $scope.saveSession = function() {
     var sessionResource = ResourceFactory.session();
     sessionResource.create($scope.session,
-    function(response){
-      $scope.session.token = response.token;
-    },
-    function(response){
-      alert(response.data.error[0]);
-    }); //! params, data, success, fail
+      function(response){
+        $scope.session.token = response.token;
+      },
+      function(response){
+        alert(response.data.error);
+      }); //! params, data, success, fail
   }
   //! } End Session
 
@@ -45,19 +45,19 @@ angular.module('CACMobile')
 
     var obsResource = ResourceFactory.observation();
     obsResource.create($scope.obs,
-    function(response)
-    {
-      $scope.obs.id = response.id;
-    },
-    function(response){
-      alert(response.data.error[0]);
-    }); //! params, data, success, fail
+      function(response)
+      {
+        $scope.obs.id = response.id;
+      },
+      function(response){
+        alert(response.data.error);
+      }); //! params, data, success, fail
   };
   //! } End Observation
 
 
   //! Photo {
-  $scope.photo = {token:null, observation_id:null, comment:null, image:null, photo_id:null};
+  $scope.photo = {token:null, observation_id:null, comment:null, image:null, id:0};
   $scope.savePhoto = function(token, obs_id) {
 
     $scope.photo.observation_id = obs_id;
@@ -65,9 +65,10 @@ angular.module('CACMobile')
 
     var photoResource = ResourceFactory.photo();
     photoResource.create($scope.photo,
-    function(response){
-      $scope.photo.id = response.id;
-    });
+      function(response){
+        $scope.photo.id = response.id;
+        alert(response.id);
+      });
   }
   //! }
 
@@ -78,21 +79,46 @@ angular.module('CACMobile')
   $scope.saveLocation = function(token, obs_id) {
 
     $scope.location.token = token;
-    $scope.location.obs_id = obs_id;
+    $scope.location.observation_id = obs_id;
 
     var locResource = ResourceFactory.location();
     locResource.create($scope.obs,
-    function(response){
-      $scope.location.id = response.id;
-    },
-    function(response){
-      alert(response.data.error[0]);
-    }); //! params, data, success, fail
+      function(response){
+        $scope.location.id = response.id;
+      },
+      function(response){
+        alert(response.data.error);
+      }); //! params, data, success, fail
   };
   //! } End Observation
 
 
-  /*
+
+
+/*
+  $scope.takePhoto = function(){
+
+    //var form = document.createElement('input');
+    //form.type = 'file';
+
+    $scope.photo.file = new FileUpload;
+    $scope.photo.file.name = "response";
+  };*/
+
+    /*navigator.camera.getPicture(
+                      function(response){
+                        //$scope.photo.file = new File();
+                        $scope.photo.file = document.createElement('file');
+                        $scope.photo.file.name = response;
+                        //alert(response);
+                      },
+                      function(response){
+                        alert("Error");
+                        alert(response);
+                      }
+                      ,{ quality: 50, destinationType: Camera.DestinationType.FILE_URI });
+
+
   //$scope.saveObs = function() {
     var obs = new $resource('http://obsnet.herokuapp.com/observation', {},{ test: { method: 'GET' }});
     obs.token = $scope.obs.token;
@@ -101,7 +127,7 @@ angular.module('CACMobile')
     obs.save(uploadComplete);
    //uploadService.send($scope.obs,$scope)
   //};
-*/
+
   // $scope.latitude = 50.9831700;
   // $scope.longitude = -118.2023000;
 
@@ -112,3 +138,46 @@ angular.module('CACMobile')
   };*/
 
   });
+
+
+  //! Load Photo Modal Dialog {
+  var ModalDemoCtrl = function ($scope, $modal, $log) {
+
+    $scope.items = ['item1', 'item2', 'item3'];
+
+    $scope.open = function () {
+
+      var modalInstance = $modal.open({
+        templateUrl: 'myModalContent.html',
+        controller: ModalInstanceCtrl,
+        resolve: {
+          items: function () {
+            return $scope.items;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (selectedItem) {
+        $scope.selected = selectedItem;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    };
+  };
+
+  var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
+
+    $scope.items = items;
+    $scope.selected = {
+      item: $scope.items[0]
+    };
+
+    $scope.ok = function () {
+      $modalInstance.close($scope.selected.item);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  };
+  //! }

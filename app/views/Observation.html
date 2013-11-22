@@ -98,17 +98,74 @@
       </div>
 
       <div class="control-group">
-        <label class="control-label" for="image">Image File</label>
+         <label class="control-label" for="image">image name</label>
+         <div class="controls">
+            <input type="text" ng-model="photo.image.name" name="image" />
+         </div>
+      </div>
+
+     <!-- <div class="control-group">
         <div class="controls">
-         <input type="file" name="image" file-upload="photo.image"/>
+         <button ng-click="selectImage()">Select Image</button>
         </div>
-    </div>
+      </div> -->
 
       <div class="control-group">
         <div class="controls">
          <button ng-click="savePhoto(session.token, obs.id)">Send Photo</button>
         </div>
       </div>
+
+
+
+      <div ng-controller="ModalDemoCtrl">
+          <script type="text/ng-template" id="myModalContent.html">
+              <div class="modal-header">
+                  <h3> Pick Source</h3>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="image">Image File</label>
+                <div class="controls">
+                 <input type="file" name="image" file-upload="photo.image"/>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="image">Image From Camera</label>
+                <div class="controls">
+                 <input type="file" name="image" accept="image/*;capture=camera" capture file-upload="photo.image">
+                </div>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-primary" ng-click="ok()">OK</button>
+                  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+              </div>
+          </script>
+
+          <button class="btn" ng-click="open()">Open me!</button>
+          <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+      </div>
+
+
+
+
+<!--
+      <div class="control-group">
+        <label class="control-label" for="image">Image File</label>
+        <div class="controls">
+         <input type="file" name="image" file-upload="photo.image"/>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="image">Image From Camera</label>
+        <div class="controls">
+         <input type="file" name="image" accept="image/*;capture=camera" capture file-upload="photo.image">
+        </div>
+      </div>
+      -->
+
+
 
 
      <div> Location</div>

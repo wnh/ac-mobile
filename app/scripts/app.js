@@ -1,8 +1,9 @@
 'use strict';
 
-angular.module('CACMobile', 
+angular.module('CACMobile',
   [
-    'ngResource'
+    'ngResource',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
