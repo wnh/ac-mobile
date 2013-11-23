@@ -59,7 +59,7 @@ angular.module('CACMobile')
         //! \todo put a betetr description/comment here LN ?
         photoObj.create = function (imageURI, callback)
           {
-
+            /*
             var ft = new FileTransfer(),
                 options = new FileUploadOptions();
 
@@ -77,8 +77,7 @@ angular.module('CACMobile')
                 },
                 function (e) {
                     alert("Upload failed");
-                }, options);
-
+                }, options */
             /*
             var data = new FormData(),
                 xhr = new XMLHttpRequest();

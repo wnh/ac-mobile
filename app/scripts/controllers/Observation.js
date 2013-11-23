@@ -100,16 +100,20 @@ angular.module('CACMobile')
     $scope.photo = image;
 
 
-    $scope.camera = getImage({ quality: 45,
+    $scope.camera = function () {
+      getImage({ quality: 45,
                 targetWidth:  1000,
                 targetHeight: 1000,
                 destinationType: navigator.camera.DestinationType.FILE_URI,
                 encodingType:    navigator.camera.EncodingType.JPEG,
                 sourceType:      navigator.camera.PictureSourceType.CAMERA });
+    };
 
-    $scope.library = getImage({ quality: 50,
+    $scope.library = function() {
+      getImage({ quality: 50,
               destinationType: navigator.camera.DestinationType.FILE_URI,
               sourceType:      navigator.camera.PictureSourceType.PHOTOLIBRARY});
+    };
 
     var getImage = function (source) {
       navigator.camera.getPicture(
@@ -121,7 +125,7 @@ angular.module('CACMobile')
                         alert(response);
                       },
                       source);
-    }
+    };
 
 
     $scope.ok = function () {
