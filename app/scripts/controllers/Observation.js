@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('ObservationCtrl', function ($scope, ResourceFactory, location, $resource, $modal) {
+  .controller('ObservationCtrl', function ($scope, ResourceFactory, location, $resource, $modal, $log) {
 
 
    //! Position
@@ -72,6 +72,67 @@ angular.module('CACMobile')
   }
   //! }
 
+//! Load Photo Modal Dialog {
+  $scope.SelectPhotoModalCtrl = function ($scope) {
+
+    $scope.open = function () {
+
+      var modalInstance = $modal.open({
+        templateUrl: 'selectPhoto_modal.html',
+        controller: ModalCtrl,
+        resolve: {
+          image: function () {
+            return $scope.photo;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (image) {
+        $scope.photo = image;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    };
+  };
+
+  var ModalCtrl = function ($scope, $modalInstance, image) {
+
+    $scope.photo = image;
+
+
+    $scope.camera = getImage({ quality: 45,
+                targetWidth:  1000,
+                targetHeight: 1000,
+                destinationType: navigator.camera.DestinationType.FILE_URI,
+                encodingType:    navigator.camera.EncodingType.JPEG,
+                sourceType:      navigator.camera.PictureSourceType.CAMERA });
+
+    $scope.library = getImage({ quality: 50,
+              destinationType: navigator.camera.DestinationType.FILE_URI,
+              sourceType:      navigator.camera.PictureSourceType.PHOTOLIBRARY});
+
+    var getImage = function (source) {
+      navigator.camera.getPicture(
+                      function(response){
+                        $scope.photo = response;
+                      },
+                      function(response){
+                        alert("Error");
+                        alert(response);
+                      },
+                      source);
+    }
+
+
+    $scope.ok = function () {
+      $modalInstance.close($scope.photo.image);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  };
+  //! }
 
 //! Location {
   $scope.location = {id:null, token:null, observation_id:null, latitude:50.9831700, longitude: -118.2023000};
@@ -92,74 +153,7 @@ angular.module('CACMobile')
   };
   //! } End Observation
 
-//! Load Photo Modal Dialog {
-  $scope.SelectPhotoModalCtrl = function ($scope, $modal, $log) {
-
-    $scope.open = function () {
-
-      var modalInstance = $modal.open({
-        templateUrl: 'myModalContent.html',
-        controller: ModalCtrl,
-        resolve: {
-          image: function () {
-            return $scope.photo;
-          }
-        }
-      });
-
-      modalInstance.result.then(function (image) {
-        $scope.image = image;
-      }, function () {
-        $log.info('Modal dismissed at: ' + new Date());
-      });
-    };
-  };
-
-  var ModalCtrl = function ($scope, $modalInstance, image) {
-
-    /*
-    $scope.items = items;
-    $scope.selected = {
-      item: $scope.items[0]
-    };
-    */
-
-    $scope.photo = image;
-
-    $scope.ok = function () {
-      $modalInstance.close($scope.photo.image);
-    };
-
-    $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
-    };
-  };
-  //! }
-
-
 /*
-  $scope.takePhoto = function(){
-
-    //var form = document.createElement('input');
-    //form.type = 'file';
-
-    $scope.photo.file = new FileUpload;
-    $scope.photo.file.name = "response";
-  };*/
-
-    /*navigator.camera.getPicture(
-                      function(response){
-                        //$scope.photo.file = new File();
-                        $scope.photo.file = document.createElement('file');
-                        $scope.photo.file.name = response;
-                        //alert(response);
-                      },
-                      function(response){
-                        alert("Error");
-                        alert(response);
-                      }
-                      ,{ quality: 50, destinationType: Camera.DestinationType.FILE_URI });
-
 
   //$scope.saveObs = function() {
     var obs = new $resource('http://obsnet.herokuapp.com/observation', {},{ test: { method: 'GET' }});

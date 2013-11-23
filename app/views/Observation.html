@@ -100,34 +100,28 @@
       <div class="control-group">
          <label class="control-label" for="image">image name</label>
          <div class="controls">
-            <input type="text" ng-model="photo.image.name" name="image" />
+            <input type="text" ng-model="photo.image" name="image" />
          </div>
       </div>
 
-     <!-- <div class="control-group">
-        <div class="controls">
-         <button ng-click="selectImage()">Select Image</button>
-        </div>
-      </div> -->
-
       <div class="control-group" ng-controller="SelectPhotoModalCtrl">
-          <script type="text/ng-template" id="myModalContent.html">
+          <script type="text/ng-template" id="selectPhoto_modal.html">
               <div class="modal-header">
                   <h3> Pick Source</h3>
               </div>
+
               <div class="control-group">
-                <label class="control-label" for="image">Image File</label>
                 <div class="controls">
-                 <input type="file" name="image" file-upload="photo.image"/>
+                 <button class="btn" ng-click="library()">Library</button>
                 </div>
               </div>
 
               <div class="control-group">
-                <label class="control-label" for="image">Image From Camera</label>
                 <div class="controls">
-                 <input type="file" name="image" accept="image/*;capture=camera" capture file-upload="photo.image">
+                 <button class="btn" ng-click="camera()">Camera</button>
                 </div>
               </div>
+
               <div class="modal-footer">
                   <button class="btn btn-primary" ng-click="ok()">OK</button>
                   <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
@@ -145,27 +139,6 @@
          <button class="btn" ng-click="savePhoto(session.token, obs.id)">Send Photo</button>
         </div>
       </div>
-
-
-
-<!--
-      <div class="control-group">
-        <label class="control-label" for="image">Image File</label>
-        <div class="controls">
-         <input type="file" name="image" file-upload="photo.image"/>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <label class="control-label" for="image">Image From Camera</label>
-        <div class="controls">
-         <input type="file" name="image" accept="image/*;capture=camera" capture file-upload="photo.image">
-        </div>
-      </div>
-      -->
-
-
-
 
      <div> Location</div>
       <div class="control-group">
