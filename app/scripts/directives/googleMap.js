@@ -35,8 +35,7 @@ angular.module('CACMobile')
             var bounds = map.getBounds();
             var ne = bounds.getNorthEast();
             var sw = bounds.getSouthWest();
-            Bounds.setBounds(ne.lat(),ne.lng(),sw.lat(),sw.lng());
-            //$rootScope.$apply();
+            scope.$apply(Bounds.setBounds(ne.lng(),ne.lat(),sw.lng(),sw.lat()));
   });
 
 
@@ -129,7 +128,8 @@ var createLocMarker = function(loc) {
     title:"Location Marker"
   });
 
-  var locContent = "Location has " + loc.observation_id.length + " observations";
+  var locContent = "Location is at " + loc.latitude + "," + loc.longitude + "<br />"
+  locContent += "Location has " + loc.observation_id.length + " observations";
 
   var locInfoWindow = new google.maps.InfoWindow({
     content: locContent
@@ -158,6 +158,7 @@ var createLocMarker = function(loc) {
        scope.$watch('latitude',posUpdate);
        scope.$watch('longitude',posUpdate);
        scope.$watch('locations',locUpdate,true);
+       console.log(Bounds.getBounds());
        //!
 
        //! add home button
