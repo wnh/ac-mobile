@@ -97,8 +97,19 @@ angular.module('CACMobile')
 
   var ModalCtrl = function ($scope, $modalInstance, image) {
 
-    $scope.photo = image;
+    var getImage = function (source) {
+      navigator.camera.getPicture(
+                      function(response){
+                        $scope.photo = response;
+                      },
+                      function(response){
+                        alert("Error");
+                        alert(response);
+                      },
+                      source);
+    };
 
+    $scope.photo = image;
 
     $scope.camera = function () {
       getImage({ quality: 45,
@@ -114,19 +125,6 @@ angular.module('CACMobile')
               destinationType: navigator.camera.DestinationType.FILE_URI,
               sourceType:      navigator.camera.PictureSourceType.PHOTOLIBRARY});
     };
-
-    var getImage = function (source) {
-      navigator.camera.getPicture(
-                      function(response){
-                        $scope.photo = response;
-                      },
-                      function(response){
-                        alert("Error");
-                        alert(response);
-                      },
-                      source);
-    };
-
 
     $scope.ok = function () {
       $modalInstance.close($scope.photo.image);
