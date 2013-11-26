@@ -86,17 +86,20 @@ angular.module('CACMobile')
       function ProblemList (){
          var result = [];
 
-         if (data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray.length > 1)
+         // Need to check that avProblem_asArray is defined, because if it isn't we can't call length on it
+         if (data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray)
          {
-            var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray;
-            var size = problemList.length;
-            for (var i = 0; i < size; ++i)
-            {
-               result[i] = processProblem(problemList[i]);
-            }
+           if (data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray.length > 0)
+           {
+              var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray;
+              var size = problemList.length;
+              for (var i = 0; i < size; ++i)
+              {
+                 result[i] = processProblem(problemList[i]);
+              }
+           }
+           return result;
          }
-
-         return result;
          //! \todo assert result.size = problemList.size
       }
       
