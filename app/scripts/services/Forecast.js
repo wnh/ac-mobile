@@ -85,21 +85,21 @@ angular.module('CACMobile')
 
       function ProblemList (){
          var result = [];
+         var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray;
 
          // Need to check that avProblem_asArray is defined, because if it isn't we can't call length on it
-         if (data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray)
+         if (problemList)
          {
-           if (data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray.length > 0)
+           if (problemList.length > 0)
            {
-              var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.avProblem_asArray;
               var size = problemList.length;
               for (var i = 0; i < size; ++i)
               {
                  result[i] = processProblem(problemList[i]);
               }
            }
-           return result;
          }
+         return result;
          //! \todo assert result.size = problemList.size
       }
       
@@ -158,8 +158,12 @@ angular.module('CACMobile')
       this.dayAfter = processDay(data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[2],
                               data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[5],
                               data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[8]);
-
       this.confidence =  data.bulletinResultsOf.BulletinMeasurements.bulletinConfidence.Components.confidenceLevel;
+      // Check if confidence rating exists. If not, then the type of this.confidence will be object, not string. In this case, set the confidence level to be blank
+      console.log(data.bulletinResultsOf.BulletinMeasurements.bulletinConfidence.Components_asArray);
+      if (jQuery.type(this.confidence) != "string") {
+        this.confidence = "";
+      }
       this.validTime =  this.validTime = { issued  : data.validTime.TimePeriod.beginPosition.replace("T"," ").split(".")[0] ,
                          expires : data.validTime.TimePeriod.endPosition.replace("T"," ").split(".")[0] };
 
@@ -172,16 +176,19 @@ angular.module('CACMobile')
       function ProblemList (){
 
          var result = [];
-
-         if (data.bulletinResultsOf.BulletinMeasurements.avProblems.AvProblem_asArray.length > 1)
-         {
-            var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.AvProblem_asArray;
-            var size = problemList.length;
-            for (var i = 0; i < size; ++i)
-            {
-               result[i] = processProblem(problemList[i]);
-            }
+         var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.AvProblem_asArray;
+            
+         if (problemList) {
+           if (problemList.length > 0)
+           {
+              var size = problemList.length;
+              for (var i = 0; i < size; ++i)
+              {
+                 result[i] = processProblem(problemList[i]);
+              }
+           }
          }
+
          return result;
          //! \todo assert result.size = problemList.size
       }
