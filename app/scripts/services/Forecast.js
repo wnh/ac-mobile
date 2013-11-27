@@ -111,12 +111,13 @@ angular.module('CACMobile')
          {
             advisoryCommentArray[i] = problem.travelAdvisoryComment_asArray[i].__text; 
          }*/
-
+         var minSize = parseInt(problem.expectedAvSize.Values.min.__text) + 2;
+         var maxSize = parseInt(problem.expectedAvSize.Values.max.__text) + 1;
          return{
             elevationImg : "img/Elevation/Elevation-" + stringBuilder(problem.validElevation_asArray, '_xlink:href', elevationRange) + "_EN.png",
             aspectImg : "img/Compass/compass-" + stringBuilder(problem.validAspect_asArray, '_xlink:href', aspectRange) + "_EN.png",
             liklihoodImg : "img/Likelihood/Likelihood-" + problem.likelihoodOfTriggering.Values.typical.__text + "_EN.png",
-            sizeImg : "img/Size/Size-" + problem.expectedAvSize.Values.min.__text + "-"+ problem.expectedAvSize.Values.max.__text + "_EN.png" ,
+            sizeImg : "img/Size/Size-" + minSize + "-"+ maxSize + "_EN.png" ,
             comment : problem.comment.__text ,
             probType: problem.type.__text,
             advisoryComment: problem.travelAdvisoryComment.__text //! this was previoulsy an array, is there really ever more than one of these ?
@@ -160,7 +161,6 @@ angular.module('CACMobile')
                               data.bulletinResultsOf.BulletinMeasurements.dangerRatings.DangerRating_asArray[8]);
       this.confidence =  data.bulletinResultsOf.BulletinMeasurements.bulletinConfidence.Components.confidenceLevel;
       // Check if confidence rating exists. If not, then the type of this.confidence will be object, not string. In this case, set the confidence level to be blank
-      console.log(data.bulletinResultsOf.BulletinMeasurements.bulletinConfidence.Components_asArray);
       if (jQuery.type(this.confidence) != "string") {
         this.confidence = "";
       }
@@ -208,11 +208,27 @@ angular.module('CACMobile')
             "Certain" : 9 
          }
 
+         var sizeAsAvalx = {
+          "0.0" : 0,
+          "0.5" : 0,
+          "1.0" : 1,
+          "1.5" : 2,
+          "2.0" : 3,
+          "2.5" : 4,
+          "3.0" : 5,
+          "3.5" : 6,
+          "4.0" : 7,
+          "4.5" : 8,
+          "5.0" : 9,
+         }
+
+         var minSize = sizeAsAvalx[problem.expectedAvSize.Values.min] + 2;
+         var maxSize = sizeAsAvalx[problem.expectedAvSize.Values.max] + 1;
          return{
             elevationImg : "img/Elevation/Elevation-" + stringBuilder(problem.validElevation_asArray, '_xlink:href', elevationRange) + "_EN.png",
             aspectImg : "img/Compass/compass-" + stringBuilder(problem.validAspect_asArray, '_xlink:href', aspectRange) + "_EN.png",
             liklihoodImg : "img/Likelihood/Likelihood-" + liklihoodAsInt[problem.likelihoodOfTriggering.Values.typical] + "_EN.png",
-            sizeImg : "img/Size/Size-" + (problem.expectedAvSize.Values.min | 0) + "-"+ (problem.expectedAvSize.Values.max | 0) + "_EN.png" ,
+            sizeImg : "img/Size/Size-" + minSize + "-"+ maxSize + "_EN.png" ,
             probType: problem.type,
             comment : stringCleaner(problem.comment),
             advisoryComment: stringCleaner(problem.travelAdvisoryComment) //! this was previoulsy an array, is there really ever more than one of these ?
