@@ -1,11 +1,17 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>   
 <div class="content">
    <div class="region">
-      Forecast Map {{bounds()}} <br />
+      Forecast Map
    </div>
 </div>
 <div class="map-content">
    <div id="map-canvas" google-map></div>
+</div>
+<div>
+<p>NE Longitude: {{bounds.nelon}}</p>
+<p>NE Latitude: {{bounds.nelat}}</p>
+<p>SW Longitude: {{bounds.swlon}}</p>
+<p>SW Latitude: {{bounds.swlat}}</p>
 </div>
 
 <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl'>

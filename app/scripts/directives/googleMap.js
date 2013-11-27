@@ -31,13 +31,12 @@ angular.module('CACMobile')
          var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: false, center: new google.maps.LatLng(scope.latitude, scope.longitude), mapTypeId: google.maps.MapTypeId.TERRAIN};
          var map = new google.maps.Map(elem[0], mapOptions);
 
-           google.maps.event.addListener(map, 'dragend', function() {
+           google.maps.event.addListener(map, 'idle', function() {
             var bounds = map.getBounds();
             var ne = bounds.getNorthEast();
             var sw = bounds.getSouthWest();
             scope.$apply(Bounds.setBounds(ne.lng(),ne.lat(),sw.lng(),sw.lat()));
   });
-
 
        //! Add region overlay as KML Layer
        var kmlUrl = 'http://avalanche.ca:81/KML/CACBulletinRegions.kml?a=1'; //\todo make this a config parameter //to force update of kml add and increment num ?a=1 //'file:///C:/doc.kml'; //'https://developers.google.com/kml/training/westcampus.kml';
@@ -111,8 +110,9 @@ var locUpdate = function(newValue,oldValue) {
     loclength = scope.locations.length
   }
   for (var i=0; i < locMarkers.length; i++) {
-    locMarkers.pop().setMap(null);
+    locMarkers[i].setMap(null);
   }
+  locMarkers = [];
   for (var i=0; i < loclength; i++) {
     locMarkers.push(createLocMarker(scope.locations[i]));
   }
@@ -158,7 +158,6 @@ var createLocMarker = function(loc) {
        scope.$watch('latitude',posUpdate);
        scope.$watch('longitude',posUpdate);
        scope.$watch('locations',locUpdate,true);
-       console.log(Bounds.getBounds());
        //!
 
        //! add home button

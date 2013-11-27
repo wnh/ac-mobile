@@ -7,9 +7,6 @@ angular.module('CACMobile')
 
 	$scope.latitude = 50.9831700;
 	$scope.longitude = -118.2023000;
-	$scope.bounds = function () {
-		return Bounds.getBounds(); 
-	}
 
 	function getPostion () {
 		location.getPosition().then(
@@ -46,7 +43,10 @@ angular.module('CACMobile')
     	function(oldval,newval) {
     		if (oldval != newval) {
     			var b = Bounds.getBounds();
+    			$scope.bounds = Bounds.getBounds();
     			getLocations(b.nelon,b.nelat,b.swlon,b.swlat);
     		}
     	},true);
+
+	   	$scope.bounds = Bounds.getBounds();
   }); // end MapCtrl controller
