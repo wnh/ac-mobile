@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('ObservationCtrl', function ($scope, ResourceFactory, location, $resource, $modal, $log) {
+  .controller('ObservationCtrl', ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log', function ($scope, ResourceFactory, location, $resource, $modal, $log) {
 
 
    //! Position
@@ -73,7 +73,7 @@ angular.module('CACMobile')
   //! }
 
 //! Load Photo Modal Dialog {
-  $scope.SelectPhotoModalCtrl = function ($scope) {
+  $scope.SelectPhotoModalCtrl = ['$scope', function ($scope) {
 
     $scope.open = function () {
 
@@ -93,9 +93,9 @@ angular.module('CACMobile')
         $log.info('Modal dismissed at: ' + new Date());
       });
     };
-  };
+  }];
 
-  var ModalCtrl = function ($scope, $modalInstance, image) {
+  var ModalCtrl = ['$scope', '$modalInstance', 'image', function ($scope, $modalInstance, image) {
 
     $scope.photo = image;
     //$scope.photo = {image:null};
@@ -133,7 +133,7 @@ angular.module('CACMobile')
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');
     };
-  };
+  }];
   //! }
 
 //! Location {
@@ -175,7 +175,7 @@ angular.module('CACMobile')
       $scope.response = JSON.parse(content); // Presumed content is a json string!
   };*/
 
-  });
+  }]);
 
 
 

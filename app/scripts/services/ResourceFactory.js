@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .factory('ResourceFactory', function ($resource) {
+  .factory('ResourceFactory',['$resource', function ($resource) {
 
     //! \todo should be config param
     var apiUrl = "http://obsnet.herokuapp.com";
@@ -115,4 +115,4 @@ angular.module('CACMobile')
 
 
     };
-  });
+  }]);
