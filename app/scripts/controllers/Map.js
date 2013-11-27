@@ -28,7 +28,7 @@ angular.module('CACMobile')
   }); // end MapCtrl controller
 
 angular.module('CACMobile')
-.directive('googleMap', function($window){
+.directive('googleMap', function($window, $location){
 
 	return function (scope, elem, attrs) {
 		function HomeControl(controlDiv, map) {
@@ -68,8 +68,8 @@ angular.module('CACMobile')
 
 		google.maps.event.addListener(kmlLayer, 'click', function(kmlEvent) {
 			var region = kmlEvent.featureData.name;
-			var path = "#/region-details/" + region;
-			    $window.location.href = path; //outside of scope so $location doesnt seem to work, is there a more angular way to do this *hack* using this seems to destroy back ability
+			var path = "/region-details/" + region;
+				scope.$apply($location.path(path));
 			 });
 		 //!
 
