@@ -4,13 +4,11 @@ angular.module('CACMobile')
   .controller('RegionDetailsCtrl', function ($scope, $routeParams, $location, Forecast, Data, RegionDefinition) {
     $scope.loading = true;
     $scope.region = null;
+    $scope.visible = false;
 
     function getForecast() {
         Forecast.get($scope.region).then(
                     function(fx){
-
-                         //data = data_;
-                         //$scope.data = data;
 
                          $scope.loading = false;
 
@@ -19,26 +17,11 @@ angular.module('CACMobile')
                          $scope.dayAfter = fx.dayAfter;
                          $scope.confidence = fx.confidence;
 
-                         //$scope.valid = fx.validTime.TimePeriod; //! valid.beginPosition.__text | valid.endPosition.__text
-                         //$scope.valid.issued = $scope.valid.beginPosition.__text.replace("T"," ");
-                         //$scope.valid.expires = $scope.valid.endPosition.__text.replace("T"," ");
-
-
                          $scope.valid = { issued : fx.validTime.issued,
                                           expires : fx.validTime.expires}
 
                         var regions = RegionDefinition.get();
                         $scope.regionDisplayName = regions[$scope.region].display;
-
-                        //! seriously there has to be a better way !
-                       // for(var i = 0; i < regions.length; ++i)
-                       // {
-                       //     if(regions[i].name = $scope.region)
-                       //     {
-                       //         $scope.regionDisplayName = regions[i].display;
-                       //     }
-                       // }
-
 
                     },
                     function(error){
@@ -49,19 +32,12 @@ angular.module('CACMobile')
     } // end function getForecast
 
 
-    if (RegionDefinition.exists($routeParams.region) == false)
-    {
-      alert("No data feed currently available for this region, sorry for the inconvenience");
-      $location.path('/');
-    }
-    else
+    if (RegionDefinition.exists($routeParams.region) === true)
     {
       $scope.region = $routeParams.region;
+      $scope.visible = true;
       getForecast();
+
     }
-
-
-
-
 
   });
