@@ -14,10 +14,6 @@ angular.module('CACMobile')
 			});
 	}
 
-	ConnectionManager.offline(function () {
-		$location.path("region-list");
-	});
-
 	$scope.updatePosition = function () {
 		getPostion();
 	};
