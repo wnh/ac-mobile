@@ -4,7 +4,8 @@ angular.module('CACMobile', [])
   .config(function ($routeProvider) {
     $routeProvider
        .when('/', {
-        redirectTo: '/Map'
+        templateUrl: 'views/Map.html',
+        controller: 'MapCtrl'
         })
        .when('/gear', {
         templateUrl: 'views/gear.html',
