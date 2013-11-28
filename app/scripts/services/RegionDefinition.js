@@ -23,7 +23,7 @@ angular.module('CACMobile')
           "South Coast - Inland":{display:"South Coast - Inland", url:"http://www.avalanche.ca/dataservices/cac/bulletins/xml/South-Coast", type:"cac"},
           "South Rockies":{display:"South Rockies", url:"http://www.avalanche.ca/dataservices/cac/bulletins/xml/South-Rockies", type:"cac"},
           "Waterton":{display:"Waterton Lakes National Park", url:"http://avalanche.pc.gc.ca/CAAML-eng.aspx?d=TODAY&r=4", type:"parks"},
-          "Yukon":{display:"Yukon", url:"http://www.avalanche.ca/dataservices/cac/bulletins/xml/yukon", type:"cac"}
+          "Yukon - Klondike":{display:"Yukon", url:"http://www.avalanche.ca/dataservices/cac/bulletins/xml/yukon", type:"cac"}
         };
 
     var regionExists = function (region)
