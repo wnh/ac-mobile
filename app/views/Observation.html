@@ -98,18 +98,47 @@
       </div>
 
       <div class="control-group">
-        <label class="control-label" for="image">Image File</label>
-        <div class="controls">
-         <input type="file" name="image" file-upload="photo.image"/>
-        </div>
-    </div>
+         <label class="control-label" for="image">image name</label>
+         <div class="controls">
+            <input type="text" ng-model="photo.image" name="image" />
+         </div>
+      </div>
+
+      <div class="control-group" ng-controller="SelectPhotoModalCtrl">
+          <script type="text/ng-template" id="selectPhoto_modal.html">
+              <div class="modal-header">
+                  <h3> Pick Source</h3>
+              </div>
+
+              <div class="control-group">
+                <div class="controls">
+                 <button class="btn" ng-click="library()">Library</button>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <div class="controls">
+                 <button class="btn" ng-click="camera()">Camera</button>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                  <button class="btn btn-primary" ng-click="ok()">OK</button>
+                  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+              </div>
+          </script>
+
+          <div class="controls">
+            <button class="btn" ng-click="open()">Select Image</button>
+          </div>
+          <div ng-show="photo.image">Selection from a modal: {{ photo.image }}</div>
+      </div>
 
       <div class="control-group">
         <div class="controls">
-         <button ng-click="savePhoto(session.token, obs.id)">Send Photo</button>
+         <button class="btn" ng-click="savePhoto(session.token, obs.id)">Send Photo</button>
         </div>
       </div>
-
 
      <div> Location</div>
       <div class="control-group">

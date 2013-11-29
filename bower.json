@@ -8,7 +8,7 @@
     "bootstrap-sass": "~2.3.1",
     "es5-shim": "~2.0.8",
     "angular-resource": "~1.0.7",
-    "ngUpload":"0.4.0"
+    "angular-bootstrap": "~0.6.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.0.7",

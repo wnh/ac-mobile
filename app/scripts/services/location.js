@@ -2,11 +2,11 @@
 
 angular.module('CACMobile')
   .factory('location', function ($rootScope, $q) {
-	  
+
 	  var apply = function () {
           $rootScope.$apply();
-    };  
-      
+    };
+
     return {
         getPosition: function () {
         	var defer = $q.defer();
@@ -15,7 +15,7 @@ angular.module('CACMobile')
         			{
         				defer.resolve(position);
         				apply();
-        			}); 
+        			});
         	return defer.promise;
         }
     }

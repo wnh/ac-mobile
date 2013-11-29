@@ -9,7 +9,7 @@ angular.module('CACMobile')
             var model = $parse(attributes.fileUpload)
             var file = event.target.files[0];
             $scope.$apply(function () {
-               model.assign($scope,file);
+               model.assign($scope,file.name);
             });
         });
     };
