@@ -1,7 +1,13 @@
-<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>  
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
 
-<div class="content">
-<img src="img/loading.gif" class="loading" ng-show="loading">
+<div class="content" ng-show="!visible">
+    Currently there are no data feeds available for this region.</br>
+    Apologies for the inconvenience, please check back later.</br>
+</div>
+
+<div class="content" ng-show="visible">
+
+  <img src="img/loading.gif" class="loading" ng-show="loading">
 	<div class="region">Region: {{regionDisplayName}}</div>
 	<div class="expiry">
 		<div>Issued: {{valid.issued}}</div>
@@ -15,7 +21,7 @@
 		<div class="middle">Treeline</div>
 		<div class="bottom">Below Treeline</div>
 		<div class="warntop" ng-class="today.alpine.css">{{today.alpine.text}}</div>
-		<div class="warnmiddle" ng-class="today.alpine.css">{{today.alpine.text}}</div>
+		<div class="warnmiddle" ng-class="today.treeline.css">{{today.treeline.text}}</div>
 		<div class="warnbottom" ng-class="today.belowTreeline.css">{{today.belowTreeline.text}}</div>
 	</div>
 
@@ -50,6 +56,6 @@
 	</ul>
 
 </div>
-   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
-    </div>           
-    
+
+<div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'"></div>
+
