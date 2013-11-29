@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.directive('googleMap', function($window, Bounds, $rootScope){
+.directive('googleMap', function($window, Bounds, $rootScope, $location){
 
  return function (scope, elem, attrs) {
   function HomeControl(controlDiv, map) {
@@ -39,7 +39,7 @@ angular.module('CACMobile')
   });
 
        //! Add region overlay as KML Layer
-       var kmlUrl = 'http://avalanche.ca:81/KML/CACBulletinRegions.kml?a=1'; //\todo make this a config parameter //to force update of kml add and increment num ?a=1 //'file:///C:/doc.kml'; //'https://developers.google.com/kml/training/westcampus.kml';
+       var kmlUrl = 'http://avalanche.ca:81/KML/All_Regions_Low.kmz'; //\todo make this a config parameter //to force update of kml add and increment num ?a=1 //'file:///C:/doc.kml'; //'https://developers.google.com/kml/training/westcampus.kml';
        var kmlOptions = {
          clickable: true,
          suppressInfoWindows: true, //! \todo enable this and make infowindows display nice information see git issue
@@ -50,9 +50,10 @@ angular.module('CACMobile')
 
        google.maps.event.addListener(kmlLayer, 'click', function(kmlEvent) {
          var region = kmlEvent.featureData.name;
-         var path = "#/region-details/" + region;
-             $window.location.href = path; //outside of scope so $location doesnt seem to work, is there a more angular way to do this *hack* using this seems to destroy back ability
-           });
+        
+      var path = "/region-details/" + region;
+         scope.$apply($location.path(path));
+            });
        //!
 
        var myLatlng = new google.maps.LatLng(scope.latitude,scope.longitude);
