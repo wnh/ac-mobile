@@ -39,7 +39,7 @@ angular.module('CACMobile')
 	   getPostion();
 	   
 
-	   	$scope.$watch(function () { return Bounds.getBounds(); },
+    $scope.$watch(function () { return Bounds.getBounds(); },
     	function(oldval,newval) {
     		if (oldval != newval) {
     			var b = Bounds.getBounds();
@@ -48,5 +48,5 @@ angular.module('CACMobile')
     		}
     	},true);
 
-	   	$scope.bounds = Bounds.getBounds();
+    $scope.bounds = Bounds.getBounds();
   }); // end MapCtrl controller

@@ -31,7 +31,7 @@ angular.module('CACMobile')
 
       //! \todo comment
       observation: function (){
-        var obsObj = $resource(apiUrl+'/observation', {},
+        var obsObj = $resource(apiUrl+'/observations', {},
         {
           get: { method: 'GET', isArray:true },
           create: { method: 'POST' }

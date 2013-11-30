@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.directive('googleMap', function($window, Bounds, $rootScope, $location){
+.directive('googleMap', function($window, Bounds, $rootScope, $location, Observation){
 
  return function (scope, elem, attrs) {
   function HomeControl(controlDiv, map) {
@@ -119,30 +119,44 @@ var locUpdate = function(newValue,oldValue) {
   }
 }
 
+var loadObs = function(event) {
+  Observation.setIds(event.data)
+  scope.$apply($location.path('/obs-list'))
+}
+
 var createLocMarker = function(loc) {
+  //Set up the marker at the right position
   var locLatlng = new google.maps.LatLng(loc.latitude,loc.longitude);
-
-
   var locMarker = new google.maps.Marker({
     position: locLatlng,
     map: map,
     title:"Location Marker"
   });
 
-  var locContent = "Location is at " + loc.latitude + "," + loc.longitude + "<br />"
-  locContent += "Location has " + loc.observation_id.length + " observations";
-
+  //Build the info window content here, including a button we'll listen for later
+  var buttonid = "but" + loc.id;
+  var locContent = "Location is at " + loc.latitude + "," + loc.longitude + "<br />";
+  locContent += "Location has " + loc.observation_id.length + " observations <br />";
+  locContent += "<button id=\"" + buttonid + "\">View Obs</button>";
   var locInfoWindow = new google.maps.InfoWindow({
     content: locContent
   });
 
+
+  //Add click listener to open the info window, including tracking which window is open
   google.maps.event.addListener(locMarker, 'click', function() {
     if (activeInfoWindow) {
       activeInfoWindow.close();
     }
     locInfoWindow.open(map,locMarker);
+    
     activeInfoWindow = locInfoWindow;
   });
+
+  // Once the info window opens, and dom is ready, add a jquery listener to the button
+  google.maps.event.addListener(locInfoWindow,'domready', function () {
+    $("#"+buttonid).click(loc.observation_id,function(eventObject) {loadObs(eventObject)}); 
+  })
   return locMarker;
 }
 
