@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .factory('Observation', function( $resource, $location ) {
+  .factory('Observation', function() {
 
    var ids = []
 
