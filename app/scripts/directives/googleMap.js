@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.directive('googleMap', function($window){
+.directive('googleMap', function($window, Bounds, $rootScope, $location, Observation){
 
  return function (scope, elem, attrs) {
   function HomeControl(controlDiv, map) {
@@ -31,8 +31,15 @@ angular.module('CACMobile')
          var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: false, center: new google.maps.LatLng(scope.latitude, scope.longitude), mapTypeId: google.maps.MapTypeId.TERRAIN};
          var map = new google.maps.Map(elem[0], mapOptions);
 
+           google.maps.event.addListener(map, 'idle', function() {
+            var bounds = map.getBounds();
+            var ne = bounds.getNorthEast();
+            var sw = bounds.getSouthWest();
+            scope.$apply(Bounds.setBounds(ne.lng(),ne.lat(),sw.lng(),sw.lat()));
+  });
+
        //! Add region overlay as KML Layer
-       var kmlUrl = 'http://avalanche.ca:81/KML/CACBulletinRegions.kml?a=1'; //\todo make this a config parameter //to force update of kml add and increment num ?a=1 //'file:///C:/doc.kml'; //'https://developers.google.com/kml/training/westcampus.kml';
+       var kmlUrl = 'http://avalanche.ca:81/KML/All_Regions_Low.kmz'; //\todo make this a config parameter //to force update of kml add and increment num ?a=1 //'file:///C:/doc.kml'; //'https://developers.google.com/kml/training/westcampus.kml';
        var kmlOptions = {
          clickable: true,
          suppressInfoWindows: true, //! \todo enable this and make infowindows display nice information see git issue
@@ -43,9 +50,10 @@ angular.module('CACMobile')
 
        google.maps.event.addListener(kmlLayer, 'click', function(kmlEvent) {
          var region = kmlEvent.featureData.name;
-         var path = "#/region-details/" + region;
-             $window.location.href = path; //outside of scope so $location doesnt seem to work, is there a more angular way to do this *hack* using this seems to destroy back ability
-           });
+        
+      var path = "/region-details/" + region;
+         scope.$apply($location.path(path));
+            });
        //!
 
        var myLatlng = new google.maps.LatLng(scope.latitude,scope.longitude);
@@ -93,51 +101,63 @@ google.maps.event.addListener(infoWindow, 'domready', function() {
   });
 });
 
-var obsMarkers = [];
+var locMarkers = [];
 var activeInfoWindow = null;
 
-var obsUpdate = function(newValue,oldValue) {
-  console.log("Loading markers as observations have changed...")
-  var obslength = 0
-  if (scope.observations)  {
-    obslength = scope.observations.length
+var locUpdate = function(newValue,oldValue) {
+  console.log("Loading markers as locations have changed...")
+  var loclength = 0
+  if (scope.locations)  {
+    loclength = scope.locations.length
   }
-  for (var i=0; i < obsMarkers.length; i++) {
-    obsMarkers.pop().setMap(null);
+  for (var i=0; i < locMarkers.length; i++) {
+    locMarkers[i].setMap(null);
   }
-  for (var i=0; i < obslength; i++) {
-    obsMarkers.push(createObsMarker(scope.observations[i]));
+  locMarkers = [];
+  for (var i=0; i < loclength; i++) {
+    locMarkers.push(createLocMarker(scope.locations[i]));
   }
 }
 
-var createObsMarker = function(obs) {
-  var obsLatlng = new google.maps.LatLng(obs.location.latitude,obs.location.longitude);
+var loadObs = function(event) {
+  Observation.setIds(event.data)
+  scope.$apply($location.path('/obs-list'))
+}
 
-
-  var obsMarker = new google.maps.Marker({
-    position: obsLatlng,
+var createLocMarker = function(loc) {
+  //Set up the marker at the right position
+  var locLatlng = new google.maps.LatLng(loc.latitude,loc.longitude);
+  var locMarker = new google.maps.Marker({
+    position: locLatlng,
     map: map,
-    title:"Observation Marker"
-  });
-  var comment = obs.comment || "";
-  var time = obs.recorded_at || obs.submitted_at;
-  var obsContent = "Observation made at " + time + "<br />";
-  if (obs.photo) {
-    obsContent += "<img src='"+obs.photo.tmb_url+"'/>";
-  }
-
-  var obsInfoWindow = new google.maps.InfoWindow({
-    content: obsContent
+    title:"Location Marker"
   });
 
-  google.maps.event.addListener(obsMarker, 'click', function() {
+  //Build the info window content here, including a button we'll listen for later
+  var buttonid = "but" + loc.id;
+  var locContent = "Location is at " + loc.latitude + "," + loc.longitude + "<br />";
+  locContent += "Location has " + loc.observation_id.length + " observations <br />";
+  locContent += "<button id=\"" + buttonid + "\">View Obs</button>";
+  var locInfoWindow = new google.maps.InfoWindow({
+    content: locContent
+  });
+
+
+  //Add click listener to open the info window, including tracking which window is open
+  google.maps.event.addListener(locMarker, 'click', function() {
     if (activeInfoWindow) {
       activeInfoWindow.close();
     }
-    obsInfoWindow.open(map,obsMarker);
-    activeInfoWindow = obsInfoWindow;
+    locInfoWindow.open(map,locMarker);
+    
+    activeInfoWindow = locInfoWindow;
   });
-  return obsMarker;
+
+  // Once the info window opens, and dom is ready, add a jquery listener to the button
+  google.maps.event.addListener(locInfoWindow,'domready', function () {
+    $("#"+buttonid).click(loc.observation_id,function(eventObject) {loadObs(eventObject)}); 
+  })
+  return locMarker;
 }
 
 
@@ -152,7 +172,7 @@ var createObsMarker = function(obs) {
        };
        scope.$watch('latitude',posUpdate);
        scope.$watch('longitude',posUpdate);
-       scope.$watch('observations',obsUpdate,true);
+       scope.$watch('locations',locUpdate,true);
        //!
 
        //! add home button

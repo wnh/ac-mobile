@@ -54,6 +54,10 @@ angular.module('CACMobile',
         templateUrl: 'views/Observation.html',
         controller: 'ObservationCtrl'
       })
+      .when ('/obs-list', {
+        templateUrl: 'views/obsList.html',
+        controller: 'ObservationListCtrl'
+      })
       .otherwise({
         templateUrl: 'views/Loading.html',
         controller: 'LoadingCtrl'

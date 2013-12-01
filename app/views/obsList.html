@@ -1,0 +1,21 @@
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>  
+
+
+            <div class="content">
+            <div class="region">
+               Observation List
+            </div>
+               <div class="text-wrapper text-center">
+                <table class="table table-hover">
+<tr><th>ID</th><th>Submitted At</th><th>Recorded At</th><th>Photos</th></tr>
+<tr ng-repeat="obs in observations">
+   <td>{{obs.id}}</td>
+   <td>{{obs.submitted_at}}</td>
+   <td>{{obs.recorded_at}}</td>
+   <td>{{photoLinks(obs.photo_id)}}</td>
+</tr>
+</table>
+               </div>
+         </div>
+
+<div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'" />
