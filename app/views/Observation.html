@@ -104,34 +104,46 @@
          </div>
       </div>
 
-      <div class="control-group" ng-controller="SelectPhotoModalCtrl">
-          <script type="text/ng-template" id="selectPhoto_modal.html">
-              <div class="modal-header">
-                  <h3> Pick Source</h3>
-              </div>
 
-              <div class="control-group">
-                <div class="controls">
-                 <button class="btn" ng-click="library()">Library</button>
+      <div ng-show="web">
+
+      <label class="control-label" for="image">File</label>
+         <div class="controls">
+          <input type="file" name="image" file-upload="photo.image"/>
+         </div>
+
+      </div>
+
+      <div ng-show="!web">
+        <div class="control-group" ng-controller="SelectPhotoModalCtrl">
+            <script type="text/ng-template" id="selectPhoto_modal.html">
+                <div class="modal-header">
+                    <h3> Pick Source</h3>
                 </div>
-              </div>
 
-              <div class="control-group">
-                <div class="controls">
-                 <button class="btn" ng-click="camera()">Camera</button>
+                <div class="control-group">
+                  <div class="controls">
+                   <button class="btn" ng-click="library()">Library</button>
+                  </div>
                 </div>
-              </div>
 
-              <div class="modal-footer">
-                  <button class="btn btn-primary" ng-click="ok()">OK</button>
-                  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-              </div>
-          </script>
+                <div class="control-group">
+                  <div class="controls">
+                   <button class="btn" ng-click="camera()">Camera</button>
+                  </div>
+                </div>
 
-          <div class="controls">
-            <button class="btn" ng-click="open()">Select Image</button>
-          </div>
-          <div ng-show="photo.image">Selection from a modal: {{ photo.image }}</div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="ok()">OK</button>
+                    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                </div>
+            </script>
+
+            <div class="controls">
+              <button class="btn" ng-click="open()">Select Image</button>
+            </div>
+            <div ng-show="photo.image">Selection from a modal: {{ photo.image }}</div>
+        </div>
       </div>
 
       <div class="control-group">

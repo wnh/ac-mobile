@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('ObservationCtrl', ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log', function ($scope, ResourceFactory, location, $resource, $modal, $log) {
+  .controller('ObservationCtrl', ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log','platform', function ($scope, ResourceFactory, location, $resource, $modal, $log, platform) {
 
 
    //! Position
@@ -17,10 +17,10 @@ angular.module('CACMobile')
    getPosition();
    //! End Position */
 
+  $scope.web = platform.isWeb();
 
   var fail = function (content) { alert("save failed", content); } //! \todo something useful
   var success = function (content) {alert("save suceeded", content);} //! \todo something useful
-
 
   //! Session {
   $scope.session ={email:null, password:null, token:null};
@@ -101,18 +101,26 @@ angular.module('CACMobile')
     //$scope.photo = {image:null};
 
     var getImage = function (source) {
-      $log.info(source)
-      //$scope.photo.image = "test";
-      navigator.camera.getPicture(
-                      function(response){
-                        alert(response);
-                        $scope.photo.image = response;
-                      },
-                      function(response){
-                        $log.error("error getting image " + response);
-                      },
-                      source);
-    };
+        $log.info(source)
+
+        if (platform.isMobile())
+        {
+          navigator.camera.getPicture(
+            function(response){
+              alert(response);
+              $scope.photo.image = response;
+            },
+            function(response){
+              $log.error("error getting image " + response);
+            },
+            source);
+        }
+        else
+        {
+          $log.error("attempted to get image when the platform is web based");
+        }
+
+    }
 
     $scope.camera = function () {
             getImage({ quality: 45,
