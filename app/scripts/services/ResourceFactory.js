@@ -52,7 +52,7 @@ angular.module('CACMobile')
 
       //! \todo comment
       photo: function (){
-        var photoObj = $resource(apiUrl+'/photo/:id', {},
+        var photoObj = $resource(apiUrl+'/photo', {},
         {
           test: { method: 'GET', url: apiUrl+'/photo/:id'}
         });

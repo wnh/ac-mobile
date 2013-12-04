@@ -3,7 +3,8 @@
 angular.module('CACMobile',
   [
     'ngResource',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ngRoute'
   ])
   .config(function ($routeProvider) {
     $routeProvider
