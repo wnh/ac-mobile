@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .directive('obsList', [function () {
+  .directive('obsList', function ($compile) {
 
    var linker = function (scope, element, attrs) {
          var tableHeader = ["ID","Submitted","Recorded","Photos"];
@@ -13,6 +13,13 @@ angular.module('CACMobile')
             trow.appendChild(document.createElement("th")).appendChild(document.createTextNode(tableHeader[i]));
          }
 
+         var photoLink = function (ids) {
+            var retHTML = "";
+            for(var i = 0; i<ids.length;i++) {
+               retHTML += "<p ng-click=\"loadPhoto(" + ids[i] + ")\">Photo</p>";
+            }
+            return retHTML;
+         }
          var buildTable = function () {
             var tbody = document.createElement('tbody');
             element.append(tbody);
@@ -22,9 +29,12 @@ angular.module('CACMobile')
                trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].id));
                trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].submitted_at));
                trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].recorded_at));
-               trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].photo_id));
+               trow.appendChild(document.createElement("td")).innerHTML = photoLink(scope.observations[j].photo_id);
             }
+            var compiled = $compile(tbody);
+            compiled(scope);
          }
+
          scope.$watch('observations',buildTable);
       }
 
@@ -32,5 +42,5 @@ angular.module('CACMobile')
       template: '<div></div>',
       restrict: 'A',
       link: linker
-    };
-  }]);
+    }
+;  });

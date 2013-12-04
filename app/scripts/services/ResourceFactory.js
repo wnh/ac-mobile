@@ -52,8 +52,10 @@ angular.module('CACMobile')
 
       //! \todo comment
       photo: function (){
-        var photoObj = $resource(apiUrl+'/photo', {},
-        {});
+        var photoObj = $resource(apiUrl+'/photo/:id', {},
+        {
+          test: { method: 'GET', url: apiUrl+'/photo/:id'}
+        });
 
         //! Cannot post file obj using resource instead overwrite the save function
         //! \todo put a betetr description/comment here LN ?
