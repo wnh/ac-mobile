@@ -50,7 +50,7 @@ angular.module('CACMobile')
 
        google.maps.event.addListener(kmlLayer, 'click', function(kmlEvent) {
          var region = kmlEvent.featureData.name;
-        
+
       var path = "/region-details/" + region;
          scope.$apply($location.path(path));
             });
@@ -149,13 +149,13 @@ var createLocMarker = function(loc) {
       activeInfoWindow.close();
     }
     locInfoWindow.open(map,locMarker);
-    
+
     activeInfoWindow = locInfoWindow;
   });
 
   // Once the info window opens, and dom is ready, add a jquery listener to the button
   google.maps.event.addListener(locInfoWindow,'domready', function () {
-    $("#"+buttonid).click(loc.observation_id,function(eventObject) {loadObs(eventObject)}); 
+    $("#"+buttonid).click(loc.observation_id,function(eventObject) {loadObs(eventObject)});
   })
   return locMarker;
 }

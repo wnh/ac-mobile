@@ -27,10 +27,6 @@ angular.module('CACMobile')
 			})
 	}
 
-	ConnectionManager.offline(function () {
-		$location.path("region-list");			
-	});
-
 	$scope.updatePosition = function () {
 		getPostion();
 	};
@@ -38,7 +34,6 @@ angular.module('CACMobile')
 	   //! Get the current position
 	   getPostion();
 	   
-
     $scope.$watch(function () { return Bounds.getBounds(); },
     	function(oldval,newval) {
     		if (oldval != newval) {
@@ -47,6 +42,5 @@ angular.module('CACMobile')
     			getLocations(b.nelon,b.nelat,b.swlon,b.swlat);
     		}
     	},true);
-
     $scope.bounds = Bounds.getBounds();
   }); // end MapCtrl controller

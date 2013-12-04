@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('ObservationCtrl', function ($scope, ResourceFactory, location, $resource, $modal, $log) {
+  .controller('ObservationCtrl', ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log','platform', function ($scope, ResourceFactory, location, $resource, $modal, $log, platform) {
 
 
    //! Position
@@ -17,10 +17,10 @@ angular.module('CACMobile')
    getPosition();
    //! End Position */
 
+  $scope.web = platform.isWeb();
 
   var fail = function (content) { alert("save failed", content); } //! \todo something useful
   var success = function (content) {alert("save suceeded", content);} //! \todo something useful
-
 
   //! Session {
   $scope.session ={email:null, password:null, token:null};
@@ -73,7 +73,7 @@ angular.module('CACMobile')
   //! }
 
 //! Load Photo Modal Dialog {
-  $scope.SelectPhotoModalCtrl = function ($scope) {
+  $scope.SelectPhotoModalCtrl = ['$scope', function ($scope) {
 
     $scope.open = function () {
 
@@ -93,40 +93,46 @@ angular.module('CACMobile')
         $log.info('Modal dismissed at: ' + new Date());
       });
     };
-  };
+  }];
 
-  var ModalCtrl = function ($scope, $modalInstance, image) {
+  var ModalCtrl = ['$scope', '$modalInstance', 'image', function ($scope, $modalInstance, image) {
 
     $scope.photo = image;
+    //$scope.photo = {image:null};
 
+    var getImage = function (source) {
+        $log.info(source)
+
+        if (platform.isMobile())
+        {
+          navigator.camera.getPicture(
+            function(response){
+              alert(response);
+              $scope.photo.image = response;
+            },
+            function(response){
+              $log.error("error getting image " + response);
+            },
+            source);
+        }
+        else
+        {
+          $log.error("attempted to get image when the platform is web based");
+        }
+
+    }
 
     $scope.camera = function () {
-      getImage({ quality: 45,
-                targetWidth:  1000,
-                targetHeight: 1000,
-                destinationType: navigator.camera.DestinationType.FILE_URI,
-                encodingType:    navigator.camera.EncodingType.JPEG,
-                sourceType:      navigator.camera.PictureSourceType.CAMERA });
+            getImage({ quality: 45,
+              destinationType: Camera.DestinationType.FILE_URI,
+              sourceType:      Camera.PictureSourceType.CAMERA});
     };
 
     $scope.library = function() {
-      getImage({ quality: 50,
-              destinationType: navigator.camera.DestinationType.FILE_URI,
-              sourceType:      navigator.camera.PictureSourceType.PHOTOLIBRARY});
+      getImage({ quality: 45,
+              destinationType: Camera.DestinationType.FILE_URI,
+              sourceType:      Camera.PictureSourceType.PHOTOLIBRARY});
     };
-
-    var getImage = function (source) {
-      navigator.camera.getPicture(
-                      function(response){
-                        $scope.photo = response;
-                      },
-                      function(response){
-                        alert("Error");
-                        alert(response);
-                      },
-                      source);
-    };
-
 
     $scope.ok = function () {
       $modalInstance.close($scope.photo.image);
@@ -135,7 +141,7 @@ angular.module('CACMobile')
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');
     };
-  };
+  }];
   //! }
 
 //! Location {
@@ -177,7 +183,7 @@ angular.module('CACMobile')
       $scope.response = JSON.parse(content); // Presumed content is a json string!
   };*/
 
-  });
+  }]);
 
 
 

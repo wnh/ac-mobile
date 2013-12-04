@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: TOU', function () {
+describe('Service: platform', function () {
 
   // load the service's module
   beforeEach(module('CACMobileApp'));
 
   // instantiate service
-  var TOU;
-  beforeEach(inject(function (_TOU_) {
-    TOU = _TOU_;
+  var platform;
+  beforeEach(inject(function(_platform_) {
+    platform = _platform_;
   }));
 
   it('should do something', function () {
-    expect(!!TOU).toBe(true);
+    expect(!!platform).toBe(true);
   });
 
 });
