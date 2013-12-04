@@ -6,14 +6,8 @@
                Observation List
             </div>
                <div class="text-wrapper text-center">
-                <table class="table table-hover">
-<tr><th>ID</th><th>Submitted At</th><th>Recorded At</th><th>Photos</th></tr>
-<tr ng-repeat="obs in observations">
-   <td>{{obs.id}}</td>
-   <td>{{obs.submitted_at}}</td>
-   <td>{{obs.recorded_at}}</td>
-   <td>{{photoLinks(obs.photo_id)}}</td>
-</tr>
+                <table class="table table-hover" obs-list="observations">
+
 </table>
                </div>
          </div>

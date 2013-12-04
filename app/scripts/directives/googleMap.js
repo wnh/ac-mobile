@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.directive('googleMap', function($window, Bounds, $rootScope, $location, Observation){
+.directive('googleMap', function($window, Bounds, $rootScope, $location, State){
 
  return function (scope, elem, attrs) {
   function HomeControl(controlDiv, map) {
@@ -120,7 +120,7 @@ var locUpdate = function(newValue,oldValue) {
 }
 
 var loadObs = function(event) {
-  Observation.setIds(event.data)
+  State.setObsIds(event.data)
   scope.$apply($location.path('/obs-list'))
 }
 
