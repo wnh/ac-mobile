@@ -34,10 +34,11 @@ angular.module('CACMobile')
     })
 };
 
-var ModalInstanceCtrl = function ($scope, $modalInstance, photo) {
+var ModalInstanceCtrl = ['$scope', '$modalInstance', 'photo', function ($scope, $modalInstance, photo) {
   $scope.photo = photo;
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
-};
+}];
+
 });

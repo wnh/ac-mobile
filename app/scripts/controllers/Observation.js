@@ -161,7 +161,7 @@ angular.module('CACMobile')
       });
 };
 
-var setLocationCtrl = function ($scope, $modalInstance, location) {
+var setLocationCtrl = ['$scope', '$modalInstance', 'location', function ($scope, $modalInstance, location) {
   $scope.location = location;
   $scope.ok = function () {
     $modalInstance.close($scope.location);
@@ -169,7 +169,7 @@ var setLocationCtrl = function ($scope, $modalInstance, location) {
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
-};
+}];
 //! End Location Modal Dialog
 
 //! Location {
