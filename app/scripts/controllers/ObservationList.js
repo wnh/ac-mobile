@@ -14,13 +14,13 @@ angular.module('CACMobile')
     $scope.observations = response;
   })
 
- $scope.photo = "Test";
+
  $scope.loadPhoto = function (id) {
   ResourceFactory.photo().test({id: id},
     function (response) {
       $scope.photo = response;
       var modalInstance = $modal.open({
-        templateUrl: 'myModalContent.html',
+        templateUrl: 'modalPhoto.html',
         controller: ModalInstanceCtrl,
         resolve: {
           photo: function () {
@@ -32,9 +32,6 @@ angular.module('CACMobile')
     function (response) {
       console.log("Unable to load photo");
     })
-
-
-
 };
 
 var ModalInstanceCtrl = function ($scope, $modalInstance, photo) {

@@ -16,7 +16,6 @@ angular.module('CACMobile')
 
    getPosition();
    //! End Position */
-
   $scope.web = platform.isWeb();
 
   var fail = function (content) { alert("save failed", content); } //! \todo something useful
@@ -143,6 +142,35 @@ angular.module('CACMobile')
     };
   }];
   //! }
+//! Load Location Modal Dialog
+
+ $scope.setLocation = function () {
+      var modalInstance = $modal.open({
+        templateUrl: 'modalLocation.html',
+        controller: setLocationCtrl,
+        resolve: {
+          location: function () {
+            return {latitude: $scope.location.latitude, longitude: $scope.location.longitude};
+          }
+        }
+      });
+      modalInstance.result.then(function (location) {
+        $scope.location = location;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+};
+
+var setLocationCtrl = function ($scope, $modalInstance, location) {
+  $scope.location = location;
+  $scope.ok = function () {
+    $modalInstance.close($scope.location);
+  };
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};
+//! End Location Modal Dialog
 
 //! Location {
   $scope.location = {id:null, token:null, observation_id:null, latitude:50.9831700, longitude: -118.2023000};

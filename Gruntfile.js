@@ -281,7 +281,7 @@ module.exports = function (grunt) {
             '.htaccess',
             //'bower_components/**/*',
             'img/{,*/}*.{gif,webp,svg}',
-            'bower_components/jquery/jquery.min.js',
+            'js/other/xml2json.js"',
             'bower_components/angular/angular.min.js',
             'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
             'js/other/*.js',

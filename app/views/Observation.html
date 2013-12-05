@@ -167,6 +167,30 @@
          </div>
       </div>
 
+            <script type="text/ng-template" id="modalLocation.html">
+                <div class="modal-header">
+                    <h3>Select Location</h3>
+                </div>
+
+                  <p>Tap to set Location</p>
+                  <div style="height:300px;width:300px;margin:auto;" id="map-canvas" set-location-map></div>
+                  <p>{{location.latitude}},{{location.longitude}}</p>
+                  <p>{{foo}}</p>
+                  
+             
+
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="ok()">OK</button>
+                    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                </div>
+            </script>
+        <div class="control-group">
+        <div class="controls">
+         <button ng-click="setLocation()">Set Location</button>
+        </div>
+      </div>
+
       <div class="control-group">
          <label class="control-label" for="latitude">latitude</label>
          <div class="controls">

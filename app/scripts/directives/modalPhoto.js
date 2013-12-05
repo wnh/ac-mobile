@@ -6,7 +6,6 @@ angular.module('CACMobile')
       template: '<div></div>',
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
-         console.log("Is this being run")
         var img = document.createElement('img');
         img.src = scope.photo.links.image.href;
         element.append(img);
