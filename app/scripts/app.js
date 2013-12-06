@@ -8,11 +8,11 @@ angular.module('CACMobile',
   ])
   .config(function ($routeProvider) {
     $routeProvider
-       .when('/', {
+      .when('/', {
         templateUrl: 'views/Map.html',
         controller: 'MapCtrl'
-        })
-       .when('/gear', {
+      })
+      .when('/gear', {
         templateUrl: 'views/gear.html',
         controller: 'NavCtrl'
       })

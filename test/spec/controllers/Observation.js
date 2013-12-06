@@ -3,7 +3,7 @@
 describe('Controller: ObservationCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('CACMobileApp'));
+  beforeEach(module('CACMobile'));
 
   var ObservationCtrl,
     scope;
@@ -16,7 +16,4 @@ describe('Controller: ObservationCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
-  });
 });

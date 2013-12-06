@@ -3,7 +3,7 @@
 describe('Service: uploadService', function () {
 
   // load the service's module
-  beforeEach(module('CACMobileApp'));
+  beforeEach(module('CACMobile'));
 
   // instantiate service
   var uploadService;
@@ -11,8 +11,5 @@ describe('Service: uploadService', function () {
     uploadService = _uploadService_;
   }));
 
-  it('should do something', function () {
-    expect(!!uploadService).toBe(true);
-  });
 
 });

@@ -3,7 +3,7 @@
 describe('Service: Forecast', function () {
 
   // load the service's module
-  beforeEach(module('App'));
+  beforeEach(module('CACMobile'));
 
   // instantiate service
   var Forecast;
@@ -11,8 +11,5 @@ describe('Service: Forecast', function () {
     Forecast = _Forecast_;
   }));
 
-  it('should do something', function () {
-    expect(!!Forecast).toBe(true);
-  });
 
 });
