@@ -39,7 +39,6 @@ angular.module('CACMobile')
       }
 
     return {
-      template: '<div></div>',
       restrict: 'A',
       link: linker
     }

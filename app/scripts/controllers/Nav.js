@@ -1,8 +1,28 @@
 'use strict';
-
+// Begin obcChoice modal code
 angular.module('CACMobile')
-  .controller('NavCtrl', function ($scope, $location, CallVenderApp,TOU) {
+  .controller('NavCtrl', function ($scope, $location, CallVenderApp,TOU, $modal) {
 	    
+    $scope.loadObsChoice = function () {
+
+      var modalInstance = $modal.open({
+        templateUrl: 'modalObsChoice.html',
+        controller: obsChoiceCtrl,
+      });
+
+    };
+
+var obsChoiceCtrl = ['$scope', '$modalInstance', '$location', function ($scope, $modalInstance, $location) {
+  $scope.redirect = function (url){
+    $location.path(url);      
+    $modalInstance.dismiss('redirect');
+  }
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+}];
+// End obcChoice modal code
+
        //! redirect to page within the application
        $scope.redirect = function (url){
 	    		$location.path(url);			

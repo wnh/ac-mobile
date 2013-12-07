@@ -7,17 +7,20 @@
 <div class="map-content">
    <div id="map-canvas" google-map></div>
 </div>
-<div>
-<p>NE Longitude: {{bounds.nelon}}</p>
-<p>NE Latitude: {{bounds.nelat}}</p>
-<p>SW Longitude: {{bounds.swlon}}</p>
-<p>SW Latitude: {{bounds.swlat}}</p>
-</div>
+
+<script type="text/ng-template" id="modalObsChoice.html">
+   <div style="background-color:black; color: white" >
+   <img src="img/icons/icon_obs.png" ng-click="redirect('/ObservationViewMap')" /><p>View Obs</p>
+   <img src="img/icons/icon_obs.png" ng-click="redirect('/ObservationSubmit')" /><p>Submit Obs</p>
+
+   </div>
+<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</script>
 
 <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl'>
-   <div class="nav-item text-center">
-   <img class="footer-img" src="img/icons/icon_obs.png" ng-click="redirect('/Observation')" />
-   </div>
+<div class="nav-item text-center">
+   <img class="footer-img" src="img/icons/icon_obs.png" ng-click="loadObsChoice()" />
+</div>
    <div class="nav-item text-center">
      <img class="footer-img" src="img/icons/icon_forecast.png" ng-click="redirect('/region-list')" />
   </div>

@@ -18,7 +18,7 @@ angular.module('CACMobile')
 
 
 	function getLocations (nelon, nelat, swlon, swlat) {
-		ResourceFactory.location().query({nelon: nelon, nelat: nelat, swlon: swlon, swlat: swlat},
+		ResourceFactory.location().query({nelon: nelon, nelat: nelat, swlon: swlon, swlat: swlat, clustered: false, from: new Date().toDateString(), to: new Date().toDateString()},
 			function(response) {
 				$scope.locations = response;
 			},

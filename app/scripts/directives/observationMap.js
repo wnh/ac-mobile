@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('CACMobile')
-.directive('googleMap', function($window, Bounds, $rootScope, $location, State){
+  .directive('observationMap', function ($window, Bounds, $rootScope, $location, State) {
 
- return function (scope, elem, attrs) {
-  function HomeControl(controlDiv, map) {
+   var linker = function(scope, elem, attrs) {
+      function HomeControl(controlDiv, map) {
          // Set CSS styles for the DIV containing the control
          // Setting padding to 5 px will offset the control
          // from the edge of the map
@@ -184,6 +184,9 @@ var createLocMarker = function(loc) {
 
       } //End if(google)
 
-
+   }
+    return {
+      restrict: 'A',
+      link: linker
     };
-}); // end googleMap directive
+  });
