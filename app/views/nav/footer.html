@@ -1,8 +1,14 @@
+
 <script type="text/ng-template" id="modalObsChoice.html">
-   <div style="background-color:black; color: white" >
+<div class="modal-header">
+View or Submit?
+</div>
+<div ="modal-body">
+   <div style="background-color:black; color: white;" >
    <img src="img/icons/icon_obs.png" ng-click="redirect('/ObservationViewMap')" /><p>View Obs</p>
    <img src="img/icons/icon_obs.png" ng-click="redirect('/ObservationSubmit')" /><p>Submit Obs</p>
 
+   </div>
    </div>
 <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </script>

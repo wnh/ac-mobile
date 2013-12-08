@@ -3,7 +3,7 @@
 angular.module('CACMobile')
 .directive('observationMap', function ($window, Bounds, $rootScope, $location, State) {
 
- var linker = function(scope, elem, attrs) {
+ return function(scope, elem, attrs) {
       function HomeControl(controlDiv, map) {
          // Set CSS styles for the DIV containing the control
          // Setting padding to 5 px will offset the control
@@ -24,8 +24,6 @@ angular.module('CACMobile')
           function() { map.setCenter(new google.maps.LatLng(scope.latitude, scope.longitude))});
 }
 
-if (typeof(google) != undefined) {
-
   var activeInfoWindow = null;
   var locMarkers = [];
 
@@ -34,27 +32,17 @@ if (typeof(google) != undefined) {
 
   google.maps.event.addListener(map, 'idle', function() {
     var bounds = map.getBounds();
+    var zoom = map.getZoom();
     var ne = bounds.getNorthEast();
     var sw = bounds.getSouthWest();
-    scope.$apply(Bounds.setBounds(ne.lng(),ne.lat(),sw.lng(),sw.lat()));
+    scope.$apply(Bounds.setBounds(ne.lng(),ne.lat(),sw.lng(),sw.lat(),zoom));
   });
-
-// This is a hack to get around some infowindow closing bug with Android 2.3
-// https://code.google.com/p/gmaps-api-issues/issues/detail?id=5397
-google.maps.event.addListener(infoWindow, 'domready', function() {
-  var infoWindowCloseButton = $($($("#infoWindowContent").parents()[2]).children()[0]);
-  infoWindowCloseButton.click(function(){
-    infoWindow.close();
-  });
-});
-
-
-
+  
 var locUpdate = function(newValue,oldValue) {
   console.log("Loading markers as locations have changed...")
-  var loclength = 0
+  var loclength = 0;
   if (scope.locations)  {
-    loclength = scope.locations.length
+    loclength = scope.locations.length;
   }
   for (var i=0; i < locMarkers.length; i++) {
     locMarkers[i].setMap(null);
@@ -63,6 +51,7 @@ var locUpdate = function(newValue,oldValue) {
   for (var i=0; i < loclength; i++) {
     locMarkers.push(createLocMarker(scope.locations[i]));
   }
+  console.log(locMarkers);
 }
 
 var loadObs = function(event) {
@@ -71,31 +60,31 @@ var loadObs = function(event) {
 }
 
 var createLocMarker = function(loc) {
+  console.log(loc);
   //Set up the marker at the right position
   var locLatlng = new google.maps.LatLng(loc.latitude,loc.longitude);
-  var locMarker = new google.maps.Marker({
-    position: locLatlng,
-    map: map,
-    title:"Location Marker"
-  });
+  var locMarker = new google.maps.Marker()
+  locMarker.setPosition(locLatlng);
+  locMarker.setMap(map);
 
   //Build the info window content here, including a button we'll listen for later
   var buttonid = "but" + loc.id;
   var locContent = "Location is at " + loc.latitude + "," + loc.longitude + "<br />";
-  locContent += "Location has " + loc.observation_id.length + " observations <br />";
+  if (loc.observation_id != null) {
+    locContent += "Location has " + loc.observation_id.length + " observations <br />";
+  }
   locContent += "<button id=\"" + buttonid + "\">View Obs</button>";
   var locInfoWindow = new google.maps.InfoWindow({
     content: locContent
   });
 
-
-  //Add click listener to open the info window, including tracking which window is open
+    //Add click listener to open the info window, including tracking which window is open
   google.maps.event.addListener(locMarker, 'click', function() {
     if (activeInfoWindow) {
       activeInfoWindow.close();
     }
     locInfoWindow.open(map,locMarker);
-
+    
     activeInfoWindow = locInfoWindow;
   });
 
@@ -121,9 +110,4 @@ var createLocMarker = function(loc) {
 
       } 
 
-    }
-    return {
-      restrict: 'A',
-      link: linker
-    };
   });

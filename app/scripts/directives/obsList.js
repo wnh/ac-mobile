@@ -29,7 +29,9 @@ angular.module('CACMobile')
                trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].id));
                trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].submitted_at));
                trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].recorded_at));
-               trow.appendChild(document.createElement("td")).innerHTML = photoLink(scope.observations[j].photo_id);
+               if (scope.observations[j].photo_id != null) {
+                  trow.appendChild(document.createElement("td")).innerHTML = photoLink(scope.observations[j].photo_id);
+               }
             }
             var compiled = $compile(tbody);
             compiled(scope);
