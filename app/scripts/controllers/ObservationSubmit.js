@@ -5,90 +5,41 @@ angular.module('CACMobile')
               ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log','platform', '$routeParams',
                 function ($scope, ResourceFactory, location, $resource, $modal, $log, platform, $routeParams) {
 
-  $scope.debug = $routeParams.debug;
-  $scope.web = platform.isWeb();
-  $scope.session = {email:null, password:null, token:null};
-  $scope.obs = {id:null,token:null, visibility:"public", recorded_at: new Date().toString()};
-  $scope.photo = {token:null, observation_id:null, comment:null, image:null, id:0};
-  $scope.location = {id:null, token:null, observation_id:null, latitude:50.9831700, longitude: -118.2023000};
 
- //! Position
-
-   function getPosition () {
-      location.getPosition().then(
-         function (position){
-            $scope.obs.latitude = position.coords.latitude;
-            $scope.obs.longitude = position.coords.longitude;
-            });
-   }
-
-   getPosition();
-   //! End Position */
-
-
-  //! Observation {
-
-  $scope.saveObs = function(token) {
-
-    $scope.obs.token = token;
-
-    var obsResource = ResourceFactory.observation();
-    obsResource.create($scope.obs,
-      function(response)
-      {
-        $scope.obs.id = response.id;
-      },
-      function(response){
-        alert(response.data.error);
-      }); //! params, data, success, fail
-  };
-  //! } End Observation
-
-
-  //! Photo {
-
-  $scope.savePhoto = function(token, obs_id) {
-
-    $scope.photo.observation_id = obs_id;
-    $scope.photo.token = token;
-
-    var photoResource = ResourceFactory.photo();
-    photoResource.create($scope.photo,
-      function(response){
-        $scope.photo.id = response.id;
-        alert(response.id);
-      });
-  }
-  //! }
+  $scope.photo_list = new Array() ;
 
 //! Load Photo Modal Dialog {
-  $scope.SelectPhotoModalCtrl = ['$scope', function ($scope) {
+  $scope.LoadPhotoModal = ['$scope', function ($scope) {
+
+    var photo = null;
 
     $scope.open = function () {
 
       var modalInstance = $modal.open({
-        templateUrl: 'selectPhoto_modal.html',
-        controller: ModalCtrl,
+        templateUrl: 'loadPhoto_modal.html',
+        controller: LoadPhotoModalCtrl,
         resolve: {
           image: function () {
-            return $scope.photo;
+            return photo;
           }
         }
       });
 
-      modalInstance.result.then(function (image) {
-        $scope.photo = image;
+      modalInstance.result.then(function (photo) {
+        var ob = { comment:null, image:null };
+        ob.image = photo;
+        $scope.photo_list.push(ob);
+        var tep = 1;
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
       });
+
     };
+
   }];
 
 
-  var ModalCtrl = ['$scope', '$modalInstance', 'image', function ($scope, $modalInstance, image) {
-
-    $scope.photo = image;
-    //$scope.photo = {image:null};
+  var LoadPhotoModalCtrl = ['$scope', '$modalInstance', 'image', function ($scope, $modalInstance, photo) {
 
     var getImage = function (source) {
         $log.info(source)
@@ -97,8 +48,7 @@ angular.module('CACMobile')
         {
           navigator.camera.getPicture(
             function(response){
-              alert(response);
-              $scope.photo.image = response;
+              photo = response;
             },
             function(response){
               $log.error("error getting image " + response);
@@ -113,19 +63,36 @@ angular.module('CACMobile')
     }
 
     $scope.camera = function () {
-            getImage({ quality: 45,
+        if (platform.isMobile())
+        {
+          getImage({ quality: 45,
               destinationType: Camera.DestinationType.FILE_URI,
               sourceType:      Camera.PictureSourceType.CAMERA});
+        }
+        else
+        {
+          $log.info('Web detected Camera unavailable default image used');
+          photo = 'img/CAC_Logo.png';
+        }
     };
 
     $scope.library = function() {
-      getImage({ quality: 45,
+      if (platform.isMobile())
+      {
+        getImage({ quality: 45,
               destinationType: Camera.DestinationType.FILE_URI,
               sourceType:      Camera.PictureSourceType.PHOTOLIBRARY});
+      }
+      else
+      {
+        $log.info('Web detected Camera unavailable default image used');
+        photo = 'img/CAC_Logo.png';
+      }
     };
 
     $scope.ok = function () {
-      $modalInstance.close($scope.photo.image);
+      if (photo != null)
+        $modalInstance.close(photo);
     };
 
     $scope.cancel = function () {
@@ -133,76 +100,5 @@ angular.module('CACMobile')
     };
   }];
   //! }
-
-//! Load Location Modal Dialog
-
- $scope.setLocation = function () {
-      var modalInstance = $modal.open({
-        templateUrl: 'modalLocation.html',
-        controller: setLocationCtrl,
-        resolve: {
-          location: function () {
-            return {latitude: $scope.location.latitude, longitude: $scope.location.longitude};
-          }
-        }
-      });
-      modalInstance.result.then(function (location) {
-        $scope.location = location;
-      }, function () {
-        $log.info('Modal dismissed at: ' + new Date());
-      });
-};
-
-var setLocationCtrl = ['$scope', '$modalInstance', 'location', function ($scope, $modalInstance, location) {
-  $scope.location = location;
-  $scope.ok = function () {
-    $modalInstance.close($scope.location);
-  };
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
-}];
-//! End Location Modal Dialog
-
-//! Location {
-
-
-  $scope.saveLocation = function(token, obs_id) {
-
-    $scope.location.token = token;
-    $scope.location.observation_id = obs_id;
-
-    var locResource = ResourceFactory.location();
-    locResource.create($scope.obs,
-      function(response){
-        $scope.location.id = response.id;
-      },
-      function(response){
-        alert(response.data.error);
-      }); //! params, data, success, fail
-  };
-  //! } End Observation
-
-/*
-
-  //$scope.saveObs = function() {
-    var obs = new $resource('http://obsnet.herokuapp.com/observation', {},{ test: { method: 'GET' }});
-    obs.token = $scope.obs.token;
-    obs.recorded_at = $scope.obs.recorded_at;
-    obs.visibility = $scope.visibility;
-    obs.save(uploadComplete);
-   //uploadService.send($scope.obs,$scope)
-  //};
-
-  // $scope.latitude = 50.9831700;
-  // $scope.longitude = -118.2023000;
-
-
-/*   var uploadComplete = function (content) {
-      //! \todo ensure json parse success before setting response object
-      $scope.response = JSON.parse(content); // Presumed content is a json string!
-  };*/
-
-
 
   }]);
