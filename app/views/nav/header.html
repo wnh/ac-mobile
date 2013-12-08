@@ -1,5 +1,38 @@
-           <img class="header-img" src="img/CAC_Logo_White.png" />
-           <div class="pull-right">
-           <img class="header-img" src="img/icons/icon_back.png" ng-hide='hideBack()' ng-click="back()" />
-           <img class="header-img" src="img/icons/icon_info.png" ng-click="redirect('/about')" />
-           </div>
+<img class="header-img" src="img/CAC_Logo_White.png" />
+<div class="pull-right">
+
+  <script type="text/ng-template" id="signIn_modal.html">
+    <div class="modal-header">
+        <h3>Sign In</h3>
+    </div>
+
+    <div class="control-group">
+       <label class="control-label" for="email">Email</label>
+       <div class="controls">
+          <input type="text" ng-model="sessionParams.email" name="email" />
+       </div>
+    </div>
+
+    <div class="control-group">
+       <label class="control-label" for="password">password</label>
+       <div class="controls">
+          <input type="{{plainText}}" ng-model="sessionParams.password" name="password" />
+          show <input type="checkbox" ng-model="plainText"
+                     ng-true-value="text" ng-false-value="password">
+       </div>
+    </div>
+
+  <div ng-show="alert">
+    <alert type="alert.type">{{alert.msg}}</alert>
+  </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="ok()">OK</button>
+      <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+  </script>
+
+  <img class="header-img" src="img/icons/icon_back.png" ng-click="openSignInModal()"/>
+  <img class="header-img" src="img/icons/icon_back.png" ng-hide='hideBack()' ng-click="back()" />
+  <img class="header-img" src="img/icons/icon_info.png" ng-click="redirect('/about')" />
+</div>

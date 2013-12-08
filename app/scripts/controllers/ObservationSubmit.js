@@ -7,6 +7,66 @@ angular.module('CACMobile')
 
 
   $scope.photo_list = [];
+  $scope.alerts = [];
+  $scope.locationName = "";
+  $scope.locationPos = {latitude:0.9831700, longitude: 0.2023000};//{latitude:50.9831700, longitude: -118.2023000};
+  $scope.positionDesc = "";
+
+
+  function getPosition () {
+    location.getPosition().then(
+       function (position){
+          $scope.locationPos.latitude = position.coords.latitude;
+          $scope.locationPos.longitude = position.coords.longitude;
+          $scope.positionDesc = "Current Position";
+        });
+  }
+
+  getPosition();
+
+   /*
+    { type: 'error', msg: 'Oh snap! Change a few things up and try submitting again.' },
+    { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+  ];*/
+
+  //! Load Location Modal Dialog
+
+ $scope.ModifyPositionModal = ['$scope', function ($scope) {
+
+    $scope.open = function () {
+
+      var modalInstance = $modal.open({
+        templateUrl: 'modifyPosition_modal.html',
+        controller: SetLocationModalCtrl,
+        resolve: {
+          location: function () {
+            return {latitude: $scope.locationPos.latitude, longitude: $scope.locationPos.longitude};
+          }
+        }
+      });
+
+      modalInstance.result.then(function (location) {
+        $scope.locationPos = location;
+        $scope.positionDesc = "Custom";
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+
+    }
+
+}];
+
+var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($scope, $modalInstance, location) {
+  $scope.location = location;
+  $scope.ok = function () {
+    $modalInstance.close($scope.location);
+  };
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+}];
+//! End Location Modal Dialog
+
 
 //! Load Photo Modal Dialog {
   $scope.LoadPhotoModal = ['$scope', function ($scope) {
@@ -48,6 +108,7 @@ angular.module('CACMobile')
           navigator.camera.getPicture(
             function(response){
               photo = response;
+              $modalInstance.close(photo);
             },
             function(response){
               $log.error("error getting image " + response);
@@ -58,7 +119,6 @@ angular.module('CACMobile')
         {
           $log.error("attempted to get image when the platform is web based");
         }
-
     }
 
     $scope.camera = function () {
@@ -72,6 +132,7 @@ angular.module('CACMobile')
         {
           $log.info('Web detected Camera unavailable default image used');
           photo = 'img/CAC_Logo.png';
+          $modalInstance.close(photo);
         }
     };
 
@@ -86,12 +147,8 @@ angular.module('CACMobile')
       {
         $log.info('Web detected Camera unavailable default image used');
         photo = 'img/CAC_Logo.png';
-      }
-    };
-
-    $scope.ok = function () {
-      if (photo != null)
         $modalInstance.close(photo);
+      }
     };
 
     $scope.cancel = function () {

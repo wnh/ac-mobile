@@ -1,45 +1,93 @@
-<ul class="photo-list">
-  <li ng-repeat="p in photo_list">
-    <img src="{{p.image}}" />
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
+<div class="content">
 
-      <div class="control-group">
-         <label class="control-label" for="comment">comment</label>
-         <div class="controls">
-            <input type="text" ng-model="p.comment" name="comment" />
-         </div>
-      </div>
+  <div class="region">
+    Observations
+  </div>
 
-  </li>
-</ul>
+  <form class="form-horizontal css-form" novalidate name="form">
+
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="p in photo_list">
+          <img src="{{p.image}}" />
+
+          <div class="control-group">
+             <label class="control-label" for="comment">comment</label>
+             <div class="controls">
+                <input type="text" ng-model="p.comment" name="comment" />
+             </div>
+          </div>
+
+      </li>
+    </ul>
+
+    <div class="control-group" ng-controller="LoadPhotoModal">
+        <script type="text/ng-template" id="loadPhoto_modal.html">
+            <div class="modal-header">
+                <h3> Pick a source</h3>
+            </div>
+
+            <div class="control-group">
+              <div class="controls">
+               <button class="btn" ng-click="library()">Library</button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <div class="controls">
+               <button class="btn" ng-click="camera()">Camera</button>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+
+        <button class="btn" ng-click="open()">Add Photo</button>
+    </div>
 
 
+    <div class="control-group">
+       <label class="control-label" for="locationName">Location Name</label>
+       <div class="controls">
+          <input type="text" ng-model="locationName" name="locationName" />
+       </div>
+    </div>
 
+    <div class="control-group" ng-controller="ModifyPositionModal">
 
-
-
-        <div class="control-group" ng-controller="LoadPhotoModal">
-            <script type="text/ng-template" id="loadPhoto_modal.html">
-                <div class="modal-header">
-                    <h3> Pick a source</h3>
-                </div>
-
-                <div class="control-group">
-                  <div class="controls">
-                   <button class="btn" ng-click="library()">Library</button>
-                  </div>
-                </div>
-
-                <div class="control-group">
-                  <div class="controls">
-                   <button class="btn" ng-click="camera()">Camera</button>
-                  </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button class="btn btn-primary" ng-click="ok()">OK</button>
-                    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-                </div>
-            </script>
-
-            <span class="glyphicon glyphicon-plus" ng-click="open()">Photo</span>
+      <script type="text/ng-template" id="modifyPosition_modal.html">
+        <div class="modal-header">
+            <h3>Select Location</h3>
         </div>
+
+        <p>Tap to set Location</p>
+        <div style="height:300px;width:300px;margin:auto;" id="map-canvas" set-location-map></div>
+        <p>{{location.latitude}},{{location.longitude}}</p>
+        <p>{{foo}}</p>
+
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+      </script>
+      <div class="control-group">
+        <div class="controls">
+          {{positionDesc}}<button class="btn" ng-click="open()">Select position from map</button>
+        </div>
+      </div>
+    </div>
+
+
+
+  </form>
+
+  <div ng-show="alert">
+    <alert ng-repeat="alert in alerts" type="alert.type">{{alert.msg}}</alert>
+  </div>
+
+</div>
+
+<div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
+
