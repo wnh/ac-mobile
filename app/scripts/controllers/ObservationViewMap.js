@@ -17,7 +17,7 @@ angular.module('CACMobile')
    function getLocations (nelon, nelat, swlon, swlat, zoom) {
       //TODO: Some rate control here?
       if (zoom > 8) {
-         ResourceFactory.location().query({nelon: nelon, nelat: nelat, swlon: swlon, swlat: swlat, clustered: false, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
+         ResourceFactory.location().query({nelon: nelon, nelat: nelat, swlon: swlon, swlat: swlat, clustered: false, from: $scope.from, to: $scope.to},
             function(response) {
                $scope.locations = response;
             },
@@ -27,7 +27,7 @@ angular.module('CACMobile')
       }
       else 
       {
-         ResourceFactory.location().query({nelon: nelon, nelat: nelat, swlon: swlon, swlat: swlat, clustered: false, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
+         ResourceFactory.location().query({nelon: nelon, nelat: nelat, swlon: swlon, swlat: swlat, clustered: true, from: $scope.from, to: $scope.to},
             function(response) {
                $scope.locations = response;
             },
