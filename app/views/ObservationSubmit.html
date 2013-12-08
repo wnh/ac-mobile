@@ -1,6 +1,14 @@
 <ul class="photo-list">
-  <li ng-repeat="photo in photo_list">
-    {{photo.image}} {{photo.comment}}
+  <li ng-repeat="p in photo_list">
+    <img src="{{p.image}}" />
+
+      <div class="control-group">
+         <label class="control-label" for="comment">comment</label>
+         <div class="controls">
+            <input type="text" ng-model="p.comment" name="comment" />
+         </div>
+      </div>
+
   </li>
 </ul>
 
@@ -34,5 +42,4 @@
             </script>
 
             <span class="glyphicon glyphicon-plus" ng-click="open()">Photo</span>
-            <div ng-show="photo.image">Selection from a modal: {{ photo.image }}</div>
         </div>

@@ -6,7 +6,7 @@ angular.module('CACMobile')
                 function ($scope, ResourceFactory, location, $resource, $modal, $log, platform, $routeParams) {
 
 
-  $scope.photo_list = new Array() ;
+  $scope.photo_list = [];
 
 //! Load Photo Modal Dialog {
   $scope.LoadPhotoModal = ['$scope', function ($scope) {
@@ -29,7 +29,6 @@ angular.module('CACMobile')
         var ob = { comment:null, image:null };
         ob.image = photo;
         $scope.photo_list.push(ob);
-        var tep = 1;
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
       });
