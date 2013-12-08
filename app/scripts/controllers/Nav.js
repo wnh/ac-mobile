@@ -14,7 +14,7 @@ angular.module('CACMobile')
     var SignInModalCtrl = [ '$scope', '$modalInstance', '$location', 'Session', function ($scope, $modalInstance, $location, Session) {
 
       $scope.plainText = "password" ;
-      $scope.sessionParams   = {'email':null, 'password':null, 'token':null};
+      $scope.sessionParams = {'email':null, 'password':null, 'token':null};
       $scope.alert = null;
 
       var signInSuccess = function(){
@@ -28,7 +28,7 @@ angular.module('CACMobile')
       };
 
       $scope.ok = function () {
-        Session.logIn(sessionParams, signInSuccess, signInFail);
+        Session.logIn($scope.sessionParams, signInSuccess, signInFail);
       };
 
       $scope.cancel = function () {
