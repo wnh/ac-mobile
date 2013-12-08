@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.directive('observationMap', function ($window, Bounds, $rootScope, $location, State) {
+.directive('observationMap', function (Bounds, $location, State) {
 
  return function(scope, elem, attrs) {
       function HomeControl(controlDiv, map) {
