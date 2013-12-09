@@ -2,14 +2,14 @@
 
 angular.module('CACMobile')
   .controller('ObservationsubmitCtrl',
-              ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log','platform', '$routeParams',
-                function ($scope, ResourceFactory, location, $resource, $modal, $log, platform, $routeParams) {
+              ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log','platform', '$routeParams', 'Session',
+                function ($scope, ResourceFactory, location, $resource, $modal, $log, platform, $routeParams, Session) {
 
 
   $scope.photo_list = [];
   $scope.alerts = [];
   $scope.locationName = "";
-  $scope.locationPos = {latitude:0.9831700, longitude: 0.2023000};//{latitude:50.9831700, longitude: -118.2023000};
+  $scope.locationPos = {latitude:0.0, longitude: 0.0};//{latitude:50.9831700, longitude: -118.2023000};
   $scope.positionDesc = "";
 
 
@@ -29,8 +29,34 @@ angular.module('CACMobile')
     { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
   ];*/
 
-  //! Load Location Modal Dialog
+$scope.submit = function (){
+  $scope.alerts.length = 0;
 
+  if (Session.loggedIn() != true){
+    //! \todo make this pop up the sign in window
+    $scope.alerts.push({ type: 'error', msg: 'Please Sign In Before Submitting' });
+  }
+
+  //! \todo verify this !
+  //! current version only
+  if ($scope.photo_list.length == 0){
+    $scope.alerts.push({ type: 'error', msg: 'Please select at least one image to upload' });
+  }
+
+  if($scope.locationName.length == 0){
+    $scope.alerts.push({ type: 'error', msg: 'Set Location Name' });
+  }
+
+  if($scope.alerts.length ==0)
+  {
+
+  }
+
+  //! \todo should we check location comment ?
+
+};
+
+ //! Load Location Modal Dialog
  $scope.ModifyPositionModal = ['$scope', function ($scope) {
 
     $scope.open = function () {

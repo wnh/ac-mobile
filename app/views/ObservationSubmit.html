@@ -1,9 +1,12 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
+
 <div class="content">
 
   <div class="region">
     Observations
   </div>
+
+  <alert ng-repeat="alert in alerts" type="alert.type">{{alert.msg}}</alert>
 
   <form class="form-horizontal css-form" novalidate name="form">
 
@@ -43,8 +46,9 @@
                 <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
             </div>
         </script>
-
-        <button class="btn" ng-click="open()">Add Photo</button>
+        <div class="controls">
+          <button class="btn" ng-click="open()">Add Photo</button>
+        </div>
     </div>
 
 
@@ -73,19 +77,24 @@
         </div>
       </script>
       <div class="control-group">
+        <label class="control-label" for="btn">{{positionDesc}}</label>
         <div class="controls">
-          {{positionDesc}}<button class="btn" ng-click="open()">Select position from map</button>
+          <button class="btn" ng-click="open()">Select position from map</button>
         </div>
       </div>
     </div>
 
+      <div class="control-group">
+        <div class="controls">
+          <button class="btn btn-primary" ng-click="submit()">Submit</button>
+        </div>
+      </div>
 
 
   </form>
 
-  <div ng-show="alert">
-    <alert ng-repeat="alert in alerts" type="alert.type">{{alert.msg}}</alert>
-  </div>
+
+
 
 </div>
 

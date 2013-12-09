@@ -11,6 +11,7 @@ angular.module('CACMobile')
 
     $scope.signOut = function(){
       Session.destroy();
+      checkSignIn();
     }
 
     //! Sign in Modal {

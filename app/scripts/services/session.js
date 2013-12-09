@@ -38,7 +38,7 @@ angular.module('CACMobile')
       },
 
       destroy: function (){
-        localStorage.remove("sessionToken");
+        localStorage.removeItem("sessionToken");
       },
 
       token: function (){
