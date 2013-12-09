@@ -2,8 +2,18 @@
 angular.module('CACMobile')
   .controller('NavCtrl', function ($scope, $location, $log, CallVenderApp, TOU, Session, $modal) {
 
-    var sessionParams   = {'email':null, 'password':null, 'token':null};
+    $scope.token = Session.token();
+    $scope.signedIn = false;
+    var checkSignIn = function(){
+      $scope.signedIn = Session.loggedIn();
+    };
+    checkSignIn();
 
+    $scope.signOut = function(){
+      Session.destroy();
+    }
+
+    //! Sign in Modal {
     $scope.openSignInModal = function () {
       var modalInstance = $modal.open({
         templateUrl: 'signIn_modal.html',
@@ -18,12 +28,13 @@ angular.module('CACMobile')
       $scope.alert = null;
 
       var signInSuccess = function(){
-        alert("signed in");
         $modalInstance.close();
+        checkSignIn();
       };
 
       var signInFail = function(error){
         $log.error(error);
+        checkSignIn();
         $scope.alert = { type: 'error', msg: 'error logging in ' + error };
       };
 
@@ -35,6 +46,7 @@ angular.module('CACMobile')
         $modalInstance.dismiss('cancel');
       };
     }];
+    //! } End Sign in Modal
 
     // Begin obcChoice modal code
     $scope.loadObsChoice = function () {

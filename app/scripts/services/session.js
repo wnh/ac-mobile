@@ -33,12 +33,12 @@ angular.module('CACMobile')
           success();
         },
         function(response){
-          fail(response.data.error);
+          fail(response.data.error[0]);
         });
       },
 
       destroy: function (){
-        localStorage.clear();
+        localStorage.remove("sessionToken");
       },
 
       token: function (){
