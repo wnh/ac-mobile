@@ -59,7 +59,7 @@ angular.module('CACMobile')
 
         //! Cannot post file obj using resource instead overwrite the save function
         //! \todo put a betetr description/comment here LN ?
-        photoObj.create = function (obj, callback)
+        photoObj.create = function (obj, success, fail)
           {
 
             alert(obj.image);
@@ -80,10 +80,10 @@ angular.module('CACMobile')
 
             ft.upload(obj.image, apiUrl + '/photo',
                 function (e) {
-                    alert("upload success");
+                    success(e);
                 },
                 function (e) {
-                    alert("Upload failed");
+                    fail(e);
                 }, options);
 
             /*

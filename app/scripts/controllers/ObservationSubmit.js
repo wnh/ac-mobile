@@ -47,8 +47,63 @@ $scope.submit = function (){
     $scope.alerts.push({ type: 'error', msg: 'Set Location Name' });
   }
 
-  if($scope.alerts.length ==0)
-  {
+   //no alerts then submit observation
+  if($scope.alerts.length == 0){
+
+    var submitObs = function (){
+      var obs = {'id':null,'token':Session.token(), 'visibility':"public", 'recorded_at': new Date().toString()};
+      $log.info("Submitting obs = "+ obs);
+
+      ResourceFactory.observation().create(obs,
+        function(response)
+        {
+          obs.id = response.id;
+          $log.info('Observation Submitted Sucesfully ObsId=' + response.id);
+          submitPhoto(obs.id);
+          submitLocation(obs.id);
+
+        },
+        function(response){
+          $log.error("error submitting observation");
+          $scope.alerts.push({ type: 'error', msg: 'Error Uploading Observation' });
+        });
+    };
+
+    var submitPhoto = function(obsId){
+      var photo = null;
+      for (var i=0; i < $scope.photo_list.length; ++i)
+      {
+        photo = {'id':null,'token':Session.token(), 'observation_id':obsId, 'comment':$scope.photo_list[i].comment, 'image':$scope.photo_list[i].image};
+        $log.info("Submitting photo = "+ photo);
+
+        ResourceFactory.photo().create(photo,
+            function(response){
+              photoList[i].id = response.id;
+              $log.info('Photo Submitted Sucesfully ' + response);
+            },
+            function(response){
+              $log.error("error submitting photo");
+              $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo' });
+            });
+      }
+    }
+
+    var submitLocation = function(obsId){
+       var location = {'id':null, 'token':Session.token(), 'observation_id':obsId, 'latitude':$scope.locationPos.latitude, 'longitude': $scope.locationPos.longitude, 'name': $scope.locationName};
+       $log.info("Submitting location = "+ location);
+
+       ResourceFactory.location().create(location,
+            function(response){
+              location.id = response.id;
+              $log.info('Location Submitted Sucesfully locationId' + response.id);
+            },
+            function(response){
+              $log.error("error submitting photo");
+              $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo' });
+            });
+    }
+
+    submitObs();
 
   }
 
@@ -112,7 +167,7 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
       });
 
       modalInstance.result.then(function (photo) {
-        var ob = { comment:null, image:null };
+        var ob = { comment:null, image:null, id:null };
         ob.image = photo;
         $scope.photo_list.push(ob);
       }, function () {
