@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .factory('ResourceFactory',['$resource', function ($resource) {
+  .factory('ResourceFactory',['$resource', 'platform','$log', function ($resource, platform, $log) {
 
     //! \todo should be config param
     var apiUrl = "http://obsnet.herokuapp.com";
@@ -62,30 +62,37 @@ angular.module('CACMobile')
         photoObj.create = function (obj, success, fail)
           {
 
-            alert(obj.image);
+            if (platform.isMobile() == true)
+            {
 
-            var ft      = new FileTransfer();
-            var options = new FileUploadOptions();
+              var ft      = new FileTransfer();
+              var options = new FileUploadOptions();
 
-            options.fileKey = "image";
-            options.fileName = obj.image.substr(obj.image.lastIndexOf('/') + 1);
-            options.mimeType = "image/jpeg";
-            options.chunkedMode = false;
-            options.params = { // Whatever you populate options.params with, will be available in req.body at the server-side.
-                "token": obj.token,
-                "observation_id": obj.observation_id,
-                "comment": obj.comment,
-                "image": obj.image
-            };
+              options.fileKey = "image";
+              options.fileName = obj.image.substr(obj.image.lastIndexOf('/') + 1);
+              options.mimeType = "image/jpeg";
+              options.chunkedMode = false;
+              options.params = { // Whatever you populate options.params with, will be available in req.body at the server-side.
+                  "token": obj.token,
+                  "observation_id": obj.observation_id,
+                  "comment": obj.comment,
+                  "image": obj.image
+              };
 
-            ft.upload(obj.image, apiUrl + '/photo',
-                function (e) {
-                    success(e);
-                },
-                function (e) {
-                    fail(e);
-                }, options);
-
+              ft.upload(obj.image, apiUrl + '/photo',
+                  function (e) {
+                      success(e);
+                  },
+                  function (e) {
+                      fail(e);
+                  }, options);
+            }
+            else
+            {
+              $log.warn("No image upload function available for web, image upload skipped");
+              var response = {'id':123};
+              success(response);
+            }
             /*
             alert(obj.image);
 

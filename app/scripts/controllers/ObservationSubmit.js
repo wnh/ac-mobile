@@ -10,7 +10,9 @@ angular.module('CACMobile')
   $scope.alerts = [];
   $scope.locationName = "";
   $scope.locationPos = {latitude:0.0, longitude: 0.0};//{latitude:50.9831700, longitude: -118.2023000};
-  $scope.positionDesc = "";
+  $scope.positionDesc = "None";
+  $scope.submitProgress = 0;
+  $scope.submitting = false;
 
 
   function getPosition () {
@@ -28,6 +30,7 @@ angular.module('CACMobile')
     { type: 'error', msg: 'Oh snap! Change a few things up and try submitting again.' },
     { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
   ];*/
+
 
 $scope.submit = function (){
   $scope.alerts.length = 0;
@@ -59,11 +62,13 @@ $scope.submit = function (){
         {
           obs.id = response.id;
           $log.info('Observation Submitted Sucesfully ObsId=' + response.id);
+          progressSubmissionStatus();
           submitPhoto(obs.id);
           submitLocation(obs.id);
 
         },
         function(response){
+          $scope.submitting = false;
           $log.error("error submitting observation");
           $scope.alerts.push({ type: 'error', msg: 'Error Uploading Observation' });
         });
@@ -78,10 +83,12 @@ $scope.submit = function (){
 
         ResourceFactory.photo().create(photo,
             function(response){
-              photoList[i].id = response.id;
+              $scope.photo_list[i].id = response.id;
+              progressSubmissionStatus();
               $log.info('Photo Submitted Sucesfully ' + response);
             },
             function(response){
+              $scope.submitting = false;
               $log.error("error submitting photo");
               $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo' });
             });
@@ -95,14 +102,26 @@ $scope.submit = function (){
        ResourceFactory.location().create(location,
             function(response){
               location.id = response.id;
+              progressSubmissionStatus();
               $log.info('Location Submitted Sucesfully locationId' + response.id);
             },
             function(response){
+              $scope.submitting = false;
               $log.error("error submitting photo");
               $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo' });
             });
     }
 
+    var progressSubmissionStatus = function(){
+      $scope.submitProgress += 33;
+
+      if ($scope.submitProgress >= 99){
+        $scope.submitting = false;
+      }
+    }
+
+    $scope.submitProgress = 0;
+    $scope.submitting = true;
     submitObs();
 
   }

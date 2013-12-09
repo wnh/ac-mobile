@@ -3,98 +3,102 @@
 <div class="content">
 
   <div class="region">
-    Observations
+    Submit Photo Observation
   </div>
 
   <alert ng-repeat="alert in alerts" type="alert.type">{{alert.msg}}</alert>
 
-  <form class="form-horizontal css-form" novalidate name="form">
+  <div ng-show='!submitting'>
 
-    <ul class="list-group">
-      <li class="list-group-item" ng-repeat="p in photo_list">
-          <img src="{{p.image}}" />
+    <form class="form-horizontal css-form" novalidate name="form">
 
-          <div class="control-group">
-             <label class="control-label" for="comment">comment</label>
-             <div class="controls">
-                <input type="text" ng-model="p.comment" name="comment" />
-             </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="p in photo_list">
+            <img src="{{p.image}}" />
+
+            <div class="control-group">
+               <label class="control-label" for="comment">comment</label>
+               <div class="controls">
+                  <input type="text" ng-model="p.comment" name="comment" />
+               </div>
+            </div>
+
+        </li>
+      </ul>
+
+      <div class="control-group" ng-controller="LoadPhotoModal">
+          <script type="text/ng-template" id="loadPhoto_modal.html">
+              <div class="modal-header">
+                  <h3> Pick a source</h3>
+              </div>
+
+              <div class="control-group">
+                <div class="controls">
+                 <button class="btn" ng-click="library()">Library</button>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <div class="controls">
+                 <button class="btn" ng-click="camera()">Camera</button>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+              </div>
+          </script>
+          <div class="controls">
+            <button class="btn btn-info" ng-click="open()">Add Photo</button>
+          </div>
+      </div>
+
+
+      <div class="control-group">
+         <label class="control-label" for="locationName">Location Name</label>
+         <div class="controls">
+            <input type="text" ng-model="locationName" name="locationName" />
+         </div>
+      </div>
+
+      <div class="control-group" ng-controller="ModifyPositionModal">
+
+        <script type="text/ng-template" id="modifyPosition_modal.html">
+          <div class="modal-header">
+              <h3>Select Location</h3>
           </div>
 
-      </li>
-    </ul>
+          <p>Tap to set Location</p>
+          <div style="height:300px;width:300px;margin:auto;" id="map-canvas" set-location-map></div>
+          <p>{{location.latitude}},{{location.longitude}}</p>
+          <p>{{foo}}</p>
 
-    <div class="control-group" ng-controller="LoadPhotoModal">
-        <script type="text/ng-template" id="loadPhoto_modal.html">
-            <div class="modal-header">
-                <h3> Pick a source</h3>
-            </div>
-
-            <div class="control-group">
-              <div class="controls">
-               <button class="btn" ng-click="library()">Library</button>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <div class="controls">
-               <button class="btn" ng-click="camera()">Camera</button>
-              </div>
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-            </div>
+          <div class="modal-footer">
+              <button class="btn btn-primary" ng-click="ok()">OK</button>
+              <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+          </div>
         </script>
-        <div class="controls">
-          <button class="btn" ng-click="open()">Add Photo</button>
-        </div>
-    </div>
-
-
-    <div class="control-group">
-       <label class="control-label" for="locationName">Location Name</label>
-       <div class="controls">
-          <input type="text" ng-model="locationName" name="locationName" />
-       </div>
-    </div>
-
-    <div class="control-group" ng-controller="ModifyPositionModal">
-
-      <script type="text/ng-template" id="modifyPosition_modal.html">
-        <div class="modal-header">
-            <h3>Select Location</h3>
-        </div>
-
-        <p>Tap to set Location</p>
-        <div style="height:300px;width:300px;margin:auto;" id="map-canvas" set-location-map></div>
-        <p>{{location.latitude}},{{location.longitude}}</p>
-        <p>{{foo}}</p>
-
-        <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
-      </script>
-      <div class="control-group">
-        <label class="control-label" for="btn">{{positionDesc}}</label>
-        <div class="controls">
-          <button class="btn" ng-click="open()">Select position from map</button>
-        </div>
-      </div>
-    </div>
-
-      <div class="control-group">
-        <div class="controls">
-          <button class="btn btn-primary" ng-click="submit()">Submit</button>
+        <div class="control-group">
+          <label class="control-label" for="btn">{{positionDesc}}</label>
+          <div class="controls">
+            <button class="btn btn-info" ng-click="open()">Select position from map</button>
+          </div>
         </div>
       </div>
 
+        <div class="control-group">
+          <div class="controls">
+            <button class="btn btn-warning" ng-click="submit()">Submit</button>
+          </div>
+        </div>
 
-  </form>
+    </form>
+  </div>
 
-
-
+  <div ng-show='submitting'>
+    <div>
+    <progress percent="submitProgress" class="progress-success"></progress>
+  </div>
 
 </div>
 
