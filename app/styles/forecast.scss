@@ -229,17 +229,17 @@ font-weight:bold;
   font-weight:bold;
 }
 
-.nav-gradient a[data-accordion="avalanche"]
+.accordion-heading-content[data-accordion-image="avalanche"]
 {
   background-image: url(../img/icons/icon_mountain.png);
     padding-left: 50px !important;
 }
-.nav-gradient a[data-accordion="snowpack"]
+.accordion-heading-content[data-accordion-image="snowpack"]
 {
   background-image: url(../img/icons/icon_snowflake.png);
     padding-left: 50px !important;
 }
-.nav-gradient a[data-accordion="weather"]
+.accordion-heading-content[data-accordion-image="weather"]
 {
   background-image: url(../img/icons/icon_cloud.png);
     padding-left: 50px !important;
@@ -272,3 +272,9 @@ font-weight:bold;
 {
   background: $low $lowimg center left no-repeat;
 }
+
+
+[class^="icon-"], [class*=" icon-"] {
+ margin-top:.5em;
+ margin-right:.5em;
+ }
