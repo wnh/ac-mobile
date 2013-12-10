@@ -148,6 +148,7 @@ font-weight:bold;
 {
   background: $high;
 }
+
 .considerable
 {
   background: $considerable;
@@ -244,33 +245,30 @@ font-weight:bold;
     padding-left: 50px !important;
 }
 
-.danger a {
-  color:black;
-  font-weight:bold;
-}
-
-.danger .extreme, .danger .high, .danger .considerable, .danger .moderate, .danger .low {
+.danger {
+    font-weight:bold;
+    color:black;
     padding-left:45px;
 }
 
-.danger .extreme, .danger .extreme:hover
+.extremebg
 {
   background: $extreme $extremeimg center left no-repeat;
   color:white;
 }
-.danger .high, .danger .high:hover
+.highbg
 {
   background: $high $highimg center left no-repeat;
 }
-.danger .moderate, .danger .moderate:hover
+.moderatebg
 {
   background: $moderate $moderateimg center left no-repeat;
 }
-.danger .considerable, .danger .considerable:hover
+.considerablebg
 {
   background: $considerable $considerableimg center left no-repeat;
 }
-.danger .low, .danger .low:hover
+.lowbg
 {
   background: $low $lowimg center left no-repeat;
 }

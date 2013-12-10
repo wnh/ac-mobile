@@ -1,30 +1,24 @@
-.accordion-heading a {
-	  background-position: 5px center;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-.accordion-heading a[data-accordion="backpacks"]
+.accordion-heading-content[data-accordion-image="backpack"]
 {
   background-image: url(../img/icons/icon_backpack.png);
     padding-left: 50px !important;
 }
-.accordion-heading a[data-accordion="helmets"]
+.accordion-heading-content[data-accordion-image="helmet"]
 {
   background-image: url(../img/icons/icon_helmet.png);
     padding-left: 50px !important;
 }
-.accordion-heading a[data-accordion="shovels"]
+.accordion-heading-content[data-accordion-image="shovel"]
 {
   background-image: url(../img/icons/icon_shovel.png);
     padding-left: 50px !important;
 }
-.accordion-heading a[data-accordion="probes"]
+.accordion-heading-content[data-accordion-image="probe"]
 {
   background-image: url(../img/icons/icon_probe.png);
     padding-left: 50px !important;
 }
-.accordion-heading a[data-accordion="transceivers"]
+.accordion-heading-content[data-accordion-image="transceiver"]
 {
   background-image: url(../img/icons/icon_transceiver.png);
     padding-left: 50px !important;
