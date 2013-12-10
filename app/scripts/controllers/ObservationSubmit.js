@@ -113,14 +113,17 @@ $scope.submit = function (){
     }
 
     var progressSubmissionStatus = function(){
-      $scope.submitProgress += 33;
+      $scope.submitProgress += 30;
 
       if ($scope.submitProgress >= 99){
         $scope.submitting = false;
+        $scope.photo_list.length = 0;
+        $scope.locationName = "";
+        $scope.alerts.push({ type: 'success', msg: 'Submission Successful ! Thank-you for contributing to public safety' });
       }
     }
 
-    $scope.submitProgress = 0;
+    $scope.submitProgress = 10;
     $scope.submitting = true;
     submitObs();
 
