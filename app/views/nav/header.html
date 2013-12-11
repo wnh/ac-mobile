@@ -6,30 +6,35 @@
         <h3>Sign In</h3>
     </div>
 
-    <div class="control-group">
-       <label class="control-label" for="email">Email</label>
-       <div class="controls">
-          <input type="text" ng-model="sessionParams.email" name="email" />
-       </div>
-    </div>
+    <div class="modal-body">
 
-    <div class="control-group">
-       <label class="control-label" for="password">password</label>
-       <div class="controls">
-          <input type="{{plainText}}" ng-model="sessionParams.password" name="password" />
-          show <input type="checkbox" ng-model="plainText"
-                     ng-true-value="text" ng-false-value="password">
-       </div>
-    </div>
+        <div class="control-group">
+           <label class="control-label" for="email">Email</label>
+           <div class="controls">
+              <input type="text" ng-model="sessionParams.email" name="email" />
+           </div>
+        </div>
 
-  <div ng-show="alert">
-    <alert type="alert.type">{{alert.msg}}</alert>
-  </div>
+        <div class="control-group">
+           <label class="control-label" for="password">Password</label>
+           <div class="controls">
+              <input type="{{plainText}}" ng-model="sessionParams.password" name="password" />
+              Show <input type="checkbox" ng-model="plainText"
+                         ng-true-value="text" ng-false-value="password">
+           </div>
+        </div>
+
+        <div ng-show="alert">
+          <alert type="alert.type">{{alert.msg}}</alert>
+        </div>
+
+    </div>
 
     <div class="modal-footer">
       <button class="btn btn-primary" ng-click="ok()">OK</button>
       <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
+
   </script>
 
   <button ng-show="!signedIn" class="header-img navbar-link" ng-click="openSignInModal()"/>sign in</button>

@@ -68,11 +68,10 @@ $scope.submit = function (){
           function(response)
           {
             obs.id = response.id;
-            $log.info('Observation Submitted Sucesfully ObsId= ' + response.id);
+            $log.info('Observation Submitted successfully obsId= ' + response.id);
             progressSubmissionStatus("Observation Created");
-            submitPhoto(obs.id);
             submitLocation(obs.id);
-
+            submitPhoto(obs.id);
           },
           function(response){
             $scope.submitting = false;
