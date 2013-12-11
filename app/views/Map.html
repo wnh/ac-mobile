@@ -7,12 +7,12 @@
 </div>
 
 <script type="text/ng-template" id="modalObsChoice.html">
-   <div style="background-color:black; color: white" >
-   <img src="img/icons/icon_obs.png" ng-click="redirect('/ObservationViewMap')" /><p>View Obs</p>
-   <img src="img/icons/icon_obs.png" ng-click="redirect('/ObservationSubmit')" /><p>Submit Obs</p>
-
+   <div style="background-color: #C0C0C0; margin: auto; text-align: center">
+   <img src="img/icons/icon_obs_blank.png" ng-click="redirect('/ObservationViewMap')" /><p ng-click="redirect('/ObservationViewMap')">View Observations</p>
+   <img src="img/icons/icon_obs_blank.png" ng-click="redirect('/ObservationSubmit')" /><p ng-click="redirect('/ObservationSubmit')">Submit Photo</p>
+   </div>"img/icons/icon_obs_submit.png" ng-click="redirect('/ObservationSubmit')" /><p>Submit Obs</p>
    </div>
-<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+<button class="btn btn-inverse" ng-click="cancel()">Cancel</button>
 </script>
 
 <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl'>

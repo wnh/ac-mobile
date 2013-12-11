@@ -16,25 +16,6 @@
   @include border-fix;
 }
 
-.date-input {
-  width:80px;
-}
-
-.date {
-  @include thin-black-borders;
-  @include border-fix;
-  text-align:center;
-  width:100%;
-  height:auto;
-  @include gradient-bg;
-  color:white;
-  padding: 0.1em;
-  margin-bottom:.5em;
-  font-weight:bold;
-  height:2.5em;
-}
-
-
 #map-canvas {
   width: 100%; 
   height: 100%;
