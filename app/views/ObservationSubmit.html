@@ -13,13 +13,11 @@
     <form class="form-horizontal css-form" novalidate name="form">
 
       <ul class="list-group">
-        <li class="list-group-item" ng-repeat="p in photo_list">
-            <img src="{{p.image}}" />
+        <div class="control-group" ng-repeat="p in photo_list">
 
-            <div class="control-group">
-               <label class="control-label" for="comment">comment</label>
+               <img class="control-label" for="comment" src="{{p.image}}" />
                <div class="controls">
-                  <input type="text" ng-model="p.comment" name="comment" />
+                  <input type="text" class="form-control" ng-model="p.comment" name="comment" />
                </div>
             </div>
 
@@ -57,7 +55,7 @@
       <div class="control-group">
          <label class="control-label" for="locationName">Location Name</label>
          <div class="controls">
-            <input type="text" ng-model="locationName" name="locationName" />
+            <input type="text" class="form-control" ng-model="locationName" name="locationName" />
          </div>
       </div>
 

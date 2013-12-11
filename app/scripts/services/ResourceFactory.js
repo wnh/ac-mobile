@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .factory('ResourceFactory',['$resource', 'platform','$log', function ($resource, platform, $log) {
+  .factory('ResourceFactory',['$resource', 'platform','$log','$rootScope', function ($resource, platform, $log, $rootScope) {
 
     //! \todo should be config param
     var apiUrl = "http://obsnet.herokuapp.com";
@@ -72,7 +72,7 @@ angular.module('CACMobile')
               options.fileKey = "image";
               options.fileName = obj.image.substr(obj.image.lastIndexOf('/') + 1);
               options.mimeType = "image/jpeg";
-              options.chunkedMode = false;
+              //options.chunkedMode = false;
               options.params = { // Whatever you populate options.params with, will be available in req.body at the server-side.
                   "token": obj.token,
                   "observation_id": obj.observation_id,
@@ -82,12 +82,13 @@ angular.module('CACMobile')
 
               ft.upload(obj.image,
                         apiUrl + '/photo',
-                        function (e) {
-                          alert("image uploaded");
-                          success(e);
+                        function (result) {
+                          success(result.response);
+                          $rootScope.$apply();
                         },
                         function (e) {
                           fail(e);
+                          $rootScope.$apply();
                         },
                         options);
             }
