@@ -9,7 +9,7 @@ angular.module('CACMobile')
   $scope.photo_list = [];
   $scope.alerts = [];
   $scope.locationName = "";
-  $scope.locationPos = {latitude:0.0, longitude: 0.0};//{latitude:50.9831700, longitude: -118.2023000};
+  $scope.locationPos = {latitude:50.9831700, longitude: -118.2023000};
   $scope.positionDesc = "None";
   $scope.submitProgress = 0;
   $scope.submitting = false;
@@ -206,7 +206,7 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
       });
 
       modalInstance.result.then(function (photo) {
-        var ob = { comment:null, image:null, id:null };
+        var ob = { comment:"comment", image:null, id:null };
         ob.image = photo;
         $scope.photo_list.push(ob);
       }, function () {

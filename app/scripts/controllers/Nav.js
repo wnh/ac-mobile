@@ -36,7 +36,7 @@ angular.module('CACMobile')
       var signInFail = function(error){
         $log.error(error);
         checkSignIn();
-        $scope.alert = { type: 'error', msg: 'error logging in ' + error };
+        $scope.alert = { type: 'error', msg: error };
       };
 
       $scope.ok = function () {
