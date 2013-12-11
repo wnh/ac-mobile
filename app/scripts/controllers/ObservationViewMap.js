@@ -119,7 +119,6 @@ var dateModalCtrl = ['$scope', '$modalInstance', 'date', 'minDate', 'today', fun
   $scope.minDate = minDate;
   $scope.today = today;
   $scope.ok = function () {
-    $log.info($scope);
     $modalInstance.close($scope.dt.value);
   };
   $scope.cancel = function () {

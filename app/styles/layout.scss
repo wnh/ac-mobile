@@ -48,11 +48,17 @@ body {
   @include border-fix;
 }
 
-
 .modal {
   margin-left:-48%;
-  max-width:96%;
+  width:96%;
   max-height:80%;
+}
+
+.modal-body-content {
+  background-color: #C0C0C0; 
+  margin: auto; 
+  text-align: center;
+  padding-bottom:1em;
 }
 
 .modal-map
@@ -77,13 +83,22 @@ body {
 .content {
   max-width:400px;
   }
+  .modal {
+  max-width: 400px;
+  margin-left: -200px;
+  }
 }
 
 @media all and (max-device-width: 499px) {
 .content {
   max-width:450px;
   }
+  .modal {
+  max-width: 450px;
+  margin-left: -225px;
+  }
 }
+
 .accordion-heading {
 background-color: rgb(252,255,244); // Old browsers
 @include filter-gradient(#fcfff4, #b3bead, horizontal); // IE6-9
