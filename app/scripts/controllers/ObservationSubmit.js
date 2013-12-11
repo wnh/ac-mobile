@@ -31,13 +31,17 @@ angular.module('CACMobile')
     { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
   ];*/
 
+$scope.cancelSubmit = function (){
+  $scope.submitting = false;
+  $scope.alerts.push({ type: 'warning', msg: 'Submission canceled !' });
+}
 
 $scope.submit = function (){
   $scope.alerts.length = 0;
 
   if (Session.loggedIn() != true){
     //! \todo make this pop up the sign in window
-    $scope.alerts.push({ type: 'error', msg: 'Please Sign In Before Submitting' });
+    $scope.alerts.push({ type: 'error', msg: 'Please sign in before submitting' });
   }
 
   //! \todo verify this !
@@ -54,71 +58,85 @@ $scope.submit = function (){
   if($scope.alerts.length == 0){
 
     var submitObs = function (){
-      var obs = {'id':null,'token':Session.token(), 'visibility':"public", 'recorded_at': new Date().toString()};
-      $log.info("Submitting obs = "+ obs);
 
-      ResourceFactory.observation().create(obs,
-        function(response)
-        {
-          obs.id = response.id;
-          $log.info('Observation Submitted Sucesfully ObsId=' + response.id);
-          progressSubmissionStatus();
-          submitPhoto(obs.id);
-          submitLocation(obs.id);
+      if ($scope.submitting == true)
+      {
+        var obs = {'id':null,'token':Session.token(), 'visibility':"public", 'recorded_at': new Date().toString()};
+        $log.info("Submitting obs = "+ obs);
 
-        },
-        function(response){
-          $scope.submitting = false;
-          $log.error("error submitting observation");
-          $scope.alerts.push({ type: 'error', msg: 'Error Uploading Observation' });
-        });
+        ResourceFactory.observation().create(obs,
+          function(response)
+          {
+            obs.id = response.id;
+            $log.info('Observation Submitted Sucesfully ObsId= ' + response.id);
+            progressSubmissionStatus("Observation Created");
+            submitPhoto(obs.id);
+            submitLocation(obs.id);
+
+          },
+          function(response){
+            $scope.submitting = false;
+            $log.error("error submitting observation");
+            $scope.alerts.push({ type: 'error', msg: 'Error Uploading Observation' });
+          });
+      }
     };
 
     var submitPhoto = function(obsId){
       var photo = null;
-      for (var i=0; i < $scope.photo_list.length; ++i)
+      if ($scope.submitting == true)
       {
-        photo = {'id':null,'token':Session.token(), 'observation_id':obsId, 'comment':$scope.photo_list[i].comment, 'image':$scope.photo_list[i].image};
-        $log.info("Submitting photo = "+ photo);
 
-        ResourceFactory.photo().create(photo,
-            function(response){
-              $scope.photo_list[i].id = response.id;
-              progressSubmissionStatus();
-              $log.info('Photo Submitted Sucesfully ' + response);
-            },
-            function(response){
-              $scope.submitting = false;
-              $log.error("error submitting photo");
-              $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo' });
-            });
+        for (var i=0; i < $scope.photo_list.length; ++i)
+        {
+          photo = {'id':null,'token':Session.token(), 'observation_id':obsId, 'comment':$scope.photo_list[i].comment, 'image':$scope.photo_list[i].image};
+          $log.info("Submitting photo = "+ photo);
+
+          ResourceFactory.photo().create(photo,
+              function(response){
+                //$scope.photo_list[i].id = response.id;
+                progressSubmissionStatus("Photo Submitted");
+                $log.info('Photo Submitted Successfully ' + response);
+              },
+              function(response){
+                $scope.submitting = false;
+                $log.error("error submitting photo");
+                $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo' });
+              });
+        }
       }
     }
 
     var submitLocation = function(obsId){
-       var location = {'id':null, 'token':Session.token(), 'observation_id':obsId, 'latitude':$scope.locationPos.latitude, 'longitude': $scope.locationPos.longitude, 'name': $scope.locationName};
-       $log.info("Submitting location = "+ location);
+       if($scope.submitting == true)
+       {
 
-       ResourceFactory.location().create(location,
-            function(response){
-              location.id = response.id;
-              progressSubmissionStatus();
-              $log.info('Location Submitted Sucesfully locationId' + response.id);
-            },
-            function(response){
-              $scope.submitting = false;
-              $log.error("error submitting photo");
-              $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo' });
-            });
+         var location = {'id':null, 'token':Session.token(), 'observation_id':obsId, 'latitude':$scope.locationPos.latitude, 'longitude': $scope.locationPos.longitude, 'name': $scope.locationName};
+         $log.info("Submitting location = "+ location);
+
+         ResourceFactory.location().create(location,
+              function(response){
+                location.id = response.id;
+                progressSubmissionStatus("Location Submitted");
+                $log.info('Location Submitted Sucesfully locationId' + response.id);
+              },
+              function(response){
+                $scope.submitting = false;
+                $log.error("error submitting photo");
+                $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo' });
+              });
+       }
     }
 
-    var progressSubmissionStatus = function(){
+    var progressSubmissionStatus = function(msg){
       $scope.submitProgress += 30;
+      $scope.alerts.push({ type: 'success', msg: msg});
 
       if ($scope.submitProgress >= 99){
         $scope.submitting = false;
         $scope.photo_list.length = 0;
         $scope.locationName = "";
+        $scope.alerts.length = 0;
         $scope.alerts.push({ type: 'success', msg: 'Submission Successful ! Thank-you for contributing to public safety' });
       }
     }
@@ -210,8 +228,15 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
         {
           navigator.camera.getPicture(
             function(response){
-              photo = response;
-              $modalInstance.close(photo);
+              window.resolveLocalFileSystemURI(response,
+                                               function (entry){
+                                                  photo = entry.fullPath;
+                                                  $modalInstance.close(photo);
+                                                },
+                                               function (evt){
+                                                $log.error("error getting image " + evt.code);
+                                              });
+
             },
             function(response){
               $log.error("error getting image " + response);

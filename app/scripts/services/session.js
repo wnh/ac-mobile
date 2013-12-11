@@ -29,6 +29,7 @@ angular.module('CACMobile')
 
         ResourceFactory.session().create(sessionParams,
         function(response){
+          $log.info("Sessions token created on server and stored to localStorage token= "+response.token);
           storageService.setItem("sessionToken", response.token);
           success();
         },
@@ -38,7 +39,26 @@ angular.module('CACMobile')
       },
 
       destroy: function (){
-        localStorage.removeItem("sessionToken");
+
+        if (localStorage.getItem("sessionToken") != null)
+        {
+          ResourceFactory.session().destroy({'token':localStorage.getItem("sessionToken")},
+            function(response){
+              $log.info("token deleted from server");
+            },
+            function(response){
+              $log.warn("Unable to delete token from server");
+          });
+
+          localStorage.removeItem("sessionToken");
+        }
+        else
+        {
+          $log.warn("Attempted to destroy session but no sessions exists");
+        }
+
+
+
       },
 
       token: function (){
