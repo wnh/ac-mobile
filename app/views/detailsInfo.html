@@ -1,46 +1,36 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>  
 				<div class="content">
 				<div class="region">Details: {{regionDisplayName}}</div>
-						<ul class="nav nav-tabs nav-stacked no-border">
-							
-							<li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-down pull-right"></i>
-		      				<a class="accordion-toggle" data-accordion="avalanche" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-		        				Avalanche Summary
-		      				</a>
-		    				</li>
-		    				<li id="collapseOne" class="accordion-body collapse">
-		     					 <div class="accordion-inner">
-		        					<p><strong> {{ av}}</strong></p>
-		      					 </div>
-		      					 
-		      			</li>
-		    				
-		    				<li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-down pull-right"></i>
-		      				<a class="accordion-toggle" data-accordion="snowpack" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-		        				Snowpack Summary
-		      				</a>
-		    				</li>
-		    				<li id="collapseTwo" class="accordion-body collapse">
-		     					 <div class="accordion-inner">
-		        					<p><strong> {{ snowPack }}</strong></p>
-		      					 </div>
-		    				</li>
-							
-		    				<li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-down pull-right"></i>
-		      				<a class="accordion-toggle" data-accordion="weather" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-		        				Weather Summary
-		      				</a>
-		    				</li>
-		    				<li id="collapseThree" class="accordion-body collapse">
-		     					 <div class="accordion-inner">
-		        					<p><strong> {{ weather }}</strong></p>
-		      					 </div>
-		    				</li>
-							
-							
-							
-
-						</ul>
+						 <accordion close-others="true">
+        <accordion-group is-open="backbacksOpen">
+        <accordion-heading>
+        <div class="accordion-heading-content" data-accordion-image="avalanche">
+  				 Avalanche Summary
+        <i class="pull-right" ng-class="{'icon-chevron-up': backbacksOpen, 'icon-chevron-down': !backbacksOpen}"></i>
+        </div>
+        </accordion-heading>
+			{{av}}
+    </accordion-group>
+        <accordion-group is-open="helmetsOpen">
+        <accordion-heading>
+               <div class="accordion-heading-content" data-accordion-image="snowpack">
+        Snowpack Summary
+        <i class="pull-right" ng-class="{'icon-chevron-up': helmetsOpen, 'icon-chevron-down': !helmetsOpen}"></i>
+        			</div>
+        </accordion-heading>
+			{{snowPack}}
+	
+    </accordion-group>
+        <accordion-group is-open="probesOpen">
+        <accordion-heading>
+        <div class="accordion-heading-content" data-accordion-image="weather">
+        Weather Summary
+        <i class="pull-right" ng-class="{'icon-chevron-up': probesOpen, 'icon-chevron-down': !probesOpen}"></i>
+        			</div>
+        </accordion-heading>
+        {{ weather }}
+    </accordion-group>
+  </accordion>
 					</div>
 
    <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">

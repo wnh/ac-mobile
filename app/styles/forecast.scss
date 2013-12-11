@@ -148,6 +148,7 @@ font-weight:bold;
 {
   background: $high;
 }
+
 .considerable
 {
   background: $considerable;
@@ -228,49 +229,52 @@ font-weight:bold;
   font-weight:bold;
 }
 
-.nav-gradient a[data-accordion="avalanche"]
+.accordion-heading-content[data-accordion-image="avalanche"]
 {
   background-image: url(../img/icons/icon_mountain.png);
     padding-left: 50px !important;
 }
-.nav-gradient a[data-accordion="snowpack"]
+.accordion-heading-content[data-accordion-image="snowpack"]
 {
   background-image: url(../img/icons/icon_snowflake.png);
     padding-left: 50px !important;
 }
-.nav-gradient a[data-accordion="weather"]
+.accordion-heading-content[data-accordion-image="weather"]
 {
   background-image: url(../img/icons/icon_cloud.png);
     padding-left: 50px !important;
 }
 
-.danger a {
-  color:black;
-  font-weight:bold;
-}
-
-.danger .extreme, .danger .high, .danger .considerable, .danger .moderate, .danger .low {
+.danger {
+    font-weight:bold;
+    color:black;
     padding-left:45px;
 }
 
-.danger .extreme, .danger .extreme:hover
+.extremebg
 {
   background: $extreme $extremeimg center left no-repeat;
   color:white;
 }
-.danger .high, .danger .high:hover
+.highbg
 {
   background: $high $highimg center left no-repeat;
 }
-.danger .moderate, .danger .moderate:hover
+.moderatebg
 {
   background: $moderate $moderateimg center left no-repeat;
 }
-.danger .considerable, .danger .considerable:hover
+.considerablebg
 {
   background: $considerable $considerableimg center left no-repeat;
 }
-.danger .low, .danger .low:hover
+.lowbg
 {
   background: $low $lowimg center left no-repeat;
 }
+
+
+[class^="icon-"], [class*=" icon-"] {
+ margin-top:.5em;
+ margin-right:.5em;
+ }

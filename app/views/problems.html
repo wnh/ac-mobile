@@ -3,8 +3,51 @@
 <div class="content">
   <div class="region">Problems: {{regionDisplayName}}</div>
 
-            <ul class="nav nav-tabs nav-stacked no-border" ng-repeat="avProblem in avyProblems">
-              <li class="accordion-heading nav-gradient"><i class="icon-circle-arrow-down pull-right"></i>
+   <accordion close-others="true">
+        <accordion-group is-open="problem{{$index}}" ng-repeat="avProblem in avyProblems">
+        <accordion-heading>
+        <div class="accordion-heading-content">
+          {{avProblem.probType}}
+          <i class="pull-right" ng-class="{'icon-chevron-up': problem{{$index}}, 'icon-chevron-down': !problem{{$index}}}"></i>
+        </div>
+        </accordion-heading>
+         <div class="problemImages">
+                <div class="problemImageBox elevationImageBox">
+                    <div class="problemImageTitle">What Elevation Zone?</div>
+                    <img ng-src={{avProblem.elevationImg}} /> 
+                </div>
+                <div class="problemImageBox compassImageBox">
+                    <div class="problemImageTitle">Which Slopes? </div>
+                    <img ng-src={{avProblem.aspectImg}} />
+                </div>
+                <div class="problemImageBox likelihoodImageBox">
+                    <div class="problemImageTitle">Chance of Avalanches?</div>
+                    <img  ng-src={{avProblem.liklihoodImg}} /> 
+                </div>
+                <div class="problemImageBox sizeImageBox">
+                    <div class="problemImageTitle">Expected Size?</div>
+                    <img ng-src={{avProblem.sizeImg}} /> 
+                </div>
+            </div>
+            <div class="problemTextBox">
+                {{avProblem.comment}}
+            </div>
+
+            <div class="travelBox">
+             <div class="problemTitle">
+               <div class="problemImageTitle">Travel and Terrain Advice</div>
+           </div>
+           <div class="travelText">
+
+                  {{ avProblem.advisoryComment }}
+        </div>
+    </div>  
+
+    </accordion-group>
+  </accordion>
+<!--
+            <ul class="nav nav-tabs nav-stacked no-border">
+              <li class="accordion-heading nav-gradient" ng-repeat="avProblem in avyProblems"><i class="icon-circle-arrow-down pull-right"></i>
            <a class="accordion-toggle" data-accordion="foo" data-toggle="collapse" data-parent="#accordion{{$index}}" href="#collapse{{$index}}">
               {{avProblem.probType}}
           </a>
@@ -16,7 +59,7 @@
 
                 <div class="problemImageBox elevationImageBox">
                     <div class="problemImageTitle">What Elevation Zone?</div>
-                    <img ng-src={{avProblem.elevationImg}} > <!-- style="width:160px;border-width:0px;" -->
+                    <img ng-src={{avProblem.elevationImg}} > 
                 </div>
 
                 <div class="problemImageBox compassImageBox">
@@ -26,12 +69,12 @@
 
                 <div class="problemImageBox likelihoodImageBox">
                     <div class="problemImageTitle">Chance of Avalanches?</div>
-                    <img  ng-src={{avProblem.liklihoodImg}} > <!-- style="width:140px;border-width:0px;" -->
+                    <img  ng-src={{avProblem.liklihoodImg}} > 
                 </div>
 
                 <div class="problemImageBox sizeImageBox">
                     <div class="problemImageTitle">Expected Size?</div>
-                    <img  ng-src={{avProblem.sizeImg}}> <!-- style="width:140px;border-width:0px;" -->
+                    <img  ng-src={{avProblem.sizeImg}}> 
                 </div>
 
             </div>
@@ -51,6 +94,7 @@
 </div>
 </li>
 </ul>		
+-->
 </div>
 
    <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
