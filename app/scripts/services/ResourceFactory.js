@@ -23,7 +23,8 @@ angular.module('CACMobile')
       session: function (){
         var sessionObj = $resource(apiUrl+'/session', {},
         {
-          create: { method: 'POST' }
+          create: { method: 'POST' },
+          destroy: {method: 'DELETE', isArray:false, url: apiUrl+'/session/:token'}
         });
 
         return sessionObj;
@@ -79,13 +80,16 @@ angular.module('CACMobile')
                   "image": obj.image
               };
 
-              ft.upload(obj.image, apiUrl + '/photo',
-                  function (e) {
-                      success(e);
-                  },
-                  function (e) {
-                      fail(e);
-                  }, options);
+              ft.upload(obj.image,
+                        apiUrl + '/photo',
+                        function (e) {
+                          alert("image uploaded");
+                          success(e);
+                        },
+                        function (e) {
+                          fail(e);
+                        },
+                        options);
             }
             else
             {
