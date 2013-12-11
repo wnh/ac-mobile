@@ -14,10 +14,12 @@ angular.module('CACMobile')
          });
    }
 
-   function getLocations (nelon, nelat, swlon, swlat, zoom) {
+   function getLocations () {
+    console.log("updating locations...")
       //TODO: Some rate control here?
-      if (zoom > 8) {
-         ResourceFactory.location().query({nelon: nelon, nelat: nelat, swlon: swlon, swlat: swlat, clustered: false, from: $scope.from, to: $scope.to},
+      var b = Bounds.getBounds();
+      if (b.zoom > 8) {
+         ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: false, from: $scope.from, to: $scope.to},
             function(response) {
                $scope.locations = response;
             },
@@ -27,7 +29,7 @@ angular.module('CACMobile')
       }
       else 
       {
-         ResourceFactory.location().query({nelon: nelon, nelat: nelat, swlon: swlon, swlat: swlat, clustered: true, from: $scope.from, to: $scope.to},
+         ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: true, from: $scope.from, to: $scope.to},
             function(response) {
                $scope.locations = response;
             },
@@ -42,13 +44,11 @@ angular.module('CACMobile')
       $scope.$watch(function () { return Bounds.getBounds(); },
          function(oldval,newval) {
             if (oldval != newval) {
-               var b = Bounds.getBounds();
-               getLocations(b.nelon,b.nelat,b.swlon,b.swlat,b.zoom);
+               getLocations();
             }
          },true);
-
       $scope.to = new Date();
-      $scope.from = new Date(2013,11,1);
+      $scope.from = new Date();
       $scope.today = new Date();
       $scope.fromOpened = false;
       $scope.toOpened = false;
@@ -64,6 +64,20 @@ angular.module('CACMobile')
       $scope.toOpened = true;
    });
   };
+
+  $scope.$watch(function() {return $scope.to},
+    function(oldval,newval) {
+      if (oldval != newval) {
+        getLocations();
+      }
+    },true)
+
+    $scope.$watch(function() {return $scope.from},
+    function(oldval,newval) {
+      if (oldval != newval) {
+        getLocations();
+      }
+    },true)
 
 
 });

@@ -1,9 +1,9 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>   
 <div class="map-content">
    <div class="date">
-        From:
+        From
             <input type="text" datepicker-popup="yyyy-MM-dd" ng-model="from" is-open="fromOpened" min="minDate" max="today" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-click="fromOpen()" class="date-input"/>
-        To:
+        until
             <input type="text" datepicker-popup="yyyy-MM-dd" ng-model="to" is-open="toOpened" min="from" max="today" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-click="toOpen()" class="date-input"/>
   </div>
    <div id="map-canvas" observation-map></div>

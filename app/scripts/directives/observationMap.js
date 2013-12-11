@@ -51,7 +51,6 @@ var locUpdate = function(newValue,oldValue) {
   for (var i=0; i < loclength; i++) {
     locMarkers.push(createLocMarker(scope.locations[i]));
   }
-  console.log(locMarkers);
 }
 
 var loadObs = function(event) {
@@ -60,7 +59,6 @@ var loadObs = function(event) {
 }
 
 var createLocMarker = function(loc) {
-  console.log(loc);
   //Set up the marker at the right position
   var locLatlng = new google.maps.LatLng(loc.latitude,loc.longitude);
   var locMarker = new google.maps.Marker()
