@@ -6,7 +6,7 @@
    <accordion close-others="true">
         <accordion-group is-open="problem{{$index}}" ng-repeat="avProblem in avyProblems">
         <accordion-heading>
-        <div class="accordion-heading-content">
+        <div class="nav-gradient accordion-heading-content">
           {{avProblem.probType}}
           <i class="pull-right" ng-class="{'icon-chevron-up': problem{{$index}}, 'icon-chevron-down': !problem{{$index}}}"></i>
         </div>

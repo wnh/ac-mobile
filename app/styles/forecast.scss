@@ -1,18 +1,5 @@
 @import "defs";
 
-.region {
-  @include thin-black-borders;
-  @include border-fix;
-  text-align:center;
-  width:100%;
-  height:auto;
-  @include gradient-bg;
-  color:white;
-  padding: 0.5em;
-  margin-bottom:.5em;
-  font-weight:bold;
-}
-
 .expiry
 {
   @include thin-black-borders;

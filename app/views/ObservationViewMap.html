@@ -1,19 +1,11 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>   
-<div class="content">
-   <div class="region">
-
-   </div>
-</div>
 <div class="map-content">
-        <p>From:
-            <input type="text" datepicker-popup="yyyy-MM-dd" ng-model="from" is-open="fromOpened" min="minDate" max="today" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-            <button class="btn" ng-click="fromOpen()"><i class="icon-calendar"></i></button>
-        </p>
-        <p>To:
-            <input type="text" datepicker-popup="yyyy-MM-dd" ng-model="to" is-open="toOpened" min="minDate" max="today" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-            <button class="btn" ng-click="toOpen()"><i class="icon-calendar"></i></button>
-        </p>
-
+   <div class="date">
+        From:
+            <input type="text" datepicker-popup="yyyy-MM-dd" ng-model="from" is-open="fromOpened" min="minDate" max="today" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-click="fromOpen()" class="date-input"/>
+        To:
+            <input type="text" datepicker-popup="yyyy-MM-dd" ng-model="to" is-open="toOpened" min="from" max="today" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-click="toOpen()" class="date-input"/>
+  </div>
    <div id="map-canvas" observation-map></div>
 </div>
 
