@@ -1,6 +1,11 @@
 @import "defs";
 
 /* Put your CSS here */
+
+.dropdown-menu {
+  z-index:100000000;
+}
+
 html, body{
   margin: 0; padding: 0;
   height: 100%;
@@ -45,9 +50,9 @@ body {
 
 
 .modal {
-  margin-left:-40%;
-  max-width:500px;
-  width: 80%;
+  margin-left:-48%;
+  max-width:96%;
+  max-height:80%;
 }
 
 .modal-map

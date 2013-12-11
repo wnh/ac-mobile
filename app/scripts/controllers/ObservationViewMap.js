@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.controller('ObservationViewMapCtrl', function ($scope, location, ResourceFactory, Bounds, $timeout) {
+.controller('ObservationViewMapCtrl', function ($scope, location, ResourceFactory, Bounds, $timeout, $modal, $log) {
    $scope.latitude = 50.9831700;
    $scope.longitude = -118.2023000;
    $scope.locations = [];
@@ -50,20 +50,7 @@ angular.module('CACMobile')
       $scope.to = new Date();
       $scope.from = new Date();
       $scope.today = new Date();
-      $scope.fromOpened = false;
-      $scope.toOpened = false;
 
-  $scope.fromOpen = function() {
-     $timeout(function() {
-      $scope.fromOpened = true;
-   });
-  };
-
-    $scope.toOpen = function() {
-     $timeout(function() {
-      $scope.toOpened = true;
-   });
-  };
 
   $scope.$watch(function() {return $scope.to},
     function(oldval,newval) {
@@ -79,5 +66,66 @@ angular.module('CACMobile')
       }
     },true)
 
+      //! Load Date Picker Modal Dialog
+
+ $scope.toOpen = function () {
+      var modalInstance = $modal.open({
+        templateUrl: 'dateModal.html',
+        controller: dateModalCtrl,
+        resolve: {
+          date: function () {
+            return {value: $scope.to};
+          },
+          minDate: function () {
+            return $scope.from;
+          },
+          today: function () {
+            return $scope.today;
+          }
+         }
+      });
+      modalInstance.result.then(function (date) {
+        $scope.to = date;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+};
+
+ $scope.fromOpen = function () {
+      var modalInstance = $modal.open({
+        templateUrl: 'dateModal.html',
+        controller: dateModalCtrl,
+        resolve: {
+          date: function () {
+            return {value: $scope.from}
+          },
+          minDate: function () {
+            return null;
+          },
+          today: function () {
+            return $scope.today;
+          }
+         }
+      });
+      modalInstance.result.then(function (date) {
+        $scope.from = date;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+};
+
+var dateModalCtrl = ['$scope', '$modalInstance', 'date', 'minDate', 'today', function ($scope, $modalInstance, date, minDate, today) {
+  $scope.dt = date;
+  $scope.minDate = minDate;
+  $scope.today = today;
+  $scope.ok = function () {
+    $log.info($scope);
+    $modalInstance.close($scope.dt.value);
+  };
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+}];
+//! End Date Picker Modal Dialog
 
 });
