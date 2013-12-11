@@ -1,0 +1,66 @@
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
+
+<div class="content" ng-show="!regionExists">
+    Currently there are no data feeds available for this region.</br>
+    Apologies for the inconvenience, please check back later.</br>
+    <button class="btn btn-warning" ng-click="back()">Back</button>
+</div>
+
+<div ng-show="loading&&regionExists">
+  <img src="img/loading.gif" class="loading">
+  <button class="btn btn-warning" ng-click="back()">Cancel Loading</button>
+</div>
+
+<div class="content" ng-show="!loading&&regionExists">
+
+	<div class="region">Region: {{regionDisplayName}}</div>
+	<div class="expiry">
+		<div>Issued: {{valid.issued}}</div>
+		<div>Expires: {{valid.expires}}</div>
+	</div>
+
+	<div class="mountain">
+		<div class="issued">{{today.day}}</div>
+		<img src="img/mountain-now-extended.png" />
+		<div class="top">Alpine</div>
+		<div class="middle">Treeline</div>
+		<div class="bottom">Below Treeline</div>
+		<div class="warntop" ng-class="today.alpine.css">{{today.alpine.text}}</div>
+		<div class="warnmiddle" ng-class="today.treeline.css">{{today.treeline.text}}</div>
+		<div class="warnbottom" ng-class="today.belowTreeline.css">{{today.belowTreeline.text}}</div>
+	</div>
+
+
+	<table class="table forecast-table">
+		<tr>
+			<th></th>
+			<th>{{tomorrow.day}}</th>
+			<th>{{dayAfter.day}}</th>
+		</tr>
+		<tr>
+			<td class="alpine">Alpine</td>
+			<td ng-class="tomorrow.alpine.css">{{tomorrow.alpine.text}}</td>
+			<td ng-class="dayAfter.alpine.css">{{dayAfter.alpine.text}}</td>
+		</tr>
+		<tr>
+			<td class="treeline">Treeline</td>
+			<td ng-class="tomorrow.treeline.css">{{tomorrow.treeline.text}}</td>
+			<td ng-class="dayAfter.treeline.css">{{dayAfter.treeline.text}}</td>
+		</tr>
+		<tr>
+			<td class="below_treeline">Below Treeline</td>
+			<td ng-class="tomorrow.belowTreeline.css">{{tomorrow.belowTreeline.text}}</td>
+			<td ng-class="dayAfter.belowTreeline.css">{{dayAfter.belowTreeline.text}}</td>
+		</tr>
+	</table>
+	<div class="confidence"><strong>Confidence:</strong> {{ confidence }}</div>
+	<ul class="nav nav-tabs nav-stacked">
+		<li class="accordion-heading nav-gradient" ng-click="openProblems()"><i class="icon-circle-arrow-right pull-right"></i>Problems</li>
+		<li class="accordion-heading nav-gradient" ng-click="openDetails()"><i class="icon-circle-arrow-right pull-right"></i>Details</li>
+		<li class="accordion-heading nav-gradient" ng-click="openDangerScale()"><i class="icon-circle-arrow-right pull-right"></i>Danger Scale</li>
+	</ul>
+
+</div>
+
+<div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'"></div>
+

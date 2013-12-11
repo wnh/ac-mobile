@@ -1,0 +1,39 @@
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>  
+				<div class="content">
+				<div class="region">Details: {{regionDisplayName}}</div>
+						 <accordion close-others="true">
+        <accordion-group is-open="backbacksOpen">
+        <accordion-heading>
+        <div class="accordion-heading-content" data-accordion-image="avalanche">
+  				 Avalanche Summary
+        <i class="pull-right" ng-class="{'icon-chevron-up': backbacksOpen, 'icon-chevron-down': !backbacksOpen}"></i>
+        </div>
+        </accordion-heading>
+			{{av}}
+    </accordion-group>
+        <accordion-group is-open="helmetsOpen">
+        <accordion-heading>
+               <div class="accordion-heading-content" data-accordion-image="snowpack">
+        Snowpack Summary
+        <i class="pull-right" ng-class="{'icon-chevron-up': helmetsOpen, 'icon-chevron-down': !helmetsOpen}"></i>
+        			</div>
+        </accordion-heading>
+			{{snowPack}}
+	
+    </accordion-group>
+        <accordion-group is-open="probesOpen">
+        <accordion-heading>
+        <div class="accordion-heading-content" data-accordion-image="weather">
+        Weather Summary
+        <i class="pull-right" ng-class="{'icon-chevron-up': probesOpen, 'icon-chevron-down': !probesOpen}"></i>
+        			</div>
+        </accordion-heading>
+        {{ weather }}
+    </accordion-group>
+  </accordion>
+					</div>
+
+   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
+    </div>         
+     
+		
