@@ -67,6 +67,35 @@ angular.module('CACMobile')
 
 
     //! Problems Modal {
+    $scope.openDangerScale = function (dangerRating) {
+
+      var DangerScaleModal = $modal.open({
+        templateUrl: 'DangerScaleModal.html',
+        controller: DangerScaleModalCtrl,
+        resolve: {
+          dangerRating: function () {
+            return dangerRating;
+          }
+        }
+      });
+    };
+
+    var DangerScaleModalCtrl = ['$scope', '$modalInstance', 'dangerRating', function ($scope, $modalInstance, dangerRating) {
+
+      $scope.extremeOpen = dangerRating == "Extreme" ? true : false;
+      $scope.highOpen = dangerRating == "High" ? true : false;
+      $scope.considerableOpen = dangerRating == "Considerable" ? true : false;
+      $scope.moderateOpen = dangerRating == "Moderate" ? true : false;
+      $scope.lowOpen = dangerRating == "Low" ? true : false;
+
+      $scope.ok = function () {
+        $modalInstance.close();
+      };
+
+    }];
+
+    /*
+    //! Problems Modal {
     $scope.openProblem = function (avProblem) {
 
       var ProblemsModalInstance = $modal.open({
@@ -88,7 +117,7 @@ angular.module('CACMobile')
         $modalInstance.close();
       };
 
-    }];
+    }];*/
     //! } // End Problems Modal
 
 /*
