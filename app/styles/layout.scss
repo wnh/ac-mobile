@@ -18,8 +18,6 @@ html, body{
   text-align:center;
   width:100%;
   height:auto;
-  @include gradient-bg;
-  color:white;
   padding: 0.5em;
   margin-bottom:.5em;
   font-weight:bold;
@@ -70,6 +68,7 @@ body {
 {
   max-width: 90%; 
   max-height:70%;
+  margin-top:0.5em;
 }
 
 @media all and (max-device-width: 400px) {
