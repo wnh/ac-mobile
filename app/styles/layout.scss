@@ -54,7 +54,6 @@ body {
 }
 
 .modal-body-content {
-  background-color: #C0C0C0;
   margin: auto;
   text-align: center;
   padding-bottom:1em;
@@ -67,14 +66,15 @@ body {
    margin:auto;
 }
 
+.modal-photo 
+{
+  max-width: 90%; 
+  max-height:70%;
+}
+
 @media all and (max-device-width: 400px) {
 .content {
   max-width:320px;
-  }
-
-.modal {
-  max-width: 320px;
-  margin-left: -160px;
   }
 }
 
@@ -82,19 +82,11 @@ body {
 .content {
   max-width:400px;
   }
-  .modal {
-  max-width: 400px;
-  margin-left: -200px;
-  }
 }
 
 @media all and (max-device-width: 499px) {
 .content {
   max-width:450px;
-  }
-  .modal {
-  max-width: 450px;
-  margin-left: -225px;
   }
 }
 
