@@ -146,8 +146,6 @@ $scope.submit = function (){
 
   }
 
-  //! \todo should we check location comment ?
-
 };
 
  //! Load Location Modal Dialog

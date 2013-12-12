@@ -7,10 +7,10 @@ angular.module('CACMobile')
     $scope.regionExists = true;
 
     //! var used for ForecastDetails
-    var forecastDetails = {'avSummary':null, 'snowPack':null, 'weather':null};
+    //var forecastDetails = {'avSummary':null, 'snowPack':null, 'weather':null};
 
     //! vars used for problems
-    var foercastProblems = {'avyProblems':null};
+    //var foercastProblems = {'avyProblems':null};
 
     function getForecast() {
         Forecast.get($scope.region).then(
@@ -30,12 +30,12 @@ angular.module('CACMobile')
                         $scope.regionDisplayName = regions[$scope.region].display;
 
                         //! ForecastDetails
-                        forecastDetails.avSummary = fx.avSummary;
-                        forecastDetails.snowPack = fx.snowPackSummary;
-                        forecastDetails.weather =  fx.weatherSummary;
+                        $scope.avSummary = fx.avSummary;
+                        $scope.snowPack = fx.snowPackSummary;
+                        $scope.weather =  fx.weatherSummary;
 
                         //! problems
-                        foercastProblems.avyProblems = fx.avyProblems;
+                        $scope.avyProblems = fx.avyProblems;
 
                     },
                     function(error){
@@ -61,30 +61,28 @@ angular.module('CACMobile')
       window.history.back();
     }
 
-    /*
-                            $scope.avSummary = fx.avSummary;
-                        $scope.snowPack = fx.snowPackSummary;
-                        $scope.weather =  fx.weatherSummary;
+    $scope.openProblem = function (index) {
+      alert(index);
+    };
 
-                        $scope.avyProblems = fx.avyProblems; */
 
     //! Problems Modal {
-    $scope.openProblems = function () {
+    $scope.openProblem = function (avProblem) {
 
       var ProblemsModalInstance = $modal.open({
-        templateUrl: '/views/ForecastProblemsModal.html',
+        templateUrl: 'ForecastProblemsModal.html',
         controller: ProblemsModalCtrl,
         resolve: {
-          foercastProblems: function () {
-            return foercastProblems;
+          avProblem: function () {
+            return avProblem;
           }
         }
       });
     };
 
-    var ProblemsModalCtrl = ['$scope', '$modalInstance', 'foercastProblems', function ($scope, $modalInstance, foercastProblems) {
+    var ProblemsModalCtrl = ['$scope', '$modalInstance', 'avProblem', function ($scope, $modalInstance, avProblem) {
 
-      $scope.avyProblems = foercastProblems.avyProblems;
+      $scope.avProblem = avProblem;
 
       $scope.ok = function () {
         $modalInstance.close();
@@ -93,6 +91,7 @@ angular.module('CACMobile')
     }];
     //! } // End Problems Modal
 
+/*
 
     //! Forecast Details Modal {
     $scope.openDetails = function () {
@@ -148,7 +147,7 @@ angular.module('CACMobile')
     }];
     //! } // End Forecast Modal
 
-
+  */
 
 
 

@@ -24,6 +24,11 @@ angular.module('CACMobile',
         templateUrl: 'views/regionDetails.html',
         controller: 'RegionDetailsCtrl'
       })
+      .when('/RegionForecast/:region', {
+        templateUrl: 'views/RegionForecast.html',
+        controller: 'RegionForecastCtrl'
+      })
+
       .when('/danger-scale', {
         templateUrl: 'views/dangerScale.html'
       })

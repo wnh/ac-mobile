@@ -1,6 +1,6 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'">
 
-</div>   
+</div>
 
 
 <div class="content">
@@ -8,14 +8,14 @@
 	<ul id="forecast-tabs" class="nav nav-tabs nav-stacked no-border">
 
 		<li class="accordion-heading" ng-repeat="region in regionList"><i class="icon-circle-arrow-right pull-right"></i>
-			<a href="#/region-details/{{ region.name }}">{{ region.display }} </a>
+			<a href="#/RegionForecast/{{ region.name }}">{{ region.display }} </a>
 			<li>
-				
+
 			</ul>
 		</div>
 
 
    <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
-    </div>             
+    </div>
 
    <!-- <div connection-state=""></div> -->
