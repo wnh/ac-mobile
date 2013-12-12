@@ -65,7 +65,19 @@ angular.module('CACMobile')
       alert(index);
     };
 
+  $scope.tabs =  {'forecast': false, 'problems': false, 'details': false, 'dangerScale': false};
 
+  $scope.openDangerScale = function (dangerRating) {
+
+    $scope.extremeOpen = dangerRating == "Extreme" ? true : false;
+    $scope.highOpen = dangerRating == "High" ? true : false;
+    $scope.considerableOpen = dangerRating == "Considerable" ? true : false;
+    $scope.moderateOpen = dangerRating == "Moderate" ? true : false;
+    $scope.lowOpen = dangerRating == "Low" ? true : false;
+
+    $scope.tabs.dangerScale = true;
+  }
+/*
     //! Problems Modal {
     $scope.openDangerScale = function (dangerRating) {
 
