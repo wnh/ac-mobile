@@ -6,10 +6,12 @@
 <div ="modal-body">
    <div class="modal-body-content">
    <img src="img/icons/icon_obs_blank.png" ng-click="redirect('/ObservationViewMap')" /><p ng-click="redirect('/ObservationViewMap')">View Observations</p>
-   <img src="img/icons/icon_obs_blank.png" ng-click="redirect('/ObservationSubmit')" /><p ng-click="redirect('/ObservationSubmit')">Submit Photo</p>
-<button class="btn btn-inverse" ng-click="cancel()">Cancel</button>
+   <img src="img/icons/icon_camera_blank.png" ng-click="redirect('/ObservationSubmit')" /><p ng-click="redirect('/ObservationSubmit')">Submit Photo</p>
    </div>
 </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
 
 </script>
 
