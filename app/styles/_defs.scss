@@ -21,7 +21,7 @@ $top-nav-height: 3em;
 $bottom-nav-height: 3em;
 
 @mixin thin-black-borders {
-  border-color: black;
+  border-color: #ddd;
   border-style: solid;
   border-width: .1em;
 }

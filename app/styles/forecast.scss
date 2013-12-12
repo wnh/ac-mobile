@@ -11,8 +11,6 @@
   padding: 0.5em;
   margin-top:-.5em;
   border-bottom:none;
-  border-top:none;
-
 }
 .issued
 {
@@ -27,6 +25,7 @@ font-weight:bold;
   overflow:hidden;
     border-color: black;
   border-style: solid;
+  border-color:#ddd;
   border-width: .1em;
   border-bottom:none;
 }
@@ -171,11 +170,9 @@ font-weight:bold;
 }
 
 .confidence {
+  @include thin-black-borders;
   padding:.5em;
   background-color: #eee;
-  border-color: black;
-  border-style: solid;
-  border-width: .1em;
   border-top:none;
   margin-bottom:1em;
   }
