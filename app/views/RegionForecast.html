@@ -204,14 +204,14 @@
 
     <tab heading="Details">
       <accordion close-others="true">
-        <accordion-group is-open="backbacksOpen" ng-show="av">
+        <accordion-group is-open="backbacksOpen" ng-show="avSummary">
           <accordion-heading>
             <div class="accordion-heading-content" data-accordion-image="avalanche">
               Avalanche Summary
               <i class="pull-right" ng-class="{'icon-chevron-up': backbacksOpen, 'icon-chevron-down': !backbacksOpen}"></i>
             </div>
           </accordion-heading>
-            {{av}}
+            {{avSummary}}
         </accordion-group>
         <accordion-group is-open="helmetsOpen" ng-show="snowPack">
           <accordion-heading>
