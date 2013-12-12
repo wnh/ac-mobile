@@ -57,8 +57,6 @@
       </table>
 
       <div class="confidence"><strong>Confidence:</strong> {{ confidence }}</div>
-      <div ng-click="openDangerScale('none')">Danger Rating Explanation</div>
-
 
     </tab>
 
@@ -144,7 +142,7 @@
       </accordion>
     </tab>
 
-  <tab heading="Danger Scale" active="tabs.dangerScale">
+  <tab hidden="true" active="tabs.dangerScale">
         <div>
          <accordion close-others="true">
             <accordion-group is-open="extremeOpen">
@@ -228,6 +226,8 @@
   </tabset>
 
 </div>
+
+   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'" />
 
 <!--
 
