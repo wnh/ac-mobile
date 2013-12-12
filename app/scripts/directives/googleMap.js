@@ -42,7 +42,7 @@ angular.module('CACMobile')
 
        google.maps.event.addListener(kmlLayer, 'click', function(kmlEvent) {
          var region = kmlEvent.featureData.name;
-         var path = "/region-details/" + region;
+         var path = "/RegionForecast/" + region;
          scope.$apply($location.path(path));
        });
        //!
