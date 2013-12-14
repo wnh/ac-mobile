@@ -246,8 +246,11 @@ angular.module('CACMobile')
          var treelineClass = (treeline  == "No Rating") ? "none" : treeline.toLowerCase();
          var belowTreeline = dayBtl.customData.DangerRatingDisplay.mainLabel ;
          var belowTreelineClass = (belowTreeline  == "No Rating") ? "none" : belowTreeline.toLowerCase();
+         var date = new Date(dayAlp.validTime.TimeInstant.timePosition);
+         // Parks sets regions from 5pm one one day til 5pm the next, so we need to add a day to get the correct date
+         date.setDate(date.getDate()+1);
          return {
-            day: weekdays[new Date(dayAlp.validTime.TimeInstant.timePosition).getDay()],
+            day: weekdays[date.getDay()],
             alpine: {text: alpine, css: alpineClass},
             treeline: {text: treeline, css: treelineClass},
             belowTreeline: {text: belowTreeline, css: belowTreelineClass}
