@@ -5,5 +5,10 @@
 @import "nav";
 @import "forecast";
 @import "gear";
-@import "about"
+@import "about";
+
+.obs-photo {
+   max-width:50px;
+   max-height:50px;
+}
 
