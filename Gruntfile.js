@@ -284,6 +284,7 @@ module.exports = function (grunt) {
             'bower_components/angular/angular.min.js',
             'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
             'js/other/*.js',
+            'fonts/*.*',
             'config.xml',
             'styles/fonts/*'
           ]
