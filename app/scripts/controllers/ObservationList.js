@@ -1,19 +1,27 @@
 'use strict';
 
 angular.module('CACMobile')
-.controller('ObservationListCtrl', function ($scope, State, ResourceFactory, $modal) {
+.controller('ObservationListCtrl', function ($scope, State, ResourceFactory, $modal, $log) {
 
  $scope.observation_ids = State.getObsIds();
  $scope.observations = [];
 
+if ($scope.observation_ids.length > 0)
+{
  ResourceFactory.observation().query({ids: JSON.stringify($scope.observation_ids)},
   function (response) {
     $scope.observations = response;
+    $log.info("Retrieved observation list");
   },
   function (response) {
-    $scope.observations = response;
+    $log.error("Error retrieving observations: " + response);
+    //$scope.observations = response;
   })
-
+}
+else
+{
+  $log.error("Empty observation_ids array");
+}
 
  $scope.loadPhoto = function (id) {
   ResourceFactory.photo().test({id: id},

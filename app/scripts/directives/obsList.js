@@ -4,7 +4,7 @@ angular.module('CACMobile')
   .directive('obsList', function ($compile) {
 
    var linker = function (scope, element, attrs) {
-         var tableHeader = ["ID","Submitted","Recorded","Photos"];
+         var tableHeader = ["Location","Submitted","User","Photos"];
          var thead = document.createElement('thead');
          var trow = document.createElement("tr");
          element.append(thead);
@@ -24,14 +24,16 @@ angular.module('CACMobile')
             var tbody = document.createElement('tbody');
             element.append(tbody);
             for(var j=0;j<scope.observations.length;j++) {
-               trow = document.createElement("tr");
-               tbody.appendChild(trow);
-               trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].id));
-               trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].submitted_at));
-               trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].recorded_at));
-               if (scope.observations[j].photo_id != null) {
-                  trow.appendChild(document.createElement("td")).innerHTML = photoLink(scope.observations[j].photo_id);
-               }
+              if (scope.observations[j].visibility == "public"){
+                 trow = document.createElement("tr");
+                 tbody.appendChild(trow);
+                 trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].location_name));
+                 trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].submitted_at));
+                 trow.appendChild(document.createElement("td")).appendChild(document.createTextNode("todo"));
+                 if (scope.observations[j].photo_id != null) {
+                    trow.appendChild(document.createElement("td")).innerHTML = photoLink(scope.observations[j].photo_id);
+                 }
+              }
             }
             var compiled = $compile(tbody);
             compiled(scope);
