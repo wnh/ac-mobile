@@ -7,7 +7,7 @@ angular.module('CACMobile')
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
          var myLatLng = new google.maps.LatLng(scope.location.latitude,scope.location.longitude);
-         var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: false, center: myLatLng, mapTypeId: google.maps.MapTypeId.TERRAIN};
+         var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: true, center: myLatLng, mapTypeId: google.maps.MapTypeId.TERRAIN};
          var map = new google.maps.Map(element[0], mapOptions);
          var marker = new google.maps.Marker({
             position: myLatLng,
