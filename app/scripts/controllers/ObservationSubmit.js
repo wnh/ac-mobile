@@ -30,10 +30,6 @@ angular.module('CACMobile')
 
   getPosition();
 
-   /*
-    { type: 'error', msg: 'Oh snap! Change a few things up and try submitting again.' },
-    { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
-  ];*/
 
 $scope.cancelSubmit = function (){
   $scope.submitting = false;
@@ -168,7 +164,8 @@ $scope.submit = function (){
       });
 
       modalInstance.result.then(function (location) {
-        $scope.locationPos = location;
+        $scope.locationPos.latitude = location.latitude;
+        $scope.locationPos.longitude = location.longitude;
         $scope.positionDesc = "User Defined";
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
@@ -181,7 +178,7 @@ $scope.submit = function (){
 var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($scope, $modalInstance, location) {
   $scope.location = location;
   $scope.ok = function () {
-    $modalInstance.close($scope.location);
+    $modalInstance.close({latitude: $scope.location.latitude, longitude: $scope.location.longitude});
   };
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
