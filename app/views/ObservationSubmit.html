@@ -5,31 +5,31 @@
   <div class="region">
     Submit Photo Observation
   </div>
+  <div class="text-wrapper">
 
   <alert ng-repeat="alert in alerts" type="alert.type">{{alert.msg}}</alert>
 
   <div ng-show='!submitting'>
 
-    <form class="form-horizontal css-form" novalidate name="form">
+    <form novalidate name="form">
 
-      <ul class="list-group">
-        <div class="control-group" ng-repeat="p in photo_list">
-
-               <img class="control-label obs-photo" for="comment" src="{{p.image}}" />
+        <div class="photo-div control-group" ng-repeat="p in photo_list">
+ <i class="pull-right glyphicons-icon remove_2" ng-click="removePhoto($index)"></i>
+               <label class="control-label" for="comment"><img class="obs-photo" src="{{p.image}}" /></label>
                <div class="controls">
-                  <input type="text" class="form-control" ng-model="p.comment" name="comment" />
+                  <input type="text" class="form-control" placeholder="comment" ng-model="p.comment" name="comment" />
                </div>
             </div>
 
-        </li>
-      </ul>
+
 
       <div class="control-group" ng-controller="LoadPhotoModal">
           <script type="text/ng-template" id="loadPhoto_modal.html">
               <div class="modal-header">
                   <h3> Pick a source</h3>
               </div>
-
+              <div class="modal-body-content">
+              <p></p>
               <div class="control-group">
                 <div class="controls">
                  <button class="btn" ng-click="library()">Library</button>
@@ -41,7 +41,7 @@
                  <button class="btn" ng-click="camera()">Camera</button>
                 </div>
               </div>
-
+              </div>
               <div class="modal-footer">
                   <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
               </div>
@@ -55,7 +55,7 @@
       <div class="control-group">
          <label class="control-label" for="locationName">Location Name</label>
          <div class="controls">
-            <input type="text" class="form-control" ng-model="locationName" name="locationName" />
+            <input type="text" ng-model="locationName" name="locationName" />
          </div>
       </div>
 
@@ -67,9 +67,8 @@
           </div>
 
           <p>Tap to set Location</p>
-          <div style="height:250px;width:200px;margin:auto;" id="map-canvas" set-location-map></div>
+          <div class="modal-map" id="map-canvas" set-location-map></div>
           <p>{{location.latitude}},{{location.longitude}}</p>
-          <p>{{foo}}</p>
 
           <div class="modal-footer">
               <button class="btn btn-primary" ng-click="ok()">OK</button>
@@ -77,7 +76,8 @@
           </div>
         </script>
         <div class="control-group">
-          <label class="control-label" for="btn">{{positionDesc}}</label>
+          <label class="control-label" for="location">Location</label>
+          <input disabled type="text" name="location" ng-model="positionDesc" />
           <div class="controls">
             <button class="btn btn-info" ng-click="open()">Select position from map</button>
           </div>
@@ -86,7 +86,7 @@
 
         <div class="control-group">
           <div class="controls">
-            <button class="btn btn-warning" ng-click="submit()">Submit</button>
+            <button class="btn btn-info" ng-click="submit()">Submit</button>
           </div>
         </div>
 
@@ -99,6 +99,6 @@
   </div>
 
 </div>
-
+</div>
 <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
 

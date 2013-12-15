@@ -15,7 +15,8 @@
 
   <div class="region">{{regionDisplayName}}</div>
   <tabset>
-    <tab heading="Forecast" active="tabs.forecast">
+    <tab active="tabs.forecast">
+    <tab-heading><b>Forecast</b></tab-heading>
       <br />
       <div class="expiry">
         <div>Issued: {{valid.issued}}</div>
@@ -61,7 +62,8 @@
 
     </tab>
 
-    <tab heading="Problems" ng-show="avyProblems.length>0" active="tabs.problems">
+    <tab ng-show="avyProblems.length>0" active="tabs.problems">
+    <tab-heading><b>Problems</b></tab-heading>
       <br />
       <accordion close-others="true">
         <accordion-group is-open="problem{{$index}}" ng-repeat="avProblem in avyProblems">
@@ -112,7 +114,8 @@
       </accordion>
     </tab>
 
-    <tab heading="Details" active="tabs.details">
+    <tab active="tabs.details">
+    <tab-heading><b>Details</b></tab-heading>
       <br />
       <accordion close-others="true">
         <accordion-group is-open="backbacksOpen" ng-show="avSummary">

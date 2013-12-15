@@ -10,7 +10,7 @@ angular.module('CACMobile')
         img.className = "modal-photo";
         element.append(img);
         var comment = document.createElement('p');
-        comment.appendChild(document.createTextNode("Comment:" + scope.photo.comment));
+        comment.appendChild(document.createTextNode(scope.photo.comment));
         element.append(comment);
       }
     };

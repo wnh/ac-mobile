@@ -16,7 +16,7 @@ angular.module('CACMobile')
          var photoLink = function (ids) {
             var retHTML = "";
             for(var i = 0; i<ids.length;i++) {
-               retHTML += "<p ng-click=\"loadPhoto(" + ids[i] + ")\">Photo</p>";
+               retHTML += "<p ng-click=\"loadPhoto(" + ids[i] + ")\"><a>Photo</a></p>";
             }
             return retHTML;
          }

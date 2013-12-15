@@ -14,6 +14,10 @@ angular.module('CACMobile')
   $scope.submitProgress = 0;
   $scope.submitting = false;
 
+  $scope.removePhoto = function(index) {
+    $scope.photo_list.splice(index,1)
+  }
+
 
   function getPosition () {
     location.getPosition().then(
@@ -165,7 +169,7 @@ $scope.submit = function (){
 
       modalInstance.result.then(function (location) {
         $scope.locationPos = location;
-        $scope.positionDesc = "Custom";
+        $scope.positionDesc = "User Defined";
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
       });
@@ -204,7 +208,7 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
       });
 
       modalInstance.result.then(function (photo) {
-        var ob = { comment:"comment", image:null, id:null };
+        var ob = { comment:"", image:null, id:null };
         ob.image = photo;
         $scope.photo_list.push(ob);
       }, function () {
