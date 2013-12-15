@@ -13,15 +13,13 @@
 
     <form novalidate name="form">
 
-        <div class="photo-div control-group" ng-repeat="p in photo_list">
- <i class="pull-right glyphicons-icon remove_2" ng-click="removePhoto($index)"></i>
-               <label class="control-label" for="comment"><img class="obs-photo" src="{{p.image}}" /></label>
-               <div class="controls">
-                  <input type="text" class="form-control" placeholder="comment" ng-model="p.comment" name="comment" />
-               </div>
-            </div>
-
-
+      <div class="photo-div control-group" ng-repeat="p in photo_list">
+         <i class="pull-right glyphicons-icon remove_2" ng-click="removePhoto($index)"></i>
+         <label class="control-label" for="comment"><img class="obs-photo" src="{{p.image}}" /></label>
+         <div class="controls">
+            <input type="text" class="form-control" placeholder="comment" ng-model="p.comment" name="comment" />
+         </div>
+      </div>
 
       <div class="control-group" ng-controller="LoadPhotoModal">
           <script type="text/ng-template" id="loadPhoto_modal.html">
@@ -52,13 +50,6 @@
       </div>
 
 
-      <div class="control-group">
-         <label class="control-label" for="locationName">Location Name</label>
-         <div class="controls">
-            <input type="text" ng-model="locationName" name="locationName" />
-         </div>
-      </div>
-
       <div class="control-group" ng-controller="ModifyPositionModal">
 
         <script type="text/ng-template" id="modifyPosition_modal.html">
@@ -75,22 +66,23 @@
               <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
           </div>
         </script>
-        <div class="control-group">
+        <div class="location-div control-group">
           <label class="control-label" for="location">Location</label>
+          <div class="controls">
+            <input type="text" ng-model="locationName" placeholder="location name" name="locationName" />
+          </div>
           <input disabled type="text" name="location" ng-model="positionDesc" />
           <div class="controls">
             <button class="btn btn-info" ng-click="open()">Select position from map</button>
           </div>
         </div>
       </div>
-      lat: {{locationPos.latitude}}
-      long: {{locationPos.longitude}}
 
-        <div class="control-group">
-          <div class="controls">
-            <button class="btn btn-info" ng-click="submit()">Submit</button>
-          </div>
+      <div class="control-group">
+        <div class="controls">
+          <button class="btn btn-primary" ng-click="submit()">Submit</button>
         </div>
+      </div>
 
     </form>
   </div>

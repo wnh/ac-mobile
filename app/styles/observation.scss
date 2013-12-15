@@ -18,6 +18,10 @@
   border-radius:0.5em;
 }
 
+.location-div {
+  @extend .photo-div;
+}
+
 .modal-map
 {
    height:300px !important;
@@ -25,9 +29,9 @@
    margin:auto;
 }
 
-.modal-photo 
+.modal-photo
 {
-  max-width: 90%; 
+  max-width: 90%;
   max-height:70%;
   margin-top:0.5em;
 }
