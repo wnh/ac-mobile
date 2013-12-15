@@ -6,14 +6,14 @@
     <button class="btn btn-warning" ng-click="back()">Back</button>
 </div>
 
-<div ng-show="loading&&regionExists">
+<div class="content" ng-show="loading&&regionExists">
   <img src="img/loading.gif" class="loading">
   <button class="btn btn-warning" ng-click="back()">Cancel Loading</button>
 </div>
 
 <div class="content" ng-show="!loading&&regionExists">
 
-  <div class="region">{{regionDisplayName}}</div>
+  <div class="region">{{regionDisplayName}}{{loading}}</div>
   <tabset>
     <tab active="tabs.forecast">
     <tab-heading><b>Forecast</b></tab-heading>
