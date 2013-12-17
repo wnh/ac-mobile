@@ -279,57 +279,84 @@ angular.module('CACMobile')
 	   {
          var defer = $q.defer();
          var url = RegionDefinition.getUrl(region);
-
-         Data.get(region, url).then(
-  				 function (data)
-  				 {
-  					 //! Got Data from HTTP save to file {
-              console.log("Got data");
-
-              var forecast = "";
-              if (data != null && typeof data != 'undefined')
-              {
-                if ( RegionDefinition.get()[region].type === 'cac' )
-                {
-                  if (data.ObsCollection != null && typeof data.ObsCollection != 'undefined') {
-                    forecast = new CacData(data);
-                    defer.resolve(forecast);
-                  } else {
-                    defer.reject("Unexpected data format for CacData");
-                    $log.error("Unexpected data format for CacData");
-                  }
-                }
-                else if ( RegionDefinition.get()[region].type === 'parks' )
-                {
-                  if (data.CaamlData != null && typeof data.CaamlData != 'undefined') {
-                    forecast = new ParksData(data);
-                    defer.resolve(forecast);
-                  } else {
-                    defer.reject("Unexpected data format for ParksData");
-                    $log.error("Unexpected data format for ParksData");
-                  }
-                }
-                else
-                {
-                  $log.error('unsupported region');
-                  defer.reject('unsupported region');
-                }
-              }
-              else
-              {
-                $log.error("Null or Undefined Data");
-                defer.reject("Null or Undefined Data");
-              }
-
-           },
-
-  				 function (error) // get data failed
-  				 {
-  					console.error("error getting xml forecast from http for " + region + "error ", error);
-  					defer.reject(error);
-  				 });
+         var today = null;
 
 
+          if (navigator.globalization)
+          {
+            navigator.globalization.dateToString(
+              new Date(),
+              function (date) {
+                today = date.value ;
+                getData();
+              },
+              function () {alert('Error getting dateString\n');},
+              {formatLength:'short', selector:'date and time'}
+            );
+          }
+          else
+          {
+            $log.info("Date function not available skipping");
+          }
+
+          var getData = function ()
+          {
+            var checkDate = function (forecast)
+            {
+
+              defer.resolve(forecast);
+            }
+
+            var gotData = function (data)
+                         {
+                           //! Got Data from HTTP save to file {
+                            console.log("Got data");
+
+                            var forecast = "";
+                            if (data != null && typeof data != 'undefined')
+                            {
+                              if ( RegionDefinition.get()[region].type === 'cac' )
+                              {
+                                if (data.ObsCollection != null && typeof data.ObsCollection != 'undefined') {
+                                  forecast = new CacData(data);
+                                  checkDate(forecast);
+                                } else {
+                                  defer.reject("Unexpected data format for CacData");
+                                  $log.error("Unexpected data format for CacData");
+                                }
+                              }
+                              else if ( RegionDefinition.get()[region].type === 'parks' )
+                              {
+                                if (data.CaamlData != null && typeof data.CaamlData != 'undefined') {
+                                  forecast = new ParksData(data);
+                                  checkDate(forecast);
+                                } else {
+                                  defer.reject("Unexpected data format for ParksData");
+                                  $log.error("Unexpected data format for ParksData");
+                                }
+                              }
+                              else
+                              {
+                                $log.error('unsupported region');
+                                defer.reject('unsupported region');
+                              }
+                            }
+                            else
+                            {
+                              $log.error("Null or Undefined Data");
+                              defer.reject("Null or Undefined Data");
+                            }
+
+                         };
+            var fail = function (error) // get data failed
+                       {
+                        console.error("error getting xml forecast from http for " + region + "error ", error);
+                        defer.reject(error);
+                       };
+            Data.get(region, url).then(gotData, fail);
+          }
+
+          getData();
           return defer.promise;
        }
 

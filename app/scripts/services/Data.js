@@ -13,15 +13,27 @@ angular.module('CACMobile')
 angular.module('CACMobile')
 .factory('Data', function($http,$rootScope,$q, $log, platform, DeviceReady){
 
-   var getXml = function(url,transform){
+   var storageService = null;
+
+    if(platform.isMobile())
+    {
+      storageService = window.localStorage;
+    }
+    else if (platform.isWeb())
+    {
+      storageService = localStorage;
+    }
+    else
+    {
+      $log.error("unknown Platform");
+    }
+
+   var getXml = function(url){
                   var defer = $q.defer();
 
                   console.log ("requesting data from " + url);
 
-                  $http.get(
-                        url,
-                        {transformResponse:transform}
-                    ).
+                  $http.get(url).
                     success(function(data, status) {
 
                         if (data == null)
@@ -42,18 +54,17 @@ angular.module('CACMobile')
                         defer.reject(status);
                     });
 
-
                   return defer.promise;
                };
 
-   var transform = function(result) {
+   var xmlToJson = function(result) {
     var json = "";
 
       try{
          json = x2js.xml_str2json(result);
       }
       catch (e) {
-         console.error("Unable to convert from XML to JSON");
+         $log.error("Unable to convert from XML to JSON");
       }
 
     return json;
@@ -63,42 +74,84 @@ angular.module('CACMobile')
 
       get: function (region, url)
       {
+
+
           var defer = $q.defer();
 
           var maxTries = 2;
           var errorCount = 0;
           var validResponse = false;
 
+
           $log.info("Data.get() for region " + region);
 
           var getData = function ()
           {
-            getXml(url,transform).then(success, fail);
+            if (storageService != null)
+            {
+
+              //! get from local storage
+              var data = null;
+              data = localStorage.getItem(region);
+
+              if (data)
+              {
+                $log.info("Got Data from local storage");
+                //var result = JSON.parse(data);defer.resolve(result);
+                var json = xmlToJson(data);
+                defer.resolve(json);
+              }
+              else
+              {
+                if (errorCount < maxTries)
+                {
+                  getXml(url).then(success, fail);
+                }
+                else
+                {
+                  $log.error("Invalid Response To many Retries");
+                  defer.reject("Invalid Response To many Retries");
+                }
+              }
+
+            }
+            else
+            {
+              $log.error("Storage Service Null or Void");
+              defer.reject("Storage Service Null or Void");
+            }
           }
 
           var success = function (data)
           {
-            defer.resolve(data);
+            $log.info("item added to local storage");
+            storageService.setItem(region, data);
+            var json = xmlToJson(data);
+            defer.resolve(json);
           }
 
           var fail = function (error)
           {
-            errorCount ++;
             $log.error("Error getting data, errorCount incremented. Error: "+ error);
-
-            if (errorCount < maxTries)
-            {
-              getData();
-            }
-            else
-            {
-              $log.error();
-              defer.reject("Invalid Response To many Retries");
-            }
+            errorCount ++;
+            getData();
           }
 
           getData();
           return defer.promise;
+      },
+
+      clear: function (region)
+      {
+        if (localStorage.getItem(region) != null)
+        {
+          $log.info("removed " + region + " from local storage");
+          localStorage.removeItem(region);
+        }
+        else
+        {
+          $log.info("Attempted to remove " + region + " from local storage when no data for key exists");
+        }
       }
 
    }// End return
