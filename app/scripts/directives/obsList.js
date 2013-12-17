@@ -29,7 +29,7 @@ angular.module('CACMobile')
                  tbody.appendChild(trow);
                  trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].location_name));
                  trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].submitted_at));
-                 trow.appendChild(document.createElement("td")).appendChild(document.createTextNode("todo"));
+                 trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].username));
                  if (scope.observations[j].photo_id != null) {
                     trow.appendChild(document.createElement("td")).innerHTML = photoLink(scope.observations[j].photo_id);
                  }

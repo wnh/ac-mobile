@@ -30,12 +30,25 @@ angular.module('CACMobile')
   var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: false, center: new google.maps.LatLng(scope.latitude, scope.longitude), mapTypeId: google.maps.MapTypeId.TERRAIN};
   var map = new google.maps.Map(elem[0], mapOptions);
 
-  google.maps.event.addListener(map, 'idle', function() {
+  var updateBounds = function () {
     var bounds = map.getBounds();
     var zoom = map.getZoom();
     var ne = bounds.getNorthEast();
     var sw = bounds.getSouthWest();
     scope.$apply(Bounds.setBounds(ne.lng(),ne.lat(),sw.lng(),sw.lat(),zoom));
+  }
+
+  //Add listeners to update bounds whenever map is dragged, zoom level changes, or map first loads (addListenerOnce)
+  google.maps.event.addListener(map, 'dragend', function() {
+    updateBounds();
+  });
+
+  google.maps.event.addListener(map, 'zoom_changed', function() {
+    updateBounds();
+  });
+
+  google.maps.event.addListenerOnce(map, 'idle', function() {
+    updateBounds();
   });
   
 var locUpdate = function(newValue,oldValue) {
