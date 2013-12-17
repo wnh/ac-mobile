@@ -1,13 +1,22 @@
 'use strict';
 angular.module('CACMobile')
-  .controller('NavCtrl', function ($scope, $location, $log, CallVenderApp, TOU, Session, $modal) {
+  .controller('NavCtrl', function ($scope, $location, $log, CallVenderApp, ConnectionManager, TOU, Session, $modal) {
 
+    $scope.loading = false;
     $scope.token = Session.token();
     $scope.signedIn = false;
     var checkSignIn = function(){
       $scope.signedIn = Session.loggedIn();
     };
     checkSignIn();
+
+    $scope.online = function (){
+      return ConnectionManager.isOnline();
+    }
+
+    $scope.offlineDetails = function (){
+      alert("No connection available functionality will be restricted");
+    }
 
     $scope.signOut = function(){
       Session.destroy();
