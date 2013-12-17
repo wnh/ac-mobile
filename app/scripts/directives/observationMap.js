@@ -27,7 +27,7 @@ angular.module('CACMobile')
   var activeInfoWindow = null;
   var locMarkers = [];
 
-  var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: false, center: new google.maps.LatLng(scope.latitude, scope.longitude), mapTypeId: google.maps.MapTypeId.TERRAIN};
+  var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: true, center: new google.maps.LatLng(scope.latitude, scope.longitude), mapTypeId: google.maps.MapTypeId.TERRAIN};
   var map = new google.maps.Map(elem[0], mapOptions);
 
   var updateBounds = function () {
@@ -49,6 +49,7 @@ angular.module('CACMobile')
 
   google.maps.event.addListenerOnce(map, 'idle', function() {
     updateBounds();
+    console.log("Setting initial bounds");
   });
   
 var locUpdate = function(newValue,oldValue) {
@@ -64,6 +65,7 @@ var locUpdate = function(newValue,oldValue) {
   for (var i=0; i < loclength; i++) {
     locMarkers.push(createLocMarker(scope.locations[i]));
   }
+  console.log(locMarkers);
 }
 
 var loadObs = function(event) {
@@ -73,10 +75,10 @@ var loadObs = function(event) {
 
 var createLocMarker = function(loc) {
   //Set up the marker at the right position
-  var locLatlng = new google.maps.LatLng(loc.latitude,loc.longitude);
-  var locMarker = new google.maps.Marker()
-  locMarker.setPosition(locLatlng);
-  locMarker.setMap(map);
+   var locLatlng = new google.maps.LatLng(loc.latitude,loc.longitude);
+   var locMarker = new google.maps.Marker()
+   locMarker.setPosition(locLatlng);
+   locMarker.setMap(map);
 
   //Build the info window content here, including a button we'll listen for later
   var buttonid = "but" + loc.id;
