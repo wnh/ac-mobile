@@ -152,6 +152,11 @@ angular.module('CACMobile')
         {
           $log.info("Attempted to remove " + region + " from local storage when no data for key exists");
         }
+      },
+
+      inCache: function (region)
+      {
+        return (localStorage.getItem(region) != null);
       }
 
    }// End return
