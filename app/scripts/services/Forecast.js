@@ -279,7 +279,7 @@ angular.module('CACMobile')
 	   {
          var defer = $q.defer();
          var url = RegionDefinition.getUrl(region);
-         var today = new Date("2013-12-18 21:00:01");
+         var today = new Date();
          var retry = false;
 
           if (navigator.globalization)
