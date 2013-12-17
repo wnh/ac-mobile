@@ -40,6 +40,8 @@ angular.module('CACMobile')
                     },
                     function(error){
                         $log.error('error getting forecast', error);
+                        alert("error getting forecast, check connection");
+                        window.history.back();
                     }
 
             );
