@@ -334,6 +334,7 @@ angular.module('CACMobile')
                                   forecast = new CacData(data);
                                   checkDate(forecast);
                                 } else {
+                                  Data.clear(region);
                                   defer.reject("Unexpected data format for CacData");
                                   $log.error("Unexpected data format for CacData");
                                 }
@@ -344,18 +345,21 @@ angular.module('CACMobile')
                                   forecast = new ParksData(data);
                                   checkDate(forecast);
                                 } else {
+                                  Data.clear(region);
                                   defer.reject("Unexpected data format for ParksData");
                                   $log.error("Unexpected data format for ParksData");
                                 }
                               }
                               else
                               {
+                                Data.clear(region);
                                 $log.error('unsupported region');
                                 defer.reject('unsupported region');
                               }
                             }
                             else
                             {
+                              Data.clear(region);
                               $log.error("Null or Undefined Data");
                               defer.reject("Null or Undefined Data");
                             }
