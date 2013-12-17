@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.factory('Forecast', function($rootScope,$q, $log, Data, RegionDefinition){
+.factory('Forecast', function($rootScope,$q, $log, Data, ConnectionManager, RegionDefinition){
 
    var weekdays = new Array(7);
                weekdays[0] = "Sunday";
@@ -164,7 +164,7 @@ angular.module('CACMobile')
       if (jQuery.type(this.confidence) != "string") {
         this.confidence = "";
       }
-      this.validTime =  this.validTime = { issued  : data.validTime.TimePeriod.beginPosition.replace("T"," ").split(".")[0] ,
+      this.validTime = { issued  : data.validTime.TimePeriod.beginPosition.replace("T"," ").split(".")[0] ,
                          expires : data.validTime.TimePeriod.endPosition.replace("T"," ").split(".")[0] };
 
       this.avSummary = stringCleaner(data.bulletinResultsOf.BulletinMeasurements.avActivityComment);
@@ -279,8 +279,8 @@ angular.module('CACMobile')
 	   {
          var defer = $q.defer();
          var url = RegionDefinition.getUrl(region);
-         var today = null;
-
+         var today = new Date();
+         var retry = false;
 
           if (navigator.globalization)
           {
@@ -303,11 +303,24 @@ angular.module('CACMobile')
           {
             var checkDate = function (forecast)
             {
+              var issued = new Date(forecast.validTime.issued);
+              var expires = new Date(forecast.validTime.expires);
 
-              defer.resolve(forecast);
+              if (retry == false && today > expires && ConnectionManager.isOnline())
+              {
+                $log.info("out of date forecast");
+                Data.clear(region);
+                retry = true; //! not nice but date is not available in forecast ....
+                getData();
+              }
+              else
+              {
+                defer.resolve(forecast);
+              }
+
             }
 
-            var gotData = function (data)
+            var dataSuccess = function (data)
                          {
                            //! Got Data from HTTP save to file {
                             console.log("Got data");
@@ -353,7 +366,7 @@ angular.module('CACMobile')
                         console.error("error getting xml forecast from http for " + region + "error ", error);
                         defer.reject(error);
                        };
-            Data.get(region, url).then(gotData, fail);
+            Data.get(region, url).then(dataSuccess, fail);
           }
 
           getData();
