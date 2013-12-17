@@ -99,7 +99,7 @@ angular.module('CACMobile')
                 $log.info("Got Data from local storage");
                 //var result = JSON.parse(data);defer.resolve(result);
                 var json = xmlToJson(data);
-                defer.resolve(json);
+                defer.resolve({'data':json, 'cache': true});
               }
               else
               {
@@ -127,7 +127,7 @@ angular.module('CACMobile')
             $log.info("item added to local storage");
             storageService.setItem(region, data);
             var json = xmlToJson(data);
-            defer.resolve(json);
+            defer.resolve({'data':json, 'cache': false});
           }
 
           var fail = function (error)

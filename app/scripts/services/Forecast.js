@@ -279,7 +279,7 @@ angular.module('CACMobile')
 	   {
          var defer = $q.defer();
          var url = RegionDefinition.getUrl(region);
-         var today = new Date();
+         var today = new Date("2013-12-18 21:00:01");
          var retry = false;
 
           if (navigator.globalization)
@@ -301,12 +301,16 @@ angular.module('CACMobile')
 
           var getData = function ()
           {
-            var checkDate = function (forecast)
+            //! Check that the forecast grabbed has not expired
+            //! If todays date is greater than the expired date remove region from cache and try getting data again (from http)
+            //! It performs this action at most once
+            var checkDate = function (forecast, cache)
             {
+
               var issued = new Date(forecast.validTime.issued);
               var expires = new Date(forecast.validTime.expires);
 
-              if (retry == false && today > expires && ConnectionManager.isOnline())
+              if (cache == true && today > expires && ConnectionManager.isOnline())
               {
                 $log.info("out of date forecast");
                 Data.clear(region);
@@ -320,35 +324,61 @@ angular.module('CACMobile')
 
             }
 
-            var dataSuccess = function (data)
+            //! Function callback for get data success for region
+            //! gets the data and then checks what type it is before instantiating an object for that type
+            //! once instantiated it then progresses to check date
+            //! Type is defined in region definition
+            var dataSuccess = function (result)
                          {
                            //! Got Data from HTTP save to file {
                             console.log("Got data");
 
                             var forecast = "";
-                            if (data != null && typeof data != 'undefined')
+                            if (result.data != null && typeof result.data != 'undefined')
                             {
                               if ( RegionDefinition.get()[region].type === 'cac' )
                               {
-                                if (data.ObsCollection != null && typeof data.ObsCollection != 'undefined') {
-                                  forecast = new CacData(data);
-                                  checkDate(forecast);
+                                if (result.data.ObsCollection != null && typeof result.data.ObsCollection != 'undefined') {
+                                  forecast = new CacData(result.data);
+                                  checkDate(forecast, result.cache);
                                 } else {
+
                                   Data.clear(region);
-                                  defer.reject("Unexpected data format for CacData");
                                   $log.error("Unexpected data format for CacData");
+
+                                  if (retry == false)
+                                  {
+                                    retry = true;
+                                    getData();
+                                  }
+                                  else
+                                  {
+                                    defer.reject("Unexpected data format for CacData");
+                                  }
+
                                 }
                               }
                               else if ( RegionDefinition.get()[region].type === 'parks' )
                               {
-                                if (data.CaamlData != null && typeof data.CaamlData != 'undefined') {
-                                  forecast = new ParksData(data);
-                                  checkDate(forecast);
+                                if (result.data.CaamlData != null && typeof result.data.CaamlData != 'undefined') {
+                                  forecast = new ParksData(result.data);
+                                  checkDate(forecast, result.cache);
                                 } else {
+
                                   Data.clear(region);
-                                  defer.reject("Unexpected data format for ParksData");
                                   $log.error("Unexpected data format for ParksData");
+
+                                  if (retry == false)
+                                  {
+                                    retry = true;
+                                    getData();
+                                  }
+                                  else
+                                  {
+                                    defer.reject("Unexpected data format for ParksData");
+                                  }
                                 }
+
                               }
                               else
                               {
