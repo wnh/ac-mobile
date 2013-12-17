@@ -134,8 +134,9 @@ angular.module('CACMobile')
          var treelineClass = (treeline  == "N/A - No Rating") ? "none" : treeline.toLowerCase();
          var belowTreeline = day.dangerRatingBtlValue.__text || "N/A - No Rating";
          var belowTreelineClass = (belowTreeline  == "N/A - No Rating") ? "none" : belowTreeline.toLowerCase();
+         var date = new Date(day.validTime.TimeInstant.timePosition.__text+"Z");
          return {
-            day: weekdays[new Date(day.validTime.TimeInstant.timePosition.__text).getDay()],
+            day: weekdays[date.getUTCDay()],
             alpine: {text: alpine, css: alpineClass},
             treeline: {text: treeline, css: treelineClass},
             belowTreeline: {text: belowTreeline, css: belowTreelineClass}
@@ -164,7 +165,10 @@ angular.module('CACMobile')
       if (jQuery.type(this.confidence) != "string") {
         this.confidence = "";
       }
+
       this.validTime = { issued  : data.validTime.TimePeriod.beginPosition.replace("T"," ").split(".")[0] ,
+
+
                          expires : data.validTime.TimePeriod.endPosition.replace("T"," ").split(".")[0] };
 
       this.avSummary = stringCleaner(data.bulletinResultsOf.BulletinMeasurements.avActivityComment);
@@ -246,11 +250,10 @@ angular.module('CACMobile')
          var treelineClass = (treeline  == "No Rating") ? "none" : treeline.toLowerCase();
          var belowTreeline = dayBtl.customData.DangerRatingDisplay.mainLabel ;
          var belowTreelineClass = (belowTreeline  == "No Rating") ? "none" : belowTreeline.toLowerCase();
-         var date = new Date(dayAlp.validTime.TimeInstant.timePosition);
-         // Parks sets regions from 5pm one one day til 5pm the next, so we need to add a day to get the correct date
-         date.setDate(date.getDate()+1);
+         //Add the Z to ensure date is treated as UTC
+         var date = new Date(dayAlp.validTime.TimeInstant.timePosition+"Z");
          return {
-            day: weekdays[date.getDay()],
+            day: weekdays[date.getUTCDay()],
             alpine: {text: alpine, css: alpineClass},
             treeline: {text: treeline, css: treelineClass},
             belowTreeline: {text: belowTreeline, css: belowTreelineClass}
@@ -258,6 +261,7 @@ angular.module('CACMobile')
       };
    }
 
+   var regionFileName = "regions.json";
    var apply = function () {$rootScope.$apply();};
 
    var transform = function(result) {
