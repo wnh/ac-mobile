@@ -26,7 +26,7 @@
                          </div>
         </div>
 
-        <p>No account yet? <a href="http://obsnet.avalanche.ca/#/register" target="_blank">Register now!</a></p>
+        <p ng-controller='NavCtrl'>No account yet? <a ng-click="openUrl('http://obsnet.avalanche.ca/#/register')">Register now!</a></p>
 
         <div ng-show="alert">
           <alert type="alert.type">{{alert.msg}}</alert>

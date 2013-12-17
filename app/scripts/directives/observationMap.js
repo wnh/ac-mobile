@@ -38,7 +38,7 @@ angular.module('CACMobile')
     scope.$apply(Bounds.setBounds(ne.lng(),ne.lat(),sw.lng(),sw.lat(),zoom));
   }
 
-  //Add listeners to update bounds whenever map is dragged, zoom level changes, or map first loads
+  //Add listeners to update bounds whenever map is dragged, zoom level changes, or map first loads (addListenerOnce)
   google.maps.event.addListener(map, 'dragend', function() {
     updateBounds();
   });
@@ -47,7 +47,7 @@ angular.module('CACMobile')
     updateBounds();
   });
 
-  google.maps.event.addListener(map, 'tilesloaded', function() {
+  google.maps.event.addListenerOnce(map, 'idle', function() {
     updateBounds();
   });
   
