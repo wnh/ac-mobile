@@ -11,235 +11,155 @@ angular.module('CACMobile')
 
 
 angular.module('CACMobile')
-.factory('Data', function($http,$rootScope,$q, DeviceReady){
+.factory('Data', function($http,$rootScope,$q, $log, platform, DeviceReady){
 
-  //! setup file
-  var fileApi = {available : false, callBacks : []};
+   var storageService = null;
 
-  window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
-
-  function getFileSystem (fileSystem) {
-    
-    //! filesystem is available iterate over our callacks that where registered when the API was not available yet
-    var numItems = fileApi.callBacks.length;
-    fileApi.fileSystem = fileSystem;
-    fileApi.available = true;
-    
-    for (var i = 0; i < numItems; i++) {
-      
-      var func = fileApi.callBacks.pop();
-      
-      if(func != null)
-      {
-        console.log("Action from File API Callback stack performed")
-        func();
-      }
-      else
-      {
-        console.error("null function pointer Data File API");
-      }
-
+    if(platform.isMobile())
+    {
+      storageService = window.localStorage;
     }
-    //!
-    console.log("getFileSystem");
+    else if (platform.isWeb())
+    {
+      storageService = localStorage;
+    }
+    else
+    {
+      $log.error("unknown Platform");
+    }
 
-  }
+   var getXml = function(url){
+                  var defer = $q.defer();
 
-  function fail(e) {console.error("Error with filesystem", e);}
+                  console.log ("requesting data from " + url);
 
-    console.log(" Register Device Ready Call back for File API");
-    
-    DeviceReady.addEventListener(
-      function () {
-        //! HACK ! seems that we need to do things differently for phonegap and web maybe make this check actual device ?
-        if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) //! \todo generalise this function //(window.webkitStorageInfo){// WEB
-        {      
-          //request quota fails on android / phonegap
-          console.log("Device Ready File API");
-          window.requestFileSystem(LocalFileSystem.PERSISTENT, 0 , getFileSystem, fail);
-        } 
-        else{ // Web
-          // required to make web compliant
-          window.webkitStorageInfo.requestQuota(window.PERSISTENT, 
-          1024*1024*5, 
-          function(grantedBytes) {window.requestFileSystem(window.PERSISTENT, grantedBytes, getFileSystem, fail);}, 
-          fail);     
-        }
-    });
-     
+                  $http.get(url).
+                    success(function(data, status) {
+
+                        if (data == null)
+                        {
+                          console.error("Got NULL Data From HTTP");
+                          console.error(status);
+                          defer.reject("NULL Data");
+
+                        }
+                        else
+                        {
+                          console.log("Got Data From HTTP status=", status);
+                          defer.resolve(data);
+                        }
+
+                    }).
+                    error(function(data, status) {
+                        defer.reject(status);
+                    });
+
+                  return defer.promise;
+               };
+
+   var xmlToJson = function(result) {
+    var json = "";
+
+      try{
+         json = x2js.xml_str2json(result);
+      }
+      catch (e) {
+         $log.error("Unable to convert from XML to JSON");
+      }
+
+    return json;
+  };
+
    return {
-     
-     //HTTP Get XML and use transform function to convert to json
-     //{
-       httpGetXml: function(url,transform){
-          var defer = $q.defer();        
-          
-          console.log ("requesting data from " + url);
-            
-          $http.get(
-                url,
-                {transformResponse:transform}
-            ).
-            success(function(data, status) {
 
-                if (data == null)
+      get: function (region, url)
+      {
+
+
+          var defer = $q.defer();
+
+          var maxTries = 2;
+          var errorCount = 0;
+          var validResponse = false;
+
+
+          $log.info("Data.get() for region " + region);
+
+          var getData = function ()
+          {
+            if (storageService != null)
+            {
+
+              //! get from local storage
+              var data = null;
+              data = localStorage.getItem(region);
+
+              if (data)
+              {
+                $log.info("Got Data from local storage");
+                //var result = JSON.parse(data);defer.resolve(result);
+                var json = xmlToJson(data);
+                defer.resolve({'data':json, 'cache': true});
+              }
+              else
+              {
+                if (errorCount < maxTries)
                 {
-                  console.error("Got NULL Data From HTTP");
-                  console.error(status);
-                  defer.reject("NULL Data");
-
+                  getXml(url).then(success, fail);
                 }
                 else
                 {
-                  console.log("Got Data From HTTP status=", status);
-                  defer.resolve(data);
+                  $log.error("Invalid Response To many Retries");
+                  defer.reject("Invalid Response To many Retries");
                 }
-                
-            }).
-            error(function(data, status) {
-                defer.reject(status);
-            });
-            
+              }
 
+            }
+            else
+            {
+              $log.error("Storage Service Null or Void");
+              defer.reject("Storage Service Null or Void");
+            }
+          }
+
+          var success = function (data)
+          {
+            $log.info("item added to local storage");
+            storageService.setItem(region, data);
+            var json = xmlToJson(data);
+            defer.resolve({'data':json, 'cache': false});
+          }
+
+          var fail = function (error)
+          {
+            $log.error("Error getting data, errorCount incremented. Error: "+ error);
+            errorCount ++;
+            getData();
+          }
+
+          getData();
           return defer.promise;
-       },
-       //! } End httpGetXml
-   
-       //HTTP Get json
-      httpGetJson: function(url){
-        var defer = $q.defer();        
-
-        console.log ("requesting data from " + url);
-
-        $http.get(url).
-        success(function(data, status) {
-          defer.resolve(data);
-        }).
-        error(function(data, status) {
-          defer.reject(status);
-        });
-
-        return defer.promise;
       },
-       //! } End httpGetJson
-        
-      //! Read a local file {
-      fileRead: function(fileName){
-      
-         //console.groupCollapsed("File Read");
-         
-        var defer = $q.defer();      
 
-        function failAndUpdate(e) {
-          console.log("Error reading file", e);
-          defer.reject(e);
-          $rootScope.$apply();
-        }
-
-        function gotFileEntry(fileEntry) {
-          console.log("gotFileEntry", fileName);  
-          fileEntry.file(readFile, failAndUpdate);
-        }
-           
-        function readFile(fileEntry) {
-
-          var reader = new FileReader();
-
-          reader.onloadend  = function(e) {
-           //var json = JSON.parse(this.result);
-           defer.resolve(e.target.result);
-           $rootScope.$apply();
-          };
-
-          reader.onError = function(e) {
-           console.log('error'); 
-           defer.reject(e);
-           $rootScope.$apply();
-          };
-
-          try{
-            reader.readAsText(fileEntry);
-          }
-          catch (e){
-            console.error("error reading file", e);
-          }
-
-        }
-
-        function getFile(){ fileApi.fileSystem.root.getFile(fileName, {create: false, exclusive: true}, gotFileEntry, failAndUpdate); }
-         
-        if (fileApi.available == true)
+      clear: function (region)
+      {
+        if (localStorage.getItem(region) != null)
         {
-          getFile();
+          $log.info("removed " + region + " from local storage");
+          localStorage.removeItem(region);
         }
         else
         {
-          //fileApi no available register callback so this gets called again when it is available
-          console.log("API Not available callback has been registered file read ");
-          fileApi.callBacks.push(getFile);
+          $log.info("Attempted to remove " + region + " from local storage when no data for key exists");
         }
-      
-        
-        return defer.promise;
-       },
-       //! } End fileRead
-       
-       //! Write to a local file {
-       fileWrite: function(fileName, data, type, append){
-         
-         //console.groupCollapsed("FileWrite"); events are asyncronous so we cant group
-         
-         function gotFileEntry(fileEntry) {
-            fileEntry.createWriter(gotFileWriter, fail);
-          }
-         
-          function gotFileWriter(fileWriter) {
-
-            fileWriter.writeStart = function(e){
-              console.log("data write start");
-            }
-
-            fileWriter.onwrite = function(e) {
-              console.log("Data writting to file", fileName);
-            };
-
-            fileWriter.onwriteend = function(e) {
-              console.log("Data written to file", fileName);
-            };
-
-            fileWriter.onerror = function(e) {
-              console.error('Write failed: ' + e.toString());
-            };
-
-            if (append = true){
-              fileWriter.seek(fileWriter.length);
-            }
-
-            function write(data_) {
-              var blob = new Blob(data_, type);
-              fileWriter.write(blob);
-            }
-
-            write(data);
-          }
-
-        function getFile(){ fileApi.fileSystem.root.getFile(fileName, {create: true}, gotFileEntry, fail);};
-         
-        if (fileApi.available == true)
-        {
-          getFile();
-        }
-        else
-        {
-          //fileApi no available register callback so this gets called again when it is available
-          console.log("API Not available callback has been registered file write");
-          fileApi.callBacks.push(getFile);
-        }
-         
       },
-    //! } End filewrite
-       
+
+      inCache: function (region)
+      {
+        return (localStorage.getItem(region) != null);
+      }
+
    }// End return
-   
+
    }); //End Factory
 

@@ -80,7 +80,7 @@ angular.module('CACMobile')
         if (TOU.accepted() == false) {
           hide = true;
         }
-        var noBackRoutes = ["/Map","/region-list","/"];
+        var noBackRoutes = ["/Map","/region-list","/","/ObservationSubmit","/ObservationViewMap"];
         if (jQuery.inArray($location.path(),noBackRoutes) > -1) {
           hide = true
         }

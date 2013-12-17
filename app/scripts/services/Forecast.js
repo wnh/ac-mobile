@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('CACMobile')
-.factory('Forecast', function($rootScope,$q, Data, RegionDefinition){
-	
+.factory('Forecast', function($rootScope,$q, $log, Data, ConnectionManager, RegionDefinition){
+
    var weekdays = new Array(7);
                weekdays[0] = "Sunday";
                weekdays[1] = "Monday";
@@ -22,12 +22,12 @@ angular.module('CACMobile')
              {name: 'AspectRange_W' , pos:6},
              {name: 'AspectRange_NW', pos:7}];
 
-   var elevationRange = [{name: 'ElevationLabel_Btl', pos:0}, 
-                         {name: 'ElevationLabel_Tln', pos:1}, 
+   var elevationRange = [{name: 'ElevationLabel_Btl', pos:0},
+                         {name: 'ElevationLabel_Tln', pos:1},
                          {name: 'ElevationLabel_Alp', pos:2}];
 
    function stringCleaner (str){
-      
+
       //! remove HTML tags
       var div = document.createElement('div');
       div.innerHTML = str;
@@ -43,7 +43,7 @@ angular.module('CACMobile')
 
 
    function stringBuilder (source, key, target) {
-         
+
          var result = [];
          for (var a =0; a < target.length; ++a)
          {
@@ -102,14 +102,14 @@ angular.module('CACMobile')
          return result;
          //! \todo assert result.size = problemList.size
       }
-      
+
       function processProblem(problem)
       {
          /*
          advisoryCommentArray = [];
          for (var i = 0; i < problem.travelAdvisoryComment_asArray.size, ++i)
          {
-            advisoryCommentArray[i] = problem.travelAdvisoryComment_asArray[i].__text; 
+            advisoryCommentArray[i] = problem.travelAdvisoryComment_asArray[i].__text;
          }*/
          var minSize = parseInt(problem.expectedAvSize.Values.min.__text) + 2;
          var maxSize = parseInt(problem.expectedAvSize.Values.max.__text) + 1;
@@ -164,12 +164,12 @@ angular.module('CACMobile')
       if (jQuery.type(this.confidence) != "string") {
         this.confidence = "";
       }
-      this.validTime =  this.validTime = { issued  : data.validTime.TimePeriod.beginPosition.replace("T"," ").split(".")[0] ,
+      this.validTime = { issued  : data.validTime.TimePeriod.beginPosition.replace("T"," ").split(".")[0] ,
                          expires : data.validTime.TimePeriod.endPosition.replace("T"," ").split(".")[0] };
 
       this.avSummary = stringCleaner(data.bulletinResultsOf.BulletinMeasurements.avActivityComment);
       this.snowPackSummary = stringCleaner(data.bulletinResultsOf.BulletinMeasurements.snowpackStructureComment);
-      this.weatherSummary =  stringCleaner(data.bulletinResultsOf.BulletinMeasurements.wxSynopsisComment);   
+      this.weatherSummary =  stringCleaner(data.bulletinResultsOf.BulletinMeasurements.wxSynopsisComment);
 
       this.avyProblems =  ProblemList();
 
@@ -177,7 +177,7 @@ angular.module('CACMobile')
 
          var result = [];
          var problemList = data.bulletinResultsOf.BulletinMeasurements.avProblems.AvProblem_asArray;
-            
+
          if (problemList) {
            if (problemList.length > 0)
            {
@@ -192,10 +192,10 @@ angular.module('CACMobile')
          return result;
          //! \todo assert result.size = problemList.size
       }
-      
+
       function processProblem(problem)
       {
-         
+
          var liklihoodAsInt = {
             "Unlikely" : 1,
             "Possible - Unlikely" : 2,
@@ -205,7 +205,7 @@ angular.module('CACMobile')
             "Very Likely - Likely" : 6,
             "Very Likely" : 7,
             "Certain - Very Likely" : 8,
-            "Certain" : 9 
+            "Certain" : 9
          }
 
          var sizeAsAvalx = {
@@ -236,7 +236,7 @@ angular.module('CACMobile')
             //avProblem.travelAdvisoryComment_asArray
          }
       }
-      
+
       function processDay(dayAlp, dayTln, dayBtl)
       {
          //! \todo assert dayAlp is for today
@@ -258,9 +258,8 @@ angular.module('CACMobile')
       };
    }
 
-   var regionFileName = "regions.json";
    var apply = function () {$rootScope.$apply();};
-   
+
    var transform = function(result) {
 		var json = "";
 
@@ -270,95 +269,146 @@ angular.module('CACMobile')
       catch (e) {
          console.error("Unable to convert from XML to JSON");
       }
-	
+
    	return json;
-	}; 
-		
+	};
+
    return {
 
 	   get: function (region)
 	   {
          var defer = $q.defer();
-         var errorCount  = 0;
-		  
-         //! Get the file for the region from HTTP as xml convert to json
-         function getFromHttp () {
+         var url = RegionDefinition.getUrl(region);
+         var today = new Date();
+         var retry = false;
 
-            var url = RegionDefinition.getUrl(region);
-   	  		Data.httpGetXml(url, transform).then(
-				 function (data) // get from http succeeded
-				 {
-					 //! Got Data from HTTP save to file {
-            console.log("received data from http");
-            //console.log(data);
-            var validResponse = false; 
-            var forecast = "";
-            if (data != null && typeof data != 'undefined')
+          if (navigator.globalization)
+          {
+            navigator.globalization.dateToString(
+              new Date(),
+              function (date) {
+                today = date.value ;
+                getData();
+              },
+              function () {alert('Error getting dateString\n');},
+              {formatLength:'short', selector:'date and time'}
+            );
+          }
+          else
+          {
+            $log.info("Date function not available skipping");
+          }
+
+          var getData = function ()
+          {
+            //! Check that the forecast grabbed has not expired
+            //! If todays date is greater than the expired date remove region from cache and try getting data again (from http)
+            //! It performs this action at most once
+            var checkDate = function (forecast, cache)
             {
-              if ( RegionDefinition.get()[region].type === 'cac' )
+
+              var issued = new Date(forecast.validTime.issued);
+              var expires = new Date(forecast.validTime.expires);
+
+              if (cache == true && today > expires && ConnectionManager.isOnline())
               {
-                if (data.ObsCollection != null && typeof data.ObsCollection != 'undefined') {
-                  forecast = new CacData(data);
-                  validResponse = true;
-                } else {
-                  console.error("Unexpected data format for CacData");
-                }
-              }
-              else if ( RegionDefinition.get()[region].type === 'parks' )
-              {
-                if (data.CaamlData != null && typeof data.CaamlData != 'undefined') {
-                  forecast = new ParksData(data);
-                  validResponse = true;
-                } else {
-                  console.error("Unexpected data format for ParksData");
-                }
+                $log.info("out of date forecast");
+                Data.clear(region);
+                retry = true; //! not nice but date is not available in forecast ....
+                getData();
               }
               else
               {
-                console.error('unsupported region');
-              }   
+                defer.resolve(forecast);
+              }
+
             }
 
-                              
-            if (validResponse) 
-            {
-              defer.resolve(forecast);
-            } 
-            else 
-            {
-              errorCount ++;
-              console.error("invalid data");
+            //! Function callback for get data success for region
+            //! gets the data and then checks what type it is before instantiating an object for that type
+            //! once instantiated it then progresses to check date
+            //! Type is defined in region definition
+            var dataSuccess = function (result)
+                         {
+                           //! Got Data from HTTP save to file {
+                            console.log("Got data");
 
-              if (errorCount < 2)
-              {
-                getFromHttp();
-              }
-              else
-              {
-                defer.reject("Invalid Response To many Retries");
-              }
-                
-            }
-                
-         },
+                            var forecast = "";
+                            if (result.data != null && typeof result.data != 'undefined')
+                            {
+                              if ( RegionDefinition.get()[region].type === 'cac' )
+                              {
+                                if (result.data.ObsCollection != null && typeof result.data.ObsCollection != 'undefined') {
+                                  forecast = new CacData(result.data);
+                                  checkDate(forecast, result.cache);
+                                } else {
 
-				 function (error) // get from http failed
-				 {
-					//! Error Getting Data from HTTP 
-					console.error("error getting xml forecast from http for " + region + "error ", error);
-					defer.reject(error);
-					//! }
-				 });
+                                  Data.clear(region);
+                                  $log.error("Unexpected data format for CacData");
 
-         } //! } end function getFromXml  	  
-      
-         getFromHttp();
-           
-         return defer.promise;			 
+                                  if (retry == false)
+                                  {
+                                    retry = true;
+                                    getData();
+                                  }
+                                  else
+                                  {
+                                    defer.reject("Unexpected data format for CacData");
+                                  }
+
+                                }
+                              }
+                              else if ( RegionDefinition.get()[region].type === 'parks' )
+                              {
+                                if (result.data.CaamlData != null && typeof result.data.CaamlData != 'undefined') {
+                                  forecast = new ParksData(result.data);
+                                  checkDate(forecast, result.cache);
+                                } else {
+
+                                  Data.clear(region);
+                                  $log.error("Unexpected data format for ParksData");
+
+                                  if (retry == false)
+                                  {
+                                    retry = true;
+                                    getData();
+                                  }
+                                  else
+                                  {
+                                    defer.reject("Unexpected data format for ParksData");
+                                  }
+                                }
+
+                              }
+                              else
+                              {
+                                Data.clear(region);
+                                $log.error('unsupported region');
+                                defer.reject('unsupported region');
+                              }
+                            }
+                            else
+                            {
+                              Data.clear(region);
+                              $log.error("Null or Undefined Data");
+                              defer.reject("Null or Undefined Data");
+                            }
+
+                         };
+            var fail = function (error) // get data failed
+                       {
+                        console.error("error getting xml forecast from http for " + region + "error ", error);
+                        defer.reject(error);
+                       };
+            Data.get(region, url).then(dataSuccess, fail);
+          }
+
+          getData();
+          return defer.promise;
        }
-      
+
    }
-   
+
 });
 
 
@@ -370,4 +420,4 @@ angular.module('CACMobile')
 
 
 
-   
+
