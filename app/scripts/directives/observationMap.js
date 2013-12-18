@@ -93,8 +93,12 @@ var createLocMarker = function(loc) {
   //Build the info window content here, including a button we'll listen for later
   var buttonid = "but" + loc.id;
   var locContent = "";// "Location is at " + loc.latitude + "," + loc.longitude + "<br />";
+  var observations = "observations"
+  if (loc.observation_id.length == 1) {
+    observations = "observation"
+  }
   if (loc.observation_id != null) {
-    locContent += "Location has " + loc.observation_id.length + " observations <br />";
+    locContent += "Location has " + loc.observation_id.length + " " + observations + "<br />";
   }
   locContent += "<button id=\"" + buttonid + "\">View Obs</button>";
   var locInfoWindow = new google.maps.InfoWindow({
