@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .factory('Bounds', function ($log, $rootScope) {
+  .factory('Bounds', function ($log) {
 
       var nelon = 0;
       var nelat = 0;
@@ -21,7 +21,6 @@ angular.module('CACMobile')
             set = true;
 
             $log.info('bounds set', nelon, nelat, swlon, swlat, zoom);
-            $rootScope.$apply();
         },
         getBounds: function () {
          return {
