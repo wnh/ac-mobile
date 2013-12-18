@@ -8,13 +8,16 @@ angular.module('CACMobile')
 
 if ($scope.observation_ids.length > 0)
 {
+  State.setLoading(true);
  ResourceFactory.observation().query({ids: JSON.stringify($scope.observation_ids)},
   function (response) {
     $scope.observations = response;
     $log.info("Retrieved observation list");
+    State.setLoading(false);
   },
   function (response) {
     $log.error("Error retrieving observations: " + response);
+    State.setLoading(false);
     //$scope.observations = response;
   })
 }
@@ -24,9 +27,11 @@ else
 }
 
  $scope.loadPhoto = function (id) {
-  ResourceFactory.photo().test({id: id},
+  State.setLoading(true);
+  ResourceFactory.photo().get({id: id},
     function (response) {
       $scope.photo = response;
+      State.setLoading(false);
       var modalInstance = $modal.open({
         templateUrl: 'modalPhoto.html',
         controller: ModalInstanceCtrl,

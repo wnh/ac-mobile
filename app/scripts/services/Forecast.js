@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.factory('Forecast', function($rootScope,$q, $log, Data, ConnectionManager, RegionDefinition){
+.factory('Forecast', function($rootScope,$q, $log, Data, ConnectionManager, RegionDefinition, State){
 
    var weekdays = new Array(7);
                weekdays[0] = "Sunday";
@@ -338,6 +338,7 @@ angular.module('CACMobile')
             //! Type is defined in region definition
             var dataSuccess = function (result)
                          {
+                          State.setLoading(false);
                            //! Got Data from HTTP save to file {
                             console.log("Got data");
 
@@ -407,9 +408,11 @@ angular.module('CACMobile')
                          };
             var fail = function (error) // get data failed
                        {
+                        State.setLoading(false);
                         console.error("error getting xml forecast from http for " + region + "error ", error);
                         defer.reject(error);
                        };
+            State.setLoading(true);
             Data.get(region, url).then(dataSuccess, fail);
           }
 
