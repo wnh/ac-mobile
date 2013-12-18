@@ -15,38 +15,52 @@ angular.module('CACMobile')
    }
 
    function getLocations () {
-    console.log("updating locations...")
+
+      $log.info("updating locations...");
+
       //TODO: Some rate control here?
       var b = Bounds.getBounds();
-      if (b.zoom > 8) {
-         ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: false, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
-            function(response) {
-               $scope.locations = response;
-            },
-            function(response) {
-               console.log("Failed to load unclustered locations")
-            })
-      }
-      else 
+
+      if (b.set == true)
       {
-         ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: true, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
-            function(response) {
-               $scope.locations = response;
-            },
-            function(response) {
-               console.log("Failed to load clustered locations")
-            })
+        if (b.zoom > 8) {
+          $log.info("View un-clustered");
+           ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: false, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
+              function(response) {
+                $log.info("Location query response " + response.length);
+                $scope.locations = response;
+              },
+              function(response) {
+                 $log.error("Failed to load unclustered locations");
+              })
+        }
+        else
+        {
+          $log.info("View clustered");
+           ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: true, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
+              function(response) {
+                 $log.info("Location query response "+ response.length);
+                 $scope.locations = response;
+              },
+              function(response) {
+                 $log.error("Failed to load unclustered locations");
+              })
+        }
+      }
+      else
+      {
+        $log.error("Bounds not set");
       }
    }
       //! Get the current position
       getPostion();
-      
-      $scope.$watch(function () { return Bounds.getBounds(); },
+
+      $scope.$watch(function() {return Bounds.getBounds();},
          function(oldval,newval) {
-            if (oldval != newval) {
-               getLocations();
-            }
+              $log.info("Bounds updated");
+              getLocations();
          },true);
+
       $scope.to = new Date();
       $scope.from = new Date();
       $scope.today = new Date();
@@ -126,5 +140,6 @@ var dateModalCtrl = ['$scope', '$modalInstance', 'date', 'minDate', 'today', fun
   };
 }];
 //! End Date Picker Modal Dialog
+
 
 });

@@ -15,7 +15,7 @@ angular.module('CACMobile')
 
     if(ConnectionManager.isOnline() == false)
     {
-      $scope.alerts.push({ type: 'error', msg: 'No connection available. Showing only regions with cached Data' });
+      $scope.alerts.push({ type: 'error', msg: 'No connection available. Showing only previously loaded regions' });
     }
 
     $scope.checkCache = function (region)

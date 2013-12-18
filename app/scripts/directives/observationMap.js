@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.directive('observationMap', function (Bounds, $location, State) {
+.directive('observationMap', function (Bounds, $location, State,$rootScope) {
 
  return function(scope, elem, attrs) {
       function HomeControl(controlDiv, map) {
@@ -51,7 +51,7 @@ angular.module('CACMobile')
     updateBounds();
     console.log("Setting initial bounds");
   });
-  
+
 var locUpdate = function(newValue,oldValue) {
   console.log("Loading markers as locations have changed...")
   var loclength = 0;
@@ -97,7 +97,7 @@ var createLocMarker = function(loc) {
       activeInfoWindow.close();
     }
     locInfoWindow.open(map,locMarker);
-    
+
     activeInfoWindow = locInfoWindow;
   });
 
@@ -121,6 +121,6 @@ var createLocMarker = function(loc) {
        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
        //!
 
-      } 
+      }
 
   });
