@@ -134,7 +134,12 @@ angular.module('CACMobile')
          var treelineClass = (treeline  == "N/A - No Rating") ? "none" : treeline.toLowerCase();
          var belowTreeline = day.dangerRatingBtlValue.__text || "N/A - No Rating";
          var belowTreelineClass = (belowTreeline  == "N/A - No Rating") ? "none" : belowTreeline.toLowerCase();
-         var date = new Date(day.validTime.TimeInstant.timePosition.__text+"Z");
+        // Check if string is in UTC time (has Z on the end) and if not, make it so
+         var dateString = day.validTime.TimeInstant.timePosition.__text
+         if (dateString[dateString.length - 1] != "Z") {
+          dateString += "Z"
+         }
+         var date = new Date(dateString);
          return {
             day: weekdays[date.getUTCDay()],
             alpine: {text: alpine, css: alpineClass},
@@ -250,8 +255,13 @@ angular.module('CACMobile')
          var treelineClass = (treeline  == "No Rating") ? "none" : treeline.toLowerCase();
          var belowTreeline = dayBtl.customData.DangerRatingDisplay.mainLabel ;
          var belowTreelineClass = (belowTreeline  == "No Rating") ? "none" : belowTreeline.toLowerCase();
-         //Add the Z to ensure date is treated as UTC
-         var date = new Date(dayAlp.validTime.TimeInstant.timePosition+"Z");
+         // Check if string is in UTC time (has Z on the end) and if not, make it so
+         var dateString = dayAlp.validTime.TimeInstant.timePosition
+         if (dateString[dateString.length - 1] != "Z") {
+          dateString += "Z"
+         }
+         var date = new Date(dateString);
+
          return {
             day: weekdays[date.getUTCDay()],
             alpine: {text: alpine, css: alpineClass},
