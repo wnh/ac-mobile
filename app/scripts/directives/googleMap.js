@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.directive('googleMap', function($window, Bounds, $rootScope, $location, State, Bounds){
+.directive('googleMap', function($window, Bounds, $rootScope, $location, State){
 
  return function (scope, elem, attrs) {
   function HomeControl(controlDiv, map) {
@@ -32,7 +32,7 @@ angular.module('CACMobile')
 
         var bounds = Bounds.getBounds()
 
-        if (bounds.set) {
+        if (bounds.set == true) {
           var ne = new google.maps.LatLng(bounds.nelat, bounds.nelon);
           var sw = new google.maps.LatLng(bounds.swlat, bounds.swlon);
           var newBounds = new google.maps.LatLngBounds(sw,ne)
@@ -58,8 +58,10 @@ angular.module('CACMobile')
         });
 
         google.maps.event.addListenerOnce(map, 'idle', function() {
-          updateBounds();
-          console.log("Setting initial bounds");
+          if (Bounds.getBounds().set == false) {
+            updateBounds();    
+            console.log("Setting initial bounds");
+          }
         });
 
        //! Add region overlay as KML Layer
@@ -124,9 +126,11 @@ google.maps.event.addListener(infoWindow, 'domready', function() {
 
        //! watch for change in lat or long and call posUpdate if there is one, adjusting the map centre to the specified lat long
        var posUpdate = function (newValue, oldValue) {
-         var newLatLng = new google.maps.LatLng(scope.latitude, scope.longitude);
-         map.panTo(newLatLng);
-         marker.setPosition(newLatLng);
+        var newLatLng = new google.maps.LatLng(scope.latitude, scope.longitude);
+        marker.setPosition(newLatLng);
+        if (Bounds.getBounds().set == false) {
+          map.panTo(newLatLng);
+        }
        };
        scope.$watch('latitude',posUpdate);
        scope.$watch('longitude',posUpdate);
