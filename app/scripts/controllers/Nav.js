@@ -29,7 +29,7 @@ angular.module('CACMobile')
     }
 
     $scope.offlineDetails = function (){
-      alert("No connection available functionality will be restricted");
+      alert("No data connection available. Functionality will be restricted.");
     }
 
     $scope.signOut = function(){
