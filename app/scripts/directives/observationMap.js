@@ -82,7 +82,7 @@ var createLocMarker = function(loc) {
 
   //Build the info window content here, including a button we'll listen for later
   var buttonid = "but" + loc.id;
-  var locContent = "Location is at " + loc.latitude + "," + loc.longitude + "<br />";
+  var locContent = "";// "Location is at " + loc.latitude + "," + loc.longitude + "<br />";
   if (loc.observation_id != null) {
     locContent += "Location has " + loc.observation_id.length + " observations <br />";
   }
