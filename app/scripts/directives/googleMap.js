@@ -30,6 +30,40 @@ angular.module('CACMobile')
         var map = new google.maps.Map(elem[0], mapOptions);
         var myLatlng = new google.maps.LatLng(scope.latitude,scope.longitude);
 
+        var bounds = Bounds.getBounds()
+
+        if (bounds.set == true) {
+          var ne = new google.maps.LatLng(bounds.nelat, bounds.nelon);
+          var sw = new google.maps.LatLng(bounds.swlat, bounds.swlon);
+          var newBounds = new google.maps.LatLngBounds(sw,ne)
+          map.fitBounds(newBounds);
+          map.setZoom(bounds.zoom);
+        }
+
+        var updateBounds = function () {
+          var bounds = map.getBounds();
+          var zoom = map.getZoom();
+          var ne = bounds.getNorthEast();
+          var sw = bounds.getSouthWest();
+          scope.$apply(Bounds.setBounds(ne.lng(),ne.lat(),sw.lng(),sw.lat(),zoom));
+        }
+
+        //Add listeners to update bounds whenever map is dragged, zoom level changes, or map first loads (addListenerOnce)
+        google.maps.event.addListener(map, 'dragend', function() {
+          updateBounds();
+        });
+
+        google.maps.event.addListener(map, 'zoom_changed', function() {
+          updateBounds();
+        });
+
+        google.maps.event.addListenerOnce(map, 'idle', function() {
+          if (Bounds.getBounds().set == false) {
+            updateBounds();    
+            console.log("Setting initial bounds");
+          }
+        });
+
        //! Add region overlay as KML Layer
        var kmlUrl = 'http://avalanche.ca:81/KML/All_Regions_Low.kmz'; //\todo make this a config parameter //to force update of kml add and increment num ?a=1 //'file:///C:/doc.kml'; //'https://developers.google.com/kml/training/westcampus.kml';
        var kmlOptions = {
@@ -92,9 +126,11 @@ google.maps.event.addListener(infoWindow, 'domready', function() {
 
        //! watch for change in lat or long and call posUpdate if there is one, adjusting the map centre to the specified lat long
        var posUpdate = function (newValue, oldValue) {
-         var newLatLng = new google.maps.LatLng(scope.latitude, scope.longitude);
-         map.panTo(newLatLng);
-         marker.setPosition(newLatLng);
+        var newLatLng = new google.maps.LatLng(scope.latitude, scope.longitude);
+        marker.setPosition(newLatLng);
+        if (Bounds.getBounds().set == false) {
+          map.panTo(newLatLng);
+        }
        };
        scope.$watch('latitude',posUpdate);
        scope.$watch('longitude',posUpdate);

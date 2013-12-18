@@ -15,5 +15,5 @@ angular.module('CACMobile')
 	}
 	   //! Get the current position
 	   getPostion();
-	   
+
   }); // end MapCtrl controller

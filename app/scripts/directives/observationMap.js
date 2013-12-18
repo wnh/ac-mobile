@@ -58,7 +58,9 @@ angular.module('CACMobile')
   });
 
   google.maps.event.addListenerOnce(map, 'idle', function() {
-    updateBounds();
+    if (Bounds.getBounds().set == false) {
+      updateBounds();    
+    }
     console.log("Setting initial bounds");
   });
 
