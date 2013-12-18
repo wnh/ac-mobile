@@ -2,8 +2,8 @@
 
 angular.module('CACMobile')
   .controller('ObservationsubmitCtrl',
-              ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log','platform', '$routeParams', 'Session',
-                function ($scope, ResourceFactory, location, $resource, $modal, $log, platform, $routeParams, Session) {
+              ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log','platform', '$routeParams', 'Session', 'ConnectionManager',
+                function ($scope, ResourceFactory, location, $resource, $modal, $log, platform, $routeParams, Session, ConnectionManager) {
 
 
   $scope.photo_list = [];
