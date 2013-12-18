@@ -1,21 +1,23 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'">
 
-</div>   
+</div>
 
+  <div class="content">
+    <div class="region">Forecast Regions</div>
 
-<div class="content">
-   <div class="region">Forecast Regions</div>
-	<ul id="forecast-tabs" class="nav nav-tabs nav-stacked no-border">
+    <alert ng-repeat="alert in alerts" type="alert.type">{{alert.msg}}</alert>
 
-		<li class="accordion-heading" ng-repeat="region in regionList"><i class="icon-circle-arrow-right pull-right"></i>
-			<a href="#/region-details/{{ region.name }}">{{ region.display }} </a>
-			<li>
-				
-			</ul>
-		</div>
+    <ul id="forecast-tabs" class="nav nav-tabs nav-stacked no-border">
 
+      <li ng-show="checkCache(region.name)" class="accordion-heading" ng-repeat="region in regionList">
+        <i class="icon-chevron-right pull-right"></i>
+      	<a href="#/RegionForecast/{{ region.name }}">{{ region.display }} </a>
+      </li>
 
-   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
-    </div>             
+    </ul>
+  </div>
+
+  <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
+</div>
 
    <!-- <div connection-state=""></div> -->

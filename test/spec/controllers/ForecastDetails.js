@@ -3,7 +3,7 @@
 describe('Controller: ForecastDetailsCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('CACMobileApp'));
+  beforeEach(module('CACMobile'));
 
   var ForecastDetailsCtrl,
     scope;
@@ -16,7 +16,5 @@ describe('Controller: ForecastDetailsCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
-  });
+
 });

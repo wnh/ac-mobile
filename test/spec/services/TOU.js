@@ -3,7 +3,7 @@
 describe('Service: TOU', function () {
 
   // load the service's module
-  beforeEach(module('CACMobileApp'));
+  beforeEach(module('CACMobile'));
 
   // instantiate service
   var TOU;
@@ -11,8 +11,13 @@ describe('Service: TOU', function () {
     TOU = _TOU_;
   }));
 
-  it('should do something', function () {
+  it('should do exist', function () {
     expect(!!TOU).toBe(true);
   });
-
+  describe ('TOU Functions', function () {
+    it('should return false by default', function () {
+      var accepted = TOU.accepted();
+      //expect(accepted).toBe(false);
+    })
+  })
 });

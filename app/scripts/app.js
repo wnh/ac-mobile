@@ -1,15 +1,20 @@
 'use strict';
 
-angular.module('CACMobile', [])
+angular.module('CACMobile',
+  [
+    'ngResource',
+    'ui.bootstrap',
+    'ngRoute'
+  ])
   .config(function ($routeProvider) {
     $routeProvider
-       .when('/', {
+      .when('/', {
         templateUrl: 'views/Map.html',
         controller: 'MapCtrl'
-        })
-       .when('/gear', {
+      })
+      .when('/gear', {
         templateUrl: 'views/gear.html',
-        controller: 'NavCtrl' 
+        controller: 'NavCtrl'
       })
       .when('/region-list', {
         templateUrl: 'views/regionList.html',
@@ -19,6 +24,11 @@ angular.module('CACMobile', [])
         templateUrl: 'views/regionDetails.html',
         controller: 'RegionDetailsCtrl'
       })
+      .when('/RegionForecast/:region', {
+        templateUrl: 'views/RegionForecast.html',
+        controller: 'RegionForecastCtrl'
+      })
+
       .when('/danger-scale', {
         templateUrl: 'views/dangerScale.html'
       })
@@ -32,7 +42,7 @@ angular.module('CACMobile', [])
       })
       .when('/about', {
         templateUrl: 'views/about.html',
-        controller: 'NavCtrl' 
+        controller: 'NavCtrl'
       })
       .when('/tou', {
         templateUrl: 'views/tou.html',
@@ -46,6 +56,22 @@ angular.module('CACMobile', [])
         templateUrl: 'views/Loading.html',
         controller: 'LoadingCtrl'
       })
+      .when('/Observation', {
+        templateUrl: 'views/Observation.html',
+        controller: 'ObservationCtrl'
+      })
+      .when ('/obs-list', {
+        templateUrl: 'views/obsList.html',
+        controller: 'ObservationListCtrl'
+      })
+      .when('/ObservationSubmit', {
+        templateUrl: 'views/ObservationSubmit.html',
+        controller: 'ObservationsubmitCtrl'
+      })
+      .when('/ObservationViewMap', {
+        templateUrl: 'views/ObservationViewMap.html',
+        controller: 'ObservationViewMapCtrl'
+      })
       .otherwise({
         templateUrl: 'views/Loading.html',
         controller: 'LoadingCtrl'
@@ -57,6 +83,6 @@ angular.module('CACMobile', [])
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
       if ( TOU.accepted() == false ) {
           $location.path( "/tou" );
-        }        
+        }
     });
  });

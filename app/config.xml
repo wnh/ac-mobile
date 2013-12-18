@@ -2,8 +2,9 @@
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.idearebel.avalanchereports"
-        versionCode="3" 
-        version   = "2.0.1">
+        versionCode="4" 
+        version   = "2.1.0">
+
 
     <!-- versionCode is optional and Android only -->
 
@@ -19,6 +20,8 @@
 	<feature name="http://api.phonegap.com/1.0/network"/>
 	<feature name="http://api.phonegap.com/1.0/file"/>
 	<feature name="http://api.phonegap.com/1.0/media"/>
+  <feature name="http://api.phonegap.com/1.0/camera"/>
+
 
 	<!-- PhoneGap API -->
  <preference name="phonegap-version" value="2.9.0" />

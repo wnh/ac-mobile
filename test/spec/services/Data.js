@@ -3,8 +3,8 @@
 describe('Service: Data', function () {
 
   // load the service's module
-  beforeEach(module('App'));
-
+  beforeEach(module('CACMobile'));
+/*
   // instantiate service
   var transform = function(result) {
 		var json = x2js.xml_str2json(result);
@@ -79,7 +79,7 @@ describe('Service: Data', function () {
 	  var filename = 'test.data';
 	  console.log("writing data");
 	  Data.fileWrite(filename, data);
-	  /*console.log("reading data");
+	  console.log("reading data");
 	  Data.fileRead(filename).then(
 			  function(result){
 				  	console.log("file read success");
@@ -88,8 +88,9 @@ describe('Service: Data', function () {
 			  function(error){
 					console.log("file read success");
 					expect(error).toEqual(data);
-				  });*/
+				  });
   });
   
+  */
 
 });

@@ -11,12 +11,12 @@
   width: 100%;
   min-height:100%;
   height:auto;
-  padding-top:$top-nav-height+3.5; 
-  padding-bottom:$bottom-nav-height+0.5;
+  padding-top:$top-nav-height+0.5;
+  padding-bottom:$bottom-nav-height+3.5;
   @include border-fix;
 }
+
 #map-canvas {
-  position: relative;
   width: 100%; 
   height: 100%;
   @include border-fix;

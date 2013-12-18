@@ -3,7 +3,7 @@
 describe('Service: CallVenderApp', function () {
 
   // load the service's module
-  beforeEach(module('CACMobileApp'));
+  beforeEach(module('CACMobile'));
 
   // instantiate service
   var CallVenderApp;
@@ -11,8 +11,5 @@ describe('Service: CallVenderApp', function () {
     CallVenderApp = _CallVenderApp_;
   }));
 
-  it('should do something', function () {
-    expect(!!CallVenderApp).toBe(true);
-  });
 
 });

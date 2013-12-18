@@ -3,7 +3,7 @@
 describe('Service: location', function () {
 
   // load the service's module
-  beforeEach(module('App'));
+  beforeEach(module('CACMobile'));
 
   // instantiate service
   var location;
@@ -11,8 +11,5 @@ describe('Service: location', function () {
     location = _location_;
   }));
 
-  it('should do something', function () {
-    expect(!!location).toBe(true);
-  });
 
 });

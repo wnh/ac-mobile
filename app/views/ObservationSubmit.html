@@ -1,0 +1,103 @@
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
+
+<div class="content">
+
+  <div class="region">
+    Submit Photo Observation
+  </div>
+  <div class="text-wrapper">
+
+  <alert ng-repeat="alert in alerts" type="alert.type">{{alert.msg}}</alert>
+
+  <div ng-show='!submitting'>
+
+    <form novalidate name="form">
+    <!-- hidden submit button - does nothing, but catches when submit hits enter to submit form -->
+    <input type="submit" class="hidden-submit">
+
+      <div class="photo-div control-group" ng-repeat="p in photo_list">
+         <i class="pull-right glyphicons-icon remove_2" ng-click="removePhoto($index)"></i>
+         <label class="control-label" for="comment"><img class="obs-photo" src="{{p.image}}" /></label>
+
+         <div class="controls">
+            <input type="text" class="form-control" ng-maxlength=250 placeholder="comment" ng-model="p.comment" name="comment" />
+            <div class="alert alert-error" ng-show="form.comment.$dirty && form.comment.$invalid">
+              <span ng-show="form.comment.$error.maxlength">Comment must be less than 250 characters</span>
+            </div>
+         </div>
+      </div>
+
+      <div class="control-group" ng-controller="LoadPhotoModal">
+          <script type="text/ng-template" id="loadPhoto_modal.html">
+              <div class="modal-header">
+                  <h3> Pick a source</h3>
+              </div>
+              <div class="modal-body-content">
+              <p></p>
+              <div class="control-group">
+                <div class="controls">
+                 <button class="btn" ng-click="library()">Library</button>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <div class="controls">
+                 <button class="btn" ng-click="camera()">Camera</button>
+                </div>
+              </div>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+              </div>
+          </script>
+          <div class="controls">
+            <button class="glyph-btn glyphicons white plus btn btn-info" ng-click="open()"> Add Photo</button>
+          </div>
+      </div>
+
+
+  <div class="location-div control-group">
+        <label class="control-label"><b>Location</b></label>
+    <div class="controls">
+      <input type="text" ng-model="locationName" ng-maxlength=50 placeholder="Location Name" name="locationName" />
+      <div class="alert alert-error" ng-show="form.locationName.$dirty && form.locationName.$invalid">
+        <span ng-show="form.locationName.$error.maxlength">Location name must be less than 50 characters</span>
+      </div>
+
+      <div class="control-group" ng-controller="ModifyPositionModal">
+
+        <script type="text/ng-template" id="modifyPosition_modal.html">
+          <div class="modal-header">
+          </div>
+
+          <div class="modal-map" id="map-canvas" set-location-map></div>
+
+          <div class="modal-footer">
+              <button class="btn btn-primary" ng-click="ok()">OK</button>
+              <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+          </div>
+        </script>
+            <p>Position: {{positionDesc}}</p>
+            <button class="glyph-btn glyphicons white google_maps btn btn-info" ng-click="open()">Select from map</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="controls">
+          <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="submit()">Submit Photo</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div ng-show='submitting'>
+    <progress percent="submitProgress" class="progress-success progress-striped active"></progress>
+    <button class="btn btn-warning" ng-click="cancelSubmit()">Cancel Submission</button>
+  </div>
+
+</div>
+</div>
+<div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'">
+

@@ -1,10 +1,28 @@
 @import "defs";
 
 /* Put your CSS here */
+
+.dropdown-menu {
+  z-index:100000000;
+}
+
 html, body{
-  margin: 0; padding: 0; 
+  margin: 0; padding: 0;
   height: 100%;
   width:100%
+}
+
+.region {
+  @include thin-black-borders;
+  @include border-fix;
+  text-align:center;
+  width:100%;
+  height:auto;
+  @include gradient-bg;
+  color:white;
+  padding: 0.5em;
+  margin-bottom:.5em;
+  font-weight:bold;
 }
 
 .container {
@@ -25,9 +43,21 @@ body {
   max-width:500px;
   width: 100%;
   height:auto;
-  padding-top:$top-nav-height+0.5; 
+  padding-top:$top-nav-height+0.5;
   padding-bottom:$bottom-nav-height+0.5;
   @include border-fix;
+}
+
+.modal {
+  margin-left:-48%;
+  width:96%;
+  top: 5% !important;
+}
+
+.modal-body-content {
+  margin: auto;
+  text-align: center;
+  padding-bottom:1em;
 }
 
 @media all and (max-device-width: 400px) {
@@ -39,25 +69,35 @@ body {
 @media all and (max-device-width: 450px) {
 .content {
   max-width:400px;
-  } 
+  }
 }
 
 @media all and (max-device-width: 499px) {
 .content {
   max-width:450px;
-  } 
-}
-
-[class^="icon-"], [class*=" icon-"] {
-margin-top:.5em;
-margin-right:.5em;
+  }
 }
 
 .accordion-heading {
-background-color: rgb(252,255,244); // Old browsers
-@include filter-gradient(#fcfff4, #b3bead, horizontal); // IE6-9
-@include background-image(linear-gradient(left, rgba(252,255,244,1) 0%,rgba(223,229,215,1) 40%,rgba(179,190,173,1) 100%));
 }
+
+.accordion-heading img {
+  height:2em;
+}
+
+.accordion-heading .accordion-toggle {
+  padding: 0;
+}
+
+.accordion-heading-content {
+  background-position: 5px center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding: 5px 8px;
+  font-weight:bold;
+  color:black;
+}
+
 
 .text-wrapper
 {
