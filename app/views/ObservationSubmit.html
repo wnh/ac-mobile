@@ -51,9 +51,9 @@
 
 
   <div class="location-div control-group">
-    <label class="control-label" for="locationName">Location</label>
+        <label class="control-label"><b>Location</b></label>
     <div class="controls">
-      <input type="text" ng-model="locationName" placeholder="location name" name="locationName" />
+      <input type="text" ng-model="locationName" placeholder="Location Name" name="locationName" />
 
       <div class="control-group" ng-controller="ModifyPositionModal">
 
@@ -68,9 +68,8 @@
               <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
           </div>
         </script>
-
-            <input disabled type="text" name="location" ng-model="positionDesc" />
-            <button class="glyph-btn glyphicons white google_maps btn btn-info" ng-click="open()">Select position from map</button>
+            <p>Position: {{positionDesc}}</p>
+            <button class="glyph-btn glyphicons white google_maps btn btn-info" ng-click="open()">Select from map</button>
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ angular.module('CACMobile')
   $scope.alerts = [];
   $scope.locationName = "";
   $scope.locationPos = {latitude:50.9831700, longitude: -118.2023000};
-  $scope.positionDesc = "None";
+  $scope.positionDesc = "Unknown";
   $scope.submitProgress = 0;
   $scope.submitting = false;
 
@@ -28,7 +28,7 @@ angular.module('CACMobile')
        function (position){
           $scope.locationPos.latitude = position.coords.latitude;
           $scope.locationPos.longitude = position.coords.longitude;
-          $scope.positionDesc = "Current Position";
+          $scope.positionDesc = "Device Location";
         });
   }
 
@@ -56,6 +56,10 @@ $scope.submit = function (){
 
   if($scope.locationName.length == 0){
     $scope.alerts.push({ type: 'error', msg: 'Set Location Name' });
+  }
+
+  if($scope.positionDesc == "Unknown"){
+    $scope.alerts.push({ type: 'error', msg: 'Set Position' });
   }
 
    //no alerts then submit observation
@@ -140,7 +144,7 @@ $scope.submit = function (){
         $scope.photo_list.length = 0;
         $scope.locationName = "";
         $scope.alerts.length = 0;
-        $scope.alerts.push({ type: 'success', msg: 'Submission Successful ! Thank-you for contributing to public safety' });
+        $scope.alerts.push({ type: 'success', msg: 'Submission Successful! Thank-you for contributing to public safety' });
       }
     }
 
