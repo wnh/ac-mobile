@@ -1,0 +1,30 @@
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>   
+<div class="map-content">
+   <div class="region">
+        From
+       {{from | date:'MM-dd-yy' }} <button class="btn btn-mini" ng-click="fromOpen()"><i class="icon-calendar"></i></button>
+        until
+        {{to | date:'MM-dd-yy' }} <button class="btn btn-mini" ng-click="toOpen()" ><i class="icon-calendar" ></i></button>
+
+            <script type="text/ng-template" id="dateModal.html">
+               <div class="modal-header">
+            <h3>Select a Date</h3>
+            </div>
+        <div class="modal-body">
+           <div class="modal-body-content">
+   <div ng-model="dt.value" style="display:inline-block;">
+        <datepicker min="minDate" show-weeks="false" max="today"></datepicker>
+    </div>
+    </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+  </div>
+   <div id="map-canvas" observation-map></div>
+</div>
+
+
+<div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'" />

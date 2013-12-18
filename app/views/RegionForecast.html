@@ -1,0 +1,414 @@
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
+
+<div class="content" ng-show="!regionExists">
+    Currently there are no data feeds available for this region.</br>
+    Apologies for the inconvenience, please check back later.</br>
+    <button class="btn btn-warning" ng-click="back()">Back</button>
+</div>
+
+<div class="content" ng-show="loading&&regionExists">
+  <img src="img/loading.gif" class="loading">
+  <button class="btn btn-warning" ng-click="back()">Cancel Loading</button>
+</div>
+
+<div class="content" ng-show="!loading&&regionExists">
+
+  <div class="region">{{regionDisplayName}}</div>
+  <tabset>
+    <tab active="tabs.forecast">
+    <tab-heading><b>Forecast</b></tab-heading>
+      <br />
+      <div class="expiry">
+        <div>Issued: {{valid.issued}}</div>
+        <div>Expires: {{valid.expires}}</div>
+      </div>
+
+      <div class="mountain">
+        <div class="issued">{{today.day}}</div>
+        <img src="img/mountain-now-extended.png" />
+        <div class="top">Alpine</div>
+        <div class="middle">Treeline</div>
+        <div class="bottom">Below Treeline</div>
+        <div class="warntop" ng-class="today.alpine.css" ng-click="openDangerScale(today.alpine.text)">{{today.alpine.text}}</div>
+        <div class="warnmiddle" ng-class="today.treeline.css" ng-click="openDangerScale(today.treeline.text)">{{today.treeline.text}}</div>
+        <div class="warnbottom" ng-class="today.belowTreeline.css"ng-click="openDangerScale(today.belowTreeline.text)">{{today.belowTreeline.text}}</div>
+      </div>
+
+
+      <table class="table forecast-table">
+        <tr>
+          <th></th>
+          <th>{{tomorrow.day}}</th>
+          <th>{{dayAfter.day}}</th>
+        </tr>
+        <tr>
+          <td class="alpine">Alpine</td>
+          <td ng-class="tomorrow.alpine.css" ng-click="openDangerScale(tomorrow.alpine.text)">{{tomorrow.alpine.text}}</td>
+          <td ng-class="dayAfter.alpine.css" ng-click="openDangerScale(dayAfter.alpine.text)">{{dayAfter.alpine.text}}</td>
+        </tr>
+        <tr>
+          <td class="treeline">Treeline</td>
+          <td ng-class="tomorrow.treeline.css" ng-click="openDangerScale(tomorrow.treeline.text)">{{tomorrow.treeline.text}}</td>
+          <td ng-class="dayAfter.treeline.css" ng-click="openDangerScale(dayAfter.treeline.text)">{{dayAfter.treeline.text}}</td>
+        </tr>
+        <tr>
+          <td class="below_treeline">Below Treeline</td>
+          <td ng-class="tomorrow.belowTreeline.css" ng-click="openDangerScale(tomorrow.belowTreeline.text)">{{tomorrow.belowTreeline.text}}</td>
+          <td ng-class="dayAfter.belowTreeline.css" ng-click="openDangerScale(dayAfter.belowTreeline.text)">{{dayAfter.belowTreeline.text}}</td>
+        </tr>
+      </table>
+
+      <div class="confidence"><strong>Confidence:</strong> {{ confidence }}</div>
+
+    </tab>
+
+    <tab ng-show="avyProblems.length>0" active="tabs.problems">
+    <tab-heading><b>Problems</b></tab-heading>
+      <br />
+      <accordion close-others="true">
+        <accordion-group is-open="problem{{$index}}" ng-repeat="avProblem in avyProblems">
+          <accordion-heading>
+            <div class="accordion-heading-content">
+              {{avProblem.probType}}
+              <i class="pull-right" ng-class="{'icon-chevron-up': problem{{$index}}, 'icon-chevron-down': !problem{{$index}}}"></i>
+            </div>
+
+          </accordion-heading>
+           <div class="problemImages">
+            <div class="row-fluid">
+              <div class="span6 problemImageBox elevationImageBox">
+                  <div class="problemImageTitle">What Elevation Zone?</div>
+                  <img ng-src={{avProblem.elevationImg}} />
+              </div>
+              <div class="span6 problemImageBox likelihoodImageBox">
+                  <div class="problemImageTitle">Chance of Avalanches?</div>
+                  <img  ng-src={{avProblem.liklihoodImg}} />
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div class="span6 problemImageBox compassImageBox">
+                  <div class="problemImageTitle">Which Slopes? </div>
+                  <img ng-src={{avProblem.aspectImg}} />
+              </div>
+
+              <div class="span6 problemImageBox sizeImageBox">
+                  <div class="problemImageTitle">Expected Size?</div>
+                  <img ng-src={{avProblem.sizeImg}} />
+              </div>
+            </div>
+          </div>
+          <div class="problemTextBox">
+              {{avProblem.comment}}
+          </div>
+
+          <div class="travelBox">
+           <div class="problemTitle">
+             <div class="problemImageTitle">Travel and Terrain Advice</div>
+         </div>
+         <div class="travelText">
+          {{ avProblem.advisoryComment }}
+         </div>
+         </div>
+
+        </accordion-group>
+      </accordion>
+    </tab>
+
+    <tab active="tabs.details">
+    <tab-heading><b>Details</b></tab-heading>
+      <br />
+      <accordion close-others="true">
+        <accordion-group is-open="backbacksOpen" ng-show="avSummary">
+          <accordion-heading>
+            <div class="accordion-heading-content" data-accordion-image="avalanche">
+              Avalanche Summary
+              <i class="pull-right" ng-class="{'icon-chevron-up': backbacksOpen, 'icon-chevron-down': !backbacksOpen}"></i>
+            </div>
+          </accordion-heading>
+            {{avSummary}}
+        </accordion-group>
+        <accordion-group is-open="helmetsOpen" ng-show="snowPack">
+          <accordion-heading>
+            <div class="accordion-heading-content" data-accordion-image="snowpack">
+              Snowpack Summary
+              <i class="pull-right" ng-class="{'icon-chevron-up': helmetsOpen, 'icon-chevron-down': !helmetsOpen}"></i>
+            </div>
+        </accordion-heading>
+          {{snowPack}}
+      </accordion-group>
+        <accordion-group is-open="probesOpen" ng-show="weather">
+        <accordion-heading>
+        <div class="accordion-heading-content" data-accordion-image="weather">
+        Weather Summary
+        <i class="pull-right" ng-class="{'icon-chevron-up': probesOpen, 'icon-chevron-down': !probesOpen}"></i>
+            </div>
+        </accordion-heading>
+        {{ weather }}
+        </accordion-group>
+      </accordion>
+    </tab>
+
+  <tab hidden="true" active="tabs.dangerScale">
+        <div>
+         <accordion close-others="true">
+            <accordion-group is-open="extremeOpen">
+            <accordion-heading>
+                    <div class="accordion-heading-content danger extremebg">
+               Extreme
+            <i class="pull-right icon-white" ng-class="{'icon-chevron-up': extremeOpen, 'icon-chevron-down': !extremeOpen}"></i>
+                    </div>
+            </accordion-heading>
+
+            <p><strong>Travel Advice</strong></p>
+            <p>Avoid all avalanche terrain.</p>
+            <p><strong>Likelihood of Avalanches</strong></p>
+            <p>Natural and human triggered avalanches certain.</p>
+            <p><strong>Avalanche Size and Distribution</strong></p>
+            <p>Large to very large avalanches in many areas.</p>
+
+        </accordion-group>
+        <accordion-group is-open="highOpen">
+            <accordion-heading>
+               <div class="accordion-heading-content danger highbg">
+               High
+                   <i class="pull-right" ng-class="{'icon-chevron-up': highOpen, 'icon-chevron-down': !highOpen}"></i>
+               </div>
+
+            </accordion-heading>
+            <p><strong>Travel Advice</strong></p>
+            <p>Very dangerous avalanche conditions. Travel in avalanche terrain not recommended.</p>
+            <p><strong>Likelihood of Avalanches</strong></p>
+            <p>Natural avalanches likely; human-triggered avalanches very likely.</p>
+            <p><strong>Avalanche Size and Distribution</strong></p>
+            <p>Large avalanches in many areas; or very large avalanches in specific areas.</p>
+        </accordion-group>
+             <accordion-group is-open="considerableOpen">
+            <accordion-heading>
+            <div class="accordion-heading-content danger considerablebg">
+               Considerable
+            <i class="pull-right" ng-class="{'icon-chevron-up': considerableOpen, 'icon-chevron-down': !considerableOpen}"></i>
+            </div>
+            </accordion-heading>
+            <p><strong>Travel Advice</strong></p>
+            <p>Dangerous avalanche conditions. Careful snowpack evaluation, cautious route-finding and conservative decision-making essential.</p>
+            <p><strong>Likelihood of Avalanches</strong></p>
+            <p>Natural avalanches possible; human-triggered avalanches likely.</p>
+            <p><strong>Avalanche Size and Distribution</strong></p>
+            <p>Small avalanches in many areas; or large avalanches in specific areas; or very large avalanches in isolated areas.</p>
+        </accordion-group>
+             <accordion-group is-open="moderateOpen">
+            <accordion-heading>
+            <div class="accordion-heading-content danger moderatebg">
+               Moderate
+            <i class="pull-right" ng-class="{'icon-chevron-up': moderateOpen, 'icon-chevron-down': !moderateOpen}"></i>
+            </div>
+            </accordion-heading>
+            <p><strong>Travel Advice</strong></p>
+            <p>Heightened avalanche conditions on specific terrain features. Evaluate snow and terrain carefully; identify features of concern.</p>
+            <p><strong>Likelihood of Avalanches</strong></p>
+            <p>Natural avalanches unlikely; human-triggered avalanches possible.</p>
+            <p><strong>Avalanche Size and Distribution</strong></p>
+            <p>Small avalanches in specific areas; or large avalanches in isolated areas.</p>
+        </accordion-group>
+            <accordion-group is-open="lowOpen">
+            <accordion-heading>
+            <div class="accordion-heading-content danger lowbg">
+               Low
+            <i class="pull-right" ng-class="{'icon-chevron-up': lowOpen, 'icon-chevron-down': !lowOpen}"></i>
+            </div>
+            </accordion-heading>
+            <p><strong>Travel Advice</strong></p>
+            <p>Generally safe avalanche conditions. Watch for unstable snow on isolated terrain features.</p>
+            <p><strong>Likelihood of Avalanches</strong></p>
+            <p>Natural and human-triggered avalanches unlikely.</p>
+            <p><strong>Avalanche Size and Distribution</strong></p>
+            <p>Small avalanches in isolated areas or extreme terrain.</p>
+        </accordion-group>
+      </accordion>
+
+  </div>
+  </tab>
+
+  </tabset>
+
+</div>
+
+   <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'" />
+
+<!--
+
+
+  <div class="region">Region: {{regionDisplayName}}</div>
+  <div class="expiry">
+    <div>Issued: {{valid.issued}}</div>
+    <div>Expires: {{valid.expires}}</div>
+  </div>
+
+  <div class="mountain">
+    <div class="issued">{{today.day}}</div>
+    <img src="img/mountain-now-extended.png" />
+    <div class="top">Alpine</div>
+    <div class="middle">Treeline</div>
+    <div class="bottom">Below Treeline</div>
+    <div class="warntop" ng-class="today.alpine.css">{{today.alpine.text}}</div>
+    <div class="warnmiddle" ng-class="today.treeline.css">{{today.treeline.text}}</div>
+    <div class="warnbottom" ng-class="today.belowTreeline.css">{{today.belowTreeline.text}}</div>
+  </div>
+
+
+  <table class="table forecast-table">
+    <tr>
+      <th></th>
+      <th>{{tomorrow.day}}</th>
+      <th>{{dayAfter.day}}</th>
+    </tr>
+    <tr>
+      <td class="alpine">Alpine</td>
+      <td ng-class="tomorrow.alpine.css">{{tomorrow.alpine.text}}</td>
+      <td ng-class="dayAfter.alpine.css">{{dayAfter.alpine.text}}</td>
+    </tr>
+    <tr>
+      <td class="treeline">Treeline</td>
+      <td ng-class="tomorrow.treeline.css">{{tomorrow.treeline.text}}</td>
+      <td ng-class="dayAfter.treeline.css">{{dayAfter.treeline.text}}</td>
+    </tr>
+    <tr>
+      <td class="below_treeline">Below Treeline</td>
+      <td ng-class="tomorrow.belowTreeline.css">{{tomorrow.belowTreeline.text}}</td>
+      <td ng-class="dayAfter.belowTreeline.css">{{dayAfter.belowTreeline.text}}</td>
+    </tr>
+  </table>
+
+  <div class="confidence"><strong>Confidence:</strong> {{ confidence }}</div>
+
+</div>
+
+<div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'"></div>
+
+-->
+<!--
+
+
+<script type="text/ng-template" id="ForecastProblemsModal.html">
+
+  <div class="modal-body">
+
+        <div class="row-fluid">
+            <div class="span3 problemImageBox compassImageBox">
+                <div class="problemImageTitle">Aspect</div>
+                <img ng-src={{avProblem.aspectImg}} />
+            </div>
+
+            <div class="span3 problemImageBox sizeImageBox">
+                <div class="problemImageTitle">Size</div>
+                <img ng-src={{avProblem.sizeImg}} />
+            </div>
+
+            <div class="span3 problemImageBox elevationImageBox">
+                <div class="problemImageTitle">Elevation</div>
+                <img ng-src={{avProblem.elevationImg}} />
+            </div>
+
+            <div class="span3 problemImageBox likelihoodImageBox">
+                <div class="problemImageTitle">Liklihood</div>
+                <img  ng-src={{avProblem.liklihoodImg}} />
+            </div>
+        </div>
+
+            <div class="problemTextBox">
+                {{avProblem.comment}}
+            </div>
+
+            <div class="travelBox">
+              <div class="problemTitle">
+               <div class="problemImageTitle">Travel and Terrain Advice</div>
+              </div>
+              <div class="travelText">
+                  {{ avProblem.advisoryComment }}
+              </div>
+            </div>
+
+          </div>
+    </div>
+
+</script>
+
+<div class="problems">
+
+<accordion close-others="true">
+        <accordion-group is-open="problem{{$index}}" ng-repeat="avProblem in avyProblems">
+        <accordion-heading>
+        <div class="accordion-heading-content">
+          {{avProblem.probType}}
+          <i class="pull-right" ng-class="{'icon-chevron-up': problem{{$index}}, 'icon-chevron-down': !problem{{$index}}}"></i>
+        </div>
+        </accordion-heading>
+         <div class="problemImages">
+                <div class="problemImageBox elevationImageBox">
+                    <div class="problemImageTitle">What Elevation Zone?</div>
+                    <img ng-src={{avProblem.elevationImg}} />
+                </div>
+                <div class="problemImageBox compassImageBox">
+                    <div class="problemImageTitle">Which Slopes? </div>
+                    <img ng-src={{avProblem.aspectImg}} />
+                </div>
+                <div class="problemImageBox likelihoodImageBox">
+                    <div class="problemImageTitle">Chance of Avalanches?</div>
+                    <img  ng-src={{avProblem.liklihoodImg}} />
+                </div>
+                <div class="problemImageBox sizeImageBox">
+                    <div class="problemImageTitle">Expected Size?</div>
+                    <img ng-src={{avProblem.sizeImg}} />
+                </div>
+            </div>
+            <div class="problemTextBox">
+                {{avProblem.comment}}
+            </div>
+
+            <div class="travelBox">
+             <div class="problemTitle">
+               <div class="problemImageTitle">Travel and Terrain Advice</div>
+           </div>
+           <div class="travelText">
+
+                  {{ avProblem.advisoryComment }}
+        </div>
+    </div>
+
+    </accordion-group>
+
+</div> -->
+
+<!--
+  <accordion close-others="oneAtATime">
+    <accordion-group heading="Problems" ng-show="avyProblems.length>0">
+      <ul>
+       <li ng-repeat="avProblem in avyProblems" ng-click="openProblem(avProblem)">{{avProblem.probType}}</li>
+      </ul>
+    </accordion-group>
+    <accordion-group heading="Details">
+      <ul>
+       <li ng-repeat="avProblem in avyProblems" ng-click="openProblem(avProblem)">{{avProblem.probType}}</li>
+      </ul>
+    </accordion-group>
+    <accordion-group is-open="isopen">
+        <accordion-heading>
+            I can have markup, too! <i class="pull-right" ng-class="{'icon-chevron-down': isopen, 'icon-chevron-right': !isopen}"></i>
+        </accordion-heading>
+        This is just some content to illustrate fancy headings.
+    </accordion-group>
+  </accordion> -->
+
+
+    <!--
+  <ul class="nav nav-tabs nav-stacked">
+
+ <li class="accordion-heading nav-gradient" ng-click="openProblems()"><i class="icon-circle-arrow-right pull-right"></i>Problems</li>
+		<li class="accordion-heading nav-gradient" ng-click="openDetails()"><i class="icon-circle-arrow-right pull-right"></i>Details</li>
+		<li class="accordion-heading nav-gradient" ng-click="openDangerScale()"><i class="icon-circle-arrow-right pull-right"></i>Danger Scale</li>
+	</ul>
+
+-->
+
+
+

@@ -1,16 +1,18 @@
 'use strict';
 
-angular.module('CACMobile', 
+angular.module('CACMobile',
   [
-    'ngResource'
+    'ngResource',
+    'ui.bootstrap',
+    'ngRoute'
   ])
   .config(function ($routeProvider) {
     $routeProvider
-       .when('/', {
+      .when('/', {
         templateUrl: 'views/Map.html',
         controller: 'MapCtrl'
-        })
-       .when('/gear', {
+      })
+      .when('/gear', {
         templateUrl: 'views/gear.html',
         controller: 'NavCtrl'
       })
@@ -22,6 +24,11 @@ angular.module('CACMobile',
         templateUrl: 'views/regionDetails.html',
         controller: 'RegionDetailsCtrl'
       })
+      .when('/RegionForecast/:region', {
+        templateUrl: 'views/RegionForecast.html',
+        controller: 'RegionForecastCtrl'
+      })
+
       .when('/danger-scale', {
         templateUrl: 'views/dangerScale.html'
       })
@@ -52,6 +59,18 @@ angular.module('CACMobile',
       .when('/Observation', {
         templateUrl: 'views/Observation.html',
         controller: 'ObservationCtrl'
+      })
+      .when ('/obs-list', {
+        templateUrl: 'views/obsList.html',
+        controller: 'ObservationListCtrl'
+      })
+      .when('/ObservationSubmit', {
+        templateUrl: 'views/ObservationSubmit.html',
+        controller: 'ObservationsubmitCtrl'
+      })
+      .when('/ObservationViewMap', {
+        templateUrl: 'views/ObservationViewMap.html',
+        controller: 'ObservationViewMapCtrl'
       })
       .otherwise({
         templateUrl: 'views/Loading.html',

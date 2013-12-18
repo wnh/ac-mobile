@@ -19,7 +19,7 @@ module.exports = function (grunt) {
   // configurable paths
   var yeomanConfig = {
     app: 'app',
-    dist: 'dist'
+    dist: 'www'
   };
 
   try {
@@ -53,7 +53,7 @@ module.exports = function (grunt) {
         ]
       }
     },
-    
+
     // connect
     connect: {
       options: {
@@ -72,7 +72,7 @@ module.exports = function (grunt) {
           }
         }
       },
-      
+
       test: {
         options: {
           middleware: function (connect) {
@@ -98,9 +98,9 @@ module.exports = function (grunt) {
         url: 'http://localhost:<%= connect.options.port %>'
       }
     },
-    // end connect 
-    
-       
+    // end connect
+
+
     compress: {
   	  dist:{
   	        options: {
@@ -109,10 +109,10 @@ module.exports = function (grunt) {
   	        },
   	        //cwd: '<%= yeoman.dist %>/',
   	        //src: ['**/*']
-  	        files: [{ src: 'www/**' }]
+  	        files: [{ src: '<%= yeoman.dist %>/**' }]
   	  }
   	},
-  	
+
     clean: {
       dist: {
         files: [{
@@ -127,7 +127,7 @@ module.exports = function (grunt) {
       },
       server: '.tmp'
     },
-    
+
     jshint: {
       options: {
         jshintrc: '.jshintrc'
@@ -137,7 +137,7 @@ module.exports = function (grunt) {
         '<%= yeoman.app %>/scripts/{,*/}*.js'
       ]
     },
-    
+
     coffee: {
       dist: {
         files: [{
@@ -177,7 +177,7 @@ module.exports = function (grunt) {
         	  sassDir: '<%= yeoman.app %>/styles',
         	  cssDir: 'www/styles'
           }
-      },  
+      },
       dist: {},
       server: {
         options: {
@@ -262,53 +262,14 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>',
-          src: ['*.html', 'views/*.html'],
+          src: ['*.html', 'views/**/*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
     },
     // Put files not handled in other tasks here
     copy: {
-    	
-      win7: {
-       files: [{
-    	  expand: true,
-          dot: true,
-          cwd: '<%= yeoman.app %>/scripts/vendor/windows7',
-          dest: '<%= yeoman.app %>',
-          src: [
-            '*.*']
-       }]
-      },
-      
-      pgb: {
-          files: [{
-            expand: true,
-            dot: true,
-            cwd: '<%= yeoman.app %>',
-            dest: 'www',
-            src: [
-              '*.*',
-              '.htaccess',
-              'bower_components/**/*',
-//              'bower_components/angular/**/*',
-//              'bower_components/angular-resource/**/*',
-//             'bower_components/jquery/**/*',
-//              'bower_components/json3/**/*',
-//              'bower_components/es5-shim/**/*',
-//              'bower_components/bootstrap-sass/**/*',
-              'scripts/services/**/*',
-              'scripts/controllers/**/*',
-              'scripts/vendor/*',
-              'scripts/*',
-              '!cordova.js',
-              'views/**',
-              'img/{,*/}*.{gif,webp,svg}',
-              'styles/fonts/*'
-            ]
-          }]
-      },
-          
+
       dist: {
         files: [{
           expand: true,
@@ -318,8 +279,13 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
-            'bower_components/**/*',
-            'images/{,*/}*.{gif,webp,svg}',
+            //'bower_components/**/*',
+            'img/{,*/}*.{gif,webp,svg}',
+            'bower_components/angular/angular.min.js',
+            'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+            'js/other/*.js',
+            'fonts/*.*',
+            'config.xml',
             'styles/fonts/*'
           ]
         }, {
@@ -378,13 +344,6 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/scripts/scripts.js'
           ]
         }
-      },
-      pgb: {
-        files: {
-          'www/scripts/*.*': [
-            'www/scripts'
-          ]
-        }
       }
     }
   });
@@ -395,7 +354,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
-      'copy:win7',              
+      'copy',
       'clean:server',
       'concurrent:server',
       'connect:livereload',
@@ -405,45 +364,46 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
-    'copy:win7',              
+    'copy',
     'clean:server',
     'concurrent:test',
     'connect:test',
     'karma'
   ]);
+  /*
   grunt.registerTask('build', [
                                'clean:dist',
-                               'useminPrepare',
+                               //'useminPrepare',
                                'concurrent:pgb',
                                //'cssmin',
                                'imagemin:pgb',
-                               'usemin',
+                               //'usemin',
                                'copy:pgb',
                                //'uglify:pgb',
-                               'compress:dist'                             
-                             ]);
-  
-  /*grunt.registerTask('build', [
-    'copy',                           
+                               'compress:dist'
+                             ]); */
+
+  grunt.registerTask('build', [
     'clean:dist',
     'useminPrepare',
     'concurrent:dist',
     'concat',
-    'copy',
-    'cdnify',
+    'copy:dist',
+    //'cdnify',
     'ngmin',
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
-  ]);*/
+    'usemin',
+    'compress:dist'
+  ]);
 
   grunt.registerTask('default', [
     'jshint',
     'test',
     'build'
   ]);
-  
-  
-  
+
+
+
 };

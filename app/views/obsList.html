@@ -1,0 +1,26 @@
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>  
+
+
+<div class="content">
+   <div class="region">
+      Observation List
+   </div>
+   <div class="text-wrapper text-center">
+     <script type="text/ng-template" id="modalPhoto.html">
+        <div class="modal-header">
+      <button class="btn btn-warning" ng-click="cancel()">Close</button>
+      </div>
+       <div class="modal-body-content">
+       <div modal-photo>
+
+      </div>
+      </div>
+
+   </script>
+   <table class="table table-hover" obs-list>
+
+   </table>
+</div>
+</div>
+
+<div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'" />

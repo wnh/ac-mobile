@@ -17,6 +17,10 @@
       margin-bottom: 0px;
 }
 
+.glyphicons.red:before{
+  color: red !important;
+}
+
 .nav {
   margin-bottom: 0;
 }
@@ -30,6 +34,10 @@
     height:$top-nav-height;
 }
 
+.header-icon {
+  margin-right:-8px !important;
+}
+
 .footer-img {
   width:auto;
   height:auto;
@@ -39,6 +47,6 @@
 // Todo: This isn't very nice, and the heights are hardcoded
 .nav-item {
 float:left;
-  width: 25%;
+  width: 33%;
   height:$bottom-nav-height;
 }

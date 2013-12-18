@@ -2,9 +2,15 @@
 
 angular.module('CACMobile')
   .factory('ConnectionManager', function($rootScope, DeviceReady) {
-    
+
     //! {
-    var defaultState = {'type':'wifi'}; //{'type':'wifi'}; //{'type':'unknown'};
+    var defaultState = {'type':'unknown'}; //{'type':'wifi'}; //{'type':'unknown'};
+
+    //! if debugging in web mode
+    if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/))
+    {
+      defaultState = {'type':'wifi'};
+    }
 
     function connectionState() {
         var connection_   =  (navigator.connection === undefined) ? defaultState : navigator.connection ;
@@ -15,18 +21,18 @@ angular.module('CACMobile')
     function online () {
         var connection_   = (navigator.connection === undefined) ? defaultState : navigator.connection;
         var networkState_ = connection_.type;
-        return ((networkState_ !=  'none') && (networkState_ !=  'unknown') )  
+        return ((networkState_ !=  'none') && (networkState_ !=  'unknown') )
     }
     //! }
 
 
-    //! Handle Change of connection device state { 
+    //! Handle Change of connection device state {
     var deviceReadyCallBacks = [];
     var onlineCallbacks = [];
     var offlineCallbacks = [];
 
     function performCallBack (cb) {
-            
+
       var numItems = cb.length;
       for (var i = 0; i < numItems; i++) {
         var func = cb.pop();
@@ -61,19 +67,19 @@ angular.module('CACMobile')
 
       console.log("Connection Device Ready");
 
-      if (online() == false)
-      { 
+      /*if (online() == false)
+      {
         alert("No connection detected, check back soon for a version with offline capability.");
-      }
+      }*/
 
       performCallBack(deviceReadyCallBacks);
     }
 
-    DeviceReady.addEventListener(performDeviceReadyCallback);    
+    DeviceReady.addEventListener(performDeviceReadyCallback);
     //! }
 
-    return { 
-      
+    return {
+
       //! return true if online, false is offline or state is unknown
       isOnline : function(){
         return online();
@@ -85,13 +91,13 @@ angular.module('CACMobile')
       online: function (funcPtr) {
 
         function onlineHandler() {
-          
+
           if(online())
           {
             funcPtr();
           }
 
-          onlineCallbacks.push(funcPtr);  
+          onlineCallbacks.push(funcPtr);
 
         }
 
@@ -112,13 +118,13 @@ angular.module('CACMobile')
       offline: function (funcPtr) {
 
         function offlineHandler() {
-          
+
           if(online() == false)
           {
             funcPtr();
           }
 
-          offlineCallbacks.push(funcPtr);  
+          offlineCallbacks.push(funcPtr);
 
         }
 
@@ -142,7 +148,7 @@ angular.module('CACMobile')
         {
           state = connectionState();
         }
-         
+
         return state;
       }
 
