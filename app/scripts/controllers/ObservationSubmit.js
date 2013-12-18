@@ -14,6 +14,10 @@ angular.module('CACMobile')
   $scope.submitProgress = 0;
   $scope.submitting = false;
 
+  $scope.online = function () {
+      return ConnectionManager.isOnline();
+    }
+
   $scope.removePhoto = function(index) {
     $scope.photo_list.splice(index,1)
   }

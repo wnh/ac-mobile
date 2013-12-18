@@ -5,7 +5,7 @@
 </div>
 <div ="modal-body">
    <div class="modal-body-content">
-   <img src="img/icons/icon_obs_blank.png" ng-click="redirect('/ObservationViewMap')" /><p><a ng-click="redirect('/ObservationViewMap')">View Observations</a></p>
+   <img src="img/icons/icon_obs_blank.png" ng-show="online()" ng-click="redirect('/ObservationViewMap')" /><p><a ng-click="redirect('/ObservationViewMap')" ng-show="online()">View Observations</a></p>
    <img src="img/icons/icon_camera_blank.png" ng-click="redirect('/ObservationSubmit')" /><p><a ng-click="redirect('/ObservationSubmit')">Submit Photo</a></p>
    </div>
 </div>
@@ -18,9 +18,9 @@
 <div class="nav-item text-center">
    <img class="footer-img" src="img/icons/icon_obs.png" ng-click="loadObsChoice()" />
 </div>
-
 <div class="nav-item text-center">
-   <img class="footer-img" src="img/icons/icon_map.png" ng-click="redirect('/')" />
+   <img class="footer-img" ng-show="online()" src="img/icons/icon_map.png" ng-click="redirect('/')" />
+   <img class="footer-img" ng-hide="online()" src="img/icons/icon_forecast.png" ng-click="redirect('/region-list')" />
 </div>
 <div class="nav-item text-center">
    <img class="footer-img" src="img/icons/icon_gear.png" ng-click="redirect('/gear')" />

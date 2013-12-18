@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.controller('ObservationViewMapCtrl', function ($scope, location, ResourceFactory, Bounds, $timeout, $modal, $log) {
+.controller('ObservationViewMapCtrl', function ($scope, location, ResourceFactory, Bounds, $timeout, $modal, $log, State) {
    $scope.latitude = 50.9831700;
    $scope.longitude = -118.2023000;
    $scope.locations = [];
@@ -16,15 +16,18 @@ angular.module('CACMobile')
 
    function getLocations () {
     console.log("updating locations...")
+    State.setLoading(true);
       //TODO: Some rate control here?
       var b = Bounds.getBounds();
       if (b.zoom > 8) {
          ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: false, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
             function(response) {
                $scope.locations = response;
+               State.setLoading(false);
             },
             function(response) {
-               console.log("Failed to load unclustered locations")
+               console.log("Failed to load unclustered locations");
+               State.setLoading(false);
             })
       }
       else 
@@ -32,9 +35,11 @@ angular.module('CACMobile')
          ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: true, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
             function(response) {
                $scope.locations = response;
+               State.setLoading(false);
             },
             function(response) {
-               console.log("Failed to load clustered locations")
+               console.log("Failed to load clustered locations");
+               State.setLoading(false);
             })
       }
    }
