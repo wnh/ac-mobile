@@ -259,11 +259,12 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
         {
           getImage({ quality: 45,
               destinationType: Camera.DestinationType.FILE_URI,
-              sourceType:      Camera.PictureSourceType.CAMERA});
+              sourceType:      Camera.PictureSourceType.CAMERA,
+              saveToPhotoAlbum: true});
         }
         else
         {
-          $log.info('Web detected Camera unavailable default image used');
+          $log.warn('Web detected Camera unavailable default image used');
           photo = 'img/CAC_Logo.png';
           $modalInstance.close(photo);
         }
@@ -274,11 +275,12 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
       {
         getImage({ quality: 45,
               destinationType: Camera.DestinationType.FILE_URI,
-              sourceType:      Camera.PictureSourceType.PHOTOLIBRARY});
+              sourceType:      Camera.PictureSourceType.PHOTOLIBRARY,
+              mediaType:       Camera.MediaType.PICTURE});
       }
       else
       {
-        $log.info('Web detected Camera unavailable default image used');
+        $log.warn('Web detected Camera unavailable default image used');
         photo = 'img/CAC_Logo.png';
         $modalInstance.close(photo);
       }
