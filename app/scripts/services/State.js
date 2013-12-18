@@ -5,6 +5,8 @@ angular.module('CACMobile')
 
    var observationIds = []
    var loading = false;
+   var toDate = new Date();
+   var fromDate = new Date();
 
    return {
       setLoading: function (_loading) {
@@ -18,6 +20,18 @@ angular.module('CACMobile')
      },
       getObsIds: function() {
         return observationIds;
-     }
+     },
+     setToDate: function(date){
+        toDate = date;
+     },
+     setFromDate: function(date){
+        fromDate = date;
+     },
+     getToDate: function(){
+        return toDate;
+     },
+     getFromDate: function(){
+        return fromDate;
+     },
   }
 });
