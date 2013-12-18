@@ -65,8 +65,8 @@ angular.module('CACMobile')
               getLocations();
          },true);
 
-      $scope.to = new Date();
-      $scope.from = new Date();
+      $scope.to = State.getToDate();
+      $scope.from = State.getFromDate();
       $scope.today = new Date();
 
 
@@ -74,6 +74,11 @@ angular.module('CACMobile')
     function(oldval,newval) {
       if (oldval != newval) {
         getLocations();
+        State.setToDate($scope.to);
+      }
+      else
+      {
+        $log.warn("Old From Date and New From Date are the same");
       }
     },true)
 
@@ -81,6 +86,11 @@ angular.module('CACMobile')
     function(oldval,newval) {
       if (oldval != newval) {
         getLocations();
+        State.setFromDate($scope.from);
+      }
+      else
+      {
+        $log.warn("Old From Date and New From Date are the same");
       }
     },true)
 
