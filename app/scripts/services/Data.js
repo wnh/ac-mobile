@@ -11,7 +11,7 @@ angular.module('CACMobile')
 
 
 angular.module('CACMobile')
-.factory('Data', function($http,$rootScope,$q, $log, platform, DeviceReady){
+.factory('Data', function($http,$rootScope,$q, $log, ConnectionManager, platform, DeviceReady){
 
    var storageService = null;
 
@@ -94,7 +94,7 @@ angular.module('CACMobile')
               var data = null;
               data = localStorage.getItem(region);
 
-              if (data)
+              if (data && (ConnectionManager.isOnline() == false))
               {
                 $log.info("Got Data from local storage");
                 //var result = JSON.parse(data);defer.resolve(result);
