@@ -6,6 +6,7 @@ angular.module('CACMobile')
 	$scope.latitude = 50.9831700;
 	$scope.longitude = -118.2023000;
 
+
 	function getPostion () {
 		location.getPosition().then(
 			function (position){
@@ -15,5 +16,5 @@ angular.module('CACMobile')
 	}
 	   //! Get the current position
 	   getPostion();
-	   
+
   }); // end MapCtrl controller
