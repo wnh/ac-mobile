@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .factory('ConnectionManager', function($rootScope, DeviceReady) {
+  .factory('ConnectionManager', function($rootScope, DeviceReady, $location) {
 
     //! {
     var defaultState = {'type':'unknown'}; //{'type':'wifi'}; //{'type':'unknown'};
@@ -83,6 +83,17 @@ angular.module('CACMobile')
       //! return true if online, false is offline or state is unknown
       isOnline : function(){
         return online();
+      },
+      checkOnline: function() {
+        if (!online()) {
+         $location.path("/region-list");   
+         return false;
+        } 
+        else 
+        {
+          return true;
+        }
+
       },
 
       //! takes a function/action to perform when online
