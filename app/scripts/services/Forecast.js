@@ -314,6 +314,12 @@ angular.module('CACMobile')
               var issued = new Date(forecast.validTime.issued);
               var expires = new Date(forecast.validTime.expires);
 
+              if (today > expires)
+              {
+                $log.warn("Out of date forecast! Cache = " + cache + " today= " + today + " exired= " + expired);
+              }
+
+/*
               if (cache == true && today > expires && ConnectionManager.isOnline())
               {
                 $log.info("out of date forecast");
@@ -324,7 +330,7 @@ angular.module('CACMobile')
               else
               {
                 defer.resolve(forecast);
-              }
+              } */
 
             }
 
@@ -344,6 +350,7 @@ angular.module('CACMobile')
                               {
                                 if (result.data.ObsCollection != null && typeof result.data.ObsCollection != 'undefined') {
                                   forecast = new CacData(result.data);
+                                  defer.resolve(forecast);
                                   checkDate(forecast, result.cache);
                                 } else {
 
@@ -366,6 +373,7 @@ angular.module('CACMobile')
                               {
                                 if (result.data.CaamlData != null && typeof result.data.CaamlData != 'undefined') {
                                   forecast = new ParksData(result.data);
+                                  defer.resolve(forecast);
                                   checkDate(forecast, result.cache);
                                 } else {
 
