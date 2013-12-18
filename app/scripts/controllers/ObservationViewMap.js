@@ -14,48 +14,59 @@ angular.module('CACMobile')
          });
    }
 
+   var newBounds = false;
+
+   function checkLocationRequests() {
+    State.setLoading(false);
+    if (newBounds == true) {
+      $log.info("Now performing cached request");
+      newBounds = false;
+      getLocations();
+    }
+  }
+
    function getLocations () {
-
-    State.setLoading(true);
-
-      //TODO: Some rate control here?
       var b = Bounds.getBounds();
-
       if (b.set == true)
       {
-        if (b.zoom > 10) {
-          $log.info("View un-clustered");
-           ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: false, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
+        if (State.getLoading() == true) {
+          newBounds = true;
+        } else {
+          State.setLoading(true);
+          if (b.zoom > 10) {
+            $log.info("View un-clustered");
+            ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: false, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
               function(response) {
                 $log.info("Location query response " + response.length);
                 $scope.locations = response;
-               State.setLoading(false);
+                checkLocationRequests();
               },
               function(response) {
                 $log.error("Failed to load unclustered locations");
-                State.setLoading(false);
+                checkLocationRequests();
               })
-        }
-        else
-        {
-          $log.info("View clustered");
-           ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: true, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
+          }
+          else
+          {
+            $log.info("View clustered");
+            ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: true, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
               function(response) {
                 $log.info("Location query response "+ response.length);
                 $scope.locations = response;
-               State.setLoading(false);
+                checkLocationRequests();
               },
               function(response) {
                 $log.error("Failed to load clustered locations");
-                State.setLoading(false);
+                checkLocationRequests();
               })
+          }
         }
       }
       else
       {
         $log.error("Bounds not set");
       }
-   }
+    }
       //! Get the current position
       getPostion();
 
