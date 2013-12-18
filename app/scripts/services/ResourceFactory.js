@@ -55,7 +55,7 @@ angular.module('CACMobile')
       photo: function (){
         var photoObj = $resource(apiUrl+'/photo', {},
         {
-          test: { method: 'GET', url: apiUrl+'/photo/:id'}
+          get: { method: 'GET', url: apiUrl+'/photo/:id'}
         });
 
         //! Cannot post file obj using resource instead overwrite the save function

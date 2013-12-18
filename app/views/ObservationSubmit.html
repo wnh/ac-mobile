@@ -12,6 +12,8 @@
   <div ng-show='!submitting'>
 
     <form novalidate name="form">
+    <!-- hidden submit button - does nothing, but catches when submit hits enter to submit form -->
+    <input type="submit" class="hidden-submit">
 
       <div class="photo-div control-group" ng-repeat="p in photo_list">
          <i class="pull-right glyphicons-icon remove_2" ng-click="removePhoto($index)"></i>

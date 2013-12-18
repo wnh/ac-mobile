@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.factory('Forecast', function($rootScope,$q, $log, Data, ConnectionManager, RegionDefinition){
+.factory('Forecast', function($rootScope,$q, $log, Data, ConnectionManager, RegionDefinition, State){
 
    var weekdays = new Array(7);
                weekdays[0] = "Sunday";
@@ -294,7 +294,8 @@ angular.module('CACMobile')
          var defer = $q.defer();
          var url = RegionDefinition.getUrl(region);
          var today = new Date();
-         var retry = false;
+         var retries = 0;
+         var maxRetries = 5;
 
           if (navigator.globalization)
           {
@@ -329,19 +330,6 @@ angular.module('CACMobile')
                 $log.warn("Out of date forecast! Cache = " + cache + " today= " + today + " exired= " + expired);
               }
 
-/*
-              if (cache == true && today > expires && ConnectionManager.isOnline())
-              {
-                $log.info("out of date forecast");
-                Data.clear(region);
-                retry = true; //! not nice but date is not available in forecast ....
-                getData();
-              }
-              else
-              {
-                defer.resolve(forecast);
-              } */
-
             }
 
             //! Function callback for get data success for region
@@ -350,6 +338,7 @@ angular.module('CACMobile')
             //! Type is defined in region definition
             var dataSuccess = function (result)
                          {
+                          State.setLoading(false);
                            //! Got Data from HTTP save to file {
                             console.log("Got data");
 
@@ -367,14 +356,14 @@ angular.module('CACMobile')
                                   Data.clear(region);
                                   $log.error("Unexpected data format for CacData");
 
-                                  if (retry == false)
+                                  if (retries < maxRetries)
                                   {
-                                    retry = true;
+                                    retries ++;
                                     getData();
                                   }
                                   else
                                   {
-                                    defer.reject("Unexpected data format for CacData");
+                                    defer.reject("To Many Retries");
                                   }
 
                                 }
@@ -390,14 +379,14 @@ angular.module('CACMobile')
                                   Data.clear(region);
                                   $log.error("Unexpected data format for ParksData");
 
-                                  if (retry == false)
+                                  if (retries < maxRetries)
                                   {
-                                    retry = true;
+                                    retries ++;
                                     getData();
                                   }
                                   else
                                   {
-                                    defer.reject("Unexpected data format for ParksData");
+                                    defer.reject("To Many Retries");
                                   }
                                 }
 
@@ -419,9 +408,11 @@ angular.module('CACMobile')
                          };
             var fail = function (error) // get data failed
                        {
+                        State.setLoading(false);
                         console.error("error getting xml forecast from http for " + region + "error ", error);
                         defer.reject(error);
                        };
+            State.setLoading(true);
             Data.get(region, url).then(dataSuccess, fail);
           }
 
