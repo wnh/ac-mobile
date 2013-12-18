@@ -2,6 +2,13 @@
 angular.module('CACMobile')
   .controller('NavCtrl', function ($scope, $location, $log, CallVenderApp, ConnectionManager, TOU, Session, $modal, State) {
 
+      $scope.acceptedTOU = TOU.accepted();
+
+      $scope.acceptTOU = function() {
+        TOU.accept();
+        $location.path('/');
+      }
+
     $scope.loading = State.getLoading();
 
     $scope.$watch(function () { return State.getLoading(); },
@@ -38,10 +45,14 @@ angular.module('CACMobile')
 
     //! Sign in Modal {
     $scope.openSignInModal = function () {
-      var modalInstance = $modal.open({
-        templateUrl: 'signIn_modal.html',
-        controller: SignInModalCtrl,
-      });
+      if ($scope.acceptedTOU == true) {
+        var modalInstance = $modal.open({
+          templateUrl: 'signIn_modal.html',
+          controller: SignInModalCtrl,
+        });
+      } else {
+        $log.info("Tried to open sign in modal without accepting TOU") 
+      }
     }
 
     var SignInModalCtrl = [ '$scope', '$modalInstance', '$location', 'Session', function ($scope, $modalInstance, $location, Session) {
@@ -73,16 +84,19 @@ angular.module('CACMobile')
 
     // Begin obcChoice modal code
     $scope.loadObsChoice = function () {
-
-      var modalInstance = $modal.open({
-        templateUrl: 'modalObsChoice.html',
-        controller: obsChoiceCtrl,
-        resolve: {
-          online: function () {
-            return $scope.online();
+      if ($scope.acceptedTOU == true) {
+        var modalInstance = $modal.open({
+          templateUrl: 'modalObsChoice.html',
+          controller: obsChoiceCtrl,
+          resolve: {
+            online: function () {
+              return $scope.online();
+            }
           }
-        }
-      });
+        });
+      } else {
+        $log.info("Tried to open obs choice modal before accepting TOU")
+      }
 
     };
 
@@ -126,13 +140,6 @@ angular.module('CACMobile')
 
       $scope.openMec = function() {
          CallVenderApp.mec();
-      }
-
-      $scope.acceptedTOU = TOU.accepted();
-
-      $scope.acceptTOU = function() {
-        TOU.accept();
-        $location.path('/');
       }
 
       $scope.$watch(function () { return TOU.accepted(); },
