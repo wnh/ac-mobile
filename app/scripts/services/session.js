@@ -34,7 +34,7 @@ angular.module('CACMobile')
           success();
         },
         function(response){
-          fail(response.data.error[0]);
+          fail(response.data.error);
         });
       },
 

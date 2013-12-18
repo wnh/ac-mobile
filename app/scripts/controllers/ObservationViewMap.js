@@ -23,7 +23,7 @@ angular.module('CACMobile')
 
       if (b.set == true)
       {
-        if (b.zoom > 8) {
+        if (b.zoom > 10) {
           $log.info("View un-clustered");
            ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: false, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
               function(response) {
