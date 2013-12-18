@@ -14,10 +14,6 @@ angular.module('CACMobile')
   $scope.submitProgress = 0;
   $scope.submitting = false;
 
-  $scope.online = function () {
-      return ConnectionManager.isOnline();
-    }
-
   $scope.removePhoto = function(index) {
     $scope.photo_list.splice(index,1)
   }
@@ -47,7 +43,6 @@ $scope.submit = function (){
     //! \todo make this pop up the sign in window
     $scope.alerts.push({ type: 'error', msg: 'Please sign in before submitting' });
   }
-
   //! \todo verify this !
   //! current version only
   if ($scope.photo_list.length == 0){
@@ -60,6 +55,10 @@ $scope.submit = function (){
 
   if($scope.positionDesc == "Unknown"){
     $scope.alerts.push({ type: 'error', msg: 'Set Position' });
+  }
+
+  if(ConnectionManager.isOnline() == false){
+    $scope.alerts.push({ type: 'error', msg: 'You must be online to submit an Observation' });
   }
 
    //no alerts then submit observation
