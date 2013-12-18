@@ -26,8 +26,14 @@ angular.module('CACMobile')
     }
 
     $scope.signOut = function(){
-      Session.destroy();
-      checkSignIn();
+      var confirmRemove = confirm('Are you sure you want to log out?'); 
+      if (confirmRemove) {
+        Session.destroy();
+        checkSignIn();
+      } else {
+        $log.info("Sign out clicked but not confirmed")  
+      }
+
     }
 
     //! Sign in Modal {
