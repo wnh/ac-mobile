@@ -71,11 +71,17 @@ angular.module('CACMobile')
       var modalInstance = $modal.open({
         templateUrl: 'modalObsChoice.html',
         controller: obsChoiceCtrl,
+        resolve: {
+          online: function () {
+            return $scope.online();
+          }
+        }
       });
 
     };
 
-    var obsChoiceCtrl = ['$scope', '$modalInstance', '$location', function ($scope, $modalInstance, $location) {
+    var obsChoiceCtrl = ['$scope', '$modalInstance', '$location', 'online', function ($scope, $modalInstance, $location, online) {
+      $scope.online = online;
       $scope.redirect = function (url){
         $location.path(url);
         $modalInstance.dismiss('redirect');
