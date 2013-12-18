@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('RegionForecastCtrl', function ($scope, $routeParams, $location, $log, $modal, Forecast, Data, RegionDefinition) {
-    $scope.loading = true;
+  .controller('RegionForecastCtrl', function ($scope, $routeParams, $location, $log, $modal, Forecast, Data, RegionDefinition, State) {
+
+    State.setLoading(true);
+    $scope.loading = State.getLoading();
     $scope.region = null;
     $scope.regionExists = true;
 
@@ -16,6 +18,7 @@ angular.module('CACMobile')
         Forecast.get($scope.region).then(
                     function(fx){
 
+                         State.setLoading(false);
                          $scope.loading = false;
 
                          $scope.today = fx.today;
@@ -40,7 +43,8 @@ angular.module('CACMobile')
                     },
                     function(error){
                         $log.error('error getting forecast', error);
-                        alert("error getting forecast, check connection");
+                        alert("error getting forecast", error);
+                        State.setLoading(false);
                         window.history.back();
                     }
 
