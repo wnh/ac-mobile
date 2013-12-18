@@ -30,6 +30,16 @@ angular.module('CACMobile')
   var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: true, center: new google.maps.LatLng(scope.latitude, scope.longitude), mapTypeId: google.maps.MapTypeId.TERRAIN};
   var map = new google.maps.Map(elem[0], mapOptions);
 
+  var bounds = Bounds.getBounds()
+
+  if (bounds.set) {
+    var ne = new google.maps.LatLng(bounds.nelat, bounds.nelon); 
+    var sw = new google.maps.LatLng(bounds.swlat, bounds.swlon);
+    var newBounds = new google.maps.LatLngBounds(sw,ne)
+    map.fitBounds(newBounds);
+    map.setZoom(bounds.zoom);
+  }
+
   var updateBounds = function () {
     var bounds = map.getBounds();
     var zoom = map.getZoom();
