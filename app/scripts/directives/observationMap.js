@@ -93,11 +93,11 @@ var createLocMarker = function(loc) {
    locMarker.setMap(map);
    var type = ""
     if (loc.clustered == true) {
-    locMarker.setIcon('/img/icons/blue-dot.png');
+    locMarker.setIcon('img/icons/blue-dot.png');
     locMarker.setZIndex(100);
     type = "Cluster";
    } else {
-    locMarker.setIcon('/img/icons/red-dot.png')
+    locMarker.setIcon('img/icons/red-dot.png')
     locMarker.setZIndex(50);
     type = "Location";
    }
