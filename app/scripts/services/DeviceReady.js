@@ -43,7 +43,7 @@ angular.module('CACMobile')
         gaPlugin = window.plugins.gaPlugin;
         gaPlugin.init(function (result) {$log.info("google analytics registered " + result); },
                       function (error){$log.warn("google analytics failed to register "+ error ); },
-                      "UA-46606603-1", 10);
+                      "UA-46606603-2", 10);
       };
 
       callBacks.push(ga);
