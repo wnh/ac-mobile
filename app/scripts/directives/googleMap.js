@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.directive('googleMap', function($window, Bounds, $rootScope, $location, State, Bounds){
+.directive('googleMap', function($window, Bounds, $rootScope, $location, State){
 
  return function (scope, elem, attrs) {
   function HomeControl(controlDiv, map) {

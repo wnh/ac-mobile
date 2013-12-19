@@ -1,20 +1,22 @@
 'use strict';
 
 angular.module('CACMobile')
-  .factory('DeviceReady', function () {
- 
+  .factory('DeviceReady', function ($log, platform) {
+
     var callBacks = [];
     var ready = false;
+    var gaPlugin;
 
     //! Iterate over callback list and perform each function {
     function deviceReadyCallback() {
-      
+
+      //! iterate over registered callbacks
       var numItems = callBacks.length;
       console.log("numItems " + numItems);
 
       for (var i = 0; i < numItems; i++) {
         var func = callBacks.pop();
-        
+
         if (func != null)
         {
           console.log("Function performed from device ready callback que");
@@ -27,26 +29,38 @@ angular.module('CACMobile')
       }
       //console.assert(callBacks.length == 0, "DeviceReady.js callback not performed list length should be 0");
       ready = true;
-      
+
     }
     //! }
 
 
-    //! *hack* !
-    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+    if (platform.isWeb() == false) {
+
+
+      //! Register google analytics plugin
+      var ga = function () {
+        $log.info("Regsitering google analytics");
+        gaPlugin = window.plugins.gaPlugin;
+        gaPlugin.init(function (result) {$log.info("google analytics registered " + result); },
+                      function (error){$log.warn("google analytics failed to register "+ error ); },
+                      "UA-46606603-1", 10);
+      };
+
+      callBacks.push(ga);
+
       //! When the device is ready perform the deviceReady function
       console.log("Device Ready Event Listener");
-      document.addEventListener('deviceready', deviceReadyCallback, false); 
+      document.addEventListener('deviceready', deviceReadyCallback, false);
     } else {
 
       console.log("web detected skipping waiting for device ready");
       deviceReadyCallback();
     }
-    
+
     return {
       // register a callback to be performed when the device is ready {
       addEventListener: function (func) {
-        
+
         if(ready === false)
         {
           console.log("Function added to device ready callback que", callBacks.length);
@@ -56,7 +70,7 @@ angular.module('CACMobile')
         {
           func();
         }
-        
+
       },
       //! } end addEventListener factory method
 

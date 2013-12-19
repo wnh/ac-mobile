@@ -2,7 +2,7 @@
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.idearebel.avalanchereports"
-        versionCode="4" 
+        versionCode="4"
         version   = "2.1.0">
 
 
@@ -24,7 +24,7 @@
 
 
 	<!-- PhoneGap API -->
- <preference name="phonegap-version" value="2.9.0" />
+ <preference name="phonegap-version" value="3.0.0" />
 
 	<!-- PhoneGap API -->
 	<access subdomains="true" uri="file:///store/home" />
@@ -33,6 +33,7 @@
    <!-- Plugins -->
    <!-- check app availability -->
    <gap:plugin name="com.ohh2ahh.plugins.appavailability" />
+   <gap:plugin name="com.adobe.plugins.gaplugin" />
 
 	<!-- Expose access to all URIs, including the file and http protocols -->
 	<access origin="*" subdomains="true"  />
