@@ -30,6 +30,7 @@
   <gap:plugin name="org.apache.cordova.media" />
   <gap:plugin name="org.apache.cordova.camera" />
   <gap:plugin name="org.apache.cordova.network-information" />
+  <gap:plugin name="org.apache.cordova.inappbrowser" />
   <!-- 3rd party plugins -->
   <!-- check app availability -->
   <gap:plugin name="com.ohh2ahh.plugins.appavailability" />
