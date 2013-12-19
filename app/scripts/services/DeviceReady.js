@@ -36,14 +36,21 @@ angular.module('CACMobile')
 
     if (platform.isWeb() == false) {
 
-
+      var success = function(result) {$log.info("sucess " + result);};
+      var error   = function(result) {$log.error("Error " + result);};
       //! Register google analytics plugin
       var ga = function () {
         $log.info("Regsitering google analytics");
         gaPlugin = window.plugins.gaPlugin;
-        gaPlugin.init(function (result) {$log.info("google analytics registered " + result); },
-                      function (error){$log.warn("google analytics failed to register "+ error ); },
-                      "UA-46606603-2", 10);
+        gaPlugin.init(
+                      function (result) {
+                                          $log.info("google analytics registered " + result);
+                                          gaPlugin.trackPage(success, error, "mobile.cac.ca");
+                                          gaPlugin.trackPage(success, error, "index.html");
+                                          gaPlugin.trackEvent(success, error, "login", "started", "open", 1);
+                                        },
+                      function (error){$log.warn("google analytics FAILED to register "+ error ); },
+                      "UA-46606603-1", 10);
       };
 
       callBacks.push(ga);
