@@ -91,6 +91,16 @@ var createLocMarker = function(loc) {
    var locMarker = new google.maps.Marker()
    locMarker.setPosition(locLatlng);
    locMarker.setMap(map);
+   var type = ""
+    if (loc.clustered == true) {
+    locMarker.setIcon('/img/icons/blue-dot.png');
+    locMarker.setZIndex(100);
+    type = "Cluster";
+   } else {
+    locMarker.setIcon('/img/icons/red-dot.png')
+    locMarker.setZIndex(50);
+    type = "Location";
+   }
 
   //Build the info window content here, including a button we'll listen for later
   var buttonid = "but" + loc.id;
@@ -100,7 +110,7 @@ var createLocMarker = function(loc) {
     observations = "observation"
   }
   if (loc.observation_id != null) {
-    locContent += "Location has " + loc.observation_id.length + " " + observations + "<br />";
+    locContent += type + " has " + loc.observation_id.length + " " + observations + "<br />";
   }
   locContent += "<button id=\"" + buttonid + "\">View Obs</button>";
   var locInfoWindow = new google.maps.InfoWindow({

@@ -4,7 +4,7 @@ angular.module('CACMobile')
   .directive('obsList', function ($compile) {
 
    var linker = function (scope, element, attrs) {
-         var tableHeader = ["Location","Submitted","User","Photos"];
+         var tableHeader = ["Time","Location","Display Name","Type"];
          var thead = document.createElement('thead');
          var trow = document.createElement("tr");
          element.append(thead);
@@ -27,8 +27,8 @@ angular.module('CACMobile')
               if (scope.observations[j].visibility == "public"){
                  trow = document.createElement("tr");
                  tbody.appendChild(trow);
-                 trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].location_name));
                  trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].submitted_at));
+                 trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].location_name));
                  trow.appendChild(document.createElement("td")).appendChild(document.createTextNode(scope.observations[j].username));
                  if (scope.observations[j].photo_id != null) {
                     trow.appendChild(document.createElement("td")).innerHTML = photoLink(scope.observations[j].photo_id);
