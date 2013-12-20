@@ -112,7 +112,7 @@ var createLocMarker = function(loc) {
   if (loc.observation_id != null) {
     locContent += type + " has " + loc.observation_id.length + " " + observations + "<br />";
   }
-  locContent += "<button id=\"" + buttonid + "\">View Obs</button>";
+  locContent += "<button id=\"" + buttonid + "\">View " + observations + "</button>";
   var locInfoWindow = new google.maps.InfoWindow({
     content: locContent
   });

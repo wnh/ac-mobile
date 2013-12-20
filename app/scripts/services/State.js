@@ -7,6 +7,8 @@ angular.module('CACMobile')
    var loading = false;
    var toDate = new Date();
    var fromDate = new Date();
+   // set fromDate to yesterday
+   fromDate.setDate(fromDate.getDate() - 1);
 
    return {
       setLoading: function (_loading) {
