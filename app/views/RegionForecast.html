@@ -1,9 +1,11 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
 
 <div class="content" ng-show="!regionExists">
+<div class="text-wrapper text-center">
     Currently there are no data feeds available for this region.</br>
     Apologies for the inconvenience, please check back later.</br>
     <button class="btn btn-warning" ng-click="back()">Back</button>
+    </div>
 </div>
 
 <div class="content" ng-show="loading&&regionExists">

@@ -2,8 +2,8 @@
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.idearebel.avalanchereports"
-        versionCode="4" 
-        version   = "2.1.0">
+        versionCode="4"
+        version   = "2.2.3">
 
 
     <!-- versionCode is optional and Android only -->
@@ -16,23 +16,27 @@
 
 	<content src="index.html" />
 
-	<feature name="http://api.phonegap.com/1.0/geolocation"/>
-	<feature name="http://api.phonegap.com/1.0/network"/>
-	<feature name="http://api.phonegap.com/1.0/file"/>
-	<feature name="http://api.phonegap.com/1.0/media"/>
-  <feature name="http://api.phonegap.com/1.0/camera"/>
-
-
 	<!-- PhoneGap API -->
- <preference name="phonegap-version" value="2.9.0" />
+  <preference name="phonegap-version" value="3.1.0" />
 
 	<!-- PhoneGap API -->
 	<access subdomains="true" uri="file:///store/home" />
 	<access subdomains="true" uri="file:///SDCard" />
 
    <!-- Plugins -->
-   <!-- check app availability -->
-   <gap:plugin name="com.ohh2ahh.plugins.appavailability" />
+  <!-- phone gap plugins -->
+  <gap:plugin name="org.apache.cordova.geolocation" />
+  <gap:plugin name="org.apache.cordova.file-transfer" />
+  <gap:plugin name="org.apache.cordova.media" />
+  <gap:plugin name="org.apache.cordova.camera" />
+  <gap:plugin name="org.apache.cordova.network-information" />
+  <gap:plugin name="org.apache.cordova.inappbrowser" />
+  <gap:plugin name="org.apache.cordova.console" />
+  <!-- 3rd party plugins -->
+  <!-- check app availability -->
+  <gap:plugin name="com.ohh2ahh.plugins.appavailability" />
+  <!-- google analytics -->
+  <gap:plugin name="com.adobe.plugins.gaplugin" />
 
 	<!-- Expose access to all URIs, including the file and http protocols -->
 	<access origin="*" subdomains="true"  />
