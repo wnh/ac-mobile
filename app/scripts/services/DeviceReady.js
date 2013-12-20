@@ -34,6 +34,7 @@ angular.module('CACMobile')
     //! }
 
 
+
     if (platform.isWeb() == false) {
 
       var success = function(result) {$log.info("sucess " + result);};
@@ -56,8 +57,8 @@ angular.module('CACMobile')
       callBacks.push(ga);
 
       //! When the device is ready perform the deviceReady function
-      console.log("Device Ready Event Listener");
       document.addEventListener('deviceready', deviceReadyCallback, false);
+
     } else {
 
       console.log("web detected skipping waiting for device ready");
