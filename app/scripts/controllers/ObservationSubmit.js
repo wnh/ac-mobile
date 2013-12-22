@@ -6,13 +6,32 @@ angular.module('CACMobile')
                 function ($scope, ResourceFactory, location, $resource, $modal, $log, platform, $routeParams, Session, ConnectionManager) {
 
 
+  var storageService = null;
+  if(platform.isMobile())
+  {
+    storageService = window.localStorage;
+  }
+  else if (platform.isWeb())
+  {
+    storageService = localStorage;
+  }
+  else
+  {
+    $log.error("unknown Platform");
+  }
+
+  storageService.getItem(region);
+  storageService.setItem(region, data);
+
+
   $scope.photo_list = [];
   $scope.alerts = [];
-  $scope.locationName = "";
-  $scope.locationPos = {latitude:50.9831700, longitude: -118.2023000};
-  $scope.positionDesc = "Unknown";
+  $scope.locationName = storageService.getItem('locationName') || "";
+  $scope.locationPos  = JSON.parse(storageService.getItem('locationPos')) || {latitude:50.9831700, longitude: -118.2023000};
+  $scope.positionDesc = storageService.getItem('positionDesc') || "Unknown";
   $scope.submitProgress = 0;
   $scope.submitting = false;
+
 
   $scope.removePhoto = function(index) {
     $scope.photo_list.splice(index,1)
