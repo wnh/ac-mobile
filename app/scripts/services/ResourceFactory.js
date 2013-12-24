@@ -50,6 +50,11 @@ angular.module('CACMobile')
 
         return roleObj;
       },
+      //! \todo comment
+      comment: function (){
+        var roleObj = $resource(apiUrl+'/comment/:id', {},{})
+        return roleObj;
+      },
 
       //! \todo comment
       photo: function (){
