@@ -2,41 +2,39 @@
 
 angular.module('CACMobile')
   .controller('ObservationsubmitCtrl',
-              ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log','platform', '$routeParams', 'Session', 'ConnectionManager',
-                function ($scope, ResourceFactory, location, $resource, $modal, $log, platform, $routeParams, Session, ConnectionManager) {
+              ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log','platform', '$routeParams', 'Session', 'ConnectionManager', 'State',
+                function ($scope, ResourceFactory, location, $resource, $modal, $log, platform, $routeParams, Session, ConnectionManager, State) {
 
 
-  var storageService = null;
-  if(platform.isMobile())
-  {
-    storageService = window.localStorage;
-  }
-  else if (platform.isWeb())
-  {
-    storageService = localStorage;
-  }
-  else
-  {
-    $log.error("unknown Platform");
-  }
-
-  storageService.getItem(region);
-  storageService.setItem(region, data);
-
-
-  $scope.photo_list = [];
+  $scope.photo_list = State.getSubmissionValue('photo_list');
   $scope.alerts = [];
-  $scope.locationName = storageService.getItem('locationName') || "";
-  $scope.locationPos  = JSON.parse(storageService.getItem('locationPos')) || {latitude:50.9831700, longitude: -118.2023000};
-  $scope.positionDesc = storageService.getItem('positionDesc') || "Unknown";
+  $scope.locationName = State.getSubmissionValue('locationName');
+  $scope.locationPos  = State.getSubmissionValue('locationPos');
+  $scope.positionDesc = State.getSubmissionValue('positionDesc');
   $scope.submitProgress = 0;
   $scope.submitting = false;
 
+  $scope.$watch('locationName', function(){
+    State.setSubmissionValue('locationName', $scope.locationName);
+  });
+
+  $scope.$watch('locationPos', function(){
+    State.setSubmissionValue('locationPos', $scope.locationPos);
+  });
+
+  $scope.$watch('photo_list', function(){
+    State.setSubmissionValue('photo_list', $scope.photo_list);
+  });
+
+  $scope.$watch('positionDesc', function(){
+    State.setSubmissionValue('positionDesc', $scope.positionDesc);
+  });
+
 
   $scope.removePhoto = function(index) {
+    //! remove 1 element at position index
     $scope.photo_list.splice(index,1)
   }
-
 
   function getPosition () {
     location.getPosition().then(
@@ -62,7 +60,7 @@ $scope.submit = function (){
     //! \todo make this pop up the sign in window
     $scope.alerts.push({ type: 'error', msg: 'Please sign in before submitting' });
   }
-  //! \todo verify this !
+
   //! current version only
   if ($scope.photo_list.length == 0){
     $scope.alerts.push({ type: 'error', msg: 'Please select at least one image to upload' });
