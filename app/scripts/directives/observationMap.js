@@ -91,13 +91,13 @@ var createLocMarker = function(loc) {
    var locMarker = new google.maps.Marker()
    locMarker.setPosition(locLatlng);
    locMarker.setMap(map);
-   if (loc.observation_id.length < 10) {
+   if (loc.observation_id.length < 9) {
     locMarker.setIcon('img/icons/iconb' + loc.observation_id.length + '.png');
   } else {
     locMarker.setIcon('img/icons/iconb9plus.png');
   }
   var type = ""
-    if (loc.clustered == true) {
+  if (loc.clustered == true) {
     locMarker.setZIndex(100);
     type = "Cluster";
    } else {
