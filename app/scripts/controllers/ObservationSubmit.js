@@ -49,8 +49,10 @@ angular.module('CACMobile')
         });
   }
 
-  getPosition();
 
+if ($scope.positionDesc == "Unknown"){
+  getPosition();
+}
 
 $scope.cancelSubmit = function (){
   $scope.submitting = false;
@@ -192,9 +194,9 @@ $scope.submit = function (){
       });
 
       modalInstance.result.then(function (location) {
+        $scope.positionDesc = "User Defined";
         $scope.locationPos.latitude = location.latitude;
         $scope.locationPos.longitude = location.longitude;
-        $scope.positionDesc = "User Defined";
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
       });
