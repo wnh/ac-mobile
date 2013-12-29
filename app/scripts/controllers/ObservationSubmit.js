@@ -18,7 +18,11 @@ angular.module('CACMobile')
     State.setSubmissionValue('locationName', $scope.locationName);
   });
 
-  $scope.$watch('locationPos', function(){
+  $scope.$watch('locationPos.latitude', function(){
+    State.setSubmissionValue('locationPos', $scope.locationPos);
+  });
+
+  $scope.$watch('locationPos.longitude', function(){
     State.setSubmissionValue('locationPos', $scope.locationPos);
   });
 
