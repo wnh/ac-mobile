@@ -142,20 +142,21 @@ $scope.submit = function (){
        if($scope.submitting == true)
        {
 
-         var location = {'id':null, 'token':Session.token(), 'observation_id':obsId, 'latitude':$scope.locationPos.latitude, 'longitude': $scope.locationPos.longitude, 'name': $scope.locationName};
+         var location = {'token':Session.token(), 'observation_id':obsId, 'latitude':$scope.locationPos.latitude, 'longitude': $scope.locationPos.longitude, 'name': $scope.locationName};
+         var locId = null;
          $log.info("Submitting location = "+ location);
 
          ResourceFactory.location().create(location,
               function(response){
-                location.id = response.id;
+                locId = response.id;
                 progressSubmissionStatus("Location Submitted");
                 $log.info('Location Submitted Sucesfully locationId' + response.id);
                 submitComment(obsId);
               },
               function(response){
                 $scope.submitting = false;
-                $log.error("error submitting photo");
-                $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo' });
+                $log.error("error submitting location");
+                $scope.alerts.push({ type: 'error', msg: 'Error submitting location'});
               });
        }
     }
@@ -169,9 +170,9 @@ $scope.submit = function (){
 
          ResourceFactory.comment().create(comment,
               function(response){
-                commenmt.id = response.id;
+                comment.id = response.id;
                 progressSubmissionStatus("Comment Submitted");
-                $log.info('Comment Submitted Sucesfully locationId' + response.id);
+                $log.info('Comment Submitted Successfully id' + response.id);
               },
               function(response){
                 $scope.submitting = false;
