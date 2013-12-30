@@ -11,7 +11,7 @@ angular.module('CACMobile')
    fromDate.setDate(fromDate.getDate() - 1);
 
    //! observation
-   var submission = {'locationName': "", 'photo_list': [], 'locationPos':{latitude:50.9831700, longitude: -118.2023000}, 'positionDesc':"Unknown"};
+   var submission = {'comment':"" ,'locationName': "", 'photo_list': [], 'locationPos':{latitude:50.9831700, longitude: -118.2023000}, 'positionDesc':"Unknown"};
 
    return {
       setLoading: function (_loading) {

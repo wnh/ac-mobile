@@ -9,6 +9,16 @@ angular.module('CACMobile')
     return {
 
       //! \todo comment
+      comment: function (){
+        var commentObj = $resource(apiUrl+'/comment', {},
+        {
+          create: { method: 'POST' }
+        });
+
+        return commentObj;
+      },
+
+      //! \todo comment
       user: function (){
         var userObj = $resource(apiUrl+'/user', {},
         {
@@ -50,11 +60,12 @@ angular.module('CACMobile')
 
         return roleObj;
       },
-      //! \todo comment
+
+      /*//! \todo comment
       comment: function (){
         var roleObj = $resource(apiUrl+'/comment/:id', {},{})
         return roleObj;
-      },
+      },*/
 
       //! \todo comment
       photo: function (){

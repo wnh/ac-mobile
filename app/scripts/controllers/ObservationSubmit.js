@@ -20,10 +20,12 @@ angular.module('CACMobile')
 
   $scope.$watch('locationPos.latitude', function(){
     State.setSubmissionValue('locationPos', $scope.locationPos);
+    State.setSubmissionValue('positionDesc', $scope.positionDesc);
   });
 
   $scope.$watch('locationPos.longitude', function(){
     State.setSubmissionValue('locationPos', $scope.locationPos);
+    State.setSubmissionValue('positionDesc', $scope.positionDesc);
   });
 
   $scope.$watch('photo_list', function(){
@@ -100,7 +102,6 @@ $scope.submit = function (){
             obs.id = response.id;
             $log.info('Observation Submitted successfully obsId= ' + response.id);
             progressSubmissionStatus("Observation Created");
-            submitLocation(obs.id);
             submitPhoto(obs.id);
           },
           function(response){
@@ -126,6 +127,7 @@ $scope.submit = function (){
                 //$scope.photo_list[i].id = response.id;
                 progressSubmissionStatus("Photo Submitted");
                 $log.info('Photo Submitted Successfully ' + response);
+                submitLocation(obsId);
               },
               function(response){
                 $scope.submitting = false;
@@ -148,6 +150,7 @@ $scope.submit = function (){
                 location.id = response.id;
                 progressSubmissionStatus("Location Submitted");
                 $log.info('Location Submitted Sucesfully locationId' + response.id);
+                submitComment(obsId);
               },
               function(response){
                 $scope.submitting = false;
@@ -157,8 +160,29 @@ $scope.submit = function (){
        }
     }
 
+    var submitComment = function(obsId){
+      if($scope.submitting == true)
+       {
+
+         var comment = {'id':null, 'token':Session.token(), 'observation_id':obsId, 'text': $scope.description};
+         $log.info("Submitting obs comment ");
+
+         ResourceFactory.comment().create(comment,
+              function(response){
+                commenmt.id = response.id;
+                progressSubmissionStatus("Comment Submitted");
+                $log.info('Comment Submitted Sucesfully locationId' + response.id);
+              },
+              function(response){
+                $scope.submitting = false;
+                $log.error("error submitting comment");
+                $scope.alerts.push({ type: 'error', msg: 'Error Uploading Comment' });
+              });
+       }
+    }
+
     var progressSubmissionStatus = function(msg){
-      $scope.submitProgress += 30;
+      $scope.submitProgress += 25;
       $scope.alerts.push({ type: 'success', msg: msg});
 
       if ($scope.submitProgress >= 99){
