@@ -12,7 +12,8 @@ angular.module('CACMobile')
       comment: function (){
         var commentObj = $resource(apiUrl+'/comment', {},
         {
-          create: { method: 'POST' }
+          create: { method: 'POST' },
+          get:    { method: 'GET', isArray:false, url: apiUrl+'/comment/:id'}
         });
 
         return commentObj;
@@ -114,26 +115,6 @@ angular.module('CACMobile')
               var response = {'id':123};
               success(response);
             }
-            /*
-            alert(obj.image);
-
-            var data = new FormData(),
-                xhr = new XMLHttpRequest();
-
-            //var fileInput = document.getElementById('file-input');
-            //var file = fileInput.files[0];
-
-            data.append('token', obj.token);
-            data.append('observation_id', obj.observation_id);
-            data.append('comment', obj.comment);
-            data.append('image', obj.image);
-
-            //! \todo is there a better way of doing this ?
-            xhr.open('POST', apiUrl+'/photo' ,false);
-            xhr.send(data);
-
-            //! \todo feedback ?
-            callback(xhr.response); */
 
           }
 
