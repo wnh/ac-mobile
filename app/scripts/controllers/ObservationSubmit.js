@@ -2,22 +2,45 @@
 
 angular.module('CACMobile')
   .controller('ObservationsubmitCtrl',
-              ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log','platform', '$routeParams', 'Session', 'ConnectionManager',
-                function ($scope, ResourceFactory, location, $resource, $modal, $log, platform, $routeParams, Session, ConnectionManager) {
+              ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log','platform', '$routeParams', 'Session', 'ConnectionManager', 'State',
+                function ($scope, ResourceFactory, location, $resource, $modal, $log, platform, $routeParams, Session, ConnectionManager, State) {
 
 
-  $scope.photo_list = [];
+  $scope.photo_list = State.getSubmissionValue('photo_list');
   $scope.alerts = [];
-  $scope.locationName = "";
-  $scope.locationPos = {latitude:50.9831700, longitude: -118.2023000};
-  $scope.positionDesc = "Unknown";
+  $scope.locationName = State.getSubmissionValue('locationName');
+  $scope.locationPos  = State.getSubmissionValue('locationPos');
+  $scope.positionDesc = State.getSubmissionValue('positionDesc');
   $scope.submitProgress = 0;
   $scope.submitting = false;
 
+  $scope.$watch('locationName', function(){
+    State.setSubmissionValue('locationName', $scope.locationName);
+  });
+
+  $scope.$watch('locationPos.latitude', function(){
+    State.setSubmissionValue('locationPos', $scope.locationPos);
+    State.setSubmissionValue('positionDesc', $scope.positionDesc);
+  });
+
+  $scope.$watch('locationPos.longitude', function(){
+    State.setSubmissionValue('locationPos', $scope.locationPos);
+    State.setSubmissionValue('positionDesc', $scope.positionDesc);
+  });
+
+  $scope.$watch('photo_list', function(){
+    State.setSubmissionValue('photo_list', $scope.photo_list);
+  });
+
+  $scope.$watch('positionDesc', function(){
+    State.setSubmissionValue('positionDesc', $scope.positionDesc);
+  });
+
+
   $scope.removePhoto = function(index) {
+    //! remove 1 element at position index
     $scope.photo_list.splice(index,1)
   }
-
 
   function getPosition () {
     location.getPosition().then(
@@ -28,8 +51,10 @@ angular.module('CACMobile')
         });
   }
 
-  getPosition();
 
+if ($scope.positionDesc == "Unknown"){
+  getPosition();
+}
 
 $scope.cancelSubmit = function (){
   $scope.submitting = false;
@@ -43,7 +68,7 @@ $scope.submit = function (){
     //! \todo make this pop up the sign in window
     $scope.alerts.push({ type: 'error', msg: 'Please sign in before submitting' });
   }
-  //! \todo verify this !
+
   //! current version only
   if ($scope.photo_list.length == 0){
     $scope.alerts.push({ type: 'error', msg: 'Please select at least one image to upload' });
@@ -77,7 +102,6 @@ $scope.submit = function (){
             obs.id = response.id;
             $log.info('Observation Submitted successfully obsId= ' + response.id);
             progressSubmissionStatus("Observation Created");
-            submitLocation(obs.id);
             submitPhoto(obs.id);
           },
           function(response){
@@ -103,6 +127,7 @@ $scope.submit = function (){
                 //$scope.photo_list[i].id = response.id;
                 progressSubmissionStatus("Photo Submitted");
                 $log.info('Photo Submitted Successfully ' + response);
+                submitLocation(obsId);
               },
               function(response){
                 $scope.submitting = false;
@@ -117,25 +142,48 @@ $scope.submit = function (){
        if($scope.submitting == true)
        {
 
-         var location = {'id':null, 'token':Session.token(), 'observation_id':obsId, 'latitude':$scope.locationPos.latitude, 'longitude': $scope.locationPos.longitude, 'name': $scope.locationName};
+         var location = {'token':Session.token(), 'observation_id':obsId, 'latitude':$scope.locationPos.latitude, 'longitude': $scope.locationPos.longitude, 'name': $scope.locationName};
+         var locId = null;
          $log.info("Submitting location = "+ location);
 
          ResourceFactory.location().create(location,
               function(response){
-                location.id = response.id;
+                locId = response.id;
                 progressSubmissionStatus("Location Submitted");
                 $log.info('Location Submitted Sucesfully locationId' + response.id);
+                submitComment(obsId);
               },
               function(response){
                 $scope.submitting = false;
-                $log.error("error submitting photo");
-                $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo' });
+                $log.error("error submitting location");
+                $scope.alerts.push({ type: 'error', msg: 'Error submitting location'});
+              });
+       }
+    }
+
+    var submitComment = function(obsId){
+      if($scope.submitting == true)
+       {
+
+         var comment = {'id':null, 'token':Session.token(), 'observation_id':obsId, 'text': $scope.description};
+         $log.info("Submitting obs comment ");
+
+         ResourceFactory.comment().create(comment,
+              function(response){
+                comment.id = response.id;
+                progressSubmissionStatus("Comment Submitted");
+                $log.info('Comment Submitted Successfully id' + response.id);
+              },
+              function(response){
+                $scope.submitting = false;
+                $log.error("error submitting comment");
+                $scope.alerts.push({ type: 'error', msg: 'Error Uploading Comment' });
               });
        }
     }
 
     var progressSubmissionStatus = function(msg){
-      $scope.submitProgress += 30;
+      $scope.submitProgress += 25;
       $scope.alerts.push({ type: 'success', msg: msg});
 
       if ($scope.submitProgress >= 99){
@@ -171,9 +219,9 @@ $scope.submit = function (){
       });
 
       modalInstance.result.then(function (location) {
+        $scope.positionDesc = "User Defined";
         $scope.locationPos.latitude = location.latitude;
         $scope.locationPos.longitude = location.longitude;
-        $scope.positionDesc = "User Defined";
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
       });

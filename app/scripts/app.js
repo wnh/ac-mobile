@@ -7,6 +7,7 @@ angular.module('CACMobile',
     'ngRoute'
   ])
   .config(function ($routeProvider) {
+
     $routeProvider
       .when('/', {
         templateUrl: 'views/Map.html',
@@ -82,7 +83,7 @@ angular.module('CACMobile',
         controller: 'LoadingCtrl'
       });
   })
-.run( function($rootScope, $location, TOU) {
+.run( function($rootScope, $location, TOU, GoogleAnalytics) {
 
     // register listener to watch route changes
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
@@ -90,4 +91,12 @@ angular.module('CACMobile',
           $location.path( "/tou" );
         }
     });
+
+    $rootScope.$on('$routeChangeSuccess', function () {
+        GoogleAnalytics.trackPage($location.path());
+    })
+
+
  });
+
+
