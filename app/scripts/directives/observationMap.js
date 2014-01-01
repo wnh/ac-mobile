@@ -29,6 +29,7 @@ angular.module('CACMobile')
 
   var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: true, center: new google.maps.LatLng(scope.latitude, scope.longitude), mapTypeId: google.maps.MapTypeId.TERRAIN};
   var map = new google.maps.Map(elem[0], mapOptions);
+  var oms = new OverlappingMarkerSpiderfier(map,{legWeight:2});
 
   var bounds = Bounds.getBounds()
 
@@ -80,8 +81,9 @@ var locUpdate = function(newValue,oldValue) {
   console.log(locMarkers);
 }
 
-var loadObs = function(event) {
-  State.setObsIds(event.data)
+var loadObs = function(observation_ids) {
+  console.log(observation_ids)
+  State.setObsIds(observation_ids)
   scope.$apply($location.path('/obs-list'))
 }
 
@@ -96,44 +98,17 @@ var createLocMarker = function(loc) {
   } else {
     locMarker.setIcon('img/icons/iconb9plus.png');
   }
-  var type = ""
   if (loc.clustered == true) {
     locMarker.setZIndex(100);
-    type = "Cluster";
    } else {
     locMarker.setZIndex(50);
-    type = "Location";
    }
+   locMarker.observations = loc.observation_id
 
-  //Build the info window content here, including a button we'll listen for later
-  var buttonid = "but" + loc.id;
-  var locContent = "";// "Location is at " + loc.latitude + "," + loc.longitude + "<br />";
-  var observations = "observations"
-  if (loc.observation_id.length == 1) {
-    observations = "observation"
-  }
-  if (loc.observation_id != null) {
-    locContent += type + " has " + loc.observation_id.length + " " + observations + "<br />";
-  }
-  locContent += "<button id=\"" + buttonid + "\">View " + observations + "</button>";
-  var locInfoWindow = new google.maps.InfoWindow({
-    content: locContent
+  oms.addMarker(locMarker);
+  oms.addListener('click', function(locMarker) {
+    loadObs(locMarker.observations)
   });
-
-    //Add click listener to open the info window, including tracking which window is open
-  google.maps.event.addListener(locMarker, 'click', function() {
-    if (activeInfoWindow) {
-      activeInfoWindow.close();
-    }
-    locInfoWindow.open(map,locMarker);
-
-    activeInfoWindow = locInfoWindow;
-  });
-
-  // Once the info window opens, and dom is ready, add a jquery listener to the button
-  google.maps.event.addListener(locInfoWindow,'domready', function () {
-    $("#"+buttonid).click(loc.observation_id,function(eventObject) {loadObs(eventObject)});
-  })
   return locMarker;
 }
 
