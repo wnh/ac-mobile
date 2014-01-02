@@ -1,7 +1,4 @@
 
-   <div class="region">
-      Observation List
-   </div>
    <div class="text-wrapper text-center">
      <script type="text/ng-template" id="modalPhoto.html">
         <div class="modal-header">
@@ -17,7 +14,7 @@
 <table class="table table-hover">
 <tr><th ng-click="orderBy('submitted_at')">Time</th>
    <th ng-click="orderBy('location_name')">Location</th>
-   <th ng-click="orderBy('username')">Display Name</th>
+   <th ng-click="orderBy('username')">Submitter</th>
    <th>Type</th>
    <th></th>
 </tr>
@@ -25,11 +22,11 @@
    <td>{{o.submitted_at}}</td>
    <td>{{o.location_name}}</td>
    <td>{{o.username}}</td>
-   <td><ul class="nav" >  
-      <li ng-repeat="p in o.photo_id" ng-click="loadPhoto(p)"><a>Photo</a></li>
-      <li ng-if="o.comment_id" ng-click="loadComment(o.comment_id)"><a>Comment</a></li>
+   <td ng-click="loadObservation(o.id)">      
+   <i class="glyphicons comments" ng-show="o.comment_id"></i>
+   <i class="glyphicons camera" ng-show="o.photo_id"></i>
 
-   </ul></td> 
+  </td> 
 </tr>
 </table>
 </div>

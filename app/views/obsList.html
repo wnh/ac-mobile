@@ -1,7 +1,11 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
 
-
-<div class="content" ng-controller='ObservationListCtrl' ng-include="'views/ObservationTable.html'">
+<div class="content">
+   <div class="region">
+      Observation List
+   </div>
+<div ng-include="'views/ObservationTable.html'">
+</div>
 </div>
 
 <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'" />

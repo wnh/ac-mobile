@@ -7,20 +7,21 @@ angular.module('CACMobile')
    $scope.locations = [];
 
    $scope.map = true;
-   $scope.showMap = function (){ $scope.map = true; };
-   $scope.showList = function (){
+   $scope.showMap = function () { 
+    $scope.map = true; 
+    };
+   $scope.showList = function () {
     $scope.map = false;
-    ResourceFactory.location().query({ from: $scope.from.toDateString(), to: $scope.to.toDateString()},
-              function(response) {
-                $log.info("Location List query response " + response.length);
-                //$scope.locations = response;
-                //State.setObsIds(event.data)
-              },
-              function(response) {
-                $log.error("Failed to load location list");
-                checkLocationRequests();
-              })
+    setAllObservationIds();
    };
+
+   function setAllObservationIds() {
+    var observation_ids = [];
+    for(var i=0;i<$scope.locations.length;i++) {
+      observation_ids = observation_ids.concat($scope.locations[i].observation_id)
+    }
+    State.setObsIds(observation_ids)
+   }
 
    function getPostion () {
       location.getPosition().then(
@@ -38,6 +39,11 @@ angular.module('CACMobile')
       $log.info("Now performing cached request");
       newBounds = false;
       getLocations();
+    } else {
+      //If we're not about to perform another lookup, and $scope.map is false, update the State with the new observation ids
+      if ($scope.map == false) {
+        setAllObservationIds();
+      }
     }
   }
 
@@ -97,27 +103,14 @@ angular.module('CACMobile')
       $scope.today = new Date();
 
 
-  $scope.$watch(function() {return $scope.to},
+  $scope.$watch(function() {return [State.getToDate(),State.getFromDate()] },
     function(oldval,newval) {
       if (oldval != newval) {
         getLocations();
-        State.setToDate($scope.to);
       }
       else
       {
-        $log.warn("Old From Date and New From Date are the same");
-      }
-    },true)
-
-    $scope.$watch(function() {return $scope.from},
-    function(oldval,newval) {
-      if (oldval != newval) {
-        getLocations();
-        State.setFromDate($scope.from);
-      }
-      else
-      {
-        $log.warn("Old From Date and New From Date are the same");
+        $log.warn("Old Dates and New Dates are the same");
       }
     },true)
 
@@ -140,6 +133,7 @@ angular.module('CACMobile')
          }
       });
       modalInstance.result.then(function (date) {
+        State.setToDate(date)
         $scope.to = date;
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
@@ -163,6 +157,7 @@ angular.module('CACMobile')
          }
       });
       modalInstance.result.then(function (date) {
+        State.setFromDate(date);
         $scope.from = date;
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());

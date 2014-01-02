@@ -45,7 +45,7 @@ angular.module('CACMobile')
       observation: function (){
         var obsObj = $resource(apiUrl+'/observation', {},
         {
-          get: { method: 'GET', isArray:true },
+          get: { method: 'GET', url: apiUrl+'/observation/:id'},
           create: { method: 'POST' }
         });
 

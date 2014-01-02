@@ -104,9 +104,14 @@ var locUpdate = function(newValue,oldValue) {
 }
 
 var loadObs = function(observation_ids) {
-  console.log(observation_ids)
-  State.setObsIds(observation_ids)
-  scope.$apply($location.path('/obs-list'))
+  if (observation_ids.length == 1) {
+    scope.$apply($location.path('/Observation/' + observation_ids[0]))
+  } 
+  else 
+  {
+    State.setObsIds(observation_ids)
+    scope.$apply($location.path('/obs-list'))
+  }
 }
 
 var createLocMarker = function(loc) {

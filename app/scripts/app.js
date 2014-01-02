@@ -66,6 +66,10 @@ angular.module('CACMobile',
         templateUrl: 'views/Observation.html',
         controller: 'ObservationCtrl'
       })
+      .when('/Observation/:id', {
+        templateUrl: 'views/ObservationView.html',
+        controller: 'ObservationviewCtrl'
+      })
       .when ('/obs-list', {
         templateUrl: 'views/obsList.html',
         controller: 'ObservationListCtrl'
