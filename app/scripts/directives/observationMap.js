@@ -29,7 +29,29 @@ angular.module('CACMobile')
 
   var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: true, center: new google.maps.LatLng(scope.latitude, scope.longitude), mapTypeId: google.maps.MapTypeId.TERRAIN};
   var map = new google.maps.Map(elem[0], mapOptions);
-  var oms = new OverlappingMarkerSpiderfier(map,{legWeight:2});
+  var oms = new OverlappingMarkerSpiderfier(map,{legWeight:0});
+
+  oms.addListener('spiderfy', function(spiderfied,unspiderfied) {
+    for (var i=0; i < unspiderfied.length; i++) {
+      var locMarker = unspiderfied[i]
+      if (locMarker.count < 9) {
+        locMarker.setIcon('img/markers/icona' + locMarker.count + '.png');
+      } else {
+        locMarker.setIcon('img/markers/icona9plus.png');
+      }
+    }
+  });
+
+    oms.addListener('unspiderfy', function(spiderfied,unspiderfied) {
+        for (var i=0; i < unspiderfied.length; i++) {
+      var locMarker = unspiderfied[i]
+      if (locMarker.count < 9) {
+        locMarker.setIcon('img/markers/iconb' + locMarker.count + '.png');
+      } else {
+        locMarker.setIcon('img/markers/iconb9plus.png');
+      }
+    }
+  });
 
   var bounds = Bounds.getBounds()
 
@@ -67,14 +89,14 @@ angular.module('CACMobile')
 
 var locUpdate = function(newValue,oldValue) {
   console.log("Loading markers as locations have changed...")
-  var loclength = 0;
-  if (scope.locations)  {
-    loclength = scope.locations.length;
-  }
   for (var i=0; i < locMarkers.length; i++) {
     locMarkers[i].setMap(null);
   }
   locMarkers = [];
+  var loclength = 0;
+  if (scope.locations)  {
+    loclength = scope.locations.length;
+  }
   for (var i=0; i < loclength; i++) {
     locMarkers.push(createLocMarker(scope.locations[i]));
   }
@@ -93,10 +115,11 @@ var createLocMarker = function(loc) {
    var locMarker = new google.maps.Marker()
    locMarker.setPosition(locLatlng);
    locMarker.setMap(map);
-   if (loc.observation_id.length < 9) {
-    locMarker.setIcon('img/icons/iconb' + loc.observation_id.length + '.png');
+   locMarker.count = loc.observation_id.length
+   if (locMarker.count < 9) {
+    locMarker.setIcon('img/markers/iconb' + locMarker.count + '.png');
   } else {
-    locMarker.setIcon('img/icons/iconb9plus.png');
+    locMarker.setIcon('img/markers/iconb9plus.png');
   }
   if (loc.clustered == true) {
     locMarker.setZIndex(100);
