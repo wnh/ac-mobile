@@ -6,6 +6,22 @@ angular.module('CACMobile')
    $scope.longitude = -118.2023000;
    $scope.locations = [];
 
+   $scope.map = true;
+   $scope.showMap = function (){ $scope.map = true; };
+   $scope.showList = function (){
+    $scope.map = false;
+    ResourceFactory.location().query({ from: $scope.from.toDateString(), to: $scope.to.toDateString()},
+              function(response) {
+                $log.info("Location List query response " + response.length);
+                //$scope.locations = response;
+                //State.setObsIds(event.data)
+              },
+              function(response) {
+                $log.error("Failed to load location list");
+                checkLocationRequests();
+              })
+   };
+
    function getPostion () {
       location.getPosition().then(
          function (position){

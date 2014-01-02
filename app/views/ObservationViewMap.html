@@ -1,4 +1,4 @@
-<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>   
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
 <div class="map-content">
    <div class="region">
         From
@@ -22,8 +22,21 @@
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
     </script>
+
+
+    <div class="pull-right" ng-click="showList()" ng-show="map">
+      list
+    </div>
+
+    <div class="pull-right" ng-click="showMap()" ng-show="!map">
+      map
+    </div>
+
   </div>
-   <div id="map-canvas" observation-map></div>
+   <div id="map-canvas" ng-show="map" observation-map></div>
+   <div class="obsList" ng-show="!map" ng-controller='ObservationListCtrl' ng-include="'views/ObservationTable.html'"></div>
+   </div>
+
 </div>
 
 

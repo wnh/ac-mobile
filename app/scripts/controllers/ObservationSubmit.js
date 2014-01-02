@@ -94,7 +94,7 @@ $scope.submit = function (){
       if ($scope.submitting == true)
       {
         var obs = {'id':null,'token':Session.token(), 'visibility':"public", 'recorded_at': new Date().toString()};
-        $log.info("Submitting obs = "+ obs);
+        $log.info("Submitting obs = ", obs);
 
         ResourceFactory.observation().create(obs,
           function(response)
@@ -120,7 +120,7 @@ $scope.submit = function (){
         for (var i=0; i < $scope.photo_list.length; ++i)
         {
           photo = {'id':null,'token':Session.token(), 'observation_id':obsId, 'comment':$scope.photo_list[i].comment, 'image':$scope.photo_list[i].image};
-          $log.info("Submitting photo = "+ photo);
+          $log.info("Submitting photo = ", photo);
 
           ResourceFactory.photo().create(photo,
               function(response){
@@ -144,7 +144,7 @@ $scope.submit = function (){
 
          var location = {'token':Session.token(), 'observation_id':obsId, 'latitude':$scope.locationPos.latitude, 'longitude': $scope.locationPos.longitude, 'name': $scope.locationName};
          var locId = null;
-         $log.info("Submitting location = "+ location);
+         $log.info("Submitting location = ", location);
 
          ResourceFactory.location().create(location,
               function(response){

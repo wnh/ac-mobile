@@ -1,0 +1,35 @@
+
+   <div class="region">
+      Observation List
+   </div>
+   <div class="text-wrapper text-center">
+     <script type="text/ng-template" id="modalPhoto.html">
+        <div class="modal-header">
+      <button class="btn btn-warning" ng-click="cancel()">Close</button>
+      </div>
+       <div class="modal-body-content">
+       <div modal-photo>
+
+      </div>
+      </div>
+
+   </script>
+<table class="table table-hover">
+<tr><th ng-click="orderBy('submitted_at')">Time</th>
+   <th ng-click="orderBy('location_name')">Location</th>
+   <th ng-click="orderBy('username')">Display Name</th>
+   <th>Type</th>
+   <th></th>
+</tr>
+<tr ng-repeat="o in observations | orderBy:orderByField:reverseOrder">
+   <td>{{o.submitted_at}}</td>
+   <td>{{o.location_name}}</td>
+   <td>{{o.username}}</td>
+   <td><ul class="nav" >  
+      <li ng-repeat="p in o.photo_id" ng-click="loadPhoto(p)"><a>Photo</a></li>
+      <li ng-if="o.comment_id" ng-click="loadComment(o.comment_id)"><a>Comment</a></li>
+
+   </ul></td> 
+</tr>
+</table>
+</div>
