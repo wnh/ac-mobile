@@ -2,8 +2,8 @@
 
 angular.module('CACMobile')
   .controller('ObservationsubmitCtrl',
-              ['$scope', 'ResourceFactory', 'location', '$resource', '$modal', '$log','platform', '$routeParams', 'Session', 'ConnectionManager', 'State',
-                function ($scope, ResourceFactory, location, $resource, $modal, $log, platform, $routeParams, Session, ConnectionManager, State) {
+              ['$scope', 'ResourceFactory', 'location', '$resource', '$location', '$modal', '$log','platform', '$routeParams', 'Session', 'ConnectionManager', 'State','$anchorScroll',
+                function ($scope, ResourceFactory, location, $resource, $location, $modal, $log, platform, $routeParams, Session, ConnectionManager, State, $anchorScroll) {
 
 
   $scope.photo_list = State.getSubmissionValue('photo_list');
@@ -42,6 +42,12 @@ angular.module('CACMobile')
     $scope.photo_list.splice(index,1)
   }
 
+  function scrollToErrors() {
+    console.log("going to top of page")
+    $location.hash('top');
+    $anchorScroll();
+  }
+
   function getPosition () {
     location.getPosition().then(
        function (position){
@@ -66,7 +72,7 @@ $scope.submit = function (){
 
   if (Session.loggedIn() != true){
     //! \todo make this pop up the sign in window
-    $scope.alerts.push({ type: 'error', msg: 'Please sign in before submitting' });
+    $scope.alerts.push({ type: 'error', msg: 'Please <a ng-click="openSignInModal()">sign in</a> before submitting' });
   }
 
   //! current version only
@@ -74,20 +80,20 @@ $scope.submit = function (){
     $scope.alerts.push({ type: 'error', msg: 'Please select at least one image to upload' });
   }
 
-  if($scope.locationName.length == 0){
+  if ($scope.locationName.length == 0){
     $scope.alerts.push({ type: 'error', msg: 'Set Location Name' });
   }
 
-  if($scope.positionDesc == "Unknown"){
+  if ($scope.positionDesc == "Unknown"){
     $scope.alerts.push({ type: 'error', msg: 'Set Position' });
   }
 
-  if(ConnectionManager.isOnline() == false){
+  if (ConnectionManager.isOnline() == false){
     $scope.alerts.push({ type: 'error', msg: 'You must be online to submit an Observation' });
   }
 
    //no alerts then submit observation
-  if($scope.alerts.length == 0){
+  if ($scope.alerts.length == 0){
 
     var submitObs = function (){
 
@@ -108,9 +114,10 @@ $scope.submit = function (){
             $scope.submitting = false;
             $log.error("error submitting observation");
             $scope.alerts.push({ type: 'error', msg: 'Error Uploading Observation' });
+            scrollToErrors();
           });
-      }
-    };
+      } 
+    } 
 
     var submitPhoto = function(obsId){
       var photo = null;
@@ -199,9 +206,11 @@ $scope.submit = function (){
     $scope.submitting = true;
     submitObs();
 
+  } else {
+    scrollToErrors();
   }
+} 
 
-};
 
  //! Load Location Modal Dialog
  $scope.ModifyPositionModal = ['$scope', function ($scope) {

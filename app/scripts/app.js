@@ -4,7 +4,8 @@ angular.module('CACMobile',
   [
     'ngResource',
     'ui.bootstrap',
-    'ngRoute'
+    'ngRoute',
+    'ngSanitize'
   ])
   .config(function ($routeProvider) {
 
@@ -101,6 +102,6 @@ angular.module('CACMobile',
     })
 
 
- });
+ })
 
 

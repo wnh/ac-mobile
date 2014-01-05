@@ -1,13 +1,13 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
 
 <div class="content">
-
+  <a id="top"></a>
   <div class="region">
     Submit Photo Observation
   </div>
   <div class="text-wrapper">
 
-  <alert ng-repeat="alert in alerts" type="alert.type">{{alert.msg}}</alert>
+  <alert ng-controller="NavCtrl" ng-repeat="alert in alerts" type="alert.type" bind-html="alert.msg"></alert>
 
   <div ng-show='!submitting'>
 
