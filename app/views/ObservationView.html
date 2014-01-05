@@ -6,13 +6,23 @@
                Observation
             </div>
                <div class="text-wrapper text-center">
-                  <p>Observation submitted at <b>{{observation.submitted_at}}</b> by <b>{{observation.username}}</b></p>
-                  <p>Location: {{observation.location_name}}</p>
+                  <p>Submitted at <b>{{observation.submitted_at}}</b> by <b>{{observation.username}}</b></p>
+                  <p>Location: <a ng-click="loadLocation(observation.location_id)">{{observation.location_name}}</a></p>
                   <p ng-if="comment">Comment: {{comment.text}} </p>
-                  <ul ng-if="photos.length > 0">Photos:
+                  <ul class="nav" ng-if="photos.length > 0">
+                          <label class="control-label"><b>Photos</b></label>
                      <li ng-repeat="p in photos"> <img ng-src="{{p.links.thumbnail.href}}" ng-click="loadPhoto(p)" /></li>
                   </ul>
                </div>
          </div>
+
+               <script type="text/ng-template" id="showLocationModal.html">
+              <div class="modal-header">
+                  <button class="btn btn-warning" ng-click="cancel()">Close</button>
+              </div>
+
+              <div class="modal-map" id="map-canvas" show-location-map></div>
+
+            </script>
 
 <div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'" />

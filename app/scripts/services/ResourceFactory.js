@@ -126,7 +126,8 @@ angular.module('CACMobile')
       location: function (){
         var locObj = $resource(apiUrl+'/location', {},
         {
-          create: {method: 'POST'}
+          create: {method: 'POST'},
+          get: {method: 'GET', url: apiUrl+'/location/:id'}
         });
 
         return locObj;

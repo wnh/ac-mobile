@@ -22,9 +22,12 @@
    <td>{{o.submitted_at}}</td>
    <td>{{o.location_name}}</td>
    <td>{{o.username}}</td>
-   <td ng-click="loadObservation(o.id)">      
-   <i class="glyphicons comments" ng-show="o.comment_id"></i>
-   <i class="glyphicons camera" ng-show="o.photo_id"></i>
+   <td ng-click="loadObservation(o.id)">  
+     <ul class="nav">
+       <i class="icon-chevron-right pull-right"></i> 
+       <li ng-show="o.comment_id"><i class="glyphicons comments obs-table-icon"></i></li>
+       <li ng-show="o.photo_id"><i class="glyphicons camera obs-table-icon"></i></li>
+     </ul>
 
   </td> 
 </tr>

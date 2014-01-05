@@ -50,6 +50,7 @@ angular.module('CACMobile')
     function() {
       if (State.getObsIds() != $scope.observation_ids) {
         $scope.observation_ids = State.getObsIds();
+        $scope.observations = [];
         loadObservations();
       }
     },true)

@@ -101,6 +101,7 @@ angular.module('CACMobile')
       $scope.to = State.getToDate();
       $scope.from = State.getFromDate();
       $scope.today = new Date();
+            getLocations();
 
 
   $scope.$watch(function() {return [State.getToDate(),State.getFromDate()] },

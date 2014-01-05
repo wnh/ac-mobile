@@ -80,6 +80,38 @@ var ModalInstanceCtrl = ['$scope', '$modalInstance', 'photo', function ($scope, 
   };
 }];
 
+ //begin location modal
+
+ $scope.loadLocation = function (id) {
+    State.setLoading(true);
+  ResourceFactory.location().get({id: id},
+    function (response) {
+      $scope.location = response;
+      State.setLoading(false);
+      var modalInstance = $modal.open({
+        templateUrl: 'showLocationModal.html',
+        controller: LocationModalInstanceCtrl,
+        resolve: {
+          location: function () {
+            return $scope.location;
+          }
+        }
+      });
+    },
+    function (response) {
+      console.log("Unable to load location");
+    })
+};
+
+var LocationModalInstanceCtrl = ['$scope', '$modalInstance', 'location', function ($scope, $modalInstance, location) {
+  $scope.location = location;
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+}];
+
+// End location modal
+
 //end photo modal
 
   });

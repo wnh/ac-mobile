@@ -220,8 +220,10 @@ $scope.submit = function (){
 
       modalInstance.result.then(function (location) {
         $scope.positionDesc = "User Defined";
+        $log.info($scope.locationPos)
         $scope.locationPos.latitude = location.latitude;
         $scope.locationPos.longitude = location.longitude;
+        $log.info($scope.locationPos)
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
       });
