@@ -20,7 +20,7 @@
          <label class="control-label" for="comment"><img class="obs-photo" ng-src="{{p.image}}" /></label>
 
          <div class="controls">
-            <input type="text" class="form-control" ng-maxlength=250 placeholder="Photo Comment" ng-model="p.comment" name="comment" />
+            <input type="text" autocorrect="on" autocapitalize="on" class="form-control" ng-maxlength=250 placeholder="Photo Comment" ng-model="p.comment" name="comment" />
             <div class="alert alert-error" ng-show="form.comment.$dirty && form.comment.$invalid">
               <span ng-show="form.comment.$error.maxlength">Comment must be less than 250 characters</span>
             </div>
@@ -58,7 +58,7 @@
 
       <div class="location-div control-group">
         <div class="controls">
-          <input type="text" ng-model="locationName" ng-maxlength=50 placeholder="Location Name" name="locationName" />
+          <input type="text" autocorrect="off" autocapitalize="on" ng-model="locationName" ng-maxlength=50 placeholder="Location Name" name="locationName" />
           <div class="alert alert-error" ng-show="form.locationName.$dirty && form.locationName.$invalid">
             <span ng-show="form.locationName.$error.maxlength">Location name must be less than 50 characters</span>
           </div>
@@ -83,7 +83,7 @@
 
 
         <div class="controls">
-          <input type="text" ng-model="description" ng-maxlength=250 placeholder="Add description here" name="description" />
+          <input type="text" autocorrect="on" autocapitalize="on" ng-model="description" ng-maxlength=250 placeholder="Add description here" name="description" />
           <div class="alert alert-error" ng-show="form.description.$dirty && form.description.$invalid">
             <span ng-show="form.description.$error.maxlength">Comment name must be less than 250 characters</span>
           </div>
