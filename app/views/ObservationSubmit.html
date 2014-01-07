@@ -57,7 +57,6 @@
 
 
       <div class="location-div control-group">
-        <label class="control-label"><b>Location</b></label>
         <div class="controls">
           <input type="text" ng-model="locationName" ng-maxlength=50 placeholder="Location Name" name="locationName" />
           <div class="alert alert-error" ng-show="form.locationName.$dirty && form.locationName.$invalid">
@@ -82,20 +81,18 @@
         </div>
       </div>
 
-      <div class="location-div control-group">
-        <label class="control-label"><b>Observation Description</b></label>
+
         <div class="controls">
-          <input type="text" ng-model="description" ng-maxlength=250 placeholder="Add Your description here" name="description" />
+          <input type="text" ng-model="description" ng-maxlength=250 placeholder="Add description here" name="description" />
           <div class="alert alert-error" ng-show="form.description.$dirty && form.description.$invalid">
             <span ng-show="form.description.$error.maxlength">Comment name must be less than 250 characters</span>
           </div>
         </div>
-      </div>
 
 
       <div class="control-group">
         <div class="controls">
-          <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="submit()">Submit Photo</button>
+          <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="submit()">Submit Observation</button>
         </div>
       </div>
 
