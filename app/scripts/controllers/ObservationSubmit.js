@@ -46,6 +46,7 @@ angular.module('CACMobile')
     console.log("going to top of page")
     $location.hash('top');
     $anchorScroll();
+    $location.hash('');
   }
 
   function getPosition () {
