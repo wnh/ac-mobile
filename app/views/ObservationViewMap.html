@@ -1,6 +1,7 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
 <div class="map-content">
    <div class="region">
+   <div class="text-left">
        {{from | date:'EEE d MMM' }} <button class="btn btn-mini" ng-click="fromOpen()"><i class="icon-calendar"></i></button>
         to
         {{to | date:'EEE d MMM' }} <button class="btn btn-mini" ng-click="toOpen()" ><i class="icon-calendar" ></i></button>
@@ -26,7 +27,7 @@
       <i class="pull-right glyphicons white list" ng-click="showList()" ng-show="map"></i>
       <i class="pull-right glyphicons white google_maps" ng-click="showMap()" ng-show="!map"></i>
 
-
+      </div>
   </div>
    <div id="map-canvas" ng-show="map" observation-map></div>
    <div class="obsList" ng-show="!map" ng-controller='ObservationListCtrl' ng-include="'views/ObservationTable.html'"></div>
