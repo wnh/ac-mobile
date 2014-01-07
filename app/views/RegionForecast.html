@@ -33,9 +33,9 @@
         <div class="top">Alpine</div>
         <div class="middle">Treeline</div>
         <div class="bottom">Below Treeline</div>
-        <div class="warntop" ng-class="today.alpine.css" ng-click="openDangerScale(today.alpine.text)">{{today.alpine.text}}</div>
-        <div class="warnmiddle" ng-class="today.treeline.css" ng-click="openDangerScale(today.treeline.text)">{{today.treeline.text}}</div>
-        <div class="warnbottom" ng-class="today.belowTreeline.css"ng-click="openDangerScale(today.belowTreeline.text)">{{today.belowTreeline.text}}</div>
+        <div class="warntop" ng-class="today.alpine.css" ng-click="openDangerScale(today.alpine.text)">{{dangerRatingNumeric(today.alpine.text)}} {{today.alpine.text}}</div>
+        <div class="warnmiddle" ng-class="today.treeline.css" ng-click="openDangerScale(today.treeline.text)">{{dangerRatingNumeric(today.treeline.text)}} {{today.treeline.text}} </div>
+        <div class="warnbottom" ng-class="today.belowTreeline.css"ng-click="openDangerScale(today.belowTreeline.text)">{{ dangerRatingNumeric(today.belowTreeline.text)}} {{today.belowTreeline.text}} </div>
       </div>
 
 
@@ -47,18 +47,18 @@
         </tr>
         <tr>
           <td class="alpine">Alpine</td>
-          <td ng-class="tomorrow.alpine.css" ng-click="openDangerScale(tomorrow.alpine.text)">{{tomorrow.alpine.text}}</td>
-          <td ng-class="dayAfter.alpine.css" ng-click="openDangerScale(dayAfter.alpine.text)">{{dayAfter.alpine.text}}</td>
+          <td ng-class="tomorrow.alpine.css" ng-click="openDangerScale(tomorrow.alpine.text)">{{dangerRatingNumeric(tomorrow.alpine.text)}} {{tomorrow.alpine.text}}</td>
+          <td ng-class="dayAfter.alpine.css" ng-click="openDangerScale(dayAfter.alpine.text)">{{dangerRatingNumeric(dayAfter.alpine.text)}} {{dayAfter.alpine.text}}</td>
         </tr>
         <tr>
           <td class="treeline">Treeline</td>
-          <td ng-class="tomorrow.treeline.css" ng-click="openDangerScale(tomorrow.treeline.text)">{{tomorrow.treeline.text}}</td>
-          <td ng-class="dayAfter.treeline.css" ng-click="openDangerScale(dayAfter.treeline.text)">{{dayAfter.treeline.text}}</td>
+          <td ng-class="tomorrow.treeline.css" ng-click="openDangerScale(tomorrow.treeline.text)">{{dangerRatingNumeric(tomorrow.treeline.text)}} {{tomorrow.treeline.text}}</td>
+          <td ng-class="dayAfter.treeline.css" ng-click="openDangerScale(dayAfter.treeline.text)">{{dangerRatingNumeric(dayAfter.treeline.text)}} {{dayAfter.treeline.text}}</td>
         </tr>
         <tr>
           <td class="below_treeline">Below Treeline</td>
-          <td ng-class="tomorrow.belowTreeline.css" ng-click="openDangerScale(tomorrow.belowTreeline.text)">{{tomorrow.belowTreeline.text}}</td>
-          <td ng-class="dayAfter.belowTreeline.css" ng-click="openDangerScale(dayAfter.belowTreeline.text)">{{dayAfter.belowTreeline.text}}</td>
+          <td ng-class="tomorrow.belowTreeline.css" ng-click="openDangerScale(tomorrow.belowTreeline.text)">{{dangerRatingNumeric(tomorrow.belowTreeline.text)}} {{tomorrow.belowTreeline.text}}</td>
+          <td ng-class="dayAfter.belowTreeline.css" ng-click="openDangerScale(dayAfter.belowTreeline.text)">{{dangerRatingNumeric(dayAfter.belowTreeline.text)}} {{dayAfter.belowTreeline.text}}</td>
         </tr>
       </table>
 
