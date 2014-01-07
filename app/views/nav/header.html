@@ -11,14 +11,14 @@
         <div class="control-group">
            <label class="control-label" for="email">Email</label>
            <div class="controls">
-              <input type="text" ng-model="sessionParams.email" name="email" />
+              <input type="email" ng-model="sessionParams.email" name="email" />
            </div>
         </div>
 
         <div class="control-group">
            <label class="control-label" for="password">Password</label>
            <div class="controls">
-              <input type="{{plainText}}" ng-model="sessionParams.password" name="password" />
+              <input type="{{plainText}}" autocorrect="off" autocapitalize="off" ng-model="sessionParams.password" name="password" />
            </div>
            <div class="controls">
                          Show <input type="checkbox" ng-model="plainText"

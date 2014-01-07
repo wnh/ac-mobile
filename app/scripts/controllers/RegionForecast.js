@@ -14,6 +14,16 @@ angular.module('CACMobile')
     //! vars used for problems
     //var foercastProblems = {'avyProblems':null};
 
+    $scope.dangerRatingNumeric = function (dangerDesc) {
+      var dangerRating = {"Low" : "1 -", "Moderate" : "2 -", "Considerable" : "3 -", "High" : "4 -", "Extreme" : "5 -"};
+
+      if (!dangerRating[dangerDesc]){
+        $log.info("No numeric value available for danger rating ", dangerDesc);
+      }
+
+      return dangerRating[dangerDesc];
+    }
+
     function getForecast() {
         Forecast.get($scope.region).then(
                     function(fx){

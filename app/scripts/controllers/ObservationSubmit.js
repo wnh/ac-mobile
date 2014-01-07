@@ -117,11 +117,12 @@ $scope.submit = function (){
             $scope.alerts.push({ type: 'error', msg: 'Error Uploading Observation' });
             scrollToErrors();
           });
-      } 
-    } 
+      }
+    }
 
     var submitPhoto = function(obsId){
       var photo = null;
+      var sucessCounter = 0;
       if ($scope.submitting == true)
       {
 
@@ -134,8 +135,13 @@ $scope.submit = function (){
               function(response){
                 //$scope.photo_list[i].id = response.id;
                 progressSubmissionStatus("Photo Submitted");
-                $log.info('Photo Submitted Successfully ' + response);
-                submitLocation(obsId);
+                $log.info('Photo ' + sucessCounter + ' Submitted Successfully ' + response);
+                sucessCounter ++;
+
+                if (sucessCounter == $scope.photo_list.length){
+                  submitLocation(obsId);
+                }
+
               },
               function(response){
                 $scope.submitting = false;
@@ -210,7 +216,7 @@ $scope.submit = function (){
   } else {
     scrollToErrors();
   }
-} 
+}
 
 
  //! Load Location Modal Dialog
