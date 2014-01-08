@@ -9,6 +9,11 @@ angular.module('CACMobile')
  $scope.orderByField = 'submitted_at';
  $scope.reverseOrder = false;
 
+ $scope.toJsDate = function(str){
+    if(!str)return null;
+    return new Date(str);
+  }
+
  $scope.orderBy = function(field) {
       // If we're selecting the same field, reverse the ordering
       if ($scope.orderByField == field) {

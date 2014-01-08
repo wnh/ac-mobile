@@ -34,7 +34,7 @@
    <th></th>
 </tr>
 <tr ng-click="loadObservation(o.id)" ng-repeat="o in observations | orderBy:orderByField:reverseOrder">
-   <td>{{o.submitted_at}}</td>
+   <td>{{toJsDate(o.submitted_at) | date:'MMM d HH:mm'}}</td>
    <td>{{o.location_name}}</td>
    <td>{{o.username}}</td>
    <td>  
