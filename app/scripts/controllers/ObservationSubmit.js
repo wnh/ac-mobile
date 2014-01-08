@@ -121,10 +121,10 @@ $scope.submit = function (){
               Session.destroy();
               $scope.alerts.push({ type: 'error', msg: 'Your session has expired. Please <a ng-click="openSignInModal()">sign in</a> again'})
             } else {
-              $scope.alerts.push({ type: 'error', msg: 'Error Uploading Observation' });  
+              $scope.alerts.push({ type: 'error', msg: 'Error Uploading Observation' });
             }
             $scope.submitting = false;
-            $log.error("error submitting observation");      
+            $log.error("error submitting observation");
             scrollToErrors();
           });
       }
@@ -141,7 +141,7 @@ $scope.submit = function (){
           ResourceFactory.photo().create(photo,
               function(response){
                 //$scope.photo_list[i].id = response.id;
-                progressSubmissionStatus("Photo" + i + "Submitted");
+                progressSubmissionStatus("Photo " + i + " Submitted");
                 $log.info('Photo ' + i + ' Submitted Successfully ' + response);
 
                 i ++;
