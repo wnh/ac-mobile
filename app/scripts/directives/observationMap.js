@@ -110,7 +110,7 @@ var loadObs = function(observation_ids) {
   else 
   {
     State.setObsIds(observation_ids)
-    scope.$apply($location.path('/obs-list'))
+    scope.$apply($location.path('/obsList'))
   }
 }
 
