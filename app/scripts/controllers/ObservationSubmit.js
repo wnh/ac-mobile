@@ -350,6 +350,8 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
           getImage({ quality: 45,
               destinationType: Camera.DestinationType.FILE_URI,
               sourceType:      Camera.PictureSourceType.CAMERA,
+              targetHeight: 1024,
+              targetWidth: 1024,
               saveToPhotoAlbum: true,
               correctOrientation:true });
         }
@@ -364,10 +366,12 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
     $scope.library = function() {
       if (platform.isMobile())
       {
-        getImage({ quality: 45,
+        getImage({
               destinationType: Camera.DestinationType.FILE_URI,
               sourceType:      Camera.PictureSourceType.PHOTOLIBRARY,
               mediaType:       Camera.MediaType.PICTURE,
+              targetHeight: 1024,
+              targetWidth: 1024,
               correctOrientation:true});
       }
       else

@@ -6,7 +6,7 @@ angular.module('CACMobile')
  $scope.observation_ids = State.getObsIds();
  $scope.observations = [];
 
- $scope.orderByField = 'id';
+ $scope.orderByField = 'submitted_at';
  $scope.reverseOrder = false;
 
  $scope.orderBy = function(field) {
