@@ -11,8 +11,13 @@ angular.module('CACMobile')
   $scope.locationName = State.getSubmissionValue('locationName');
   $scope.locationPos  = State.getSubmissionValue('locationPos');
   $scope.positionDesc = State.getSubmissionValue('positionDesc');
+  $scope.description  = State.getSubmissionValue('comment');
   $scope.submitProgress = 0;
   $scope.submitting = false;
+
+  $scope.$watch('description', function(){
+    State.setSubmissionValue('comment', $scope.description );
+  })
 
   $scope.$watch('locationName', function(){
     State.setSubmissionValue('locationName', $scope.locationName);
@@ -40,7 +45,7 @@ angular.module('CACMobile')
   $scope.removePhoto = function(index) {
     //! remove 1 element at position index
     $scope.photo_list.splice(index,1);
-    $log.info("Phot removed array length=", $scope.photo_list.length);
+    $log.info("Photo removed array length=", $scope.photo_list.length);
   }
 
   function scrollToErrors() {
@@ -140,11 +145,11 @@ $scope.submit = function (){
 
           ResourceFactory.photo().create(photo,
               function(response){
-                //$scope.photo_list[i].id = response.id;
+                i ++;
+
                 progressSubmissionStatus("Photo " + i + " Submitted");
                 $log.info('Photo ' + i + ' Submitted Successfully ' + response);
 
-                i ++;
                 if (i < $scope.photo_list.length){
                   submitPhoto(obsId, i);
                 }
