@@ -20,7 +20,7 @@ angular.module('CACMobile')
    }
 
    $scope.loadObservation = function(id) {
-    $location.path("/Observation/"+id);
+    $location.path("/ObservationViewDetail/"+id);
    }
 
    function loadObservations() {

@@ -105,7 +105,7 @@ var locUpdate = function(newValue,oldValue) {
 
 var loadObs = function(observation_ids) {
   if (observation_ids.length == 1) {
-    scope.$apply($location.path('/Observation/' + observation_ids[0]))
+    scope.$apply($location.path('/ObservationViewDetail/' + observation_ids[0]))
   } 
   else 
   {
