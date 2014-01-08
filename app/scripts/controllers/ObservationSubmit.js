@@ -39,7 +39,8 @@ angular.module('CACMobile')
 
   $scope.removePhoto = function(index) {
     //! remove 1 element at position index
-    $scope.photo_list.splice(index,1)
+    $scope.photo_list.splice(index,1);
+    $log.info("Phot removed array length=", $scope.photo_list.length);
   }
 
   function scrollToErrors() {
@@ -70,6 +71,9 @@ $scope.cancelSubmit = function (){
 
 $scope.submit = function (){
   $scope.alerts.length = 0;
+  var comment = ( $scope.description == null || $scope.description == "" ? false : true );
+  var steps = 2 + $scope.photo_list.length + ( comment ? 1 : 0 ) ;
+  var stepSize = 100 / steps;
 
   if (Session.loggedIn() != true){
     //! \todo make this pop up the sign in window
@@ -96,6 +100,7 @@ $scope.submit = function (){
    //no alerts then submit observation
   if ($scope.alerts.length == 0){
 
+
     var submitObs = function (){
 
       if ($scope.submitting == true)
@@ -109,7 +114,7 @@ $scope.submit = function (){
             obs.id = response.id;
             $log.info('Observation Submitted successfully obsId= ' + response.id);
             progressSubmissionStatus("Observation Created");
-            submitPhoto(obs.id);
+            submitPhoto(obs.id, 0);
           },
           function(response){
             $scope.submitting = false;
@@ -120,26 +125,30 @@ $scope.submit = function (){
       }
     }
 
-    var submitPhoto = function(obsId){
+    var submitPhoto = function(obsId, i){
       var photo = null;
-      var sucessCounter = 0;
       if ($scope.submitting == true)
       {
 
-        for (var i=0; i < $scope.photo_list.length; ++i)
-        {
           photo = {'id':null,'token':Session.token(), 'observation_id':obsId, 'comment':$scope.photo_list[i].comment, 'image':$scope.photo_list[i].image};
           $log.info("Submitting photo = ", photo);
 
           ResourceFactory.photo().create(photo,
               function(response){
                 //$scope.photo_list[i].id = response.id;
-                progressSubmissionStatus("Photo Submitted");
-                $log.info('Photo ' + sucessCounter + ' Submitted Successfully ' + response);
-                sucessCounter ++;
+                progressSubmissionStatus("Photo" + i + "Submitted");
+                $log.info('Photo ' + i + ' Submitted Successfully ' + response);
 
-                if (sucessCounter == $scope.photo_list.length){
+                i ++;
+                if (i < $scope.photo_list.length){
+                  submitPhoto(obsId, i);
+                }
+                else if (i == $scope.photo_list.length){
                   submitLocation(obsId);
+                }
+                else
+                {
+                  $log.error("Index counter increased beyond number of photos ! ", i , $scope.photo_list.length);
                 }
 
               },
@@ -148,7 +157,7 @@ $scope.submit = function (){
                 $log.error("error submitting photo");
                 $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo' });
               });
-        }
+
       }
     }
 
@@ -165,7 +174,11 @@ $scope.submit = function (){
                 locId = response.id;
                 progressSubmissionStatus("Location Submitted");
                 $log.info('Location Submitted Sucesfully locationId' + response.id);
-                submitComment(obsId);
+
+                if (comment == true){
+                  submitComment(obsId);
+                }
+
               },
               function(response){
                 $scope.submitting = false;
@@ -197,12 +210,13 @@ $scope.submit = function (){
     }
 
     var progressSubmissionStatus = function(msg){
-      $scope.submitProgress += 25;
+      $scope.submitProgress += stepSize;
       $scope.alerts.push({ type: 'success', msg: msg});
 
       if ($scope.submitProgress >= 99){
         $scope.submitting = false;
         $scope.photo_list.length = 0;
+        $scope.submitProgress >= 0;
         $scope.locationName = "";
         $scope.alerts.length = 0;
         $scope.alerts.push({ type: 'success', msg: 'Submission Successful! Thank-you for contributing to public safety' });
