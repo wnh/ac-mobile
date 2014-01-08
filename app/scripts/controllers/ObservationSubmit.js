@@ -112,9 +112,14 @@ $scope.submit = function (){
             submitPhoto(obs.id);
           },
           function(response){
+            if (response.status == 401) {
+              Session.destroy();
+              $scope.alerts.push({ type: 'error', msg: 'Your session has expired. Please <a ng-click="openSignInModal()">sign in</a> again'})
+            } else {
+              $scope.alerts.push({ type: 'error', msg: 'Error Uploading Observation' });  
+            }
             $scope.submitting = false;
-            $log.error("error submitting observation");
-            $scope.alerts.push({ type: 'error', msg: 'Error Uploading Observation' });
+            $log.error("error submitting observation");      
             scrollToErrors();
           });
       }
