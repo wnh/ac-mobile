@@ -6,12 +6,15 @@ angular.module('CACMobile')
    $scope.longitude = -118.2023000;
    $scope.locations = [];
 
-   $scope.map = true;
-   $scope.showMap = function () { 
-    $scope.map = true; 
+   $scope.map = State.getMap();
+
+   $scope.showMap = function () {
+    $scope.map = true;
+    State.setMap(true);
     };
    $scope.showList = function () {
     $scope.map = false;
+    State.setMap(false);
     setAllObservationIds();
    };
 
