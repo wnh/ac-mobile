@@ -31,6 +31,12 @@ angular.module('CACMobile')
   var map = new google.maps.Map(elem[0], mapOptions);
   var oms = new OverlappingMarkerSpiderfier(map,{legWeight:0});
 
+  //This loads the google map 'Terms of Use' link in an external window
+  $(elem[0]).on('click', 'a', function(e){
+    e.preventDefault();
+    window.open($(this).attr('href'),'_system','location=no');
+  });
+
   oms.addListener('spiderfy', function(spiderfied,unspiderfied) {
     for (var i=0; i < unspiderfied.length; i++) {
       var locMarker = unspiderfied[i]
