@@ -117,9 +117,14 @@ $scope.submit = function (){
             submitPhoto(obs.id, 0);
           },
           function(response){
+            if (response.status == 401) {
+              Session.destroy();
+              $scope.alerts.push({ type: 'error', msg: 'Your session has expired. Please <a ng-click="openSignInModal()">sign in</a> again'})
+            } else {
+              $scope.alerts.push({ type: 'error', msg: 'Error Uploading Observation' });  
+            }
             $scope.submitting = false;
-            $log.error("error submitting observation");
-            $scope.alerts.push({ type: 'error', msg: 'Error Uploading Observation' });
+            $log.error("error submitting observation");      
             scrollToErrors();
           });
       }
@@ -340,7 +345,8 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
           getImage({ quality: 45,
               destinationType: Camera.DestinationType.FILE_URI,
               sourceType:      Camera.PictureSourceType.CAMERA,
-              saveToPhotoAlbum: true});
+              saveToPhotoAlbum: true,
+              correctOrientation:true });
         }
         else
         {
@@ -356,7 +362,8 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
         getImage({ quality: 45,
               destinationType: Camera.DestinationType.FILE_URI,
               sourceType:      Camera.PictureSourceType.PHOTOLIBRARY,
-              mediaType:       Camera.MediaType.PICTURE});
+              mediaType:       Camera.MediaType.PICTURE,
+              correctOrientation:true});
       }
       else
       {
