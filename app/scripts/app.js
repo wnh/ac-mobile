@@ -35,18 +35,6 @@ angular.module('CACMobile',
         templateUrl: 'views/RegionForecast.html',
         controller: 'RegionForecastCtrl'
       })
-
-      .when('/danger-scale', {
-        templateUrl: 'views/dangerScale.html'
-      })
-      .when('/details-info/:region', {
-        templateUrl: 'views/detailsInfo.html',
-        controller: 'ForecastDetailsCtrl'
-      })
-      .when('/problems/:region', {
-        templateUrl: 'views/problems.html',
-        controller: 'ProblemDetailsCtrl'
-      })
       .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'NavCtrl'
@@ -67,11 +55,11 @@ angular.module('CACMobile',
         templateUrl: 'views/Observation.html',
         controller: 'ObservationCtrl'
       })
-      .when('/Observation/:id', {
+      .when('/ObservationViewDetail/:id', {
         templateUrl: 'views/ObservationView.html',
         controller: 'ObservationviewCtrl'
       })
-      .when ('/obs-list', {
+      .when ('/obsList', {
         templateUrl: 'views/obsList.html',
         controller: 'ObservationListCtrl'
       })

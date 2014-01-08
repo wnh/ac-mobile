@@ -22,7 +22,7 @@ angular.module('CACMobile')
       }
 
       return dangerRating[dangerDesc];
-    }
+    };
 
     function getForecast() {
         Forecast.get($scope.region).then(
