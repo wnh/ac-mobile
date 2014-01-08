@@ -10,6 +10,8 @@ angular.module('CACMobile')
    // set fromDate to yesterday
    fromDate.setDate(fromDate.getDate() - 1);
 
+   var map = true;
+
    //! observation
    var submission = {'comment':"" ,'locationName': "", 'photo_list': [], 'locationPos':{latitude:50.9831700, longitude: -118.2023000}, 'positionDesc':"Unknown"};
 
@@ -43,6 +45,12 @@ angular.module('CACMobile')
      },
      getSubmissionValue: function(param){
        return submission[param];
+     },
+     getMap: function(){
+       return map;
+     },
+     setMap: function(param){
+       map = param;
      }
 
   }
