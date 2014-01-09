@@ -15,7 +15,7 @@ angular.module('CACMobile')
             title:"Submission Location"
          });
          //This loads the google map 'Terms of Use' link in an external window
-        $(elememt[0]).on('click', 'a', function(e){
+        $(element[0]).on('click', 'a', function(e){
           e.preventDefault();
           window.open($(this).attr('href'),'_system','location=no');
         });
