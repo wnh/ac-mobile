@@ -6,8 +6,8 @@ angular.module('CACMobile')
  $scope.observation_ids = State.getObsIds();
  $scope.observations = [];
 
- $scope.orderByField = 'submitted_at';
- $scope.reverseOrder = false;
+ $scope.orderByField = State.getOrderByField();
+ $scope.reverseOrder = State.getReverseOrder();
 
  $scope.toJsDate = function(str){
     if(!str)return null;
@@ -22,6 +22,10 @@ angular.module('CACMobile')
        $scope.orderByField = field;
        $scope.reverseOrder = false;
      }
+
+     State.setOrderByField($scope.orderByField);
+     State.setReverseOrder($scope.reverseOrder);
+
    }
 
    $scope.loadObservation = function(id) {

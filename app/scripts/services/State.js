@@ -4,13 +4,15 @@ angular.module('CACMobile')
   .factory('State', function( ) {
 
    var observationIds = []
-   var loading = false;
-   var toDate = new Date();
+   var loading  = false;
+   var toDate   = new Date();
    var fromDate = new Date();
    // set fromDate to yesterday
    fromDate.setDate(fromDate.getDate() - 1);
 
-   var map = true;
+   var map          = true;
+   var orderByField = 'submitted_at';
+   var reverseOrder = false;
 
    //! observation
    var submission = {'comment':"" ,'locationName': "", 'photo_list': [], 'locationPos':{latitude:50.9831700, longitude: -118.2023000}, 'positionDesc':"Unknown"};
@@ -51,7 +53,18 @@ angular.module('CACMobile')
      },
      setMap: function(param){
        map = param;
+     },
+     getOrderByField: function(){
+       return orderByField;
+     },
+     setOrderByField: function(param){
+       orderByField = param;
+     },
+     getReverseOrder: function(){
+      return reverseOrder;
+     },
+     setReverseOrder: function(param){
+      reverseOrder = param;
      }
-
   }
 });
