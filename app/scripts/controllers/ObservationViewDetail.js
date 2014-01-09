@@ -118,7 +118,7 @@ var LocationModalInstanceCtrl = ['$scope', '$modalInstance', 'location', functio
 
 // End location modal
 
-  $scope.$watch(function() { return $scope.photos},
+  $scope.$watch('photos',
     function() {
       var pairs = [];
       for(var i=0; i<$scope.photos.length; i+=2) {

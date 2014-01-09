@@ -287,18 +287,11 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
 //! Load Photo Modal Dialog {
   $scope.LoadPhotoModal = ['$scope', function ($scope) {
 
-    var photo = null;
-
     $scope.open = function () {
 
       var modalInstance = $modal.open({
         templateUrl: 'loadPhoto_modal.html',
-        controller: LoadPhotoModalCtrl,
-        resolve: {
-          image: function () {
-            return photo;
-          }
-        }
+        controller: LoadPhotoModalCtrl
       });
 
       modalInstance.result.then(function (photo) {
@@ -314,8 +307,9 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
   }];
 
 
-  var LoadPhotoModalCtrl = ['$scope', '$modalInstance', 'image', function ($scope, $modalInstance, photo) {
+  var LoadPhotoModalCtrl = ['$scope', '$modalInstance', function ($scope, $modalInstance) {
 
+    var photo = null;
     var getImage = function (source) {
         $log.info(source)
 
@@ -369,10 +363,8 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
         getImage({
               destinationType: Camera.DestinationType.FILE_URI,
               sourceType:      Camera.PictureSourceType.PHOTOLIBRARY,
-              mediaType:       Camera.MediaType.PICTURE,
-              targetHeight: 1024,
-              targetWidth: 1024,
-              correctOrientation:true});
+              mediaType:       Camera.MediaType.PICTURE
+            });
       }
       else
       {
