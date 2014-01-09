@@ -10,7 +10,8 @@
     "angular-resource": "~1.2.3",
     "angular-bootstrap": "~0.7.0",
     "angular-route": "~1.2.3",
-    "angular-sanitize": "~1.2.3"
+    "angular-sanitize": "~1.2.3",
+    "angularjs-truncate": "master"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.3",

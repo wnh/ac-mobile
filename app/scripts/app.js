@@ -5,7 +5,8 @@ angular.module('CACMobile',
     'ngResource',
     'ui.bootstrap',
     'ngRoute',
-    'ngSanitize'
+    'ngSanitize',
+    'truncate'
   ])
   .config(function ($routeProvider) {
 
@@ -52,8 +53,8 @@ angular.module('CACMobile',
         controller: 'LoadingCtrl'
       })
       .when('/ObservationViewDetail/:id', {
-        templateUrl: 'views/ObservationView.html',
-        controller: 'ObservationviewCtrl'
+        templateUrl: 'views/ObservationViewDetail.html',
+        controller: 'ObservationViewDetailCtrl'
       })
       .when ('/obsList', {
         templateUrl: 'views/obsList.html',

@@ -119,3 +119,7 @@ th { white-space: nowrap; }
 #footer-spacer {
   height:$bottom-nav-height;
 }
+/* Dear Bootstrap: If I set something text-center, I'm not messing around */
+.text-center {
+    text-align: center !important;
+}

@@ -1,12 +1,18 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('ObservationviewCtrl', function ($scope, $routeParams, ResourceFactory, State, $log, $modal) {
+  .controller('ObservationViewDetailCtrl', function ($scope, $routeParams, ResourceFactory, State, $log, $modal) {
+
+  $scope.toJsDate = function(str){
+    if(!str)return null;
+    return new Date(str);
+  }
 
    $scope.observation_id = $routeParams.id;
    State.setLoading(true);
    $scope.observation = null;
    $scope.photos = []
+   $scope.pairedPhotos = []
    $scope.comment = null;
 
    ResourceFactory.observation().get(
@@ -112,6 +118,15 @@ var LocationModalInstanceCtrl = ['$scope', '$modalInstance', 'location', functio
 
 // End location modal
 
-//end photo modal
+  $scope.$watch(function() { return $scope.photos},
+    function() {
+      var pairs = [];
+      for(var i=0; i<$scope.photos.length; i+=2) {
+        var p1 = $scope.photos[i];
+        var p2 = $scope.photos[i+1];
+        pairs.push([p1,p2]);
+      }
+      $scope.pairedPhotos = pairs;
+    },true)
 
   });
