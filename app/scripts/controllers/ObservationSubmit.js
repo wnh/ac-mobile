@@ -228,6 +228,7 @@ $scope.submit = function (){
         $scope.photo_list.length = 0;
         $scope.submitProgress >= 0;
         $scope.locationName = "";
+        $scope.description = "";
         $scope.alerts.length = 0;
         $scope.alerts.push({ type: 'success', msg: 'Submission Successful! Thank-you for contributing to public safety' });
       }
