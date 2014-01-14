@@ -11,7 +11,7 @@ angular.module('CACMobile')
       }
       else
       {
-        $location.path("/RegionList");
+        $location.path("/region-list");
       }
 
     }

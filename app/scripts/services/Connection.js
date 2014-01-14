@@ -9,7 +9,7 @@ angular.module('CACMobile')
     //! if debugging in web mode
     if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/))
     {
-      defaultState = {'type':'wifi'};
+      defaultState = {'type':'unknown'};
     }
 
     function connectionState() {
