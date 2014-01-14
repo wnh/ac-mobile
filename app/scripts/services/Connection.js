@@ -86,10 +86,10 @@ angular.module('CACMobile')
       },
       checkOnline: function() {
         if (!online()) {
-         $location.path("/region-list");   
+         $location.path("/region-list");
          return false;
-        } 
-        else 
+        }
+        else
         {
           return true;
         }

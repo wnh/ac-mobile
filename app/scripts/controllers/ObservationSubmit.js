@@ -164,8 +164,8 @@ $scope.submit = function (){
               },
               function(response){
                 $scope.submitting = false;
-                $log.error("error submitting photo");
-                $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo' });
+                $log.error("error submitting photo", response);
+                $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo ' + response });
               });
 
       }

@@ -8,7 +8,7 @@ angular.module('CACMobile')
    var toDate   = new Date();
    var fromDate = new Date();
    // set fromDate to yesterday
-   fromDate.setDate(fromDate.getDate() - 1);
+   fromDate.setDate(fromDate.getDate() - 7);
 
    var map          = true;
    var orderByField = 'submitted_at';

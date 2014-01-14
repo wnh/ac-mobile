@@ -12,13 +12,8 @@ angular.module('CACMobile',
 
     $routeProvider
       .when('/', {
-        templateUrl: 'views/Map.html',
-        controller: 'MapCtrl',
-         resolve: {
-          filter: ['ConnectionManager', function (ConnectionManager) {
-            return ConnectionManager.checkOnline();
-          }]
-        }
+        templateUrl: 'views/Loading.html',
+        controller: 'LoadingCtrl'
       })
       .when('/gear', {
         templateUrl: 'views/gear.html',

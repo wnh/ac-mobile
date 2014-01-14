@@ -33,13 +33,6 @@ angular.module('CACMobile')
       return ret;
     }
 
-    $scope.$watch(function () { return ConnectionManager.isOnline(); },
-    function() {
-      if ($scope.online == "offline" && ConnectionManager.isOnline() == true) {
-        $location.path("/Map")
-      }
-    },true)
-
 });
 
 
