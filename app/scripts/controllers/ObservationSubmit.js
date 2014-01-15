@@ -85,17 +85,12 @@ $scope.submit = function (){
     $scope.alerts.push({ type: 'error', msg: 'Please <a ng-click="openSignInModal()">sign in</a> before submitting' });
   }
 
-  //! current version only
-  if ($scope.photo_list.length == 0){
-    $scope.alerts.push({ type: 'error', msg: 'Please select at least one image to upload' });
-  }
-
   if ($scope.locationName.length == 0){
-    $scope.alerts.push({ type: 'error', msg: 'Set Location Name' });
+    $scope.alerts.push({ type: 'error', msg: 'You must set Location Name to submit an Observation' });
   }
 
   if ($scope.positionDesc == "Unknown"){
-    $scope.alerts.push({ type: 'error', msg: 'Set Position' });
+    $scope.alerts.push({ type: 'error', msg: 'You must set Position to submit an Observation' });
   }
 
   if (ConnectionManager.isOnline() == false){
@@ -104,7 +99,6 @@ $scope.submit = function (){
 
    //no alerts then submit observation
   if ($scope.alerts.length == 0){
-
 
     var submitObs = function (){
 
