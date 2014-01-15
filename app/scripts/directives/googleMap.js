@@ -26,9 +26,15 @@ angular.module('CACMobile')
 
        if (typeof(google) != undefined) {;
 
-        var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: false, center: new google.maps.LatLng(scope.latitude, scope.longitude), mapTypeId: google.maps.MapTypeId.TERRAIN};
+        var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: true, center: new google.maps.LatLng(scope.latitude, scope.longitude), mapTypeId: google.maps.MapTypeId.TERRAIN};
         var map = new google.maps.Map(elem[0], mapOptions);
         var myLatlng = new google.maps.LatLng(scope.latitude,scope.longitude);
+
+        //This loads the google map 'Terms of Use' link in an external window
+        $(elem[0]).on('click', 'a', function(e){
+          e.preventDefault();
+          window.open($(this).attr('href'),'_system','location=no');
+        });
 
         var bounds = Bounds.getBounds()
 

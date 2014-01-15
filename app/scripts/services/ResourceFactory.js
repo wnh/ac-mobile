@@ -9,6 +9,17 @@ angular.module('CACMobile')
     return {
 
       //! \todo comment
+      comment: function (){
+        var commentObj = $resource(apiUrl+'/comment', {},
+        {
+          create: { method: 'POST' },
+          get:    { method: 'GET', isArray:false, url: apiUrl+'/comment/:id'}
+        });
+
+        return commentObj;
+      },
+
+      //! \todo comment
       user: function (){
         var userObj = $resource(apiUrl+'/user', {},
         {
@@ -34,7 +45,7 @@ angular.module('CACMobile')
       observation: function (){
         var obsObj = $resource(apiUrl+'/observation', {},
         {
-          get: { method: 'GET', isArray:true },
+          get: { method: 'GET', url: apiUrl+'/observation/:id'},
           create: { method: 'POST' }
         });
 
@@ -50,6 +61,12 @@ angular.module('CACMobile')
 
         return roleObj;
       },
+
+      /*//! \todo comment
+      comment: function (){
+        var roleObj = $resource(apiUrl+'/comment/:id', {},{})
+        return roleObj;
+      },*/
 
       //! \todo comment
       photo: function (){
@@ -98,26 +115,6 @@ angular.module('CACMobile')
               var response = {'id':123};
               success(response);
             }
-            /*
-            alert(obj.image);
-
-            var data = new FormData(),
-                xhr = new XMLHttpRequest();
-
-            //var fileInput = document.getElementById('file-input');
-            //var file = fileInput.files[0];
-
-            data.append('token', obj.token);
-            data.append('observation_id', obj.observation_id);
-            data.append('comment', obj.comment);
-            data.append('image', obj.image);
-
-            //! \todo is there a better way of doing this ?
-            xhr.open('POST', apiUrl+'/photo' ,false);
-            xhr.send(data);
-
-            //! \todo feedback ?
-            callback(xhr.response); */
 
           }
 
@@ -129,7 +126,8 @@ angular.module('CACMobile')
       location: function (){
         var locObj = $resource(apiUrl+'/location', {},
         {
-          create: {method: 'POST'}
+          create: {method: 'POST'},
+          get: {method: 'GET', url: apiUrl+'/location/:id'}
         });
 
         return locObj;

@@ -11,14 +11,14 @@
         <div class="control-group">
            <label class="control-label" for="email">Email</label>
            <div class="controls">
-              <input type="text" ng-model="sessionParams.email" name="email" />
+              <input type="email" ng-model="sessionParams.email" name="email" />
            </div>
         </div>
 
         <div class="control-group">
            <label class="control-label" for="password">Password</label>
            <div class="controls">
-              <input type="{{plainText}}" ng-model="sessionParams.password" name="password" />
+              <input type="{{plainText}}" autocorrect="off" autocapitalize="off" ng-model="sessionParams.password" name="password" />
            </div>
            <div class="controls">
                          Show <input type="checkbox" ng-model="plainText"
@@ -27,6 +27,7 @@
         </div>
 
         <p ng-controller='NavCtrl'>No account yet? <a ng-click="openUrl('http://obsnet.avalanche.ca/#/register')">Register now!</a></p>
+         <p ng-controller='NavCtrl'>Forgotten password? <a ng-click="openUrl('http://obsnet.avalanche.ca/#/forgot')">Reset now!</a></p>
 
         <div ng-show="alert">
           <alert type="alert.type">{{alert.msg}}</alert>
@@ -44,9 +45,9 @@
   <i class="header-icon glyphicons red signal"         ng-hide='online()'              ng-click="offlineDetails()"></i>
   <i class="header-icon glyphicons white download_alt" ng-hide="!loading" ></i>
   <i class="header-icon glyphicons white left_arrow"   ng-hide='hideBack()'            ng-click="back()"></i>
-  <!--
-  <i class="header-icon glyphicons white log_in"       ng-show="!signedIn && online()" ng-click="openSignInModal()" ></i>
-  <i class="header-icon glyphicons white log_out"      ng-show="signedIn && online()"  ng-click="signOut()" ></i> -->
+  <i class="header-icon glyphicons white log_in"       ng-show="!loading && !signedIn && online()" ng-click="openSignInModal()" ></i>
+  <i class="header-icon glyphicons white log_out"      ng-show="!loading && signedIn && online()"  ng-click="signOut()" ></i>
+
   <i class="header-icon glyphicons white circle_info"                                 ng-click="redirect('/about')"></i>
 
 </div>

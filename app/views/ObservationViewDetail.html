@@ -1,0 +1,33 @@
+<div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
+
+
+            <div class="content">
+            <div class="region">
+               Observation Details
+            </div>
+               <div class="text-wrapper text-center">
+                  <p>Submitted at <b>{{toJsDate(observation.submitted_at) | date:'MMM d yyyy HH:mm'}}</b> by <b>{{observation.username}}</b></p>
+                  <p>Location: <a ng-click="loadLocation(observation.location_id)">{{observation.location_name}}</a></p>
+                  <p ng-if="comment">Comment: {{comment.text}} </p>
+                    <label class="control-label" ng-if="photos.length > 0"><b>Photos</b></label>
+                     <table class="table">
+                      <tr ng-repeat="photoPair in pairedPhotos"> 
+                        <td ng-click="loadPhoto(photo)" ng-repeat="photo in photoPair" ng-if="photo" class="text-center">
+                          <img ng-src="{{photo.links.thumbnail.href}}"/>
+                          <p class="text-center">{{photo.comment | characters:25}}</p>
+                        </td>
+                      </tr>
+                    </table>
+               </div>
+         </div>
+
+               <script type="text/ng-template" id="showLocationModal.html">
+              <div class="modal-header">
+                  <button class="btn btn-warning" ng-click="cancel()">Close</button>
+              </div>
+
+              <div class="modal-map" id="map-canvas" show-location-map></div>
+
+            </script>
+
+<div class="text-center navbar navbar-fixed-bottom footer" ng-controller='NavCtrl' ng-include="'views/nav/footer.html'" />

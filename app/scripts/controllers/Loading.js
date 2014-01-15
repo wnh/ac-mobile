@@ -1,13 +1,22 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('LoadingCtrl', function ($scope, $location, DeviceReady) {
-    
+  .controller('LoadingCtrl', function ($scope, $location, ConnectionManager, DeviceReady) {
+
     function redirect () {
-    	$location.path("/Map");
+
+      if(ConnectionManager.isOnline() == true)
+      {
+        $location.path("/Map");
+      }
+      else
+      {
+        $location.path("/region-list");
+      }
+
     }
 
-    if (DeviceReady.ready)
+    if (DeviceReady.ready() == true)
     {
     	redirect();
     }

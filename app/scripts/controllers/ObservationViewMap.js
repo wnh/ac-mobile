@@ -6,6 +6,26 @@ angular.module('CACMobile')
    $scope.longitude = -118.2023000;
    $scope.locations = [];
 
+   $scope.map = State.getMap();
+
+   $scope.showMap = function () {
+    $scope.map = true;
+    State.setMap(true);
+    };
+   $scope.showList = function () {
+    $scope.map = false;
+    State.setMap(false);
+    setAllObservationIds();
+   };
+
+   function setAllObservationIds() {
+    var observation_ids = [];
+    for(var i=0;i<$scope.locations.length;i++) {
+      observation_ids = observation_ids.concat($scope.locations[i].observation_id)
+    }
+    State.setObsIds(observation_ids)
+   }
+
    function getPostion () {
       location.getPosition().then(
          function (position){
@@ -14,48 +34,64 @@ angular.module('CACMobile')
          });
    }
 
+   var newBounds = false;
+
+   function checkLocationRequests() {
+    State.setLoading(false);
+    if (newBounds == true) {
+      $log.info("Now performing cached request");
+      newBounds = false;
+      getLocations();
+    } else {
+      //If we're not about to perform another lookup, and $scope.map is false, update the State with the new observation ids
+      if ($scope.map == false) {
+        setAllObservationIds();
+      }
+    }
+  }
+
    function getLocations () {
-
-    State.setLoading(true);
-
-      //TODO: Some rate control here?
       var b = Bounds.getBounds();
-
       if (b.set == true)
       {
-        if (b.zoom > 10) {
-          $log.info("View un-clustered");
-           ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: false, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
+        if (State.getLoading() == true) {
+          newBounds = true;
+        } else {
+          State.setLoading(true);
+          if (b.zoom > 10) {
+            $log.info("View un-clustered");
+            ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: false, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
               function(response) {
                 $log.info("Location query response " + response.length);
                 $scope.locations = response;
-               State.setLoading(false);
+                checkLocationRequests();
               },
               function(response) {
                 $log.error("Failed to load unclustered locations");
-                State.setLoading(false);
+                checkLocationRequests();
               })
-        }
-        else
-        {
-          $log.info("View clustered");
-           ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: true, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
+          }
+          else
+          {
+            $log.info("View clustered");
+            ResourceFactory.location().query({nelon: b.nelon, nelat: b.nelat, swlon: b.swlon, swlat: b.swlat, clustered: true, from: $scope.from.toDateString(), to: $scope.to.toDateString()},
               function(response) {
                 $log.info("Location query response "+ response.length);
                 $scope.locations = response;
-               State.setLoading(false);
+                checkLocationRequests();
               },
               function(response) {
                 $log.error("Failed to load clustered locations");
-                State.setLoading(false);
+                checkLocationRequests();
               })
+          }
         }
       }
       else
       {
         $log.error("Bounds not set");
       }
-   }
+    }
       //! Get the current position
       getPostion();
 
@@ -68,29 +104,17 @@ angular.module('CACMobile')
       $scope.to = State.getToDate();
       $scope.from = State.getFromDate();
       $scope.today = new Date();
+            getLocations();
 
 
-  $scope.$watch(function() {return $scope.to},
+  $scope.$watch(function() {return [State.getToDate(),State.getFromDate()] },
     function(oldval,newval) {
       if (oldval != newval) {
         getLocations();
-        State.setToDate($scope.to);
       }
       else
       {
-        $log.warn("Old From Date and New From Date are the same");
-      }
-    },true)
-
-    $scope.$watch(function() {return $scope.from},
-    function(oldval,newval) {
-      if (oldval != newval) {
-        getLocations();
-        State.setFromDate($scope.from);
-      }
-      else
-      {
-        $log.warn("Old From Date and New From Date are the same");
+        $log.warn("Old Dates and New Dates are the same");
       }
     },true)
 
@@ -113,6 +137,7 @@ angular.module('CACMobile')
          }
       });
       modalInstance.result.then(function (date) {
+        State.setToDate(date)
         $scope.to = date;
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
@@ -136,6 +161,7 @@ angular.module('CACMobile')
          }
       });
       modalInstance.result.then(function (date) {
+        State.setFromDate(date);
         $scope.from = date;
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());

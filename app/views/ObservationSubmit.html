@@ -1,13 +1,13 @@
 <div class="text-center navbar navbar-fixed-top header" ng-controller='NavCtrl' ng-include="'views/nav/header.html'"></div>
 
 <div class="content">
-
+  <a id="top"></a>
   <div class="region">
     Submit Photo Observation
   </div>
   <div class="text-wrapper">
 
-  <alert ng-repeat="alert in alerts" type="alert.type">{{alert.msg}}</alert>
+  <alert ng-controller="NavCtrl" ng-repeat="alert in alerts" type="alert.type" bind-html="alert.msg"></alert>
 
   <div ng-show='!submitting'>
 
@@ -17,10 +17,10 @@
 
       <div class="photo-div control-group" ng-repeat="p in photo_list">
          <i class="pull-right glyphicons-icon remove_2" ng-click="removePhoto($index)"></i>
-         <label class="control-label" for="comment"><img class="obs-photo" src="{{p.image}}" /></label>
+         <label class="control-label" for="comment"><img class="obs-photo" ng-src="{{p.image}}" /></label>
 
          <div class="controls">
-            <input type="text" class="form-control" ng-maxlength=250 placeholder="comment" ng-model="p.comment" name="comment" />
+            <input type="text" autocorrect="on" autocapitalize="on" class="form-control" ng-maxlength=250 placeholder="Photo Comment" ng-model="p.comment" name="comment" />
             <div class="alert alert-error" ng-show="form.comment.$dirty && form.comment.$invalid">
               <span ng-show="form.comment.$error.maxlength">Comment must be less than 250 characters</span>
             </div>
@@ -56,36 +56,44 @@
       </div>
 
 
-  <div class="location-div control-group">
-        <label class="control-label"><b>Location</b></label>
-    <div class="controls">
-      <input type="text" ng-model="locationName" ng-maxlength=50 placeholder="Location Name" name="locationName" />
-      <div class="alert alert-error" ng-show="form.locationName.$dirty && form.locationName.$invalid">
-        <span ng-show="form.locationName.$error.maxlength">Location name must be less than 50 characters</span>
-      </div>
-
-      <div class="control-group" ng-controller="ModifyPositionModal">
-
-        <script type="text/ng-template" id="modifyPosition_modal.html">
-          <div class="modal-header">
+      <div class="location-div control-group">
+        <div class="controls">
+          <input type="text" autocorrect="off" autocapitalize="on" ng-model="locationName" ng-maxlength=50 placeholder="Location Name" name="locationName" />
+          <div class="alert alert-error" ng-show="form.locationName.$dirty && form.locationName.$invalid">
+            <span ng-show="form.locationName.$error.maxlength">Location name must be less than 50 characters</span>
           </div>
 
-          <div class="modal-map" id="map-canvas" set-location-map></div>
+          <div class="control-group" ng-controller="ModifyPositionModal">
+            <script type="text/ng-template" id="modifyPosition_modal.html">
+              <div class="modal-header">
+              </div>
 
-          <div class="modal-footer">
-              <button class="btn btn-primary" ng-click="ok()">OK</button>
-              <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-          </div>
-        </script>
-            <p>Position: {{positionDesc}}</p>
-            <button class="glyph-btn glyphicons white google_maps btn btn-info" ng-click="open()">Select from map</button>
+              <div class="modal-map" id="map-canvas" set-location-map></div>
+
+              <div class="modal-footer">
+                  <button class="btn btn-primary" ng-click="ok()">OK</button>
+                  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+              </div>
+            </script>
+              <p>Position: {{positionDesc}}</p>
+              <button class="glyph-btn glyphicons white google_maps btn btn-info" ng-click="open()">Select from map</button>
           </div>
         </div>
       </div>
 
+
+        <div class="controls">
+          <textarea autocorrect="on" autocapitalize="on" ng-model="description" ng-maxlength=1000 placeholder="Add description here" name="description">
+          </textarea>
+          <div class="alert alert-error" ng-show="form.description.$dirty && form.description.$invalid">
+            <span ng-show="form.description.$error.maxlength">Comment name must be less than 1000 characters</span>
+          </div>
+        </div>
+
+
       <div class="control-group">
         <div class="controls">
-          <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="submit()">Submit Photo</button>
+          <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="submit()">Submit Observation</button>
         </div>
       </div>
 

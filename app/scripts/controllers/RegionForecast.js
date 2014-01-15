@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('CACMobile')
-  .controller('RegionForecastCtrl', function ($scope, $routeParams, $location, $log, $modal, Forecast, Data, RegionDefinition) {
-    $scope.loading = true;
+  .controller('RegionForecastCtrl', function ($scope, $routeParams, $location, $log, $modal, Forecast, Data, RegionDefinition, State) {
+
+    State.setLoading(true);
+    $scope.loading = State.getLoading();
     $scope.region = null;
     $scope.regionExists = true;
 
@@ -12,10 +14,21 @@ angular.module('CACMobile')
     //! vars used for problems
     //var foercastProblems = {'avyProblems':null};
 
+    $scope.dangerRatingNumeric = function (dangerDesc) {
+      var dangerRating = {"Low" : "1 -", "Moderate" : "2 -", "Considerable" : "3 -", "High" : "4 -", "Extreme" : "5 -"};
+
+      if (!dangerRating[dangerDesc]){
+        $log.info("No numeric value available for danger rating ", dangerDesc);
+      }
+
+      return dangerRating[dangerDesc];
+    };
+
     function getForecast() {
         Forecast.get($scope.region).then(
                     function(fx){
 
+                         State.setLoading(false);
                          $scope.loading = false;
 
                          $scope.today = fx.today;
@@ -40,7 +53,8 @@ angular.module('CACMobile')
                     },
                     function(error){
                         $log.error('error getting forecast', error);
-                        alert("error getting forecast, check connection");
+                        alert("error getting forecast", error);
+                        State.setLoading(false);
                         window.history.back();
                     }
 

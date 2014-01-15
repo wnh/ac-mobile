@@ -29,6 +29,35 @@ angular.module('CACMobile')
 
   var mapOptions = {zoom: 6, streetViewControl: false, zoomControl: true, center: new google.maps.LatLng(scope.latitude, scope.longitude), mapTypeId: google.maps.MapTypeId.TERRAIN};
   var map = new google.maps.Map(elem[0], mapOptions);
+  var oms = new OverlappingMarkerSpiderfier(map,{legWeight:0});
+
+  //This loads the google map 'Terms of Use' link in an external window
+  $(elem[0]).on('click', 'a', function(e){
+    e.preventDefault();
+    window.open($(this).attr('href'),'_system','location=no');
+  });
+
+  oms.addListener('spiderfy', function(spiderfied,unspiderfied) {
+    for (var i=0; i < unspiderfied.length; i++) {
+      var locMarker = unspiderfied[i]
+      if (locMarker.count < 9) {
+        locMarker.setIcon('img/markers/icona' + locMarker.count + '.png');
+      } else {
+        locMarker.setIcon('img/markers/icona9plus.png');
+      }
+    }
+  });
+
+    oms.addListener('unspiderfy', function(spiderfied,unspiderfied) {
+        for (var i=0; i < unspiderfied.length; i++) {
+      var locMarker = unspiderfied[i]
+      if (locMarker.count < 9) {
+        locMarker.setIcon('img/markers/iconb' + locMarker.count + '.png');
+      } else {
+        locMarker.setIcon('img/markers/iconb9plus.png');
+      }
+    }
+  });
 
   var bounds = Bounds.getBounds()
 
@@ -66,23 +95,29 @@ angular.module('CACMobile')
 
 var locUpdate = function(newValue,oldValue) {
   console.log("Loading markers as locations have changed...")
-  var loclength = 0;
-  if (scope.locations)  {
-    loclength = scope.locations.length;
-  }
   for (var i=0; i < locMarkers.length; i++) {
     locMarkers[i].setMap(null);
   }
   locMarkers = [];
+  var loclength = 0;
+  if (scope.locations)  {
+    loclength = scope.locations.length;
+  }
   for (var i=0; i < loclength; i++) {
     locMarkers.push(createLocMarker(scope.locations[i]));
   }
   console.log(locMarkers);
 }
 
-var loadObs = function(event) {
-  State.setObsIds(event.data)
-  scope.$apply($location.path('/obs-list'))
+var loadObs = function(observation_ids) {
+  if (observation_ids.length == 1) {
+    scope.$apply($location.path('/ObservationViewDetail/' + observation_ids[0]))
+  } 
+  else 
+  {
+    State.setObsIds(observation_ids)
+    scope.$apply($location.path('/obsList'))
+  }
 }
 
 var createLocMarker = function(loc) {
@@ -91,36 +126,23 @@ var createLocMarker = function(loc) {
    var locMarker = new google.maps.Marker()
    locMarker.setPosition(locLatlng);
    locMarker.setMap(map);
-
-  //Build the info window content here, including a button we'll listen for later
-  var buttonid = "but" + loc.id;
-  var locContent = "";// "Location is at " + loc.latitude + "," + loc.longitude + "<br />";
-  var observations = "observations"
-  if (loc.observation_id.length == 1) {
-    observations = "observation"
+   locMarker.count = loc.observation_id.length
+   if (locMarker.count < 9) {
+    locMarker.setIcon('img/markers/iconb' + locMarker.count + '.png');
+  } else {
+    locMarker.setIcon('img/markers/iconb9plus.png');
   }
-  if (loc.observation_id != null) {
-    locContent += "Location has " + loc.observation_id.length + " " + observations + "<br />";
-  }
-  locContent += "<button id=\"" + buttonid + "\">View Obs</button>";
-  var locInfoWindow = new google.maps.InfoWindow({
-    content: locContent
+  if (loc.clustered == true) {
+    locMarker.setZIndex(100);
+   } else {
+    locMarker.setZIndex(50);
+   }
+   locMarker.observations = loc.observation_id
+
+  oms.addMarker(locMarker);
+  oms.addListener('click', function(locMarker) {
+    loadObs(locMarker.observations)
   });
-
-    //Add click listener to open the info window, including tracking which window is open
-  google.maps.event.addListener(locMarker, 'click', function() {
-    if (activeInfoWindow) {
-      activeInfoWindow.close();
-    }
-    locInfoWindow.open(map,locMarker);
-
-    activeInfoWindow = locInfoWindow;
-  });
-
-  // Once the info window opens, and dom is ready, add a jquery listener to the button
-  google.maps.event.addListener(locInfoWindow,'domready', function () {
-    $("#"+buttonid).click(loc.observation_id,function(eventObject) {loadObs(eventObject)});
-  })
   return locMarker;
 }
 

@@ -54,11 +54,13 @@
 
 
     <script src="js/other/xml2json.js"></script>
+    <script src="js/other/oms.min.js"></script>
     <script src="js/plugins/AppAvailability.js"></script>
     <script type="text/javascript" src="GAPlugin.js"></script>
     <script src="cordova.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
 
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -69,6 +71,9 @@
         <script src="bower_components/jquery/jquery.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>
         <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/angularjs-truncate/src/truncate.js"></script>
+
         <script src="bower_components/bootstrap-sass/js/bootstrap-affix.js"></script>
         <script src="bower_components/bootstrap-sass/js/bootstrap-alert.js"></script>
         <script src="bower_components/bootstrap-sass/js/bootstrap-dropdown.js"></script>
@@ -94,6 +99,7 @@
         <script src="scripts/controllers/ObservationList.js"></script>
         <script src="scripts/controllers/ObservationSubmit.js"></script>
         <script src="scripts/controllers/ObservationViewMap.js"></script>
+        <script src="scripts/controllers/ObservationViewDetail.js"></script>
         <!-- services -->
         <script src="scripts/services/location.js"></script>
         <script src="scripts/services/Data.js"></script>
@@ -108,14 +114,15 @@
         <script src="scripts/services/Bounds.js"></script>
         <script src="scripts/services/platform.js"></script>
         <script src="scripts/services/session.js"></script>
+        <script src="scripts/services/GoogleAnalytics.js"></script>
         <!-- directives -->
         <script src="scripts/directives/ConnectionState.js"></script>
         <script src="scripts/directives/FileUpload.js"></script>
         <script src="scripts/directives/googleMap.js"></script>
-        <script src="scripts/directives/obsList.js"></script>
-        <script src="scripts/directives/modalPhoto.js"></script>
         <script src="scripts/directives/setLocationMap.js"></script>
         <script src="scripts/directives/observationMap.js"></script>
+        <script src="scripts/directives/showLocationMap.js"></script>
+        <script src="scripts/directives/bindHtml.js"></script>
         <!-- endbuild -->
 
 </body>

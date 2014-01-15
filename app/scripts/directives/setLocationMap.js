@@ -14,6 +14,11 @@ angular.module('CACMobile')
             map: map,
             title:"Submission Location"
          });
+         //This loads the google map 'Terms of Use' link in an external window
+        $(element[0]).on('click', 'a', function(e){
+          e.preventDefault();
+          window.open($(this).attr('href'),'_system','location=no');
+        });
 
          var moveMarker = function(marker,latlng) {
             marker.setPosition(latlng)

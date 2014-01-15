@@ -4,18 +4,16 @@ angular.module('CACMobile',
   [
     'ngResource',
     'ui.bootstrap',
-    'ngRoute'
+    'ngRoute',
+    'ngSanitize',
+    'truncate'
   ])
   .config(function ($routeProvider) {
+
     $routeProvider
       .when('/', {
-        templateUrl: 'views/Map.html',
-        controller: 'MapCtrl',
-         resolve: {
-          filter: ['ConnectionManager', function (ConnectionManager) {
-            return ConnectionManager.checkOnline();
-          }]
-        }
+        templateUrl: 'views/Loading.html',
+        controller: 'LoadingCtrl'
       })
       .when('/gear', {
         templateUrl: 'views/gear.html',
@@ -33,18 +31,6 @@ angular.module('CACMobile',
         templateUrl: 'views/RegionForecast.html',
         controller: 'RegionForecastCtrl'
       })
-
-      .when('/danger-scale', {
-        templateUrl: 'views/dangerScale.html'
-      })
-      .when('/details-info/:region', {
-        templateUrl: 'views/detailsInfo.html',
-        controller: 'ForecastDetailsCtrl'
-      })
-      .when('/problems/:region', {
-        templateUrl: 'views/problems.html',
-        controller: 'ProblemDetailsCtrl'
-      })
       .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'NavCtrl'
@@ -61,11 +47,11 @@ angular.module('CACMobile',
         templateUrl: 'views/Loading.html',
         controller: 'LoadingCtrl'
       })
-      .when('/Observation', {
-        templateUrl: 'views/Observation.html',
-        controller: 'ObservationCtrl'
+      .when('/ObservationViewDetail/:id', {
+        templateUrl: 'views/ObservationViewDetail.html',
+        controller: 'ObservationViewDetailCtrl'
       })
-      .when ('/obs-list', {
+      .when ('/obsList', {
         templateUrl: 'views/obsList.html',
         controller: 'ObservationListCtrl'
       })
@@ -82,7 +68,7 @@ angular.module('CACMobile',
         controller: 'LoadingCtrl'
       });
   })
-.run( function($rootScope, $location, TOU) {
+.run( function($rootScope, $location, TOU, GoogleAnalytics) {
 
     // register listener to watch route changes
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
@@ -90,4 +76,12 @@ angular.module('CACMobile',
           $location.path( "/tou" );
         }
     });
- });
+
+    $rootScope.$on('$routeChangeSuccess', function () {
+        GoogleAnalytics.trackPage($location.path());
+    })
+
+
+ })
+
+

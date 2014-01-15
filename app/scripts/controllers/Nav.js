@@ -147,6 +147,10 @@ angular.module('CACMobile')
           $scope.acceptedTOU = TOU.accepted();
         },true)
 
+      $scope.$watch(function () { return Session.loggedIn(); },
+      function() {
+          checkSignIn();
+        },true)
       // Assume Android, and check for iPhone/iPod/iPad
 
       $scope.company = "Google"

@@ -41,6 +41,7 @@ angular.module('CACMobile')
         {
           console.log("performing device ready callback ConnectionManager");
           func();
+          $rootScope.$apply();
         }
         else
         {
@@ -53,12 +54,10 @@ angular.module('CACMobile')
 
     function performOnlineCallback () {
       performCallBack(onlineCallbacks);
-      $rootScope.apply();
     }
 
     function performOfflineCallback () {
       performCallBack(offlineCallbacks);
-      $rootScope.apply();
     }
 
     function performDeviceReadyCallback () {
@@ -66,6 +65,18 @@ angular.module('CACMobile')
       document.addEventListener("offline", performOfflineCallback, false);
 
       console.log("Connection Device Ready");
+
+
+      if(online() == true)
+      {
+        $location.path("/Map");
+        $rootScope.$apply();
+      }
+      else
+      {
+        $location.path("/region-list");
+        $rootScope.$apply();
+      }
 
       /*if (online() == false)
       {
@@ -86,10 +97,10 @@ angular.module('CACMobile')
       },
       checkOnline: function() {
         if (!online()) {
-         $location.path("/region-list");   
+         $location.path("/region-list");
          return false;
-        } 
-        else 
+        }
+        else
         {
           return true;
         }

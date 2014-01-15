@@ -92,7 +92,7 @@ angular.module('CACMobile')
 
               //! get from local storage
               var data = null;
-              data = localStorage.getItem(region);
+              data = storageService.getItem(region);
 
               if (data && (ConnectionManager.isOnline() == false))
               {
@@ -143,10 +143,10 @@ angular.module('CACMobile')
 
       clear: function (region)
       {
-        if (localStorage.getItem(region) != null)
+        if (storageService.getItem(region) != null)
         {
           $log.info("removed " + region + " from local storage");
-          localStorage.removeItem(region);
+          storageService.removeItem(region);
         }
         else
         {
@@ -156,7 +156,7 @@ angular.module('CACMobile')
 
       inCache: function (region)
       {
-        return (localStorage.getItem(region) != null);
+        return (storageService.getItem(region) != null);
       }
 
    }// End return
