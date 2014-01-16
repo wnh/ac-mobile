@@ -18,7 +18,7 @@ angular.module('CACMobile')
 
     $scope.token = Session.token();
     $scope.signedIn = false;
-    
+
     var checkSignIn = function(){
       $scope.signedIn = Session.loggedIn();
     };
@@ -33,12 +33,12 @@ angular.module('CACMobile')
     }
 
     $scope.signOut = function(){
-      var confirmRemove = confirm('Are you sure you want to log out?'); 
+      var confirmRemove = confirm('Are you sure you want to log out?');
       if (confirmRemove) {
         Session.destroy();
         checkSignIn();
       } else {
-        $log.info("Sign out clicked but not confirmed")  
+        $log.info("Sign out clicked but not confirmed")
       }
 
     }
@@ -51,7 +51,7 @@ angular.module('CACMobile')
           controller: SignInModalCtrl,
         });
       } else {
-        $log.info("Tried to open sign in modal without accepting TOU") 
+        $log.info("Tried to open sign in modal without accepting TOU")
       }
     }
 
