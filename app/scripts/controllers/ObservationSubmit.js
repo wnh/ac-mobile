@@ -97,6 +97,10 @@ $scope.submit = function (){
     $scope.alerts.push({ type: 'error', msg: 'You must be online to submit an Observation' });
   }
 
+  if (($scope.photo_list.length == 0) && (comment == false)){
+    $scope.alerts.push({ type: 'error', msg: 'You must have a photo OR a description to submit an Observation' });
+  }
+
    //no alerts then submit observation
   if ($scope.alerts.length == 0){
 
@@ -113,7 +117,14 @@ $scope.submit = function (){
             obs.id = response.id;
             $log.info('Observation Submitted successfully obsId= ' + response.id);
             progressSubmissionStatus("Observation Created");
-            submitPhoto(obs.id, 0);
+
+            if ($scope.photo_list.length > 0){
+              submitPhoto(obs.id, 0);
+            }
+            else{
+              submitLocation(obs.id);
+            }
+
           },
           function(response){
             if (response.status == 401) {

@@ -83,7 +83,7 @@
 
 
         <div class="controls">
-          <textarea autocorrect="on" autocapitalize="on" ng-model="description" ng-maxlength=1000 placeholder="Add description here" name="description">
+          <textarea class="text-area" autocorrect="on" autocapitalize="on" ng-model="description" ng-maxlength=1000 placeholder="Add description here" name="description">
           </textarea>
           <div class="alert alert-error" ng-show="form.description.$dirty && form.description.$invalid">
             <span ng-show="form.description.$error.maxlength">Comment name must be less than 1000 characters</span>

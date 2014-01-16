@@ -6,6 +6,7 @@
         <h3>Sign In</h3>
     </div>
 
+   <form>
     <div class="modal-body">
 
         <div class="control-group">
@@ -19,13 +20,10 @@
            <label class="control-label" for="password">Password</label>
            <div class="controls">
               <input type="{{plainText}}" autocorrect="off" autocapitalize="off" ng-model="sessionParams.password" name="password" />
+              Show <input type="checkbox" ng-model="plainText" ng-true-value="text" ng-false-value="password">
            </div>
-           <div class="controls">
-                         Show <input type="checkbox" ng-model="plainText"
-                         ng-true-value="text" ng-false-value="password">
-                         </div>
         </div>
-
+        <hr />
         <p ng-controller='NavCtrl'>No account yet? <a ng-click="openUrl('http://obsnet.avalanche.ca/#/register')">Register now!</a></p>
          <p ng-controller='NavCtrl'>Forgotten password? <a ng-click="openUrl('http://obsnet.avalanche.ca/#/forgot')">Reset now!</a></p>
 
@@ -35,10 +33,13 @@
 
     </div>
 
-    <div class="modal-footer">
-      <button class="btn btn-primary" ng-click="ok()">OK</button>
-      <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    <div class="modal-footer control-group">
+      <div class="controls">
+        <button type="submit" class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+      </div>
     </div>
+    </form>
 
   </script>
 

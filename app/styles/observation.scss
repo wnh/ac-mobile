@@ -27,6 +27,11 @@
   @extend .photo-div;
 }
 
+.text-area
+{
+  width:95%;
+}
+
 .modal-map
 {
    height:300px !important;
@@ -41,7 +46,7 @@
   margin-top:0.5em;
 }
 
-.hidden-submit 
+.hidden-submit
 {
   width:0px;
   height:0px;
@@ -49,7 +54,7 @@
   float:right;
 }
 
-.obs-table-icon 
+.obs-table-icon
 {
   padding-left:0 !important;
   margin: 0 !important;

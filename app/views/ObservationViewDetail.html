@@ -11,7 +11,7 @@
                   <p ng-if="comment">Comment: {{comment.text}} </p>
                     <label class="control-label" ng-if="photos.length > 0"><b>Photos</b></label>
                      <table class="table">
-                      <tr ng-repeat="photoPair in pairedPhotos"> 
+                      <tr ng-repeat="photoPair in pairedPhotos">
                         <td ng-click="loadPhoto(photo)" ng-repeat="photo in photoPair" ng-if="photo" class="text-center">
                           <img ng-src="{{photo.links.thumbnail.href}}"/>
                           <p class="text-center">{{photo.comment | characters:25}}</p>
