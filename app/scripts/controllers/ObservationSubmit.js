@@ -235,7 +235,7 @@ $scope.submit = function (){
         $scope.locationName = "";
         $scope.description = "";
         $scope.alerts.length = 0;
-        $scope.alerts.push({ type: 'success', msg: 'Submission Successful! Thank-you for contributing to public safety. Feel free to add another submission <a href="/#/ObservationViewMap">view submissions</a> or <a href="/#/Map">forecasts</a>' });
+        $scope.alerts.push({ type: 'success', msg: 'Submission Successful! Thank-you for contributing to public safety. Feel free to add another submission <a href="/#/ObservationViewMap">view submissions</a> or <a href="/#/Map">view forecasts</a>' });
       }
     }
 
