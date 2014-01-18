@@ -250,9 +250,9 @@ $scope.submit = function (){
 
 
  //! Load Location Modal Dialog
- $scope.ModifyPositionModal = ['$scope', function ($scope) {
+ $scope.ModifyPositionModal = [function () {
 
-    $scope.open = function () {
+    $scope.openPosition = function () {
 
       var modalInstance = $modal.open({
         templateUrl: 'modifyPosition_modal.html',
