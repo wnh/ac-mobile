@@ -41,7 +41,6 @@ angular.module('CACMobile')
         {
           console.log("performing device ready callback ConnectionManager");
           func();
-          $rootScope.$apply();
         }
         else
         {
@@ -70,12 +69,10 @@ angular.module('CACMobile')
       if(online() == true)
       {
         $location.path("/Map");
-        $rootScope.$apply();
       }
       else
       {
         $location.path("/region-list");
-        $rootScope.$apply();
       }
 
       /*if (online() == false)
