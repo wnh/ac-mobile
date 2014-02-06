@@ -43,10 +43,6 @@ angular.module('CACMobile',
         templateUrl: 'views/Map.html',
         controller: 'MapCtrl'
       })
-      .when('/Loading', {
-        templateUrl: 'views/Loading.html',
-        controller: 'LoadingCtrl'
-      })
       .when('/ObservationViewDetail/:id', {
         templateUrl: 'views/ObservationViewDetail.html',
         controller: 'ObservationViewDetailCtrl'
@@ -72,9 +68,14 @@ angular.module('CACMobile',
 
     // register listener to watch route changes
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-      if ( TOU.accepted() == false ) {
-          $location.path( "/tou" );
-        }
+
+      if( $location.path() != "tou" && $location.path() != "/")
+      {
+        if ( TOU.accepted() == false ) {
+            $location.path( "/tou" );
+          }
+      }
+
     });
 
     $rootScope.$on('$routeChangeSuccess', function () {
