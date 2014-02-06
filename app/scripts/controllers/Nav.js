@@ -1,12 +1,19 @@
 'use strict';
 angular.module('CACMobile')
-  .controller('NavCtrl', function ($scope, $location, $log, CallVenderApp, ConnectionManager, TOU, Session, $modal, State) {
+  .controller('NavCtrl', function ($scope, $location, $log, CallVenderApp, ConnectionManager, TOU, Session, $modal, State, ConnectionManager) {
 
       $scope.acceptedTOU = TOU.accepted();
 
       $scope.acceptTOU = function() {
         TOU.accept();
-        $location.path('/');
+        if(ConnectionManager.isOnline() == true)
+          {
+            $location.path("/Map");
+          }
+          else
+          {
+            $location.path("/region-list");
+          }
       }
 
     $scope.loading = State.getLoading();
