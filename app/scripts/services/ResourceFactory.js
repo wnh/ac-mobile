@@ -89,6 +89,7 @@ angular.module('CACMobile')
               options.fileKey = "image";
               options.fileName = obj.image.substr(obj.image.lastIndexOf('/') + 1);
               options.mimeType = "image/jpeg";
+              options.chunkedMode = true;
               //options.chunkedMode = false;
               options.params = { // Whatever you populate options.params with, will be available in req.body at the server-side.
                   "token": obj.token,
