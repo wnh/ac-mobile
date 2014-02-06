@@ -70,4 +70,6 @@
         Canadian Avalanche Centre
     </author>
 
+      <preference name="load-url-timeout" value="60000" />
+
 </widget>
