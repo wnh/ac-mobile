@@ -17,8 +17,16 @@ angular.module('CACMobile')
     }
 
     if (DeviceReady.ready() == true)
+    //Not using the redirect() function above because we only want to do $rootScope.apply for the callback
     {
-    	redirect();
+    	if(ConnectionManager.isOnline() == true)
+      {
+        $location.path("/Map");
+      }
+      else
+      {
+        $location.path("/region-list");
+      }
     }
     else
     {
