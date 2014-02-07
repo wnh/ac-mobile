@@ -66,23 +66,6 @@ angular.module('CACMobile')
 
       console.log("Connection Device Ready");
 
-
-      if(online() == true)
-      {
-        $location.path("/Map");
-        $rootScope.$apply();
-      }
-      else
-      {
-        $location.path("/region-list");
-        $rootScope.$apply();
-      }
-
-      /*if (online() == false)
-      {
-        alert("No connection detected, check back soon for a version with offline capability.");
-      }*/
-
       performCallBack(deviceReadyCallBacks);
     }
 

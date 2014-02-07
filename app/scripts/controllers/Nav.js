@@ -6,7 +6,14 @@ angular.module('CACMobile')
 
       $scope.acceptTOU = function() {
         TOU.accept();
-        $location.path('/');
+        if(ConnectionManager.isOnline() == true)
+        {
+          $location.path("/Map");
+        }
+        else
+        {
+          $location.path("/region-list");
+        }
       }
 
     $scope.loading = State.getLoading();
