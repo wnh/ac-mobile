@@ -4,7 +4,7 @@ angular.module('CACMobile')
   .factory('ResourceFactory',['$resource', 'platform','$log','$rootScope', function ($resource, platform, $log, $rootScope) {
 
     //! \todo should be config param
-    var apiUrl = "http://0.0.0.0:9999.com";
+    var apiUrl = "http://0.0.0.0:9999";
 
     return {
 
@@ -62,6 +62,16 @@ angular.module('CACMobile')
         return roleObj;
       },
 
+      region: function(){
+
+        var regionObj = $resource(apiUrl+'/region', {},
+        {
+          all: { method: 'GET', isArray:true }
+        });
+
+        return regionObj;
+      }
+
       /*//! \todo comment
       comment: function (){
         var roleObj = $resource(apiUrl+'/comment/:id', {},{})
@@ -79,7 +89,6 @@ angular.module('CACMobile')
         photoObj.create = function (obj, success, fail)
           {
 
-
               //! upload image to s3
               var uploadS3 = function(params)
               {
@@ -93,10 +102,10 @@ angular.module('CACMobile')
                   options.chunkedMode = false;
                   options.params = {
                       "key":obj.image.substr(obj.image.lastIndexOf('/') + 1); ,
-                      "AWSAccessKeyId": awsKey,
-                      "acl": acl,
-                      "policy": policyBase64,
-                      "signature": signature,
+                      "AWSAccessKeyId": params.awsKey,
+                      "acl": params.acl,
+                      "policy": params.policy,
+                      "signature": params.signature,
                       "Content-Type": "image/jpeg"
                   };
 
@@ -144,11 +153,12 @@ angular.module('CACMobile')
               {
 
                 //! Request S3 params from server
-                var s3Params = $resource(apiUrl+'/photo', {},
+                var s3Params = $resource(apiUrl+'/s3', {},
                 {
-                  get: { method: 'GET', url: apiUrl+'/photo/:id'}
+                  get: { method: 'GET', isArray:true}
                 });
 
+                s3Params.get(function(data){uploadS3(data)});
 
               }
               else
