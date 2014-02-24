@@ -4,7 +4,7 @@ angular.module('CACMobile')
   .factory('ResourceFactory',['$resource', 'platform','$log','$rootScope', function ($resource, platform, $log, $rootScope) {
 
     //! \todo should be config param
-    var apiUrl = "http://obsnet.herokuapp.com";
+    var apiUrl = "http://0.0.0.0:9999.com";
 
     return {
 
@@ -76,46 +76,87 @@ angular.module('CACMobile')
         });
 
         //! Cannot post file obj using resource instead overwrite the save function
-        //! \todo put a betetr description/comment here LN ?
         photoObj.create = function (obj, success, fail)
           {
 
-            if (platform.isMobile() == true)
-            {
 
-              var ft      = new FileTransfer();
-              var options = new FileUploadOptions();
+              //! upload image to s3
+              var uploadS3 = function(params)
+              {
 
-              options.fileKey = "image";
-              options.fileName = obj.image.substr(obj.image.lastIndexOf('/') + 1);
-              options.mimeType = "image/jpeg";
-              options.chunkedMode = true;
-              //options.chunkedMode = false;
-              options.params = { // Whatever you populate options.params with, will be available in req.body at the server-side.
-                  "token": obj.token,
-                  "observation_id": obj.observation_id,
-                  "comment": obj.comment,
-                  "image": obj.image
-              };
+                  var ft = new FileTransfer();
+                  var options = new FileUploadOptions();
 
-              ft.upload(obj.image,
-                        apiUrl + '/photo',
-                        function (result) {
-                          success(result.response);
-                          $rootScope.$apply();
-                        },
-                        function (e) {
+                  options.fileKey = "file";
+                  options.fileName = fileName;
+                  options.mimeType = "image/jpeg";
+                  options.chunkedMode = false;
+                  options.params = {
+                      "key":obj.image.substr(obj.image.lastIndexOf('/') + 1); ,
+                      "AWSAccessKeyId": awsKey,
+                      "acl": acl,
+                      "policy": policyBase64,
+                      "signature": signature,
+                      "Content-Type": "image/jpeg"
+                  };
+
+                  ft.upload(obj.image, s3URI,
+                      function (e) {
+                          uploadPhotoData(e);
+                      },
+                      function (e) {
                           fail(e);
-                          $rootScope.$apply();
-                        },
-                        options);
-            }
-            else
-            {
-              $log.warn("No image upload function available for web, image upload skipped");
-              var response = {'id':123};
-              success(response);
-            }
+                      }, options);
+              }
+
+              //! upload data inc s3 url to API
+              var uploadPhotoData = function (url){
+                var ft      = new FileTransfer();
+                var options = new FileUploadOptions();
+
+                options.fileKey = "photo_data";
+                options.fileName = url
+                options.mimeType = "text/plain";
+                options.chunkedMode = false;
+                //options.chunkedMode = false;
+                options.params = { // Whatever you populate options.params with, will be available in req.body at the server-side.
+                    "token": obj.token,
+                    "observation_id": obj.observation_id,
+                    "comment": obj.comment,
+                    "imageUrl": url
+                };
+
+                ft.upload(obj.image,
+                          apiUrl + '/photo',
+                          function (result) {
+                            success(result.response);
+                            $rootScope.$apply();
+                          },
+                          function (e) {
+                            fail(e);
+                            $rootScope.$apply();
+                          },
+                          options);
+                }
+              }
+
+              if (platform.isMobile() == true)
+              {
+
+                //! Request S3 params from server
+                var s3Params = $resource(apiUrl+'/photo', {},
+                {
+                  get: { method: 'GET', url: apiUrl+'/photo/:id'}
+                });
+
+
+              }
+              else
+              {
+                $log.warn("No image upload function available for web, image upload skipped");
+                var response = {'id':123};
+                success(response);
+              }
 
           }
 
