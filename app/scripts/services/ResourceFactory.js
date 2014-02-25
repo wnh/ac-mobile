@@ -66,11 +66,11 @@ angular.module('CACMobile')
 
         var regionObj = $resource(apiUrl+'/region', {},
         {
-          all: { method: 'GET', isArray:true }
+          get: { method: 'GET' }
         });
 
         return regionObj;
-      }
+      },
 
       /*//! \todo comment
       comment: function (){
@@ -101,7 +101,7 @@ angular.module('CACMobile')
                   options.mimeType = "image/jpeg";
                   options.chunkedMode = false;
                   options.params = {
-                      "key":obj.image.substr(obj.image.lastIndexOf('/') + 1); ,
+                      "key":obj.image.substr(obj.image.lastIndexOf('/') + 1),
                       "AWSAccessKeyId": params.awsKey,
                       "acl": params.acl,
                       "policy": params.policy,
@@ -119,7 +119,8 @@ angular.module('CACMobile')
               }
 
               //! upload data inc s3 url to API
-              var uploadPhotoData = function (url){
+              var uploadPhotoData = function (url)
+              {
                 var ft      = new FileTransfer();
                 var options = new FileUploadOptions();
 
@@ -146,7 +147,6 @@ angular.module('CACMobile')
                             $rootScope.$apply();
                           },
                           options);
-                }
               }
 
               if (platform.isMobile() == true)

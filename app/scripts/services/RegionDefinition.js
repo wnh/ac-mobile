@@ -5,16 +5,26 @@ angular.module('CACMobile')
     // Service logic
     // ...
 
-    var regions = localStorage.getItem("regions");
+    var regions = null;
+
+    if (localStorage.getItem("regions"))
+    {
+      regions = JSON.parse(localStorage.getItem("regions"));
+    }
 
     if (ConnectionManager.isOnline())
     {
-        ResourceFactory.region.get(function(data){
-                                                  regions = data;
-                                                  localStorage.setItem("regions",regions);
-                                                 });
+        ResourceFactory.region().get(
+          {},
+          function(response){
+            $log.info("received region data");
+            regions = response.regions;
+            localStorage.setItem("regions",JSON.stringify(regions));
+          },
+          function(error){
+            $log.error(error);
+          });
     }
-
 
 
     var regionExists = function (region)
@@ -40,17 +50,22 @@ angular.module('CACMobile')
       },
 
       getArray: function () {
-        var keys = Object.keys(regions);
+
         var regionArray = [];
-        for (var i=0;i<keys.length;i++) {
-          regionArray.push({name:keys[i],display:regions[keys[i]].display});
+        if (regions != null)
+        {
+          var keys = Object.keys(regions);
+          for (var i=0;i<keys.length;i++) {
+            regionArray.push({name:keys[i],display:regions[keys[i]].display});
+          }
         }
+
         return regionArray;
       },
 
       getUrl: function (region) {
         var retVal = null;
-        if (regionExists(region) == true){
+        if (regions != null && regionExists(region) == true){
           retVal = regions[region].url;
         }
         else

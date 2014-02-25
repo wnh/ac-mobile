@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.controller('MapCtrl', function ($scope, location) {
+.controller('MapCtrl', function ($scope, location, RegionDefinition) {
 
 	$scope.latitude = 50.9831700;
 	$scope.longitude = -118.2023000;
