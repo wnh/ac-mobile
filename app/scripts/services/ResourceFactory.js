@@ -149,24 +149,24 @@ angular.module('CACMobile')
                           options);
               }
 
-              if (platform.isMobile() == true)
-              {
+              //if (platform.isMobile() == true)
+              //{
 
                 //! Request S3 params from server
                 var s3Params = $resource(apiUrl+'/s3', {},
                 {
-                  get: { method: 'GET', isArray:true}
+                  get: { method: 'GET'}
                 });
 
-                s3Params.get(function(data){uploadS3(data)});
+                s3Params.get({token: obj.token}, function(data){uploadS3(data)} ,function(error){$log.error(error)});
 
-              }
+              /*}
               else
               {
                 $log.warn("No image upload function available for web, image upload skipped");
                 var response = {'id':123};
                 success(response);
-              }
+              }*/
 
           }
 
