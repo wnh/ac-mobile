@@ -108,7 +108,7 @@ angular.module('CACMobile')
         photoObj.create = function (obj, success, fail)
           {
 
-              //! upload image to s3
+              //! upload image to s3 using paramaters retrieved from server
               var uploadS3 = function(params)
               {
 
@@ -130,8 +130,6 @@ angular.module('CACMobile')
                       "Content-Type": "image/jpeg"
                   };
 
-
-
                   ft.upload(obj.image, s3URI,
                       function (e) {
                           $log.info("Image uploaded to s3. Return Value", e);
@@ -143,43 +141,16 @@ angular.module('CACMobile')
                       }, options);
               }
 
-              //! upload data inc s3 url to API
+              //! upload photo to API include name of file on s3. Stores in database and creates photo object
               var uploadPhotoData = function (fileName)
               {
-                /*
-                var ft      = new FileTransfer();
-                var options = new FileUploadOptions();
-
-                options.fileKey = "photo_data";
-                options.fileName = fileName;
-                options.mimeType = "text/plain";
-                options.chunkedMode = false;
-                //options.chunkedMode = false;
-                options.params = { // Whatever you populate options.params with, will be available in req.body at the server-side.
-                    "token": obj.token,
-                    "observation_id": obj.observation_id,
-                    "comment": obj.comment,
-                    "imageId": fileName
-                };
-
-                ft.upload(obj.image,
-                          apiUrl + '/photo',
-                          function (result) {
-                            //success(result.response);
-                            $rootScope.$apply();
-                          },
-                          function (e) {
-                            fail(e);
-                            $rootScope.$apply();
-                          },
-                          options);
-                */
 
                 var params = { "token": obj.token,
                                "observation_id": obj.observation_id,
                                "comment": obj.comment,
                                "image_id": fileName};
 
+                // dont want to expose this publicly so instead create a new photo resource locally
                 var photoDataApi = $resource(apiUrl+'/photo', {},
                 {
                   create: { method: 'POST'}
@@ -205,10 +176,10 @@ angular.module('CACMobile')
               s3Params.get({token: obj.token},
                            function(data){
                             $log.info("S3 paramaters recieved", data);
-                            uploadS3(data)
+                            uploadS3(data);
                            },
                            function(error){
-                            $log.error(error)
+                            $log.error(error);
                            });
 
           }
