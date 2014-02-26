@@ -104,6 +104,47 @@ $scope.submit = function (){
    //no alerts then submit observation
   if ($scope.alerts.length == 0){
 
+
+    var submitPhoto = function(obsId, i){
+      var photo = null;
+      if ($scope.submitting == true)
+      {
+
+          photo = {'id':null,'token':Session.token(), 'observation_id':obsId, 'comment':$scope.photo_list[i].comment, 'image':$scope.photo_list[i].image};
+          $log.info("Submitting photo = ", photo);
+
+          ResourceFactory.photo().create(photo,
+              function(response){
+                i ++;
+
+                progressSubmissionStatus("Photo " + i + " Submitted");
+                $log.info('Photo ' + i + ' Submitted Successfully ' + response);
+
+                if (i < $scope.photo_list.length){
+                  submitPhoto(obsId, i);
+                }
+                else if (i == $scope.photo_list.length){
+                  //submitLocation(obsId);
+                }
+                else
+                {
+                  $log.error("Index counter increased beyond number of photos ! ", i , $scope.photo_list.length);
+                }
+
+              },
+              function(response){
+                $scope.submitting = false;
+                $log.error("error submitting photo", response);
+                $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo ' + response });
+              });
+
+      }
+    }
+
+    $scope.submitProgress = 10;
+    $scope.submitting = true;
+    submitPhoto(101, 0);
+    /*
     var submitObs = function (){
 
       if ($scope.submitting == true)
@@ -241,7 +282,7 @@ $scope.submit = function (){
 
     $scope.submitProgress = 10;
     $scope.submitting = true;
-    submitObs();
+    submitObs(); */
 
   } else {
     scrollToErrors();

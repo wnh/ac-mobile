@@ -3,8 +3,27 @@
 angular.module('CACMobile')
   .factory('ResourceFactory',['$resource', 'platform','$log','$rootScope', function ($resource, platform, $log, $rootScope) {
 
+    function FileTransferSim(){};
+    FileTransferSim.prototype.upload = function (obj, url, success, fail, options)
+    {
+      $log.info("File Transfer Upload Simulated");
+      $log.info("url", url);
+      $log.info("options", options);
+      success(null);
+    }
+
+    function FileUploadOptionsSim(){};
+    FileUploadOptionsSim.prototype.fileKey = "";
+    FileUploadOptionsSim.prototype.fileName = "";
+    FileUploadOptionsSim.prototype.mimeType = "";
+    FileUploadOptionsSim.prototype.chunkedMode = false;
+    FileUploadOptionsSim.prototype.params = {};
+
+    var FileTransfer = FileTransfer || FileTransferSim; //( FileTransfer ? new FileTransfer() : new FileTransferSim() );
+    var FileUploadOptions =  FileUploadOptions || FileUploadOptionsSim; //new FileUploadOptions() || new FileUploadOptionsSim();//( FileUploadOptions ? new FileUploadOptions() : new FileUploadOptionsSim());
+
     //! \todo should be config param
-    var apiUrl = "http://0.0.0.0:9999";
+    var apiUrl = "http://0.0.0.0:9999";//"http://obsnet.herokuapp.com";//"http://0.0.0.0:9999";
 
     return {
 
@@ -82,7 +101,7 @@ angular.module('CACMobile')
       photo: function (){
         var photoObj = $resource(apiUrl+'/photo', {},
         {
-          get: { method: 'GET', url: apiUrl+'/photo/:id'}
+          get: { method: 'GET', url: apiUrl+'/photo/:id'},
         });
 
         //! Cannot post file obj using resource instead overwrite the save function
@@ -93,15 +112,17 @@ angular.module('CACMobile')
               var uploadS3 = function(params)
               {
 
+                  var s3URI    = encodeURI("https://"+ params.bucket +".s3.amazonaws.com/");
+
                   var ft = new FileTransfer();
                   var options = new FileUploadOptions();
 
                   options.fileKey = "file";
-                  options.fileName = fileName;
+                  options.fileName = params.fileName;
                   options.mimeType = "image/jpeg";
                   options.chunkedMode = false;
                   options.params = {
-                      "key":obj.image.substr(obj.image.lastIndexOf('/') + 1),
+                      "key":params.fileName,
                       "AWSAccessKeyId": params.awsKey,
                       "acl": params.acl,
                       "policy": params.policy,
@@ -109,23 +130,28 @@ angular.module('CACMobile')
                       "Content-Type": "image/jpeg"
                   };
 
+
+
                   ft.upload(obj.image, s3URI,
                       function (e) {
-                          uploadPhotoData(e);
+                          $log.info("Image uploaded to s3. Return Value", e);
+                          uploadPhotoData(params.fileName);
                       },
                       function (e) {
+                          $log.error("Image failed to upload to s3");
                           fail(e);
                       }, options);
               }
 
               //! upload data inc s3 url to API
-              var uploadPhotoData = function (url)
+              var uploadPhotoData = function (fileName)
               {
+                /*
                 var ft      = new FileTransfer();
                 var options = new FileUploadOptions();
 
                 options.fileKey = "photo_data";
-                options.fileName = url
+                options.fileName = fileName;
                 options.mimeType = "text/plain";
                 options.chunkedMode = false;
                 //options.chunkedMode = false;
@@ -133,13 +159,13 @@ angular.module('CACMobile')
                     "token": obj.token,
                     "observation_id": obj.observation_id,
                     "comment": obj.comment,
-                    "imageUrl": url
+                    "imageId": fileName
                 };
 
                 ft.upload(obj.image,
                           apiUrl + '/photo',
                           function (result) {
-                            success(result.response);
+                            //success(result.response);
                             $rootScope.$apply();
                           },
                           function (e) {
@@ -147,26 +173,43 @@ angular.module('CACMobile')
                             $rootScope.$apply();
                           },
                           options);
-              }
+                */
 
-              //if (platform.isMobile() == true)
-              //{
+                var params = { "token": obj.token,
+                               "observation_id": obj.observation_id,
+                               "comment": obj.comment,
+                               "image_id": fileName};
 
-                //! Request S3 params from server
-                var s3Params = $resource(apiUrl+'/s3', {},
+                var photoDataApi = $resource(apiUrl+'/photo', {},
                 {
-                  get: { method: 'GET'}
+                  create: { method: 'POST'}
                 });
 
-                s3Params.get({token: obj.token}, function(data){uploadS3(data)} ,function(error){$log.error(error)});
+                photoDataApi.create(params,
+                                 function(result){
+                                  $log.info("Photo added to database", result);
+                                  success(result.response);
+                                 },
+                                 function(error){
+                                  $log.error(error);
+                                  fail(error);
+                                 });
+              }
 
-              /*}
-              else
+              //! Request S3 params from server
+              var s3Params = $resource(apiUrl+'/s3', {},
               {
-                $log.warn("No image upload function available for web, image upload skipped");
-                var response = {'id':123};
-                success(response);
-              }*/
+                get: { method: 'GET'}
+              });
+
+              s3Params.get({token: obj.token},
+                           function(data){
+                            $log.info("S3 paramaters recieved", data);
+                            uploadS3(data)
+                           },
+                           function(error){
+                            $log.error(error)
+                           });
 
           }
 
