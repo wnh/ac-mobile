@@ -170,7 +170,7 @@ $scope.submit = function (){
               function(response){
                 $scope.submitting = false;
                 $log.error("error submitting photo", response);
-                $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo ' + response });
+                $scope.alerts.push({ type: 'error', msg: 'Error Uploading Photo '});
               });
 
       }
@@ -214,7 +214,7 @@ $scope.submit = function (){
               function(response){
                 comment.id = response.id;
                 progressSubmissionStatus("Comment Submitted");
-                $log.info('Comment Submitted Successfully id' + response.id);
+                $log.info('Comment Submitted Successfully id', response.id);
               },
               function(response){
                 $scope.submitting = false;

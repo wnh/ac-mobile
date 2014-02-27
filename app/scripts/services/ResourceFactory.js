@@ -23,7 +23,7 @@ angular.module('CACMobile')
     var FileUploadOptions =  FileUploadOptions || FileUploadOptionsSim; //new FileUploadOptions() || new FileUploadOptionsSim();//( FileUploadOptions ? new FileUploadOptions() : new FileUploadOptionsSim());
 
     //! \todo should be config param
-    var apiUrl = "http://0.0.0.0:9999";//"http://obsnet.herokuapp.com";//"http://0.0.0.0:9999";
+    var apiUrl = "http://obsnet.herokuapp.com";//"http://0.0.0.0:9999";
 
     return {
 
