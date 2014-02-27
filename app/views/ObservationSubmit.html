@@ -17,7 +17,7 @@
 
       <div class="photo-div control-group" ng-repeat="p in photo_list">
          <i class="pull-right glyphicons-icon remove_2" ng-click="removePhoto($index)"></i>
-         <label class="control-label" for="comment"><img class="obs-photo" ng-src="{{p.image}}" /></label>
+         <label class="control-label" for="comment"><img id="image" class="obs-photo" ng-src="{{p.image}}" /></label>
 
          <div class="controls">
             <input type="text" autocorrect="on" autocapitalize="on" class="form-control" ng-maxlength=250 placeholder="Photo Comment" ng-model="p.comment" name="comment" />
@@ -27,33 +27,45 @@
          </div>
       </div>
 
-      <div class="control-group" ng-controller="LoadPhotoModal">
-          <script type="text/ng-template" id="loadPhoto_modal.html">
-              <div class="modal-header">
-                  <h3> Pick a source</h3>
-              </div>
-              <div class="modal-body-content">
-              <p></p>
-              <div class="control-group">
-                <div class="controls">
-                 <button class="btn" ng-click="library()">Library</button>
+      <div ng-show="mobile">
+        <div class="control-group" ng-controller="LoadPhotoModal">
+            <script type="text/ng-template" id="loadPhoto_modal.html">
+                <div class="modal-header">
+                    <h3> Pick a source</h3>
                 </div>
-              </div>
+                <div class="modal-body-content">
+                <p></p>
+                <div class="control-group">
+                  <div class="controls">
+                   <button class="btn" ng-click="library()">Library</button>
+                  </div>
+                </div>
 
-              <div class="control-group">
-                <div class="controls">
-                 <button class="btn" ng-click="camera()">Camera</button>
+                <div class="control-group">
+                  <div class="controls">
+                   <button class="btn" ng-click="camera()">Camera</button>
+                  </div>
                 </div>
-              </div>
-              </div>
-              <div class="modal-footer">
-                  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-              </div>
-          </script>
-          <div class="controls">
-            <button class="glyph-btn glyphicons white plus btn btn-info" ng-click="open()"> Add Photo</button>
-          </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                </div>
+            </script>
+            <div class="controls">
+              <button class="glyph-btn glyphicons white plus btn btn-info" ng-click="open()"> Add Photo</button>
+            </div>
+        </div>
       </div>
+
+
+
+
+
+      <div ng-show="web">
+        <input show-image type="file" id="image" name="image">
+      </div>
+
+
 
 
       <div class="location-div control-group">

@@ -5,6 +5,8 @@ angular.module('CACMobile')
               ['$scope', 'ResourceFactory', 'location', '$resource', '$location', '$modal', '$log','platform', '$routeParams', 'Session', 'ConnectionManager', 'State','$anchorScroll',
                 function ($scope, ResourceFactory, location, $resource, $location, $modal, $log, platform, $routeParams, Session, ConnectionManager, State, $anchorScroll) {
 
+  $scope.mobile = platform.isMobile();
+  $scope.web = platform.isWeb();
 
   $scope.photo_list = State.getSubmissionValue('photo_list');
   $scope.alerts = [];
@@ -312,7 +314,6 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
 
   }];
 
-
   var LoadPhotoModalCtrl = ['$scope', '$modalInstance', function ($scope, $modalInstance) {
 
     var photo = null;
@@ -385,5 +386,22 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
     };
   }];
   //! }
+
+  //! { photo web viewer
+
+ /* $scope.showImage = function(input)
+  {
+    if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+              $scope.photo_list.push(e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+  }
+
+  //}*/
 
   }]);

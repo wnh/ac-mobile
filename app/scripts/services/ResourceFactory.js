@@ -113,32 +113,62 @@ angular.module('CACMobile')
               {
 
                   var s3URI    = encodeURI("https://"+ params.bucket +".s3.amazonaws.com/");
+                  var uploadComplete = function (e) {
+                                          $log.info("Image uploaded to s3. Return Value", e);
+                                          uploadPhotoData(params.fileName);
+                                        }
+                  var uploadFailed   = function (e) {
+                                          $log.error("Image failed to upload to s3");
+                                          fail(e);
+                                       }
 
-                  var ft = new FileTransfer();
-                  var options = new FileUploadOptions();
+                  if (platform.isMobile() == true)
+                  {
+                    var ft = new FileTransfer();
+                    var options = new FileUploadOptions();
 
-                  options.fileKey = "file";
-                  options.fileName = params.fileName;
-                  options.mimeType = "image/jpeg";
-                  options.chunkedMode = false;
-                  options.params = {
-                      "key":params.fileName,
-                      "AWSAccessKeyId": params.awsKey,
-                      "acl": params.acl,
-                      "policy": params.policy,
-                      "signature": params.signature,
-                      "Content-Type": "image/jpeg"
-                  };
+                    options.fileKey = "file";
+                    options.fileName = params.fileName;
+                    options.mimeType = "image/jpeg";
+                    options.chunkedMode = false;
+                    options.params = {
+                        "key":params.fileName,
+                        "AWSAccessKeyId": params.awsKey,
+                        "acl": params.acl,
+                        "policy": params.policy,
+                        "signature": params.signature,
+                        "Content-Type": "image/jpeg"
+                    };
 
-                  ft.upload(obj.image, s3URI,
-                      function (e) {
-                          $log.info("Image uploaded to s3. Return Value", e);
-                          uploadPhotoData(params.fileName);
-                      },
-                      function (e) {
-                          $log.error("Image failed to upload to s3");
-                          fail(e);
-                      }, options);
+                    ft.upload(obj.image,
+                              s3URI,
+                              uploadComplete,
+                              uploadFailed,
+                              options);
+                  }
+                  else
+                  {
+                    //var file = document.getElementById('image').files[0];
+                    var fd = new FormData();
+
+
+                    fd.append('key', params.fileName);
+                    fd.append('acl', params.acl);
+                    fd.append('Content-Type', "image/jpeg");
+                    fd.append('AWSAccessKeyId',  params.awsKey);
+                    fd.append('policy', params.policy)
+                    fd.append('signature',params.signature);
+
+                    fd.append("file",obj.image);
+
+                    var xhr = new XMLHttpRequest();
+
+                    xhr.addEventListener("load", uploadComplete, false);
+                    xhr.addEventListener("error", uploadFailed, false);
+                    xhr.open('POST', s3URI, true); //MUST BE LAST LINE BEFORE YOU SEND
+
+                    xhr.send(fd);
+                  }
               }
 
               //! upload photo to API include name of file on s3. Stores in database and creates photo object
