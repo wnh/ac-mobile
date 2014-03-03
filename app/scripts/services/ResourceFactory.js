@@ -3,25 +3,6 @@
 angular.module('CACMobile')
   .factory('ResourceFactory',['$resource', 'platform','$log','$rootScope', function ($resource, platform, $log, $rootScope) {
 
-    function FileTransferSim(){};
-    FileTransferSim.prototype.upload = function (obj, url, success, fail, options)
-    {
-      $log.info("File Transfer Upload Simulated");
-      $log.info("url", url);
-      $log.info("options", options);
-      success(null);
-    }
-
-    function FileUploadOptionsSim(){};
-    FileUploadOptionsSim.prototype.fileKey = "";
-    FileUploadOptionsSim.prototype.fileName = "";
-    FileUploadOptionsSim.prototype.mimeType = "";
-    FileUploadOptionsSim.prototype.chunkedMode = false;
-    FileUploadOptionsSim.prototype.params = {};
-
-    var FileTransfer = FileTransfer || FileTransferSim; //( FileTransfer ? new FileTransfer() : new FileTransferSim() );
-    var FileUploadOptions =  FileUploadOptions || FileUploadOptionsSim; //new FileUploadOptions() || new FileUploadOptionsSim();//( FileUploadOptions ? new FileUploadOptions() : new FileUploadOptionsSim());
-
     //! \todo should be config param
     var apiUrl = "http://obsnet.herokuapp.com";//"http://0.0.0.0:9999";
 
@@ -112,13 +93,14 @@ angular.module('CACMobile')
               var uploadS3 = function(params)
               {
 
+                  params.acl   = 'public-read';
                   var s3URI    = encodeURI("https://"+ params.bucket +".s3.amazonaws.com/");
                   var uploadComplete = function (e) {
-                                          $log.info("Image uploaded to s3. Return Value", e);
+                                          $log.info("Image uploaded to s3. Return Value", e.result);
                                           uploadPhotoData(params.fileName);
                                         }
                   var uploadFailed   = function (e) {
-                                          $log.error("Image failed to upload to s3");
+                                          $log.error("Image failed to upload to s3", e);
                                           fail(e);
                                        }
 
@@ -140,6 +122,9 @@ angular.module('CACMobile')
                         "Content-Type": "image/jpeg"
                     };
 
+                    $log.info("options", options);
+                    $log.info("image", obj.image);
+
                     ft.upload(obj.image,
                               s3URI,
                               uploadComplete,
@@ -151,15 +136,18 @@ angular.module('CACMobile')
                     //var file = document.getElementById('image').files[0];
                     var fd = new FormData();
 
+                    $log.info(params);
 
                     fd.append('key', params.fileName);
-                    fd.append('acl', params.acl);
-                    fd.append('Content-Type', "image/jpeg");
                     fd.append('AWSAccessKeyId',  params.awsKey);
+                    fd.append('acl', params.acl);
                     fd.append('policy', params.policy)
                     fd.append('signature',params.signature);
+                    fd.append('Content-Type', "image/jpeg");
 
-                    fd.append("file",obj.image);
+                    fd.append("file",obj.file);
+
+                    $log.info(fd);
 
                     var xhr = new XMLHttpRequest();
 
