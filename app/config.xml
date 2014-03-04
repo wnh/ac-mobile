@@ -17,7 +17,7 @@
 	<content src="index.html" />
 
 	<!-- PhoneGap API -->
-  <preference name="phonegap-version" value="3.1.0" />
+  <preference name="phonegap-version" value="3.3.0" />
 
 	<!-- PhoneGap API -->
 	<access subdomains="true" uri="file:///store/home" />

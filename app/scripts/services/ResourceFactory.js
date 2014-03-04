@@ -96,7 +96,7 @@ angular.module('CACMobile')
                   params.acl   = 'public-read';
                   var s3URI    = encodeURI("https://"+ params.bucket +".s3.amazonaws.com/");
                   var uploadComplete = function (e) {
-                                          $log.info("Image uploaded to s3. Return Value", e.result);
+                                          $log.info("Image uploaded to s3. Return Value", e.response);
                                           uploadPhotoData(params.fileName);
                                         }
                   var uploadFailed   = function (e) {
@@ -113,6 +113,7 @@ angular.module('CACMobile')
                     options.fileName = params.fileName;
                     options.mimeType = "image/jpeg";
                     options.chunkedMode = false;
+                    options.headers = { Connection: "close" };
                     options.params = {
                         "key":params.fileName,
                         "AWSAccessKeyId": params.awsKey,
