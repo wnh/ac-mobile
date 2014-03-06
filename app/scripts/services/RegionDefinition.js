@@ -73,6 +73,18 @@ angular.module('CACMobile')
           $log.error("Undefined Region", region);
         }
         return retVal;
+      },
+
+      getType: function (region) {
+        var retVal = null;
+        if (regions != null && regionExists(region) == true){
+          retVal = regions[region].type;
+        }
+        else
+        {
+          $log.error("Undefined Region", region);
+        }
+        return retVal;
       }
 
     };

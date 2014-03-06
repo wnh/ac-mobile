@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .factory('ConnectionManager', function($rootScope, DeviceReady, $location) {
+  .factory('ConnectionManager', function($rootScope, $route, DeviceReady, $location) {
 
     //! {
     var defaultState = {'type':'unknown'}; //{'type':'wifi'}; //{'type':'unknown'};
@@ -52,6 +52,10 @@ angular.module('CACMobile')
 
     }
 
+    function refresh(){
+      $route.reload();
+    }
+
     function performOnlineCallback () {
       performCallBack(onlineCallbacks);
     }
@@ -61,8 +65,15 @@ angular.module('CACMobile')
     }
 
     function performDeviceReadyCallback () {
+
+      //! When the device goes online iterate through online callbacks
       document.addEventListener("online", performOnlineCallback, false);
+
+      //! when the device goes offline iterate through offline callbacks
       document.addEventListener("offline", performOfflineCallback, false);
+
+      //! on resume resfresh the current view
+      document.addEventListener("resume", refresh, false);
 
       console.log("Connection Device Ready");
 

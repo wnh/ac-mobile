@@ -351,6 +351,7 @@ angular.module('CACMobile')
                                   forecast = new CacData(result.data);
                                   defer.resolve(forecast);
                                   checkDate(forecast, result.cache);
+                                  retries = 0;
                                 } else {
 
                                   Data.clear(region);
@@ -374,6 +375,7 @@ angular.module('CACMobile')
                                   forecast = new ParksData(result.data);
                                   defer.resolve(forecast);
                                   checkDate(forecast, result.cache);
+                                  retries = 0;
                                 } else {
 
                                   Data.clear(region);
