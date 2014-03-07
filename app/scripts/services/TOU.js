@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-.service('TOU', function TOU() {
+.service('TOU', function TOU(RegionDefinition) {
    var storage = window.localStorage;
 
    return {
