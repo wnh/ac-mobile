@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .factory('ConnectionManager', function($rootScope, $route, DeviceReady, $location) {
+  .factory('ConnectionManager', function($rootScope, $route, DeviceReady, RegionDefinition, $location) {
 
     //! {
     var defaultState = {'type':'unknown'}; //{'type':'wifi'}; //{'type':'unknown'};
@@ -53,10 +53,12 @@ angular.module('CACMobile')
     }
 
     function refresh(){
+      RegionDefinition.update();
       $route.reload();
     }
 
     function performOnlineCallback () {
+      RegionDefinition.update();
       performCallBack(onlineCallbacks);
     }
 
@@ -78,6 +80,8 @@ angular.module('CACMobile')
       console.log("Connection Device Ready");
 
       performCallBack(deviceReadyCallBacks);
+
+      RegionDefinition.update();
     }
 
     DeviceReady.addEventListener(performDeviceReadyCallback);
