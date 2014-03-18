@@ -7,25 +7,38 @@ angular.module('CACMobile')
 
     var regions = null;
 
-    if (localStorage.getItem("regions"))
+    var getRegions = function()
     {
-      regions = JSON.parse(localStorage.getItem("regions"));
-    }
+      if (localStorage.getItem("regions"))
+      {
+        //! regions stored as string so need to parse to json
+        regions = JSON.parse(localStorage.getItem("regions"));
+      }
 
-    if (ConnectionManager.isOnline())
-    {
-        ResourceFactory.region().get(
-          {},
-          function(response){
-            $log.info("received region data");
-            regions = response.regions;
-            localStorage.setItem("regions",JSON.stringify(regions));
-          },
-          function(error){
-            $log.error(error);
-          });
-    }
+      if (ConnectionManager.isOnline())
+      {
+          ResourceFactory.region().get(
+            {},
+            function(response){
+              $log.info("received region data");
+              regions = response.regions;
 
+              if (localStorage.getItem("regions"))
+              {
+                localStorage.removeItem("regions");
+              }
+
+              //! Store regions as string to lcal storage
+              localStorage.setItem("regions",JSON.stringify(regions));
+            },
+            function(error){
+              $log.error(error);
+            });
+      }
+    };
+
+    getRegions();
+    ConnectionManager.addResumeCallback(getRegions);
 
     var regionExists = function (region)
     {
@@ -41,17 +54,39 @@ angular.module('CACMobile')
 
     return {
 
+      update: function (){
+          getRegions();
+      },
+
       get: function () {
+
+        if (regions == null)
+        {
+          getRegions();
+        }
+
         return regions;
       },
 
       exists: function (region){
-          return regionExists(region);
+
+        if (regions == null)
+        {
+          getRegions();
+        }
+
+        return regionExists(region);
       },
 
       getArray: function () {
 
         var regionArray = [];
+
+        if (regions == null)
+        {
+          getRegions();
+        }
+
         if (regions != null)
         {
           var keys = Object.keys(regions);
@@ -65,6 +100,12 @@ angular.module('CACMobile')
 
       getUrl: function (region) {
         var retVal = null;
+
+        if (regions == null)
+        {
+          getRegions();
+        }
+
         if (regions != null && regionExists(region) == true){
           retVal = regions[region].url;
         }
@@ -72,6 +113,26 @@ angular.module('CACMobile')
         {
           $log.error("Undefined Region", region);
         }
+
+        return retVal;
+      },
+
+      getType: function (region) {
+        var retVal = null;
+
+        if (regions == null)
+        {
+          getRegions();
+        }
+
+        if (regions != null && regionExists(region) == true){
+          retVal = regions[region].type;
+        }
+        else
+        {
+          $log.error("Undefined Region", region);
+        }
+
         return retVal;
       }
 

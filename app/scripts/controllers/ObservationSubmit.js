@@ -327,6 +327,7 @@ var SetLocationModalCtrl = ['$scope', '$modalInstance', 'location', function ($s
               window.resolveLocalFileSystemURI(response,
                                                function (entry){
                                                   photo = entry.fullPath;
+                                                  $log.info("image path=",photo);
                                                   $modalInstance.close(photo);
                                                 },
                                                function (evt){

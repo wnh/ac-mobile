@@ -2,14 +2,6 @@
 //Provides services for getting Data from HTTP and local file
 //Does not use any instance specific information instead acts as a facade wrapper
 
-
-// allows  cross origin requests
-angular.module('CACMobile')
-.config(function($httpProvider){
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-});
-
-
 angular.module('CACMobile')
 .factory('Data', function($http,$rootScope,$q, $log, ConnectionManager, platform, DeviceReady){
 
@@ -50,7 +42,8 @@ angular.module('CACMobile')
                         }
 
                     }).
-                    error(function(data, status) {
+                    error(function(data, status, headers, config){
+                        console.error("Http Get Failed with", status);
                         defer.reject(status);
                     });
 
@@ -94,7 +87,7 @@ angular.module('CACMobile')
               var data = null;
               data = storageService.getItem(region);
 
-              if (data && (ConnectionManager.isOnline() == false))
+              if ((data === null) && (ConnectionManager.isOnline() == false))
               {
                 $log.info("Got Data from local storage");
                 //var result = JSON.parse(data);defer.resolve(result);
@@ -109,6 +102,7 @@ angular.module('CACMobile')
                 }
                 else
                 {
+                  errorCount = 0;
                   $log.error("Invalid Response To many Retries");
                   defer.reject("Invalid Response To many Retries");
                 }
@@ -124,6 +118,7 @@ angular.module('CACMobile')
 
           var success = function (data)
           {
+            errorCount = 0;
             $log.info("item added to local storage");
             storageService.setItem(region, data);
             var json = xmlToJson(data);

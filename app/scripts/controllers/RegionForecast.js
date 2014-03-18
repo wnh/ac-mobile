@@ -64,9 +64,17 @@ angular.module('CACMobile')
 
     if (RegionDefinition.exists($routeParams.region) === true)
     {
-      $scope.region = $routeParams.region;
-      $scope.regionExists = true;
-      getForecast();
+      if (RegionDefinition.getType($routeParams.region)=="web")
+      {
+        window.history.back();
+        window.open(RegionDefinition.getUrl($routeParams.region),'_system','location=no');
+      }
+      else
+      {
+        $scope.region = $routeParams.region;
+        $scope.regionExists = true;
+        getForecast();
+      }
     }
     else
     {
