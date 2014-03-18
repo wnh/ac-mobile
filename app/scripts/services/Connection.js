@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CACMobile')
-  .factory('ConnectionManager', function($rootScope, $route, DeviceReady, RegionDefinition, $location) {
+  .factory('ConnectionManager', function($rootScope, $route, DeviceReady, $location) {
 
     //! {
     var defaultState = {'type':'unknown'}; //{'type':'wifi'}; //{'type':'unknown'};
@@ -30,6 +30,7 @@ angular.module('CACMobile')
     var deviceReadyCallBacks = [];
     var onlineCallbacks = [];
     var offlineCallbacks = [];
+    var resumeCallbacks = [];
 
     function performCallBack (cb) {
 
@@ -52,13 +53,14 @@ angular.module('CACMobile')
 
     }
 
-    function refresh(){
-      RegionDefinition.update();
-      $route.reload();
+    function performResumeCallbacks(){
+      //RegionDefinition.update();
+      //$route.reload();
+      performCallBack(resumeCallbacks);
     }
 
     function performOnlineCallback () {
-      RegionDefinition.update();
+      //RegionDefinition.update();
       performCallBack(onlineCallbacks);
     }
 
@@ -75,14 +77,27 @@ angular.module('CACMobile')
       document.addEventListener("offline", performOfflineCallback, false);
 
       //! on resume resfresh the current view
-      document.addEventListener("resume", refresh, false);
+      document.addEventListener("resume", performResumeCallbacks, false);
 
       console.log("Connection Device Ready");
 
       performCallBack(deviceReadyCallBacks);
-
-      RegionDefinition.update();
     }
+
+    var addResumeCallback = function(cb)
+    {
+      if (cb != null)
+      {
+        resumeCallbacks.push(cb);
+      }
+    };
+
+    var refresh = function()
+    {
+      $route.reload();
+    };
+
+    addResumeCallback(refresh);
 
     DeviceReady.addEventListener(performDeviceReadyCallback);
     //! }
@@ -93,6 +108,13 @@ angular.module('CACMobile')
       isOnline : function(){
         return online();
       },
+
+      //! takes a function/action to perform when device resumes
+      addResumeCallback: function (cb)
+      {
+        addResumeCallback(cb);
+      },
+
       checkOnline: function() {
         if (!online()) {
          $location.path("/region-list");
@@ -112,6 +134,7 @@ angular.module('CACMobile')
 
         function onlineHandler() {
 
+          //! if already online we missed the online event so call the function
           if(online())
           {
             funcPtr();

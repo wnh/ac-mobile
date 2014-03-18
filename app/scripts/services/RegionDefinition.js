@@ -35,9 +35,10 @@ angular.module('CACMobile')
               $log.error(error);
             });
       }
-    }
+    };
 
     getRegions();
+    ConnectionManager.addResumeCallback(getRegions);
 
     var regionExists = function (region)
     {
