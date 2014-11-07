@@ -1,25 +1,116 @@
-/*
-To customize the look and feel of Ionic, you can override the variables
+/* To customize the look and feel of Ionic, you can override the variables
 in ionic's _variables.scss file.
 
-For example, you might change some of the default colors:
-
-$light:                           #fff !default;
-$stable:                          #f8f8f8 !default;
-$positive:                        #4a87ee !default;
-$calm:                            #43cee6 !default;
-$balanced:                        #66cc33 !default;
-$energized:                       #f0b840 !default;
-$assertive:                       #ef4e3a !default;
-$royal:                           #8a6de9 !default;
-$dark:                            #444 !default;
+For example, you might change some of the default colors: $light:#fff !default;
+$stable: #f8f8f8 !default;
+$positive: #4a87ee !default;
+$calm: #43cee6 !default;
+$balanced: #66cc33 !default;
+$energized: #f0b840 !default;
+$assertive: #ef4e3a !default;
+$royal: #8a6de9 !default;
+$dark: #444 !default;
 */
 
 // The path for our ionicons font files, relative to the built CSS in www/css
-$ionicons-font-path:"../lib/ionic/fonts" !default;
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+//
 // Avalanche Canada theme colors
+//
+
+//-- colors
+$light: #fff;
 $energized: #f79118;
-$base-background-color: #1a1c1e;
+$dark: #1a1c1e;
+//-- base
+$base-background-color: $dark;
 $base-color: #fff;
+//-- list items
+$item-divider-bg: #242527;
+$item-divider-color: #242527;
+//-- inputs
+$input-bg: $base-background-color;
+$input-bg-disabled: #000;
+$input-color: $energized;
+$input-label-color: $light;
+$input-color-placeholder: $energized;
+$checkbox-off-bg-color: $base-background-color;
 // Include all of Ionic
 @import"www/lib/ionic/scss/ionic";
+//
+// Custom Styles
+//
+
+//--Map (Leaflet)
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+}
+.scroll {
+  height: 100%;
+  //required for map rendering
+}
+.label-sm {
+  font-size: 1em;
+}
+.no-border {
+  border-color: rgba(0, 0, 0, 0) !important;
+}
+// ac-component / bootstrap overrides (mostly due to ionic collisions)
+// TODO:may be able to simplify this in some cases
+
+.leaflet-control-locate a {
+  //override ac-component location icon misaligned
+  padding-left: 8px;
+  padding-top: 3px;
+}
+.ac-forecast-container {
+  h3.ac-forecast-region {
+    color: #000000;
+  }
+  h4 {
+    color: #000000;
+    font-weight: bold;
+  }
+  h4.panel-title {
+    font-weight: bold;
+    color: #ffffff;
+  }
+  .ac-forecast-mini {
+    color: #000000;
+    .row {
+      width: auto !important;
+      display: block;
+      padding: 0 !important;
+    }
+  }
+}
+.ac-drawer-body {
+  h3.ac-forecast-region {
+    color: #000000;
+  }
+  h4 {
+    color: #000000;
+    font-weight: bold;
+  }
+  h4.panel-title {
+    font-weight: bold;
+    color: #ffffff;
+  }
+  .ac-forecast-mini {
+    color: #000000;
+    .row {
+      width: auto !important;
+      display: block;
+      padding: 0 !important;
+    }
+  }
+}
+input[type=checkbox] {
+  float: none;
+  margin-left: 0 !important;
+}

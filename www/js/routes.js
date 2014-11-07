@@ -11,7 +11,8 @@ angular.module('acMobile')
                 url: "/app/forecasts-map",
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/forecasts-map.html"
+                        templateUrl: "templates/forecasts-map.html",
+                        controller: "ForecastsMapCtrl"
                     }
                 }
             })
