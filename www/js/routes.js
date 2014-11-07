@@ -20,7 +20,25 @@ angular.module('acMobile')
                 url: "/app/forecasts-list",
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/forecasts-list.html"
+                        templateUrl: "templates/forecasts-list.html",
+                        controller: "ForecastsListCtrl"
+                    }
+                }
+            })
+            .state('app.forecasts-list-detail', {
+                url: "/app/forecasts-list/:id",
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/forecasts-list-detail.html",
+                        controller: "ForecastsListDetailCtrl"
+                    }
+                },
+                resolve: {
+                    forecast: function($stateParams, acForecast) {
+                        // return true;
+                        return acForecast.getOne($stateParams.id);
+                        // }
+
                     }
                 }
             })
