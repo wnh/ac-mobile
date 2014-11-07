@@ -55,7 +55,7 @@ $checkbox-off-bg-color: $base-background-color;
   //required for map rendering
 }
 .label-sm {
-  font-size: 1em;
+  font-size: $font-size-base;
 }
 .no-border {
   border-color: rgba(0, 0, 0, 0) !important;
@@ -110,7 +110,12 @@ $checkbox-off-bg-color: $base-background-color;
     }
   }
 }
-input[type=checkbox] {
-  float: none;
-  margin-left: 0 !important;
+.quick-report-conditions {
+  input[type=checkbox] {
+    float: none;
+    margin-left: 0px;
+  }
+  .item {
+    white-space: normal;
+  }
 }

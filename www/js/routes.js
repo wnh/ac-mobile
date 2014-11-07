@@ -46,7 +46,8 @@ angular.module('acMobile')
                 url: "/app/share-quick-report",
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/share-quick-report.html"
+                        templateUrl: "templates/share-quick-report.html",
+                        controller: "QuickReportCtrl"
                     }
                 }
             })

@@ -3,6 +3,70 @@
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
     <ion-content class="has-header">
+        <ion-list>
+            <label class="item item-input item-dark item-stacked-label">
+                <i class="icon fa fa-newspaper-o"></i>
+                <span class="input-label">Report Title</span>
+                <input type="text" placeholder="auto: Quick Report" ng-model="report.title">
+            </label>
+            <label class="item item-input item-dark  item-stacked-label">
+                <i class="icon fa fa-clock-o"></i>
+                <span class="input-label">Date and time</span>
+                <input type="datetime-local" placeholder="">
+            </label>
+            <label class="item item-input item-dark item-stacked-label">
+                <i class="icon fa fa-map-marker"></i>
+                <span class="input-label">Current location</span>
+                <input type="text" placeholder="Tap to add location" ng-model="report.location">
+            </label>
+            <label class="item item-input item-dark item-stacked-label">
+                <span class="input-label">Add photo/video</span>
+                <div class="label-sm energized">no photos added</div>
+            </label>
+            <label class="item item-input item-dark item-stacked-label">
+                <span class="input-label">Riding info</span>
+                <div class="label-sm energized">No riding info</div>
+            </label>
+            <label class="item item-input item-dark item-stacked-label">
+                <span>Avalanche Conditions</span>
+            </label>
+            <ul class="list quick-report-conditions">
+                <li class="item item-dark no-border label-sm item-checkbox checkbox-energized">
+                    <label class="checkbox">
+                        <input type="checkbox" ng-model="report.conditions.slab">
+                    </label>
+                    Slab avalanches today or yesterday.
+                </li>
+                <li class="item item-dark no-border label-sm item-checkbox checkbox-energized">
+                    <label class="checkbox">
+                        <input type="checkbox" ng-model="report.conditions.sound">
+                    </label>
+                    Whumphing or drum-like sounds or shooting cracks.
+                </li>
+                <li class="item item-dark no-border label-sm item-checkbox checkbox-energized">
+                    <label class="checkbox">
+                        <input type="checkbox" ng-model="report.conditions.snow">
+                    </label>
+                    30cm + of new snow, or significant drifitng, or rain in the last 48 hours.
+                </li>
+                <li class="item item-dark no-border label-sm item-checkbox checkbox-energized">
+                    <label class="checkbox">
+                        <input type="checkbox">
+                    </label>
+                    Rapid temperature rise to near zero degrees or wet surface snow.
+                </li>
+            </ul>
+            <label class="item item-input item-dark item-stacked-label">
+                <span class="input-label">User Comments</span>
+                <input type="text" placeholder="User Comments">
+            </label>
+            <label class="item item-dark">
+                <button class="button button-block button-energized" ng-click="checkData()">
+                    SUBMIT FORM
+                </button>
+            </label>
 
+
+        </ion-list>
     </ion-content>
 </ion-view>
