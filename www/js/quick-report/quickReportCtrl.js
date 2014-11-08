@@ -1,4 +1,9 @@
 angular.module('acMobile.controllers')
+    .filter('trimLocation', function() {
+        return function(string, maxlength) {
+            return string.substr(0, maxlength);
+        };
+    })
     .controller('QuickReportCtrl', function($scope, $timeout, $ionicPlatform, $ionicActionSheet, $ionicModal, $cordovaGeolocation, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
         $scope.tempLocation = {
             lat: "",

@@ -4,7 +4,7 @@
             <button class="button button-clear" ng-click="cancelLocationModal()">Cancel</button>
         </div>
         <h1 ng-if="tempLocation.lat==''" class="title">Tap to drop marker</h1>
-        <h1 ng-if="!tempLocation.lat==''" class="title">({{tempLocation.lat}}, {{tempLocation.lng}})</h1>
+        <h1 ng-if="!tempLocation.lat==''" class="title">({{tempLocation.lat.toString() | trimLocation:7}}, {{tempLocation.lng.toString() | trimLocation:7}})</h1>
         <div class="buttons">
             <button class="button button-clear" ng-click="confirmLocation()">Confirm</button>
         </div>
