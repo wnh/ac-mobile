@@ -7867,3 +7867,6 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
   margin-left: 0px; }
 .quick-report-conditions .item {
   white-space: normal; }
+
+.action-sheet-title {
+  color: #000000; }

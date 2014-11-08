@@ -6,7 +6,7 @@
         <ion-list>
             <label class="item item-input item-dark item-stacked-label">
                 <i class="icon fa fa-newspaper-o"></i>
-                <span class="input-label">Report Title</span>
+                <span class="input-label">Report title</span>
                 <input type="text" placeholder="auto: Quick Report" ng-model="report.title">
             </label>
             <label class="item item-input item-dark  item-stacked-label">
@@ -14,10 +14,11 @@
                 <span class="input-label">Date and time</span>
                 <input type="datetime-local" placeholder="">
             </label>
-            <label class="item item-input item-dark item-stacked-label">
+            <label class="item item-input item-dark item-stacked-label" ng-click="showLocationSheet()">
                 <i class="icon fa fa-map-marker"></i>
-                <span class="input-label">Current location</span>
-                <input type="text" placeholder="Tap to add location" ng-model="report.location">
+                <span class="input-label">Location</span>
+                <div ng-if="!report.location.lng" class="label-sm energized">Tap to set location</div>
+                <div ng-if="report.location.lng" class="label-sm energized">({{report.location.lat}}, {{report.location.lng}})</div>
             </label>
             <label class="item item-input item-dark item-stacked-label">
                 <span class="input-label">Add photo/video</span>
@@ -28,7 +29,7 @@
                 <div class="label-sm energized">No riding info</div>
             </label>
             <label class="item item-input item-dark item-stacked-label">
-                <span>Avalanche Conditions</span>
+                <span>Avalanche conditions</span>
             </label>
             <ul class="list quick-report-conditions">
                 <li class="item item-dark no-border label-sm item-checkbox checkbox-energized">
@@ -58,7 +59,7 @@
             </ul>
             <label class="item item-input item-dark item-stacked-label">
                 <span class="input-label">User Comments</span>
-                <input type="text" placeholder="User Comments">
+                <input type="text" placeholder="User comments">
             </label>
             <label class="item item-dark">
                 <button class="button button-block button-energized" ng-click="checkData()">

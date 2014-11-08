@@ -1,0 +1,15 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-energized">
+        <div class="buttons">
+            <button class="button button-clear" ng-click="cancelLocationModal()">Cancel</button>
+        </div>
+        <h1 ng-if="tempLocation.lat==''" class="title">Tap to drop marker</h1>
+        <h1 ng-if="!tempLocation.lat==''" class="title">({{tempLocation.lat}}, {{tempLocation.lng}})</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="confirmLocation()">Confirm</button>
+        </div>
+    </ion-header-bar>
+    <ion-content scroll="false" class="has-header">
+        <div data-tap-disabled="true" id="map"></div>
+    </ion-content>
+</ion-modal-view>
