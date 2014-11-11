@@ -4573,8 +4573,8 @@ a.item-content {
   padding-top: 8px;
   padding-bottom: 8px;
   min-height: 30px;
-  background-color: #242527;
-  color: #242527;
+  background-color: #1a1c1e;
+  color: #f79118;
   font-weight: bold; }
 
 .item-note {
@@ -7870,3 +7870,20 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
 
 .action-sheet-title {
   color: #000000; }
+
+.gearItem p {
+  white-space: normal;
+  padding-bottom: 12px;
+  color: #ffffff; }
+
+.gearList ion-item.item-divider.activated {
+  background: #1a1c1e;
+  border-color: #000; }
+
+.gearList ion-item {
+  background: #1a1c1e;
+  border-color: #000; }
+
+.heading-icon {
+  color: #ffffff;
+  -webkit-filter: brightness(100); }
