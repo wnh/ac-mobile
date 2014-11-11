@@ -1,0 +1,20 @@
+angular.module('acMobile.controllers')
+    .controller('GearCtrl', function($scope, gearData) {
+        $scope.gearItems = gearData.gearItems;
+        $scope.gearDisplayed = "";
+
+        $scope.isGearDisplayed = function(gearItem) {
+            return $scope.gearDisplayed === gearItem.heading;
+        };
+
+        $scope.openSection = function(gearItem) {
+            if ($scope.gearDisplayed === gearItem.heading) {
+                //close all
+                $scope.gearDisplayed = "";
+            } else {
+                $scope.gearDisplayed = gearItem.heading;
+            }
+        };
+
+
+    });

@@ -35,6 +35,8 @@ $input-color: $energized;
 $input-label-color: $light;
 $input-color-placeholder: $energized;
 $checkbox-off-bg-color: $base-background-color;
+$item-divider-bg: $dark;
+$item-divider-color: $energized;
 // Include all of Ionic
 @import"www/lib/ionic/scss/ionic";
 //
@@ -121,4 +123,24 @@ $checkbox-off-bg-color: $base-background-color;
 }
 .action-sheet-title {
   color: #000000;
+}
+.gearItem p {
+  white-space: normal;
+  padding-bottom: 12px;
+  color: #ffffff;
+}
+.gearList ion-item.item-divider.activated {
+  background: $dark;
+  border-color: #000;
+}
+.gearList ion-item {
+  background: $dark;
+  border-color: #000;
+}
+.heading-icon {
+  color: #ffffff;
+  -webkit-filter: brightness(100);
+  // margin-top: 10px;
+  // width: 25px;
+  // height: auto;
 }

@@ -3,6 +3,20 @@
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
     <ion-content class="has-header">
-
+        <ion-list>
+            <div class="gearList" ng-repeat="gear in gearItems">
+                <ion-item class="item-divider item-icon-left item-icon-right" ng-click="openSection(gear)">
+                    <img class="icon heading-icon" ng-src="{{gear.icon}}" />
+                    <div>
+                        {{gear.heading}}
+                    </div>
+                    <i class="icon heading-icon" ng-class="{'ion-chevron-up': !isGearDisplayed(gear), 'ion-chevron-down': isGearDisplayed(gear)}"></i>
+                </ion-item>
+                <ion-item ng-show="gearDisplayed === gear.heading" class="gearItem">
+                    <div class="gear-desc" ng-bind-html="gear.desc"></div>
+                    <button class="button button-small button-energized" ng-click="">{{gear.linkText}}</button>
+                </ion-item>
+            </div>
+        </ion-list>
     </ion-content>
 </ion-view>
