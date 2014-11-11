@@ -16,9 +16,18 @@ angular.module('acMobile.controllers')
         var marker;
         var popup;
 
+        var dt = new Date();
+        var month = dt.getMonth() + 1;
+        var currentDate = dt.getFullYear() + "-" + month + "-" + dt.getDate() + "T" + dt.getHours() + ":" + dt.getMinutes();
+
+        //upon storage, convert to UTC time and ISO date string
+        var isoDate = new Date(dt).toISOString();
+        //console.log("ISO:" + isoDate);
+
+
         $scope.report = {
             title: "",
-            date: "",
+            date: currentDate,
             time: "",
             location: {
                 lat: "",
@@ -37,7 +46,13 @@ angular.module('acMobile.controllers')
 
         $scope.checkData = function() {
             console.log($scope.report);
+            console.log($scope.report.date);
         };
+
+        $scope.sendData = function() {
+
+        };
+
 
         $scope.showLocationSheet = function() {
             var hideSheet = $ionicActionSheet.show({
@@ -60,6 +75,7 @@ angular.module('acMobile.controllers')
                                 });
                     } else if (index === 1) {
                         hideSheet();
+                        //TODO - ensure the user has a data connection to show the map.
                         $scope.showLocationModal();
                     }
                 }
