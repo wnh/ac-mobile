@@ -7,6 +7,15 @@ angular.module('acMobile')
                 templateUrl: "templates/menu.html",
                 controller: 'AppCtrl'
             })
+            .state('app.login', {
+                url: "/app/login",
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/login.html",
+                        controller: "LoginCtrl"
+                    }
+                }
+            })
             .state('app.forecasts-map', {
                 url: "/app/forecasts-map",
                 views: {
@@ -71,7 +80,8 @@ angular.module('acMobile')
                 url: "/app/gear",
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/gear.html"
+                        templateUrl: "templates/gear.html",
+                        controller: "GearCtrl"
                     }
                 }
             })

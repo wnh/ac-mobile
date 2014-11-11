@@ -5,7 +5,7 @@
         An Ionic Framework and Cordova project.
     </description>
   <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+        Ionic Framework Team
     </author>
   <content src="index.html"/>
   <access origin="*"/>
@@ -15,5 +15,9 @@
   <preference name="BackupWebStorage" value="none"/>
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
+  </feature>
+  <feature name="InAppBrowser">
+    <param name="ios-package" value="CDVInAppBrowser"/>
+    <param name="android-package" value="org.apache.cordova.InAppBrowser"/>
   </feature>
 </widget>
