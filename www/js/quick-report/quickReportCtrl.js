@@ -4,7 +4,10 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('QuickReportCtrl', function($scope, $timeout, $ionicPlatform, $ionicActionSheet, $ionicModal, $cordovaGeolocation, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+    .controller('QuickReportCtrl', function($scope, $timeout, $ionicPlatform, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaCamera, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+        //Cordova setup
+        var Camera = navigator.camera;
+
         $scope.tempLocation = {
             lat: "",
             lng: ""
@@ -21,6 +24,7 @@ angular.module('acMobile.controllers')
                 lat: "",
                 lng: ""
             },
+            images: [],
             ridingInfo: "",
             avalancheCondtions: {
                 'slab': false,
@@ -140,6 +144,68 @@ angular.module('acMobile.controllers')
                 alert("You haven't tapped the map to set the location yet");
             }
             //emit  event to mark a position
+        };
+
+        function takePicture(options) {
+            return $ionicPlatform.ready()
+                .then(function() {
+                    return $cordovaCamera.getPicture(options);
+                })
+                .then(function(imageURI) {
+                    console.log("Success Image Capture");
+                    console.log(imageURI);
+                    $scope.report.images.push(imageURI);
+                    console.log($scope.report.images);
+                }, function(err) {
+                    console.log("camera error: " + err);
+                    // An error occured. Show a message to the user
+                });
+        }
+
+        $scope.showPictureSheet = function() {
+            var options = {};
+            var hidePictureSheet = $ionicActionSheet.show({
+                buttons: [{
+                    text: "Take picture"
+                }, {
+                    text: "Attach existing picture"
+                }],
+                titleText: "Add a picture",
+                cancelText: "Cancel",
+                buttonClicked: function(index) {
+                    if (index === 0) {
+                        console.log("picked 0");
+                        hidePictureSheet();
+                        options = {
+                            quality: 75,
+                            destinationType: Camera.DestinationType.FILE_URI,
+                            sourceType: Camera.PictureSourceType.CAMERA,
+                            allowEdit: false,
+                            encodingType: Camera.EncodingType.JPEG,
+                            targetWidth: 640,
+                            targetHeight: 480,
+                            saveToPhotoAlbum: true
+                        };
+                        takePicture(options);
+
+                    } else if (index === 1) {
+                        hidePictureSheet();
+                        options = {
+                            quality: 75,
+                            destinationType: Camera.DestinationType.FILE_URI,
+                            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                            allowEdit: true,
+                            encodingType: Camera.EncodingType.JPEG,
+                            targetWidth: 640,
+                            targetHeight: 480,
+                            saveToPhotoAlbum: true
+                        };
+                        takePicture(options);
+                    }
+                }
+            });
+
+
         };
 
         //clean up

@@ -20,9 +20,9 @@
                 <div ng-if="!report.location.lng" class="label-sm energized">Tap to set location</div>
                 <div ng-if="report.location.lng" class="label-sm energized">({{report.location.lat}}, {{report.location.lng}})</div>
             </label>
-            <label class="item item-input item-dark item-stacked-label">
+            <label class="item item-input item-dark item-stacked-label" ng-click="showPictureSheet()">
                 <span class="input-label">Add photo/video</span>
-                <div class="label-sm energized">no photos added</div>
+                <div class="label-sm energized">{{report.images.length}} photos added</div>
             </label>
             <label class="item item-input item-dark item-stacked-label">
                 <span class="input-label">Riding info</span>
