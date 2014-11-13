@@ -1,6 +1,7 @@
+angular.module('acMobile.services', []);
 angular.module('acMobile.directives', ['acComponents']);
 angular.module('acMobile.controllers', ['acComponents']);
-angular.module('acMobile', ['ionic', 'ngCordova', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
+angular.module('acMobile', ['ionic', 'ngCordova', 'acMobile.controllers', 'acMobile.directives', 'acMobile.services', 'acComponents'])
     .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
     .constant('MAPBOX_MAP_ID', 'tesera.jbnoj7kp')
     .constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com')
