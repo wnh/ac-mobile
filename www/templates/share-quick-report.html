@@ -1,8 +1,17 @@
-<ion-view title="Share Quick Report">
+<ion-view title="Mountain Information Network
+">
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
-    <ion-content class="has-header">
+    <ion-header-bar class="bar-subheader bar-dark">
+        <div class="button-bar">
+            <a class="button button-energized">Quick</a>
+            <a class="button">Incident</a>
+            <a class="button">Weather</a>
+        </div>
+
+    </ion-header-bar>
+    <ion-content class="has-header has-subheader">
         <ion-list>
             <label class="item item-input item-dark item-stacked-label">
                 <i class="icon fa fa-newspaper-o"></i>
@@ -12,7 +21,7 @@
             <label class="item item-input item-dark  item-stacked-label">
                 <i class="icon fa fa-clock-o"></i>
                 <span class="input-label">Date and time</span>
-                <input type="datetime-local" placeholder="">
+                <input type="datetime-local" ng-model="report.datetime">
             </label>
             <label class="item item-input item-dark item-stacked-label" ng-click="showLocationSheet()">
                 <i class="icon fa fa-map-marker"></i>
@@ -59,7 +68,7 @@
             </ul>
             <label class="item item-input item-dark item-stacked-label">
                 <span class="input-label">User Comments</span>
-                <input type="text" placeholder="User comments">
+                <input type="text" placeholder="User comments" ng-model="report.comments">
             </label>
             <label class="item item-dark">
                 <button class="button button-block button-energized" ng-click="checkData()">

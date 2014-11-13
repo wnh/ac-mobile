@@ -4,7 +4,7 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('QuickReportCtrl', function($scope, $timeout, $ionicPlatform, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaCamera, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+    .controller('QuickReportCtrl', function($scope, $timeout, $ionicPlatform, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaCamera, quickReports, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
         //Cordova setup
         var Camera = navigator.camera;
 
@@ -16,10 +16,18 @@ angular.module('acMobile.controllers')
         var marker;
         var popup;
 
+        var dt = new Date();
+        var month = dt.getMonth() + 1;
+        var currentDate = dt.getFullYear() + "-" + month + "-" + dt.getDate() + "T" + dt.getHours() + ":" + dt.getMinutes();
+
+        //upon storage, convert to UTC time and ISO date string
+        var isoDate = new Date(dt).toISOString();
+        //console.log("ISO:" + isoDate);
+
+
         $scope.report = {
             title: "",
-            date: "",
-            time: "",
+            datetime: currentDate,
             location: {
                 lat: "",
                 lng: ""
@@ -36,8 +44,15 @@ angular.module('acMobile.controllers')
         };
 
         $scope.checkData = function() {
+            alert('not yet implemented');
             console.log($scope.report);
+            console.log($scope.report.datetime);
         };
+
+        $scope.sendData = function() {
+
+        };
+
 
         $scope.showLocationSheet = function() {
             var hideSheet = $ionicActionSheet.show({
@@ -60,6 +75,7 @@ angular.module('acMobile.controllers')
                                 });
                     } else if (index === 1) {
                         hideSheet();
+                        //TODO - ensure the user has a data connection to show the map.
                         $scope.showLocationModal();
                     }
                 }
@@ -207,6 +223,37 @@ angular.module('acMobile.controllers')
 
 
         };
+
+        function prepareData() {
+            //report title
+            var valid = true;
+            if ($scope.report.title.length <= 0) {
+                $scope.report.title = "auto: Quick Report";
+            }
+            if (!$scope.report.date) {
+                alert("please enter a report date");
+                valid = false;
+            }
+            if (!$scope.report.location) {
+                alert("please enter a location");
+            }
+            if (!$scope.report.ridingInfo || !$scope.report.avalancheCondtions || !scope.report.comments) {
+                alert("please enter riding info, conditions or comments");
+            }
+            quickReports.sendReport($scope.report)
+                .then(function(response) {
+                    console.log("report sent");
+                    console.log(response);
+                }, function(error) {
+                    console.error(error);
+                });
+
+
+
+
+        }
+
+
 
         //clean up
         $scope.$on('$destroy', function() {
