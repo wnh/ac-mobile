@@ -1,8 +1,43 @@
-<ion-view title="MEC">
+<ion-view title="Our Partners">
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
-    <ion-content class="has-header">
-
+    <ion-content padding="true" class="partner has-header">
+        <div class="row">
+            <div class="col">
+                <div class="centered intro-title energized">Funding generously provided by</div>
+            </div>
+        </div>
+        <div class="row row-center">
+            <div class="col">
+                <div class="centered">
+                    <img src="img/MEC_Logo_Large.png" class="partner-logo" ng-click='openMec()' />
+                </div>
+            </div>
+            <div class="col">
+                <div class="centered">
+                    <img src="img/TECTERRA_Logo.png" class='partner-logo' ng-click="openUrl('http://www.tecterra.com')" />
+                </div>
+            </div>
+        </div>
+        <div class="row row-top">
+            <div class="col">
+                <a class="centered light" ng-click='openMec()'>Mountain Equipment Co-op</a>
+            </div>
+            <div class="col">
+                <a class="centered light" ng-click="openUrl('http://www.tecterra.com')">Tecterra</a>
+            </div>
+        </div>
+        <div class="spacer-lg"></div>
+        <div class="row">
+            <div class="col centered">
+                <span class="energized">Support:</span> <a class="light" href="mailto:support@avalanche.ca">support@avalanche.ca</a>
+            </div>
+        </div>
+        <div class="bar bar-footer bar-energized">
+            <div class="centered">
+                <div>Avalanche Canada Mobile App Version 4.0.0</div>
+            </div>
+        </div>
     </ion-content>
 </ion-view>

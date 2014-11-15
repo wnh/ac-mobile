@@ -7890,3 +7890,24 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
 .heading-icon {
   color: #ffffff;
   -webkit-filter: brightness(100); }
+
+.partner .row {
+  margin: 0; }
+.partner .intro-title {
+  padding-top: 20px;
+  padding-bottom: 20px; }
+.partner .spacer-lg {
+  padding-top: 100px;
+  display: block; }
+.partner .spacer-sm {
+  padding-top: 25px;
+  display: block; }
+.partner .partner-logo {
+  display: inline-block;
+  width: 100%;
+  vertical-align: bottom; }
+
+.centered {
+  display: block;
+  width: 100%;
+  text-align: center; }
