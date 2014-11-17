@@ -4,7 +4,7 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $timeout, $state, $ionicPlatform, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaCamera, quickReports, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+    .controller('ReportCtrl', function($scope, $timeout, $state, $ionicPlatform, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaCamera, quickReports, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
         //Cordova setup
         var Camera = navigator.camera;
 
@@ -91,12 +91,25 @@ angular.module('acMobile.controllers')
 
         function getLocation() {
             return $ionicPlatform.ready()
-                .then($cordovaGeolocation.getCurrentPosition)
+                .then(function() {
+                    $ionicLoading.show({
+                        template: '<i class="fa fa-circle-o-notch fa-spin"></i> Acquiring Position',
+                        delay: 100
+                    });
+                    return $cordovaGeolocation.getCurrentPosition();
+                })
                 .then(function(position) {
+                    console.log(position);
+                    $ionicLoading.hide();
                     $scope.report.location.lat = position.coords.latitude;
                     $scope.report.location.lng = position.coords.longitude;
                 })
                 .catch(function(error) {
+                    $ionicLoading.hide();
+                    $ionicLoading.show({
+                        template: 'There was a problem getting your position',
+                        duration: 3000
+                    });
                     console.error("GeoLocation Error" + error);
                     return $q.reject(error);
                 });
