@@ -180,3 +180,36 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
   width: 100%;
   text-align: center;
 }
+.riding-info {
+  padding-left: 10px;
+  .item-content {
+    background: $dark;
+    color: #ffffff;
+    border: 0px;
+  }
+  input:checked ~ .item-content {
+    background: $dark;
+    color: #ffffff;
+    border: 0px;
+  }
+  .item.item-dark {
+    border: 0px;
+  }
+  .item.item-divider {
+    border: 0px;
+  }
+}
+//social
+.social-icons {
+  font-size: 3em;
+  text-align: center;
+  .fb {
+    color: #3B579D
+  }
+  .twitter {
+    color: #55ACEE
+  }
+  .gplus {
+    color: #D6492F
+  }
+}

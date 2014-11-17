@@ -4,9 +4,18 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('QuickReportCtrl', function($scope, $timeout, $ionicPlatform, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaCamera, quickReports, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+    .controller('QuickReportCtrl', function($scope, $timeout, $state, $ionicPlatform, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaCamera, quickReports, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
         //Cordova setup
         var Camera = navigator.camera;
+
+        $scope.display = {
+            "ridingInfo": false,
+            "avalancheConditions": false
+        };
+
+
+        $scope.ridingConditions = ridingConditionsData;
+
 
         $scope.tempLocation = {
             lat: "",
@@ -33,7 +42,7 @@ angular.module('acMobile.controllers')
                 lng: ""
             },
             images: [],
-            ridingInfo: "",
+            ridingConditions: ridingConditionsData,
             avalancheCondtions: {
                 'slab': false,
                 'sound': false,

@@ -1,17 +1,16 @@
-<ion-view title="Mountain Information Network
-">
+<ion-view title="Mountain Information Network">
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
-    <ion-header-bar class="bar-subheader bar-dark">
+    <!-- For future use -->
+    <!--     <ion-header-bar class="bar-subheader bar-dark">
         <div class="button-bar">
             <a class="button button-energized">Quick</a>
             <a class="button">Incident</a>
             <a class="button">Weather</a>
         </div>
-
-    </ion-header-bar>
-    <ion-content class="has-header has-subheader">
+    </ion-header-bar> -->
+    <ion-content class="has-header">
         <ion-list>
             <label class="item item-input item-dark item-stacked-label">
                 <i class="icon fa fa-newspaper-o"></i>
@@ -33,14 +32,64 @@
                 <span class="input-label">Add photo/video</span>
                 <div class="label-sm energized">{{report.images.length}} photos added</div>
             </label>
-            <label class="item item-input item-dark item-stacked-label">
+            <label class="item item-input item-dark item-stacked-label item-icon-right" ng-click="display.ridingInfo=!display.ridingInfo">
                 <span class="input-label">Riding info</span>
-                <div class="label-sm energized">No riding info</div>
+                <i class="icon" ng-class="{'ion-ios7-arrow-up': !display.ridingInfo, 'ion-ios7-arrow-down': display.ridingInfo}"></i>
+                <div ng-show="!display.ridingInfo" class="label-sm energized">No riding info</div>
             </label>
-            <label class="item item-input item-dark item-stacked-label">
+
+
+            <div class="riding-info" ng-show="display.ridingInfo">
+                <div class="item item-divider">{{report.ridingConditions.ridingQuality.prompt}}</div>
+                <ion-radio ng-repeat="option in report.ridingConditions.ridingQuality.options" class="item-dark" ng-model="report.ridingConditions.ridingQuality.selected" ng-value="option">{{option}}</ion-radio>
+
+                <div class="item item-divider">{{report.ridingConditions.snowConditions.prompt}}</div>
+                <ul class="list quick-report-conditions">
+                    <li ng-repeat="(option, enabled) in report.ridingConditions.snowConditions.options" class="item item-dark no-border label-sm item-checkbox checkbox-energized">
+                        <label class="checkbox">
+                            <input type="checkbox" ng-model="report.ridingConditions.snowConditions[option]">
+                        </label>
+                        {{option}}
+                    </li>
+                </ul>
+
+                <div class="item item-divider">{{report.ridingConditions.rideType.prompt}}</div>
+                <ul class="list quick-report-conditions">
+                    <li ng-repeat="(option, enabled) in report.ridingConditions.rideType.options" class="item item-dark no-border label-sm item-checkbox checkbox-energized">
+                        <label class="checkbox">
+                            <input type="checkbox" ng-model="report.ridingConditions.rideType[option]">
+                        </label>
+                        {{option}}
+                    </li>
+                </ul>
+
+                <div class="item item-divider">{{report.ridingConditions.stayedAway.prompt}}</div>
+                <ul class="list quick-report-conditions">
+                    <li ng-repeat="(option, enabled) in report.ridingConditions.stayedAway.options" class="item item-dark no-border label-sm item-checkbox checkbox-energized">
+                        <label class="checkbox">
+                            <input type="checkbox" ng-model="report.ridingConditions.stayedAway[option]">
+                        </label>
+                        {{option}}
+                    </li>
+                </ul>
+
+                <div class="item item-divider">{{report.ridingConditions.weather.prompt}}</div>
+                <ul class="list quick-report-conditions">
+                    <li ng-repeat="(option, enabled) in report.ridingConditions.weather.options" class="item item-dark no-border label-sm item-checkbox checkbox-energized">
+                        <label class="checkbox">
+                            <input type="checkbox" ng-model="report.ridingConditions.weather.options[option]">
+                        </label>
+                        {{option}}
+                    </li>
+                </ul>
+            </div>
+
+            <label class="item item-input item-dark item-stacked-label item-icon-right" ng-click="display.avalancheConditions=!display.avalancheConditions">
                 <span>Avalanche conditions</span>
+                <i class="icon" ng-class="{'ion-ios7-arrow-up': !display.avalancheConditions, 'ion-ios7-arrow-down': display.avalancheConditions}"></i>
             </label>
-            <ul class="list quick-report-conditions">
+
+            <ul class="list quick-report-conditions" ng-show="display.avalancheConditions">
                 <li class="item item-dark no-border label-sm item-checkbox checkbox-energized">
                     <label class="checkbox">
                         <input type="checkbox" ng-model="report.conditions.slab">
