@@ -4,7 +4,7 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('QuickReportCtrl', function($scope, $timeout, $state, $ionicPlatform, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaCamera, quickReports, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+    .controller('ReportCtrl', function($scope, $timeout, $state, $ionicPlatform, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaCamera, quickReports, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
         //Cordova setup
         var Camera = navigator.camera;
 
@@ -15,7 +15,6 @@ angular.module('acMobile.controllers')
 
 
         $scope.ridingConditions = ridingConditionsData;
-
 
         $scope.tempLocation = {
             lat: "",
@@ -139,7 +138,7 @@ angular.module('acMobile.controllers')
                 });
 
                 marker
-                    .bindPopup("Position: " + e.latlng.toString().substr(6))
+                    .bindPopup("Position: " + e.latlng.toString().substr(6) + "<br/>(drag to relocate)")
                     .addTo(map)
                     .openPopup();
 

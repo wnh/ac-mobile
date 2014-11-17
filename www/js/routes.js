@@ -51,12 +51,12 @@ angular.module('acMobile')
                     }
                 }
             })
-            .state('app.share-quick-report', {
-                url: "/app/share-quick-report",
+            .state('app.report', {
+                url: "/app/report",
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/share-quick-report.html",
-                        controller: "QuickReportCtrl"
+                        templateUrl: "templates/report.html",
+                        controller: "ReportCtrl"
                     }
                 }
             })

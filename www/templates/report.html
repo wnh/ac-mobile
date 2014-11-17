@@ -33,15 +33,15 @@
                 <div class="label-sm energized">{{report.images.length}} photos added</div>
             </label>
             <label class="item item-input item-dark item-stacked-label item-icon-right" ng-click="display.ridingInfo=!display.ridingInfo">
-                <span class="input-label">Riding info</span>
+                <span class="input-label">Riding Conditions</span>
                 <i class="icon" ng-class="{'ion-ios7-arrow-up': !display.ridingInfo, 'ion-ios7-arrow-down': display.ridingInfo}"></i>
-                <div ng-show="!display.ridingInfo" class="label-sm energized">No riding info</div>
+                <div ng-show="!display.ridingInfo" class="label-sm energized">No riding conditions</div>
             </label>
 
 
             <div class="riding-info" ng-show="display.ridingInfo">
                 <div class="item item-divider">{{report.ridingConditions.ridingQuality.prompt}}</div>
-                <ion-radio ng-repeat="option in report.ridingConditions.ridingQuality.options" class="item-dark" ng-model="report.ridingConditions.ridingQuality.selected" ng-value="option">{{option}}</ion-radio>
+                <ion-radio icon="x" ng-repeat="option in report.ridingConditions.ridingQuality.options" class="item-dark" ng-model="report.ridingConditions.ridingQuality.selected" ng-value="option">{{option}}</ion-radio>
 
                 <div class="item item-divider">{{report.ridingConditions.snowConditions.prompt}}</div>
                 <ul class="list quick-report-conditions">
