@@ -92,6 +92,22 @@ angular.module('acMobile')
                         templateUrl: "templates/partner.html"
                     }
                 }
+            })
+            .state('app.terms', {
+                url: "/app/terms",
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/terms.html"
+                    }
+                }
+            })
+            .state('app.post-share', {
+                url: "/app/post-share",
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/post-share.html"
+                    }
+                }
             });
         // if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/app/forecasts-map');

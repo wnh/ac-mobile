@@ -53,9 +53,8 @@ angular.module('acMobile.controllers')
         };
 
         $scope.checkData = function() {
-            alert('not yet implemented');
             console.log($scope.report);
-            console.log($scope.report.datetime);
+            $state.go("app.post-share");
         };
 
         $scope.sendData = function() {
