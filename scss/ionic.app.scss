@@ -188,9 +188,10 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
     border: 0px;
   }
   input:checked ~ .item-content {
-    background: $dark;
+    background: $energized;
     color: #ffffff;
     border: 0px;
+    margin-right: 10px;
   }
   .item.item-dark {
     border: 0px;

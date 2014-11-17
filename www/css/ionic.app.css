@@ -7923,9 +7923,10 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
     color: #ffffff;
     border: 0px; }
   .riding-info input:checked ~ .item-content {
-    background: #1a1c1e;
+    background: #f79118;
     color: #ffffff;
-    border: 0px; }
+    border: 0px;
+    margin-right: 10px; }
   .riding-info .item.item-dark {
     border: 0px; }
   .riding-info .item.item-divider {
