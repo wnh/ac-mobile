@@ -4,7 +4,7 @@
     </ion-nav-buttons>
     <ion-content class="has-header">
         <ul class="list">
-            <li class="item" ui-sref="app.forecasts-list-detail({id: region.id})" ng-repeat="region in regions.features | orderBy: 'properties.name'">{{region.properties.name}}
+            <li class="item item-dark" ui-sref="app.forecasts-list-detail({id: region.id})" ng-repeat="region in regions.features | orderBy: 'properties.name'">{{region.properties.name}}
             </li>
         </ul>
 

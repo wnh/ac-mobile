@@ -7,34 +7,38 @@
     </ion-side-menu-content>
 
     <ion-side-menu side="left">
-        <header class="bar bar-header bar-stable">
+        <header class="bar bar-header bar-energized">
             <h1 class="title">Avalanche Canada</h1>
         </header>
         <ion-content class="has-header">
             <ion-list>
-                <ion-item nav-clear menu-close ng-click="login()" hxref="#/app/login">
+                <ion-item nav-clear menu-close class="item-dark" ng-click="login()" hxref="#/app/login">
                     Sign In
                 </ion-item>
-                <ion-item nav-clear menu-close href="#/app/forecasts-map">
+                <ion-item nav-clear menu-close class="item-dark" href="#/app/forecasts-map">
                     Forecasts - Map
                 </ion-item>
-                <ion-item nav-clear menu-close href="#/app/forecasts-list">
+                <ion-item nav-clear menu-close class="item-dark" href="#/app/forecasts-list">
                     Forecasts - List
                 </ion-item>
-                <ion-item nav-clear menu-close href="#/app/share-quick-report">
+                <ion-item nav-clear menu-close class="item-dark" href="#/app/share-quick-report">
                     Share Quick Report
                 </ion-item>
-                <ion-item nav-clear menu-close href="#/app/share-incident-report">
-                    Share Incident Report
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/app/share-field-obs">
-                    Share Field Observations Report
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/app/gear">
+                <!-- <ion-item nav-clear menu-close href="#/app/share-incident-report">
+    Share Incident Report
+</ion-item>
+<ion-item nav-clear menu-close href="#/app/share-field-obs">
+    Share Field Observations Report
+</ion-item>
+ -->
+                <ion-item nav-clear menu-close class="item-dark" href="#/app/gear">
                     Gear
                 </ion-item>
-                <ion-item nav-clear menu-close href="#/app/partner">
-                    Our Partner (MEC)
+                <ion-item nav-clear menu-close class="item-dark" href="#/app/partner">
+                    Our Partners
+                </ion-item>
+                <ion-item nav-clear menu-close class="item-dark" href="#/app/terms">
+                    Terms of Use
                 </ion-item>
             </ion-list>
         </ion-content>
