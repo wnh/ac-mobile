@@ -7,6 +7,7 @@ angular.module('acMobile')
                 templateUrl: "templates/menu.html",
                 controller: 'AppCtrl'
             })
+            //TODO: remove this login route if we don't need it.
             .state('app.login', {
                 url: "/app/login",
                 views: {
@@ -15,6 +16,7 @@ angular.module('acMobile')
                         controller: "LoginCtrl"
                     }
                 }
+
             })
             .state('app.forecasts-map', {
                 url: "/app/forecasts-map",
@@ -22,6 +24,11 @@ angular.module('acMobile')
                     'menuContent': {
                         templateUrl: "templates/forecasts-map.html",
                         controller: "ForecastsMapCtrl"
+                    }
+                },
+                resolve: {
+                    resForecasts: function(acForecast) {
+                        return acForecast.fetch();
                     }
                 }
             })
