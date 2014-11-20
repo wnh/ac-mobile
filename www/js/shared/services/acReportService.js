@@ -1,7 +1,6 @@
 angular.module('acMobile.services')
     .constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com')
-    .constant('AC_QA_API_ROOT_URL', 'http://avalanche-canada-qa-cyhmatrj4r.elasticbeanstalk.com/');
-    //.constant('AC_QA_API_ROOT_URL', 'http://192.168.1.124:8080/api/upload');
+    .constant('AC_QA_API_ROOT_URL', 'http://avalanche-canada-qa-cyhmatrj4r.elasticbeanstalk.com');
 
 angular.module('acMobile.services')
     .factory('acReport', function($http, $q, AC_QA_API_ROOT_URL) {
@@ -46,7 +45,7 @@ angular.module('acMobile.services')
         }
 
         function sendReport(formData) {
-            return $http.post(apiUrl, formData, {
+            return $http.post(apiUrl + '/min/submissions', formData, {
                     transformRequest: angular.identity,
                     headers: {
                         'Content-Type': undefined
