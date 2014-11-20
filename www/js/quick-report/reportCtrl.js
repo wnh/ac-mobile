@@ -4,7 +4,7 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $q, $http, $timeout, $state, $ionicPlatform, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaCamera, $cordovaFile, acReport, fileArrayCreator, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+    .controller('ReportCtrl', function($scope, $q, $http, $timeout, $state, $ionicPlatform, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaCamera, $cordovaFile, acReport, fileArrayCreator, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
         //Cordova setup
         var Camera = navigator.camera;
 
@@ -41,20 +41,24 @@ angular.module('acMobile.controllers')
         };
 
         $scope.submitReport = function() {
-            $ionicLoading.show({template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'});
-            //todo
-            //validate we are online
+            if ($cordovaNetwork.isOnline){
+                $ionicLoading.show({template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'});
             //validate we are logged in
             //todo validation step
             acReport.prepareData($scope.report)
                 .then(acReport.sendReport)
                 .then(function(result){
+                    console.log(result);
                     $ionicLoading.hide();
                  })
                 .catch(function(error){
                     console.log(error);
                     $ionicLoading.hide();
                 });
+            }
+            else {
+                 $ionicLoading.show({duration:3000, template: '<i class="fa fa-exclamation-triangle"></i> <p>You must be connected to the network to submit reports. Please try later.</p>'});
+            }
         };
 
         $scope.showLocationSheet = function() {
@@ -71,15 +75,16 @@ angular.module('acMobile.controllers')
                         getLocation()
                             .then(function() {
                                     hideSheet();
-                                },
-                                function(error) {
-                                    //TODO remove alerts
-                                    alert("There was an error getting your location");
                                 });
                     } else if (index === 1) {
                         hideSheet();
-                        //TODO - ensure the user has a data connection to show the map.
-                        $scope.showLocationModal();
+                        if ($cordovaNetwork.isOnline){
+                            $scope.showLocationModal();
+                        }
+                        else {
+                            $ionicLoading.show({duration:3000, template: '<i class="fa fa-exclamation-triangle"></i> <p>You must be connected to the network to pick from a map.</p>'});
+
+                        }
                     }
                 }
             });
