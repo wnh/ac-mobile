@@ -1,7 +1,7 @@
 angular.module('acMobile.services')
     .constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com')
-    //.constant('AC_QA_API_ROOT_URL', 'http://avalanche-canada-qa-cyhmatrj4r.elasticbeanstalk.com/');
-    .constant('AC_QA_API_ROOT_URL', 'http://192.168.1.124:8080/api/upload');
+    .constant('AC_QA_API_ROOT_URL', 'http://avalanche-canada-qa-cyhmatrj4r.elasticbeanstalk.com/');
+    //.constant('AC_QA_API_ROOT_URL', 'http://192.168.1.124:8080/api/upload');
 
 angular.module('acMobile.services')
     .factory('acReport', function($http, $q, AC_QA_API_ROOT_URL) {
