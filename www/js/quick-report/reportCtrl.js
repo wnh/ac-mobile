@@ -24,18 +24,10 @@ angular.module('acMobile.controllers')
         var marker;
         var popup;
 
-        var dt = new Date();
-        var month = dt.getMonth() + 1;
-        var currentDate = dt.getFullYear() + "-" + month + "-" + dt.getDate() + "T" + dt.getHours() + ":" + dt.getMinutes();
-
-        //upon storage, convert to UTC time and ISO date string
-        var isoDate = new Date(dt).toISOString();
-        //console.log("ISO:" + isoDate);
-
 
         $scope.report = {
             title: "",
-            datetime: currentDate,
+            datetime: moment().format('YYYY-MM-DDTHH:mm:ss'),
             location: [],
             images: [],
             ridingConditions: ridingConditionsData,
