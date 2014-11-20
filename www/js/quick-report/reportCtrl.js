@@ -95,7 +95,6 @@ angular.module('acMobile.controllers')
                     return $cordovaGeolocation.getCurrentPosition();
                 })
                 .then(function(position) {
-                    console.log(position);
                     $ionicLoading.hide();
                     $scope.report.location = [position.coords.latitude, position.coords.longitude];
                 })
@@ -202,7 +201,6 @@ angular.module('acMobile.controllers')
                 cancelText: "Cancel",
                 buttonClicked: function(index) {
                     if (index === 0) {
-                        console.log("picked 0");
                         hidePictureSheet();
                         options = {
                             quality: 75,

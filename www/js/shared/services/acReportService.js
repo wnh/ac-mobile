@@ -19,14 +19,12 @@ angular.module('acMobile.services')
 
         //public
         function prepareData(reportData) {
-            console.log("Here");
             var fd = new FormData();
             //process files
             if (reportData.files && reportData.files.length > 0) {
                     angular.forEach(reportData.files, function(file, counter){
                         //check file type image/video for now just image
                         if (file){
-                            console.log("Adding file to formData - " + file.type);
                             fd.append('file' + counter, file, "image-" + counter + ".jpg");
                         }
                     });
@@ -35,26 +33,19 @@ angular.module('acMobile.services')
             //process data
             angular.forEach(reportData, function(value, key){
                 if (key !== "files" && angular.isObject(value)){
-                    console.log("appending JSON Object for: " + key );
                     fd.append(key, angular.toJson(value));
                 }
                 else if (key === "datetime"){
-                    console.log("appending datetime for: " + key );
                     fd.append(key, moment(value).format());
                 }
                 else if (key !== "files"){
-                    console.log("appending: " + key );
                     fd.append(key, value);
                 }
             });
-            console.log("returning...");
-            console.log(fd);
             return $q.when(fd);
         }
 
         function sendReport(formData) {
-            console.log("sending..");
-            console.log(formData);
             return $http.post(apiUrl, formData, {
                     transformRequest: angular.identity,
                     headers: {
@@ -70,14 +61,12 @@ angular.module('acMobile.services')
 
         //private
         function onError(error) {
-            console.error(error);
+            //console.error(error);
             return $q.reject(error);
         }
 
         function onSuccess(response) {
-           console.log("server");
-           console.log(response);
-
+           //console.log(response);
             return response.data;
         }
 
