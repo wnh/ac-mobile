@@ -29,13 +29,13 @@
                 <div ng-if="report.location[0]" class="label-sm energized">({{report.location[0]}}, {{report.location[1]}})</div>
             </label>
             <label class="item item-input item-dark item-stacked-label" ng-click="showPictureSheet()">
-                <span class="input-label">Add photo/video</span>
-                <div class="label-sm energized">{{report.images.length}} photos added</div>
+                <span class="input-label">Add photo</span>
+                <div class="label-sm energized">{{report.files.length}} photos added</div>
             </label>
             <label class="item item-input item-dark item-stacked-label item-icon-right" ng-click="display.ridingInfo=!display.ridingInfo">
-                <span class="input-label">Riding Conditions</span>
+                <span class="input-label">Riding conditions</span>
                 <i class="icon" ng-class="{'ion-ios7-arrow-up': !display.ridingInfo, 'ion-ios7-arrow-down': display.ridingInfo}"></i>
-                <div ng-show="!display.ridingInfo" class="label-sm energized">No riding conditions</div>
+                <!-- <div ng-show="!display.ridingInfo" class="label-sm energized">No riding conditions</div> -->
             </label>
 
 
@@ -120,10 +120,11 @@
                 <input type="text" placeholder="User comments" ng-model="report.comments">
             </label>
             <label class="item item-dark">
-                <button class="button button-block button-energized" ng-click="checkData()">
+                <button class="button button-block button-energized" ng-click="submitReport()">
                     SUBMIT FORM
                 </button>
             </label>
+
 
 
         </ion-list>

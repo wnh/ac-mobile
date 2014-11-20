@@ -1,6 +1,5 @@
 angular.module('acMobile.services')
     .service('ridingConditionsData', function() {
-
         this.ridingQuality = {
             "prompt": "Riding quality was:",
             "options": ["Amazing", "Good", "OK", "Terrible"],
@@ -59,5 +58,4 @@ angular.module('acMobile.services')
                 "Wet": false
             }
         };
-
     });

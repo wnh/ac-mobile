@@ -4,17 +4,15 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $timeout, $state, $ionicPlatform, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaCamera, quickReports, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+    .controller('ReportCtrl', function($scope, $q, $http, $timeout, $state, $ionicPlatform, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaCamera, $cordovaFile, acReport, fileArrayCreator, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
         //Cordova setup
         var Camera = navigator.camera;
 
+        //display form sections
         $scope.display = {
             "ridingInfo": false,
             "avalancheConditions": false
         };
-
-
-        $scope.ridingConditions = ridingConditionsData;
 
         $scope.tempLocation = {
             lat: "",
@@ -25,11 +23,13 @@ angular.module('acMobile.controllers')
         var popup;
 
 
+        $scope.ridingConditions = ridingConditionsData;
         $scope.report = {
             title: "",
             datetime: moment().format('YYYY-MM-DDTHH:mm:ss'),
             location: [],
             images: [],
+            files: [],
             ridingConditions: ridingConditionsData,
             avalancheCondtions: {
                 'slab': false,
@@ -40,15 +40,22 @@ angular.module('acMobile.controllers')
             comments: ""
         };
 
-        $scope.checkData = function() {
-            console.log($scope.report);
-            $state.go("app.post-share");
+        $scope.submitReport = function() {
+            $ionicLoading.show({template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'});
+            //todo
+            //validate we are online
+            //validate we are logged in
+            //todo validation step
+            acReport.prepareData($scope.report)
+                .then(acReport.sendReport)
+                .then(function(result){
+                    $ionicLoading.hide();
+                 })
+                .catch(function(error){
+                    console.log(error);
+                    $ionicLoading.hide();
+                });
         };
-
-        $scope.sendData = function() {
-
-        };
-
 
         $scope.showLocationSheet = function() {
             var hideSheet = $ionicActionSheet.show({
@@ -173,14 +180,13 @@ angular.module('acMobile.controllers')
                 .then(function() {
                     return $cordovaCamera.getPicture(options);
                 })
-                .then(function(imageURI) {
-                    console.log("Success Image Capture");
-                    console.log(imageURI);
-                    $scope.report.images.push(imageURI);
-                    console.log($scope.report.images);
-                }, function(err) {
-                    console.log("camera error: " + err);
-                    // An error occured. Show a message to the user
+                .then(fileArrayCreator.processImage)
+                .then(function(fileBlob) {
+                    $scope.report.files.push(fileBlob);
+                    $ionicLoading.show({duration:1000, template: '<i class="fa fa-camera"></i> Picture attached'});
+                })
+                .catch(function(error) {
+                    console.log(error);
                 });
         }
 
@@ -226,40 +232,7 @@ angular.module('acMobile.controllers')
                     }
                 }
             });
-
-
         };
-
-        function prepareData() {
-            //report title
-            var valid = true;
-            if ($scope.report.title.length <= 0) {
-                $scope.report.title = "auto: Quick Report";
-            }
-            if (!$scope.report.date) {
-                alert("please enter a report date");
-                valid = false;
-            }
-            if (!$scope.report.location) {
-                alert("please enter a location");
-            }
-            if (!$scope.report.ridingInfo || !$scope.report.avalancheCondtions || !scope.report.comments) {
-                alert("please enter riding info, conditions or comments");
-            }
-            quickReports.sendReport($scope.report)
-                .then(function(response) {
-                    console.log("report sent");
-                    console.log(response);
-                }, function(error) {
-                    console.error(error);
-                });
-
-
-
-
-        }
-
-
 
         //clean up
         $scope.$on('$destroy', function() {
