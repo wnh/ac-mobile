@@ -36,10 +36,7 @@ angular.module('acMobile.controllers')
         $scope.report = {
             title: "",
             datetime: currentDate,
-            location: {
-                lat: "",
-                lng: ""
-            },
+            location: [],
             images: [],
             ridingConditions: ridingConditionsData,
             avalancheCondtions: {
@@ -101,8 +98,7 @@ angular.module('acMobile.controllers')
                 .then(function(position) {
                     console.log(position);
                     $ionicLoading.hide();
-                    $scope.report.location.lat = position.coords.latitude;
-                    $scope.report.location.lng = position.coords.longitude;
+                    $scope.report.location = [position.coords.latitude, position.coords.longitude];
                 })
                 .catch(function(error) {
                     $ionicLoading.hide();
@@ -172,12 +168,10 @@ angular.module('acMobile.controllers')
 
         $scope.confirmLocation = function() {
             if ($scope.tempLocation.lat) {
-                $scope.report.location.lat = $scope.tempLocation.lat;
-                $scope.report.location.lng = $scope.tempLocation.lng;
+                $scope.report.location = [$scope.tempLocation.lat, $scope.tempLocation.lng];
                 $scope.locationModal.hide();
             } else {
-                //TODO remove alerts
-                alert("You haven't tapped the map to set the location yet");
+                $ionicLoading.show({duration:2000, template: '<i class="fa fa-exclamation-triangle"></i> You have not selected a position yet'});
             }
             //emit  event to mark a position
         };

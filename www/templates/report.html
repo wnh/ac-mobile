@@ -25,8 +25,8 @@
             <label class="item item-input item-dark item-stacked-label" ng-click="showLocationSheet()">
                 <i class="icon fa fa-map-marker"></i>
                 <span class="input-label">Location</span>
-                <div ng-if="!report.location.lng" class="label-sm energized">Tap to set location</div>
-                <div ng-if="report.location.lng" class="label-sm energized">({{report.location.lat}}, {{report.location.lng}})</div>
+                <div ng-if="!report.location[0]" class="label-sm energized">Tap to set location</div>
+                <div ng-if="report.location[0]" class="label-sm energized">({{report.location[0]}}, {{report.location[1]}})</div>
             </label>
             <label class="item item-input item-dark item-stacked-label" ng-click="showPictureSheet()">
                 <span class="input-label">Add photo/video</span>
