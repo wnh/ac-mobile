@@ -41,7 +41,7 @@ angular.module('acMobile.controllers')
         };
 
         $scope.submitReport = function() {
-            if ($cordovaNetwork.isOnline){
+            if ($cordovaNetwork.isOnline()){
                 $ionicLoading.show({template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'});
             //validate we are logged in
             //todo validation step
@@ -57,7 +57,7 @@ angular.module('acMobile.controllers')
                 });
             }
             else {
-                 $ionicLoading.show({duration:3000, template: '<i class="fa fa-exclamation-triangle"></i> <p>You must be connected to the network to submit reports. Please try later.</p>'});
+                 $ionicLoading.show({duration:3000, template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to submit reports. Please try later.</p>'});
             }
         };
 
@@ -78,11 +78,11 @@ angular.module('acMobile.controllers')
                                 });
                     } else if (index === 1) {
                         hideSheet();
-                        if ($cordovaNetwork.isOnline){
+                        if ($cordovaNetwork.isOnline()){
                             $scope.showLocationModal();
                         }
                         else {
-                            $ionicLoading.show({duration:3000, template: '<i class="fa fa-exclamation-triangle"></i> <p>You must be connected to the network to pick from a map.</p>'});
+                            $ionicLoading.show({duration:3000, template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to pick from a map.</p>'});
 
                         }
                     }
