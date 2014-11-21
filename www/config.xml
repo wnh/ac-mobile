@@ -26,5 +26,61 @@
     <gap:plugin name="org.apache.cordova.console" version="0.2.11" />
     <gap:plugin name="org.apache.cordova.device" version="0.2.12" />
     <gap:plugin name="org.apache.cordova.geolocation" version="0.3.10" />
-    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />    
+
+    <!-- Define app icon for each platform. -->
+    <!-- Default -->
+    <icon src="icon.png" />
+
+    <!-- iPhone 6 / 6+ -->
+    <icon src="pg/ios/pg180.png"        gap:platform="ios" width="180" height="180" />   
+
+    <!-- iPhone / iPod Touch  -->
+    <icon src="pg/ios/pg60.png"         gap:platform="ios" width="60" height="60" />
+    <icon src="pg/ios/pg120.png"        gap:platform="ios" width="120" height="120" />
+
+    <!-- iPad -->
+    <icon src="pg/ios/pg76.png"         gap:platform="ios" width="76" height="76" />
+    <icon src="pg/ios/pg152.png"        gap:platform="ios" width="152" height="152" />
+
+    <!-- Settings Icon -->
+    <icon src="pg/ios/pg29.png"         gap:platform="ios" width="29" height="29" />
+    <icon src="pg/ios/pg58.png"         gap:platform="ios" width="58" height="58" />
+
+    <!-- Spotlight Icon -->
+    <icon src="pg/ios/pg40.png"         gap:platform="ios" width="40" height="40" />
+    <icon src="pg/ios/pg80.png"         gap:platform="ios" width="80" height="80" />
+
+    <!-- iPhone / iPod Touch -->
+    <icon src="pg/ios/pg57.png"         gap:platform="ios" width="57" height="57" />
+    <icon src="pg/ios/pg114.png"        gap:platform="ios" width="114" height="114" />
+
+    <!-- iPad -->
+    <icon src="pg/ios/pg72.png"         gap:platform="ios" width="72" height="72" />
+    <icon src="pg/ios/pg144.png"        gap:platform="ios" width="144" height="144" />
+
+    <!-- iPad Spotlight and Settings Icon -->
+    <icon src="pg/ios/pg50.png"         gap:platform="ios" width="50" height="50" />
+    <icon src="pg/ios/pg100.png"        gap:platform="ios" width="100" height="100" />
+
+    <!-- Android -->
+
+    <icon src="pg/android/pg36.png"     gap:platform="android"    gap:qualifier="ldpi" />
+    <icon src="pg/android/pg48.png"     gap:platform="android"    gap:qualifier="mdpi" />
+    <icon src="pg/android/pg72.png"     gap:platform="android"    gap:qualifier="hdpi" />
+    <icon src="pg/android/pg96.png"     gap:platform="android"    gap:qualifier="xhdpi" />
+    <icon src="pg/android/pg144.png"    gap:platform="android"    gap:qualifier="xxhdpi" />
+    <icon src="pg/android/pg192.png"    gap:platform="android"    gap:qualifier="xxxhdpi" />
+
+
+    <!-- Define app splash screen for each platform. -->
+    <gap:splash src="pg/splash/port-ldpi.png"   gap:platform="android" gap:qualifier="port-ldpi" />
+    <gap:splash src="pg/splash/port-mdpi.png"   gap:platform="android" gap:qualifier="port-mdpi" />
+    <gap:splash src="pg/splash/port-hdpi.png"   gap:platform="android" gap:qualifier="port-hdpi" />
+    <gap:splash src="pg/splash/port-xhdpi.png"  gap:platform="android" gap:qualifier="port-xhdpi" />
+    <gap:splash src="pg/splash/pg320-480.png"   gap:platform="ios"     width="320" height="480" />
+    <gap:splash src="pg/splash/pg640-960.png"   gap:platform="ios"     width="640" height="960" />
+    <gap:splash src="pg/splash/pg640-1136.png"  gap:platform="ios"     width="640" height="1136" />
+    <gap:splash src="pg/splash/pg768-1024.png"  gap:platform="ios"     width="768" height="1024" />
+
 </widget>
