@@ -6,7 +6,10 @@
 
         <div class="content">
             <div class="text-wrapper">
-                <button class="btn btn-primary pull-right" ng-hide="acceptedTOU" ng-click="acceptTOU()">Accept</button>
+                <button class="button pull-right" ng-class="{'button-energized': !termsAccepted, 'button-balanced': termsAccepted}" ng-hide="acceptedTOU" ng-click="acceptTerms()">
+                    <i ng-class="{'fa fa-check': termsAccepted}"></i><span ng-if="!termsAccepted"> Accept</span><span ng-if="termsAccepted"> Accepted</span>
+                </button>
+
                 <h3>CAC Mobile Application Terms of Use</h3>
                 <h4>PLEASE READ THIS DOCUMENT CAREFULLY.
                     <br />IT SIGNIFICANTLY ALTERS YOUR LEGAL RIGHTS AND REMEDIES.</h4>
@@ -122,7 +125,9 @@
                 <p>The parties have expressly requested and required that this agreement and all other related documents be drawn up in the English language. Les parties conviennentet exigent expressement que ce Contrat et tous les documents qui s'y rapportent soient rediges en Anglais.</p>
                 <p>Any rights not expressly granted by this agreement are reserved by CAC.</p>
 
-                <button class="btn btn-primary" ng-hide="acceptedTOU" ng-click="acceptTOU()">Accept</button>
+                <button class="button button-block" ng-class="{'button-energized': !termsAccepted, 'button-balanced': termsAccepted}" ng-hide="acceptedTOU" ng-click="acceptTerms()">
+                    <i ng-class="{'fa fa-check': termsAccepted}"></i><span ng-if="!termsAccepted"> Accept</span><span ng-if="termsAccepted"> Accepted</span>
+                </button>
             </div>
         </div>
     </ion-content>

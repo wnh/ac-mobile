@@ -104,7 +104,8 @@ angular.module('acMobile')
                 url: "/app/terms",
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/terms.html"
+                        templateUrl: "templates/terms.html",
+                        controller: "TermsCtrl"
                     }
                 }
             })
