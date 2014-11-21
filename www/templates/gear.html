@@ -2,7 +2,7 @@
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
-    <ion-content class="has-header">
+    <ion-content class="has-header gearSection">
         <ion-list>
             <div class="gearList" ng-repeat="gear in gearItems">
                 <ion-item class="item-divider item-icon-left item-icon-right" ng-click="openSection(gear)">
@@ -10,7 +10,7 @@
                     <div>
                         {{gear.heading}}
                     </div>
-                    <i class="icon heading-icon" ng-class="{'ion-chevron-up': !isGearDisplayed(gear), 'ion-chevron-down': isGearDisplayed(gear)}"></i>
+                    <i class="icon heading-icon" ng-class="{'ion-ios7-arrow-up': !isGearDisplayed(gear), 'ion-ios7-arrow-down': isGearDisplayed(gear)}"></i>
                 </ion-item>
                 <ion-item ng-show="gearDisplayed === gear.heading" class="gearItem">
                     <div class="gear-desc" ng-bind-html="gear.desc"></div>
@@ -18,5 +18,10 @@
                 </ion-item>
             </div>
         </ion-list>
+        <div class="row">
+            <div class="col">
+                <a class="button button-block button-energized" href="http://www.mec.ca" target="_blank">Shop at mec.ca</a>
+            </div>
+        </div>
     </ion-content>
 </ion-view>

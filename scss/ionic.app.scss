@@ -128,6 +128,11 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
 .action-sheet-title {
   color: #000000;
 }
+.gearSection {
+  .row {
+    margin: 0;
+  }
+}
 .gearItem p {
   white-space: normal;
   padding-bottom: 12px;
