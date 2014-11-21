@@ -7941,3 +7941,6 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
     color: #55ACEE; }
   .social-icons .gplus {
     color: #D6492F; }
+
+.large-textarea {
+  height: 80px; }
