@@ -26,6 +26,9 @@ angular.module('acMobile')
                         controller: "ForecastsMapCtrl"
                     }
                 },
+                data: {
+                    requiresOnline : true
+                },
                 resolve: {
                     resForecasts: function(acForecast) {
                         return acForecast.fetch();
