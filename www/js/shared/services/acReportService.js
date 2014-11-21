@@ -45,7 +45,7 @@ angular.module('acMobile.services')
         }
 
         function sendReport(formData) {
-            return $http.post(apiUrl + '/min/submissions', formData, {
+            return $http.post(apiUrl + '/api/min/submissions', formData, {
                     transformRequest: angular.identity,
                     headers: {
                         'Content-Type': undefined
@@ -65,7 +65,7 @@ angular.module('acMobile.services')
         }
 
         function onSuccess(response) {
-           //console.log(response);
+           console.log(response);
             return response.data;
         }
 
