@@ -15,6 +15,7 @@
         "shelljs": "^0.3.0"
     },
     "scripts": {
+        "sim-iphone-4s": "gulp && cordova build ios && ios-sim launch 'platforms/ios/build/emulator/AC Mobile.app' --devicetypeid \"com.apple.CoreSimulator.SimDeviceType.iPhone-4s, 8.1\"",
         "sim-iphone-5s": "gulp && cordova build ios && ios-sim launch 'platforms/ios/build/emulator/AC Mobile.app' --devicetypeid \"com.apple.CoreSimulator.SimDeviceType.iPhone-5s, 8.1\"",
         "sim-iphone-6": "gulp && cordova build ios && ios-sim launch 'platforms/ios/build/emulator/AC Mobile.app' --devicetypeid \"com.apple.CoreSimulator.SimDeviceType.iPhone-6, 8.1\"",
         "sim-iphone-6p": "gulp && cordova build ios && ios-sim launch 'platforms/ios/build/emulator/AC Mobile.app' --devicetypeid \"com.apple.CoreSimulator.SimDeviceType.iPhone-6-Plus, 8.1\""
