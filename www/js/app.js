@@ -47,21 +47,27 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         });
     })
 
-.run(function($rootScope, acTerms, $state, $cordovaNetwork, $ionicLoading) {
+.run(function($rootScope, acTerms, $state, $cordovaNetwork, $ionicLoading, $ionicPlatform) {
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-        if (toState.name != 'app.terms' && toState != 'app.loading' && !acTerms.termsAccepted()) {
-            console.log("Terms not accepted - re-routing to terms");
-            event.preventDefault();
-            $state.go('app.terms');
-            //return false;
-        }
-        //console.log(toState);
 
-        if (toState.data && toState.data.requiresOnline && $cordovaNetwork.isOffline()) {
-            $ionicLoading.show({
-                duration: 5000,
-                template: "<i class='fa fa-chain-broken'></i> No network connection. This part of the app requires a network connection."
+        $ionicPlatform.ready()
+            .then(function() {
+                if (toState.name != 'app.terms' && toState != 'app.loading' && !acTerms.termsAccepted()) {
+                    console.log("Terms not accepted - re-routing to terms");
+                    event.preventDefault();
+                    $state.go('app.terms');
+                    //return false;
+                }
+                //console.log(toState);
+
+                if (toState.data && toState.data.requiresOnline && $cordovaNetwork.isOffline()) {
+                    $ionicLoading.show({
+                        duration: 5000,
+                        template: "<i class='fa fa-chain-broken'></i> No network connection. This part of the app requires a network connection."
+                    });
+                }
+
             });
-        }
+
     });
 });
