@@ -8,17 +8,17 @@ angular.module('acMobile')
                 controller: 'AppCtrl'
             })
             //TODO: remove this login route if we don't need it.
-            .state('app.login', {
-                url: "/app/login",
-                views: {
-                    'menuContent': {
-                        templateUrl: "templates/login.html",
-                        controller: "LoginCtrl"
-                    }
-                }
+            // .state('app.login', {
+            //     url: "/app/login",
+            //     views: {
+            //         'menuContent': {
+            //             templateUrl: "templates/login.html",
+            //             controller: "LoginCtrl"
+            //         }
+            //     }
 
-            })
-            .state('app.forecasts-map', {
+        // })
+        .state('app.forecasts-map', {
                 url: "/app/forecasts-map",
                 views: {
                     'menuContent': {
@@ -27,7 +27,7 @@ angular.module('acMobile')
                     }
                 },
                 data: {
-                    requiresOnline : true
+                    requiresOnline: true
                 },
                 resolve: {
                     resForecasts: function(acForecast) {
@@ -61,31 +61,31 @@ angular.module('acMobile')
                     }
                 }
             })
-            .state('app.report', {
-                url: "/app/report",
-                views: {
-                    'menuContent': {
-                        templateUrl: "templates/report.html",
-                        controller: "ReportCtrl"
-                    }
-                }
-            })
-            .state('app.share-incident-report', {
-                url: "/app/share-incident-report",
-                views: {
-                    'menuContent': {
-                        templateUrl: "templates/share-incident-report.html"
-                    }
-                }
-            })
-            .state('app.share-field-obs', {
-                url: "/app/share-field-obs",
-                views: {
-                    'menuContent': {
-                        templateUrl: "templates/share-field-obs.html"
-                    }
-                }
-            })
+            // .state('app.report', {
+            //     url: "/app/report",
+            //     views: {
+            //         'menuContent': {
+            //             templateUrl: "templates/report.html",
+            //             controller: "ReportCtrl"
+            //         }
+            //     }
+            // })
+            // .state('app.share-incident-report', {
+            //     url: "/app/share-incident-report",
+            //     views: {
+            //         'menuContent': {
+            //             templateUrl: "templates/share-incident-report.html"
+            //         }
+            //     }
+            // })
+            // .state('app.share-field-obs', {
+            //     url: "/app/share-field-obs",
+            //     views: {
+            //         'menuContent': {
+            //             templateUrl: "templates/share-field-obs.html"
+            //         }
+            //     }
+            // })
             .state('app.gear', {
                 url: "/app/gear",
                 views: {
@@ -111,15 +111,15 @@ angular.module('acMobile')
                         controller: "TermsCtrl"
                     }
                 }
-            })
-            .state('app.post-share', {
-                url: "/app/post-share",
-                views: {
-                    'menuContent': {
-                        templateUrl: "templates/post-share.html"
-                    }
-                }
             });
+        // .state('app.post-share', {
+        //     url: "/app/post-share",
+        //     views: {
+        //         'menuContent': {
+        //             templateUrl: "templates/post-share.html"
+        //         }
+        //     }
+        // });
         // if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/app/forecasts-map');
     });
