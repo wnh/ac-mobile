@@ -17,7 +17,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 //
 // Avalanche Canada theme colors
 //
-
 //-- colors
 $light: #fff;
 $energized: #f79118;
@@ -42,183 +41,194 @@ $item-divider-color: $energized;
 //
 // Custom Styles
 //
-
 //--Map (Leaflet)
-
 #map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
 }
 .scroll {
-  height: 100%;
-  background: $dark;
-  //required for map rendering
+    height: 100%;
+    background: $dark;
+    //required for map rendering
 }
 .label-sm {
-  font-size: $font-size-base;
+    font-size: $font-size-base;
 }
 .no-border {
-  border-color: rgba(0, 0, 0, 0) !important;
+    border-color: rgba(0, 0, 0, 0) !important;
 }
 // ac-component / bootstrap overrides (mostly due to ionic collisions)
 // TODO:may be able to simplify this in some cases
-
 .leaflet-control-locate a {
-  //override ac-component location icon misaligned
-  padding-left: 8px;
-  padding-top: 3px;
+    //override ac-component location icon misaligned
+    padding-left: 8px;
+    padding-top: 3px;
 }
 .ac-forecast-container {
-  h3.ac-forecast-region {
-    color: #000000;
-  }
-  h4 {
-    color: #000000;
-    font-weight: bold;
-  }
-  h4.panel-title {
-    font-weight: bold;
-    color: #ffffff;
-  }
-  .ac-forecast-mini {
-    color: #000000;
-    .row {
-      width: auto !important;
-      display: block;
-      padding: 0 !important;
+    h3.ac-forecast-region {
+        color: #000000;
     }
-  }
+    h4 {
+        color: #000000;
+        font-weight: bold;
+    }
+    h4.panel-title {
+        font-weight: bold;
+        color: #ffffff;
+    }
+    .ac-forecast-mini {
+        color: #000000;
+        .row {
+            width: auto !important;
+            display: block;
+            padding: 0 !important;
+        }
+    }
 }
 .ac-drawer-body {
-  h3.ac-forecast-region {
-    color: #000000;
-  }
-  h4 {
-    color: #000000;
-    font-weight: bold;
-  }
-  h4.panel-title {
-    font-weight: bold;
-    color: #ffffff;
-  }
-  .ac-forecast-mini {
-    color: #000000;
-    .row {
-      width: auto !important;
-      display: block;
-      padding: 0 !important;
+    h3.ac-forecast-region {
+        color: #000000;
     }
-  }
+    h4 {
+        color: #000000;
+        font-weight: bold;
+    }
+    h4.panel-title {
+        font-weight: bold;
+        color: #ffffff;
+    }
+    .ac-forecast-mini {
+        color: #000000;
+        .row {
+            width: auto !important;
+            display: block;
+            padding: 0 !important;
+        }
+    }
 }
 input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
-  outline: none;
+    outline: none;
 }
 .quick-report-conditions {
-  input[type=checkbox] {
-    float: none;
-    margin-left: 0px;
-  }
-  .item {
-    white-space: normal;
-  }
+    input[type=checkbox] {
+        float: none;
+        margin-left: 0px;
+    }
+    .item {
+        white-space: normal;
+    }
 }
 .action-sheet-title {
-  color: #000000;
+    color: #000000;
 }
 .gearSection {
-  .row {
-    margin: 0;
-  }
+    .row {
+        margin: 0;
+    }
 }
 .gearItem p {
-  white-space: normal;
-  padding-bottom: 12px;
-  color: #ffffff;
+    white-space: normal;
+    padding-bottom: 12px;
+    color: #ffffff;
 }
 .gearList ion-item.item-divider.activated {
-  background: $dark;
-  border-color: #000;
+    background: $dark;
+    border-color: #000;
 }
 .gearList ion-item {
-  background: $dark;
-  border-color: #000;
+    background: $dark;
+    border-color: #000;
 }
 .heading-icon {
-  color: #ffffff;
-  -webkit-filter: brightness(100);
-  // margin-top: 10px;
-  // width: 25px;
-  // height: auto;
+    color: #ffffff;
+    -webkit-filter: brightness(100);
+    // margin-top: 10px;
+    // width: 25px;
+    // height: auto;
 }
 // -- Partner page
 .partner {
-  .row {
-    margin: 0;
-  }
-  .intro-title {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-  .spacer-lg {
-    padding-top: 100px;
-    display: block;
-  }
-  .spacer-sm {
-    padding-top: 25px;
-    display: block;
-  }
-  .partner-logo {
-    display: inline-block;
-    width: 100%;
-    vertical-align: bottom;
-  }
-  .footer {
-    position: absolute;
-    bottom: 0px;
-  }
+    .row {
+        margin: 0;
+    }
+    .intro-title {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .spacer-lg {
+        padding-top: 100px;
+        display: block;
+    }
+    .spacer-sm {
+        padding-top: 25px;
+        display: block;
+    }
+    .partner-logo {
+        display: inline-block;
+        width: 100%;
+        vertical-align: bottom;
+    }
+    .footer {
+        position: absolute;
+        bottom: 0px;
+    }
 }
 .centered {
-  display: block;
-  width: 100%;
-  text-align: center;
+    display: block;
+    width: 100%;
+    text-align: center;
 }
 .riding-info {
-  padding-left: 10px;
-  .item-content {
-    background: $dark;
-    color: #ffffff;
-    border: 0px;
-  }
-  input:checked ~ .item-content {
-    background: $energized;
-    color: #ffffff;
-    border: 0px;
-    margin-right: 10px;
-  }
-  .item.item-dark {
-    border: 0px;
-  }
-  .item.item-divider {
-    border: 0px;
-  }
+    padding-left: 10px;
+    .item-content {
+        background: $dark;
+        color: #ffffff;
+        border: 0px;
+    }
+    input:checked ~ .item-content {
+        background: $energized;
+        color: #ffffff;
+        border: 0px;
+        margin-right: 10px;
+    }
+    .item.item-dark {
+        border: 0px;
+    }
+    .item.item-divider {
+        border: 0px;
+    }
 }
 //social
 .social-icons {
-  font-size: 3em;
-  text-align: center;
-  .fb {
-    color: #3B579D
-  }
-  .twitter {
-    color: #55ACEE
-  }
-  .gplus {
-    color: #D6492F
-  }
+    font-size: 3em;
+    text-align: center;
+    .fb {
+        color: #3B579D
+    }
+    .twitter {
+        color: #55ACEE
+    }
+    .gplus {
+        color: #D6492F
+    }
 }
 .large-textarea {
-  height: 80px;
+    height: 80px;
+}
+.termsList {
+    li {
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+}
+.termsSubList {
+    list-style-type: disc;
+    li {
+        margin-left: 40px;
+        margin-top: 0px;
+        margin-bottom: 10px;
+    }
 }
