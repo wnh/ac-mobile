@@ -7,7 +7,7 @@
             <div ac-mapbox-map ac-map-sidebar="sidebar" ac-regions="regions" ac-region="current.region"></div>
         </div>
         <div data-tab-disabled="true" ac-drawer ng-class="{'ac-drawer--expanded': current.region && current.region.feature.properties.forecast && drawer.visible}">
-            <div ac-forecast-mini ac-forecast="current.region.feature.properties.forecast"></div>
+            <div ng-click="resize()" ac-forecast-mini ac-forecast="current.region.feature.properties.forecast"></div>
         </div>
     </ion-content>
 </ion-view>
