@@ -99,7 +99,8 @@ angular.module('acMobile')
                 url: "/app/partner",
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/partner.html"
+                        templateUrl: "templates/partner.html",
+                        controller: "PartnersCtrl"
                     }
                 }
             })

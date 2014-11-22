@@ -28,4 +28,7 @@ angular.module('acMobile.services')
 
                     });
         };
+        this.tecterra = function(fallBackLink) {
+            window.open(fallBackLink, '_system', 'location=no');
+        };
     });

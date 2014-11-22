@@ -7911,8 +7911,13 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
   width: 100%;
   vertical-align: bottom; }
 .partner .footer {
+  width: 100%;
   position: absolute;
   bottom: 0px; }
+  .partner .footer .row, .partner .footer .col {
+    margin: 0;
+    padding: 0;
+    margin-left: -10px; }
 
 .centered {
   display: block;
