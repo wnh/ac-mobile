@@ -1,5 +1,5 @@
 angular.module('acMobile.services')
-    .constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com')
+    //    .constant('AC_API_ROOT_URL', 'http://avalanche-canada-env.elasticbeanstalk.com')
     .constant('AC_QA_API_ROOT_URL', 'http://avalanche-canada-qa-cyhmatrj4r.elasticbeanstalk.com');
 
 angular.module('acMobile.services')
@@ -21,23 +21,21 @@ angular.module('acMobile.services')
             var fd = new FormData();
             //process files
             if (reportData.files && reportData.files.length > 0) {
-                    angular.forEach(reportData.files, function(file, counter){
-                        //check file type image/video for now just image
-                        if (file){
-                            fd.append('file' + counter, file, "image-" + counter + ".jpg");
-                        }
-                    });
-                }
+                angular.forEach(reportData.files, function(file, counter) {
+                    //check file type image/video for now just image
+                    if (file) {
+                        fd.append('file' + counter, file, "image-" + counter + ".jpg");
+                    }
+                });
+            }
 
             //process data
-            angular.forEach(reportData, function(value, key){
-                if (key !== "files" && angular.isObject(value)){
+            angular.forEach(reportData, function(value, key) {
+                if (key !== "files" && angular.isObject(value)) {
                     fd.append(key, angular.toJson(value));
-                }
-                else if (key === "datetime"){
+                } else if (key === "datetime") {
                     fd.append(key, moment(value).format());
-                }
-                else if (key !== "files"){
+                } else if (key !== "files") {
                     fd.append(key, value);
                 }
             });
@@ -55,7 +53,8 @@ angular.module('acMobile.services')
                 .error(onError);
         }
 
-        function getReports(){}
+        function getReports() {}
+
         function getReport(id) {}
 
         //private
@@ -65,7 +64,7 @@ angular.module('acMobile.services')
         }
 
         function onSuccess(response) {
-           console.log(response);
+            console.log(response);
             return response.data;
         }
 

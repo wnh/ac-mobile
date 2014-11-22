@@ -1,6 +1,7 @@
 angular.module('acMobile.services', ['ngCordova']);
 angular.module('acMobile.directives', ['acComponents']);
 angular.module('acMobile.controllers', ['acComponents']);
+//angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://avalanche-canada-env.elasticbeanstalk.com');
 angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'angular-jwt', 'acMobile.services', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
     .config(function(authProvider, $httpProvider, jwtInterceptorProvider) {
         authProvider.init({
@@ -28,10 +29,9 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         $httpProvider.interceptors.push('jwtInterceptor');
 
     })
-
-.constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
+    .constant('AC_API_ROOT_URL', 'http://avalanche-canada-env.elasticbeanstalk.com')
+    .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
     .constant('MAPBOX_MAP_ID', 'tesera.jbnoj7kp')
-    .constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com')
     .run(function($ionicPlatform, auth) {
         auth.hookEvents();
         $ionicPlatform.ready(function() {
@@ -47,18 +47,21 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         });
     })
 
-.run(function($rootScope, acTerms, $state, $cordovaNetwork, $ionicLoading){
-   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-     if ( toState.name != 'app.terms' && toState != 'app.loading' && !acTerms.termsAccepted()) {
-        console.log("Terms not accepted - re-routing to terms");
-        event.preventDefault();
-        $state.go('app.terms');
-        //return false;
-     }
-     //console.log(toState);
+.run(function($rootScope, acTerms, $state, $cordovaNetwork, $ionicLoading) {
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        if (toState.name != 'app.terms' && toState != 'app.loading' && !acTerms.termsAccepted()) {
+            console.log("Terms not accepted - re-routing to terms");
+            event.preventDefault();
+            $state.go('app.terms');
+            //return false;
+        }
+        //console.log(toState);
 
-     if (toState.data && toState.data.requiresOnline && $cordovaNetwork.isOffline()){
-        $ionicLoading.show({duration:5000, template:"<i class='fa fa-chain-broken'></i> No network connection. This part of the app requires a network connection."});
-     }
-   });
+        if (toState.data && toState.data.requiresOnline && $cordovaNetwork.isOffline()) {
+            $ionicLoading.show({
+                duration: 5000,
+                template: "<i class='fa fa-chain-broken'></i> No network connection. This part of the app requires a network connection."
+            });
+        }
+    });
 });
