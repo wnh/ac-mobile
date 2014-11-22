@@ -1,5 +1,5 @@
 angular.module('acMobile.controllers')
-    .controller('GearCtrl', function($scope, gearData) {
+    .controller('GearCtrl', function($scope, gearData, acPartnerLaunch) {
         $scope.gearItems = gearData.gearItems;
         $scope.gearDisplayed = "";
 
@@ -14,6 +14,10 @@ angular.module('acMobile.controllers')
             } else {
                 $scope.gearDisplayed = gearItem.heading;
             }
+        };
+
+        $scope.launchMec = function(link) {
+            acPartnerLaunch.mec(link);
         };
 
 
