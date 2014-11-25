@@ -10,6 +10,11 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
         });
 
+        // TODO-JPB: change login events to use this one
+        // authProvider.on('loginSuccess', function() {
+
+        // });
+
         jwtInterceptorProvider.tokenGetter = function(store, jwtHelper, auth) {
             var idToken = store.get('token');
             var refreshToken = store.get('refreshToken');
@@ -29,12 +34,15 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
         };
         $httpProvider.interceptors.push('jwtInterceptor');
+
+
     })
     .constant('AC_API_ROOT_URL', 'http://avalanche-canada-env.elasticbeanstalk.com')
     .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
     .constant('MAPBOX_MAP_ID', 'tesera.jbnoj7kp')
     .run(function($ionicPlatform, auth) {
         auth.hookEvents();
+
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
