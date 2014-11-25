@@ -82,7 +82,6 @@ angular.module('acMobile.controllers')
                 //not authenticated - so let's prompt them to go sign in with a popup.
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'You must be logged in to submit a report',
-                    subTitle: "asdas ",
                     template: 'Would you like to log in now?',
                     cancelType: "button-outline button-energized",
                     okType: "button-energized"
