@@ -4,6 +4,7 @@ angular.module('acMobile.controllers', ['acComponents']);
 //angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://avalanche-canada-env.elasticbeanstalk.com');
 angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'angular-jwt', 'acMobile.services', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
     .config(function(authProvider, $httpProvider, jwtInterceptorProvider) {
+
         authProvider.init({
             domain: 'avalancheca.auth0.com',
             clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
@@ -12,11 +13,12 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         jwtInterceptorProvider.tokenGetter = function(store, jwtHelper, auth) {
             var idToken = store.get('token');
             var refreshToken = store.get('refreshToken');
+
             // If no token return null
             if (!idToken || !refreshToken) {
                 return null;
             }
-            // If token is expired, get a new one
+            //If token is expired, get a new one
             if (jwtHelper.isTokenExpired(idToken)) {
                 return auth.refreshIdToken(refreshToken).then(function(idToken) {
                     store.set('token', idToken);
@@ -27,7 +29,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
         };
         $httpProvider.interceptors.push('jwtInterceptor');
-
     })
     .constant('AC_API_ROOT_URL', 'http://avalanche-canada-env.elasticbeanstalk.com')
     .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
@@ -47,30 +48,42 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         });
     })
 
-.run(function($rootScope, acTerms, $state, $cordovaNetwork, $ionicLoading, $ionicPlatform) {
+.run(function($rootScope, auth, store, jwtHelper, acTerms, $state, $cordovaNetwork, $ionicLoading, $ionicPlatform) {
+    $rootScope.$on('$locationChangeStart', function() {
+        //TODO-JPB only do this if the user is online.
+        //pull authenticated data from local storage, if they have an old token, fetch a new one immediately.
+        if (!auth.isAuthenticated) {
+            var token = store.get('token');
+            if (token) {
+                if (!jwtHelper.isTokenExpired(token)) {
+                    auth.authenticate(store.get('profile'), token);
+                } else {
+                    return auth.refreshIdToken(refreshToken).then(function(idToken) {
+                        store.set('token', idToken);
+                    });
+                }
+            }
+        }
+    });
+
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 
         if (toState.name != 'app.terms' && toState != 'app.loading' && !acTerms.termsAccepted()) {
             console.log("Terms not accepted - re-routing to terms");
             event.preventDefault();
             $state.go('app.terms');
-            //return false;
         }
-        //console.log(toState);
-
         if (toState.data && toState.data.requiresOnline) {
             $ionicPlatform.ready()
                 .then(function() {
-                    if ($cordovaNetwork.isOffline()) {
-                        $ionicLoading.show({
-                            duration: 5000,
-                            template: "<i class='fa fa-chain-broken'></i> No network connection. Some portions of the app will not function without a connection."
-                        });
-                    }
+                    // TODO-JPB: re-enable online checks
+                    // if ($cordovaNetwork.isOffline()) {
+                    //     $ionicLoading.show({
+                    //         duration: 5000,
+                    //         template: "<i class='fa fa-chain-broken'></i> No network connection. Some portions of the app will not function without a connection."
+                    //     });
+                    // }
                 });
         }
-
-
-
     });
 });

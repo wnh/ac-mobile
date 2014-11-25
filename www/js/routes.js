@@ -7,18 +7,17 @@ angular.module('acMobile')
                 templateUrl: "templates/menu.html",
                 controller: 'AppCtrl'
             })
-            //TODO: remove this login route if we don't need it.
-            // .state('app.login', {
-            //     url: "/app/login",
-            //     views: {
-            //         'menuContent': {
-            //             templateUrl: "templates/login.html",
-            //             controller: "LoginCtrl"
-            //         }
-            //     }
+            .state('app.login', {
+                url: "/app/login",
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/login.html",
+                        controller: "LoginCtrl"
+                    }
+                }
 
-        // })
-        .state('app.forecasts-map', {
+            })
+            .state('app.forecasts-map', {
                 url: "/app/forecasts-map",
                 views: {
                     'menuContent': {
@@ -61,15 +60,15 @@ angular.module('acMobile')
                     }
                 }
             })
-            // .state('app.report', {
-            //     url: "/app/report",
-            //     views: {
-            //         'menuContent': {
-            //             templateUrl: "templates/report.html",
-            //             controller: "ReportCtrl"
-            //         }
-            //     }
-            // })
+            .state('app.report', {
+                url: "/app/report",
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/report.html",
+                        controller: "ReportCtrl"
+                    }
+                }
+            })
             // .state('app.share-incident-report', {
             //     url: "/app/share-incident-report",
             //     views: {

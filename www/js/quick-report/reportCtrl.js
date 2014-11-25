@@ -4,7 +4,7 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $q, $http, $timeout, $state, $ionicPlatform, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaCamera, $cordovaFile, acReport, fileArrayCreator, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+    .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $http, $timeout, $state, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaCamera, $cordovaFile, acReport, fileArrayCreator, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
         //Cordova setup
         var Camera = navigator.camera;
 
@@ -41,24 +41,46 @@ angular.module('acMobile.controllers')
         };
 
         $scope.submitReport = function() {
-            if ($cordovaNetwork.isOnline()){
-                $ionicLoading.show({template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'});
-            //validate we are logged in
-            //todo validation step
-            acReport.prepareData($scope.report)
-                .then(acReport.sendReport)
-                .then(function(result){
-                    console.log(result);
-                    $ionicLoading.hide();
-                 })
-                .catch(function(error){
-                    console.log(error);
-                    $ionicLoading.hide();
+            // todo enable online check
+            // if ($cordovaNetwork.isOnline()){
+
+            //if online, we must be signed in to submit the report, so let's check that:
+            if (auth.isAuthenticated) {
+                $ionicLoading.show({
+                    template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'
+                });
+                //validate we are logged in
+                //todo validation step
+                acReport.prepareData($scope.report)
+                    .then(acReport.sendReport)
+                    .then(function(result) {
+                        console.log(result);
+                        $ionicLoading.hide();
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                        $ionicLoading.hide();
+                    });
+
+            } else {
+                //not authenticated - so let's prompt them to go sign in with a popup.
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'You must be logged in to submit a report',
+                    template: 'Would you like to log in now?'
+                });
+                confirmPopup.then(function(res) {
+                    if (res) {
+                        login();
+                    } else {
+                        console.log('User does not want to log in');
+                    }
                 });
             }
-            else {
-                 $ionicLoading.show({duration:3000, template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to submit reports. Please try later.</p>'});
-            }
+
+            //}
+            // else {
+            //      $ionicLoading.show({duration:3000, template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to submit reports. Please try later.</p>'});
+            // }
         };
 
         $scope.showLocationSheet = function() {
@@ -74,21 +96,43 @@ angular.module('acMobile.controllers')
                     if (index === 0) {
                         getLocation()
                             .then(function() {
-                                    hideSheet();
-                                });
+                                hideSheet();
+                            });
                     } else if (index === 1) {
                         hideSheet();
-                        if ($cordovaNetwork.isOnline()){
+                        if ($cordovaNetwork.isOnline()) {
                             $scope.showLocationModal();
-                        }
-                        else {
-                            $ionicLoading.show({duration:3000, template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to pick from a map.</p>'});
+                        } else {
+                            $ionicLoading.show({
+                                duration: 3000,
+                                template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to pick from a map.</p>'
+                            });
 
                         }
                     }
                 }
             });
         };
+
+        function login() {
+            //TODO-JPB : this is repetive, we should extract to a service.
+            auth.signin({
+                authParams: {
+                    scope: 'openid offline_access',
+                    device: 'Mobile device'
+                }
+            }, function(profile, token, accessToken, state, refreshToken) {
+                // Login was successful
+                store.set('profile', profile);
+                store.set('token', token);
+                store.set('refreshToken', refreshToken);
+                $rootScope.$broadcast('userLoggedIn');
+                console.log("Successfully logged in");
+            }, function(error) {
+                // Oops something went wrong during login:
+                console.log("There was an error logging in", error);
+            });
+        }
 
         function getLocation() {
             return $ionicPlatform.ready()
@@ -174,7 +218,10 @@ angular.module('acMobile.controllers')
                 $scope.report.location = [$scope.tempLocation.lat, $scope.tempLocation.lng];
                 $scope.locationModal.hide();
             } else {
-                $ionicLoading.show({duration:2000, template: '<i class="fa fa-exclamation-triangle"></i> You have not selected a position yet'});
+                $ionicLoading.show({
+                    duration: 2000,
+                    template: '<i class="fa fa-exclamation-triangle"></i> You have not selected a position yet'
+                });
             }
             //emit  event to mark a position
         };
@@ -187,7 +234,10 @@ angular.module('acMobile.controllers')
                 .then(fileArrayCreator.processImage)
                 .then(function(fileBlob) {
                     $scope.report.files.push(fileBlob);
-                    $ionicLoading.show({duration:1000, template: '<i class="fa fa-camera"></i> Picture attached'});
+                    $ionicLoading.show({
+                        duration: 1000,
+                        template: '<i class="fa fa-camera"></i> Picture attached'
+                    });
                 })
                 .catch(function(error) {
                     console.log(error);
