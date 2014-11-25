@@ -30,7 +30,7 @@ angular.module('acMobile.controllers')
             location: [],
             images: [],
             files: [],
-            ridingConditions: ridingConditionsData,
+            ridingConditions: angular.copy(ridingConditionsData),
             avalancheCondtions: {
                 'slab': false,
                 'sound': false,
@@ -39,7 +39,23 @@ angular.module('acMobile.controllers')
             },
             comments: ""
         };
-
+        $scope.resetReport = function() {
+            $scope.report = {
+                title: "",
+                datetime: moment().format('YYYY-MM-DDTHH:mm:ss'),
+                location: [],
+                images: [],
+                files: [],
+                ridingConditions: ridingConditionsData,
+                avalancheCondtions: {
+                    'slab': false,
+                    'sound': false,
+                    'snow': false,
+                    'temp': false
+                },
+                comments: ""
+            };
+        };
         $scope.submitReport = function() {
             // todo enable online check
             // if ($cordovaNetwork.isOnline()){
@@ -66,7 +82,10 @@ angular.module('acMobile.controllers')
                 //not authenticated - so let's prompt them to go sign in with a popup.
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'You must be logged in to submit a report',
-                    template: 'Would you like to log in now?'
+                    subTitle: "asdas ",
+                    template: 'Would you like to log in now?',
+                    cancelType: "button-outline button-energized",
+                    okType: "button-energized"
                 });
                 confirmPopup.then(function(res) {
                     if (res) {

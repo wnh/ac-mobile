@@ -36,6 +36,11 @@ $input-color-placeholder: $energized;
 $checkbox-off-bg-color: $base-background-color;
 $item-divider-bg: $dark;
 $item-divider-color: $energized;
+//popups
+$popup-background-color: rgba($dark, 0.9);
+$popup-button-border-radius: 2px !default;
+$popup-button-line-height: 20px !default;
+$popup-button-min-height: 45px !default;
 // Include all of Ionic
 @import"www/lib/ionic/scss/ionic";
 //
