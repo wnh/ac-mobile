@@ -23,7 +23,14 @@
         <param name="ios-package" value="CDVInAppBrowser" />
         <param name="android-package" value="org.apache.cordova.InAppBrowser" />
     </feature>
-
+    <!-- for iOS -->
+    <feature name="SocialSharing">
+        <param name="ios-package" value="SocialSharing" />
+    </feature>
+    <!-- for Android (you will find one in res/xml) -->
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    </feature>
 
     <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
     <gap:plugin name="org.apache.cordova.camera" version="0.3.2" />
@@ -34,6 +41,7 @@
     <gap:plugin name="org.apache.cordova.network-information" version="0.2.12" />
     <gap:plugin name="com.ohh2ahh.plugins.appavailability" version="0.3.1" />
     <gap:plugin name="org.apache.cordova.splashscreen" version="0.3.4" />
+    <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.0" />
 
 
     <!-- Define app icon for each platform. -->

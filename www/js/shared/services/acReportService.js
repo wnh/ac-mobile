@@ -1,6 +1,6 @@
 angular.module('acMobile.services')
     //    .constant('AC_API_ROOT_URL', 'http://avalanche-canada-env.elasticbeanstalk.com')
-    .constant('AC_QA_API_ROOT_URL', 'http://avalanche-canada-qa-cyhmatrj4r.elasticbeanstalk.com');
+    .constant('AC_QA_API_ROOT_URL', 'http://avalanche-canada-qa.elasticbeanstalk.com/');
 
 angular.module('acMobile.services')
     .factory('acReport', function($http, $q, AC_QA_API_ROOT_URL) {
@@ -64,7 +64,7 @@ angular.module('acMobile.services')
         }
 
         function onSuccess(response) {
-            console.log(response);
+            //console.log(response);
             return response.data;
         }
 

@@ -4,7 +4,7 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $http, $timeout, $state, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaCamera, $cordovaFile, acReport, fileArrayCreator, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+    .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $http, $timeout, $state, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaFile, acReport, fileArrayCreator, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
         //Cordova setup
         var Camera = navigator.camera;
 
@@ -56,6 +56,64 @@ angular.module('acMobile.controllers')
                 comments: ""
             };
         };
+
+        function sharePopup(link) {
+            $scope.sharePopup = $ionicPopup.show({
+                templateUrl: 'templates/post-share.html',
+                title: "Observation report saved",
+                subTitle: "Share your report",
+                scope: $scope
+            });
+            $scope.sharePopup.then(function(provider) {
+                var message = "Check out my Mountain Information Network Report: ",
+                    image = null;
+
+                if (provider == "twitter") {
+                    $cordovaSocialSharing
+                        .shareViaTwitter(message, image, link)
+                        .then(function(result) {
+                            //console.log(result);
+                        }, function(err) {
+                            //console.log(err);
+                        });
+                } else if (provider == "facebook") {
+                    //This implementation is an option...
+                    // window.plugins.socialsharing.shareViaFacebookWithPasteMessageHint(message + " " + link, null /* img */ , null /* url */ , 'The report has been copied to your clipboard. Please paste the report', function(msg) {
+                    //     //Android: Always returns here, regardless of if they cancelled the native dialog.
+                    //     console.log(msg);
+                    //     console.log('share ok');
+                    // }, function(errormsg) {
+                    //     console.log(errormsg);
+                    // });
+                    $cordovaSocialSharing
+                        .shareViaFacebook(message + " " + link, image, link)
+                        .then(function(result) {
+                            // console.log(result);
+                        }, function(err) {
+                            // console.log(err);
+                        });
+                } else if (provider == "skip") {
+
+                } else if (provider == "googleplus") {
+                    //experimental - not enabled yet!
+                    window.plugins.socialsharing.shareVia('com.google.android.apps.plus', message, null, null, link, function() {
+                        // console.log('share ok');
+                    }, function(msg) {
+                        // console.log("share error: " + msg);
+                    });
+                } else {
+                    window.plugins.socialsharing.share(message, null, null, link, function() {
+                        //success
+                        // console.log("share ok");
+                    }, function(msg) {
+                        //fail
+                        // console.log("share error: " + msg);
+                    });
+                }
+            });
+        }
+
+
         $scope.submitReport = function() {
             // todo enable online check
             // if ($cordovaNetwork.isOnline()){
@@ -70,8 +128,13 @@ angular.module('acMobile.controllers')
                 acReport.prepareData($scope.report)
                     .then(acReport.sendReport)
                     .then(function(result) {
-                        console.log(result);
+                        console.log("submission: " + result.data.subid);
+                        //TODO-JPB: prepare URL
+                        var link = "http://avalanche-canada-qa.elasticbeanstalk.com/api/min/submissions/" + result.data.subid;
                         $ionicLoading.hide();
+                        sharePopup(link);
+                        //TODO-JPB: uncomment this so that the report data is reset when sent
+                        //$scope.resetReport();
                     })
                     .catch(function(error) {
                         console.log(error);
