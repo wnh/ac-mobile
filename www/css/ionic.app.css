@@ -7963,3 +7963,18 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
     margin-left: 40px;
     margin-top: 0px;
     margin-bottom: 10px; }
+
+.popup-body .row {
+  margin: 0; }
+
+h3.popup-title {
+  font-size: 16px;
+  font-weight: normal; }
+
+h5.popup-sub-title {
+  color: #f79118;
+  font-size: 14px; }
+
+.popup-head {
+  padding: 15px 10px;
+  border-bottom: 1px solid #f79118; }
