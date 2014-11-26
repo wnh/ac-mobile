@@ -1,5 +1,5 @@
 angular.module('acMobile.controllers')
-    .controller('AppCtrl', function($scope, $rootScope, auth, store, $state) {
+    .controller('AppCtrl', function($scope, $rootScope, $timeout, auth, store, $state, $ionicPlatform) {
         $scope.user = {};
         $scope.user.loggedIn = auth.isAuthenticated;
 
@@ -22,7 +22,7 @@ angular.module('acMobile.controllers')
         $scope.login = function() {
             auth.signin({
                 authParams: {
-                    scope: 'openid offline_access',
+                    scope: 'openid profile offline_access',
                     device: 'Mobile device'
                 }
             }, function(profile, token, accessToken, state, refreshToken) {
@@ -30,6 +30,7 @@ angular.module('acMobile.controllers')
                 store.set('profile', profile);
                 store.set('token', token);
                 store.set('refreshToken', refreshToken);
+
                 $rootScope.$broadcast('userLoggedIn');
             }, function(error) {
                 // Oops something went wrong during login:

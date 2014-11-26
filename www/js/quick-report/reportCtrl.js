@@ -136,16 +136,15 @@ angular.module('acMobile.controllers')
             //TODO-JPB : this is repetive, we should extract to a service.
             auth.signin({
                 authParams: {
-                    scope: 'openid offline_access',
+                    scope: 'openid profile offline_access',
                     device: 'Mobile device'
                 }
             }, function(profile, token, accessToken, state, refreshToken) {
-                // Login was successful
                 store.set('profile', profile);
                 store.set('token', token);
                 store.set('refreshToken', refreshToken);
                 $rootScope.$broadcast('userLoggedIn');
-                console.log("Successfully logged in");
+
             }, function(error) {
                 // Oops something went wrong during login:
                 console.log("There was an error logging in", error);
