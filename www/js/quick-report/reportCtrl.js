@@ -152,13 +152,18 @@ angular.module('acMobile.controllers')
         }
 
         function getLocation() {
+            var options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            };
             return $ionicPlatform.ready()
                 .then(function() {
                     $ionicLoading.show({
                         template: '<i class="fa fa-circle-o-notch fa-spin"></i> Acquiring Position',
                         delay: 100
                     });
-                    return $cordovaGeolocation.getCurrentPosition();
+                    return $cordovaGeolocation.getCurrentPosition(options);
                 })
                 .then(function(position) {
                     $ionicLoading.hide();
