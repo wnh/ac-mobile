@@ -56,7 +56,30 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         });
     })
 
-.run(function($rootScope, auth, store, jwtHelper, acTerms, $state, $cordovaNetwork, $ionicLoading, $ionicPlatform) {
+.run(function($rootScope, auth, store, jwtHelper, acTerms, $state, $cordovaNetwork, $ionicLoading, $ionicPlatform, $ionicPopup) {
+
+    //
+    $ionicPlatform.ready().then(function() {
+        //TODO-JPB: create a state for signin on the rootscope and prevent the back button from doing anything here.
+        $ionicPlatform.registerBackButtonAction(function() {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Exit Avalanche Canada?',
+                template: '',
+                cancelType: "button-outline button-energized",
+                okType: "button-energized"
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    navigator.app.exitApp();
+                } else {
+
+                }
+            });
+        }, 100);
+    });
+
+    //
+
     $rootScope.$on('$locationChangeStart', function() {
         //TODO-JPB only do this if the user is online.
         //pull authenticated data from local storage, if they have an old token, fetch a new one immediately.
@@ -75,7 +98,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
     });
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-
         if (toState.name != 'app.terms' && toState != 'app.loading' && !acTerms.termsAccepted()) {
             console.log("Terms not accepted - re-routing to terms");
             event.preventDefault();
