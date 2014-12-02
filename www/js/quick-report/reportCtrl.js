@@ -4,10 +4,16 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $http, $timeout, $state, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaFile, acReport, fileArrayCreator, ridingConditionsData, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+    .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $http, $timeout, $state, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaFile, acReport, fileArrayCreator, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
         //Cordova setup
         var Camera = navigator.camera;
-
+        $scope.isMobile = function() {
+            if (window.cordova) {
+                return true;
+            } else {
+                return true;
+            }
+        };
         //display form sections
         $scope.display = {
             "ridingInfo": false,
@@ -23,39 +29,39 @@ angular.module('acMobile.controllers')
         var popup;
 
 
-        $scope.ridingConditions = ridingConditionsData;
-        $scope.report = {
-            title: "",
-            datetime: moment().format('YYYY-MM-DDTHH:mm:ss'),
-            location: [],
-            images: [],
-            files: [],
-            ridingConditions: angular.copy(ridingConditionsData),
-            avalancheCondtions: {
-                'slab': false,
-                'sound': false,
-                'snow': false,
-                'temp': false
-            },
-            comments: ""
-        };
-        $scope.resetReport = function() {
-            $scope.report = {
-                title: "",
-                datetime: moment().format('YYYY-MM-DDTHH:mm:ss'),
-                location: [],
-                images: [],
-                files: [],
-                ridingConditions: ridingConditionsData,
-                avalancheCondtions: {
-                    'slab': false,
-                    'sound': false,
-                    'snow': false,
-                    'temp': false
-                },
-                comments: ""
-            };
-        };
+        // $scope.ridingConditions = ridingConditionsData;
+        // $scope.report = {
+        //     title: "",
+        //     datetime: moment().format('YYYY-MM-DDTHH:mm:ss'),
+        //     location: [],
+        //     images: [],
+        //     files: [],
+        //     ridingConditions: angular.copy(ridingConditionsData),
+        //     avalancheConditions: {
+        //         'slab': false,
+        //         'sound': false,
+        //         'snow': false,
+        //         'temp': false
+        //     },
+        //     comments: ""
+        // };
+        // $scope.resetReport = function() {
+        //     $scope.report = {
+        //         title: "",
+        //         datetime: moment().format('YYYY-MM-DDTHH:mm:ss'),
+        //         location: [],
+        //         images: [],
+        //         files: [],
+        //         ridingConditions: ridingConditionsData,
+        //         avalancheCondtions: {
+        //             'slab': false,
+        //             'sound': false,
+        //             'snow': false,
+        //             'temp': false
+        //         },
+        //         comments: ""
+        //     };
+        // };
 
         function sharePopup(link) {
             $scope.sharePopup = $ionicPopup.show({
@@ -113,6 +119,12 @@ angular.module('acMobile.controllers')
             });
         }
 
+        //onFormSubmit
+        // if (auth.isAuthenticated) {
+        //         $ionicLoading.show({
+        //             template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'
+        //         });
+
 
         $scope.submitReport = function() {
             // todo enable online check
@@ -163,6 +175,7 @@ angular.module('acMobile.controllers')
             //      $ionicLoading.show({duration:3000, template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to submit reports. Please try later.</p>'});
             // }
         };
+
 
         $scope.showLocationSheet = function() {
             var hideSheet = $ionicActionSheet.show({
@@ -230,7 +243,7 @@ angular.module('acMobile.controllers')
                 })
                 .then(function(position) {
                     $ionicLoading.hide();
-                    $scope.report.location = [position.coords.latitude, position.coords.longitude];
+                    $scope.report.latlng = [position.coords.latitude, position.coords.longitude];
                 })
                 .catch(function(error) {
                     $ionicLoading.hide();
@@ -251,6 +264,8 @@ angular.module('acMobile.controllers')
         });
 
         $scope.showLocationModal = function() {
+            //TODO-JPB: Make sure they are online otherwise they cannot view the map.
+            // if ($cordovaNetwork.isOnline()) {
             $scope.locationModal.show()
                 .then(function() {
                     if (!map) {
@@ -261,6 +276,12 @@ angular.module('acMobile.controllers')
                         map.on('click', onMapClick);
                     }
                 });
+            // } else {
+            //     $ionicLoading.show({
+            //         duration: 3000,
+            //         template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to submit reports. Please try later.</p>'
+            //     });
+            // }
         };
 
         function onMapClick(e) {
@@ -279,7 +300,7 @@ angular.module('acMobile.controllers')
                 });
 
                 marker
-                    .bindPopup("Position: " + e.latlng.toString().substr(6) + "<br/>(drag to relocate)")
+                    .bindPopup('Position: ' + e.latlng.toString().substr(6) + '<br/>(drag to relocate)')
                     .addTo(map)
                     .openPopup();
 
@@ -289,7 +310,7 @@ angular.module('acMobile.controllers')
                         $scope.tempLocation.lat = position.lat;
                         $scope.tempLocation.lng = position.lng;
                     });
-                    marker.setPopupContent("Position: " + position.toString().substr(6));
+                    marker.setPopupContent('Position: ' + position.toString().substr(6) + '<br/>(drag to relocate)');
                     marker.openPopup();
                 });
             }
@@ -300,7 +321,7 @@ angular.module('acMobile.controllers')
 
         $scope.confirmLocation = function() {
             if ($scope.tempLocation.lat) {
-                $scope.report.location = [$scope.tempLocation.lat, $scope.tempLocation.lng];
+                $scope.report.latlng = [$scope.tempLocation.lat, $scope.tempLocation.lng];
                 $scope.locationModal.hide();
             } else {
                 $ionicLoading.show({
@@ -308,7 +329,6 @@ angular.module('acMobile.controllers')
                     template: '<i class="fa fa-exclamation-triangle"></i> You have not selected a position yet'
                 });
             }
-            //emit  event to mark a position
         };
 
         function takePicture(options) {
@@ -372,7 +392,6 @@ angular.module('acMobile.controllers')
             });
         };
 
-        //clean up
         $scope.$on('$destroy', function() {
             $scope.locationModal.remove();
         });

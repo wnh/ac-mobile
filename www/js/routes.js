@@ -15,7 +15,6 @@ angular.module('acMobile')
                         controller: "LoginCtrl"
                     }
                 }
-
             })
             .state('app.forecasts-map', {
                 url: "/app/forecasts-map",
@@ -53,10 +52,7 @@ angular.module('acMobile')
                 },
                 resolve: {
                     forecast: function($stateParams, acForecast) {
-                        // return true;
                         return acForecast.getOne($stateParams.id);
-                        // }
-
                     }
                 }
             })
@@ -64,27 +60,11 @@ angular.module('acMobile')
                 url: "/app/report",
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/report.html",
+                        templateUrl: "templates/min.html",
                         controller: "ReportCtrl"
                     }
                 }
             })
-            // .state('app.share-incident-report', {
-            //     url: "/app/share-incident-report",
-            //     views: {
-            //         'menuContent': {
-            //             templateUrl: "templates/share-incident-report.html"
-            //         }
-            //     }
-            // })
-            // .state('app.share-field-obs', {
-            //     url: "/app/share-field-obs",
-            //     views: {
-            //         'menuContent': {
-            //             templateUrl: "templates/share-field-obs.html"
-            //         }
-            //     }
-            // })
             .state('app.gear', {
                 url: "/app/gear",
                 views: {
@@ -111,15 +91,15 @@ angular.module('acMobile')
                         controller: "TermsCtrl"
                     }
                 }
+            })
+            .state('app.post-share', {
+                url: "/app/post-share",
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/post-share.html",
+                        controller: "ShareCtrl"
+                    }
+                }
             });
-        // .state('app.post-share', {
-        //     url: "/app/post-share",
-        //     views: {
-        //         'menuContent': {
-        //             templateUrl: "templates/post-share.html"
-        //         }
-        //     }
-        // });
-        // if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/app/forecasts-map');
     });
