@@ -37,7 +37,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
 
 
     })
-    .constant('AC_API_ROOT_URL', 'http://avalanche-canada-env.elasticbeanstalk.com')
+    .constant('AC_API_ROOT_URL', 'http://avalanche-canada-qa.elasticbeanstalk.com')
     .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
     .constant('MAPBOX_MAP_ID', 'tesera.jbnoj7kp')
     .run(function($ionicPlatform, auth) {
@@ -56,7 +56,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         });
     })
 
-.run(function($rootScope, auth, store, jwtHelper, acTerms, $state, $cordovaNetwork, $ionicLoading, $ionicPlatform, $ionicPopup) {
+.run(function($rootScope, auth, store, jwtHelper, acTerms, $state, $cordovaNetwork, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, $http) {
 
     //
     $ionicPlatform.ready().then(function() {
@@ -77,8 +77,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             });
         }, 100);
     });
-
-    //
 
     $rootScope.$on('$locationChangeStart', function() {
         //TODO-JPB only do this if the user is online.
@@ -116,4 +114,10 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
                 });
         }
     });
+
+    $http.get('/templates/min-report-form.html')
+        .success(function(result) {
+            $templateCache.put("min-report-form.html", result);
+        });
+
 });
