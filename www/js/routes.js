@@ -28,8 +28,11 @@ angular.module('acMobile')
                     requiresOnline: true
                 },
                 resolve: {
-                    resForecasts: function(acForecast) {
+                    forecasts: function(acForecast) {
                         return acForecast.fetch();
+                    },
+                    obs: function(acObservation) {
+                        return acObservation.byPeriod('2:days');
                     }
                 }
             })

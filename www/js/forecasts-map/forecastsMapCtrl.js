@@ -1,13 +1,13 @@
 angular.module('acMobile.controllers')
-    .controller('ForecastsMapCtrl', function($scope, $timeout, acForecast, resForecasts, $ionicScrollDelegate) {
-        $scope.current = {
-            region: {}
-        };
-        $scope.drawer = {
-            visible: false
-        };
-
-        $scope.regions = resForecasts;
+    .controller('ForecastsMapCtrl', function($scope, $timeout, acForecast, forecasts, obs, $ionicScrollDelegate) {
+        angular.extend($scope, {
+            current: {},
+            drawer: {
+                visible: false
+            },
+            regions: forecasts,
+            obs: obs
+        });
 
         $scope.resize = function() {
             //ac-components is built using bootstrap which doesn't have a tap/click handler to elimninate the 300ms
