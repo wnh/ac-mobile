@@ -20,7 +20,7 @@ angular.module('acMobile.controllers')
 
         $scope.$watch('current.region', function(newRegion, oldRegion) {
             if (newRegion && newRegion !== oldRegion) {
-                console.log(newRegion);
+                //console.log(newRegion);
                 $scope.drawer.visible = false;
                 $scope.imageLoaded = false;
 
