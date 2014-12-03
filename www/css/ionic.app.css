@@ -7978,3 +7978,12 @@ h5.popup-sub-title {
 .popup-head {
   padding: 15px 10px;
   border-bottom: 1px solid #f79118; }
+
+body #a0-lock.a0-theme-default .a0-panel .a0-close {
+  font-family: arial !important;
+  right: 10px; }
+
+body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
+  font-size: 25px;
+  font-family: arial !important;
+  content: 'close'; }

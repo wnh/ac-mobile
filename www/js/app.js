@@ -74,6 +74,16 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
                     }
                 });
             }, 100);
+
+            var deRegisterAuthClose;
+            auth.config.auth0lib.on('shown', function() {
+                deregisterAuthClose = $ionicPlatform.registerBackButtonAction(function() {
+                    auth.config.auth0lib.hide();
+                }, 101);
+            });
+            auth.config.auth0lib.on('hidden', function() {
+                deRegisterAuthClose();
+            });
         });
 
         $rootScope.$on('$locationChangeStart', function() {
