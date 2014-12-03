@@ -124,9 +124,14 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
         });
 
-        $http.get('/templates/min-report-form.html')
-            .success(function(result) {
-                $templateCache.put("min-report-form.html", result);
-            });
+        $timeout(function() {
+            $http.get('templates/min-report-form.html')
+                .success(function(result) {
+                    $templateCache.put("min-report-form.html", result);
+                })
+                .error(function(error) {
+                    //console.log(error);
+                });
+        }, 250);
 
     });
