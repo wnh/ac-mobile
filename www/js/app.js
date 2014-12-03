@@ -55,7 +55,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
         });
     })
-    .run(function($rootScope, auth, store, jwtHelper, acTerms, $state, $cordovaNetwork, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, $http) {
+    .run(function($rootScope, $timeout, $http, $state, auth, store, jwtHelper, acTerms, $cordovaNetwork, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache) {
 
         $ionicPlatform.ready().then(function() {
             //TODO-JPB: create a state for signin on the rootscope and prevent the back button from doing anything here.
@@ -77,7 +77,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
 
             var deRegisterAuthClose;
             auth.config.auth0lib.on('shown', function() {
-                deregisterAuthClose = $ionicPlatform.registerBackButtonAction(function() {
+                deRegisterAuthClose = $ionicPlatform.registerBackButtonAction(function() {
                     auth.config.auth0lib.hide();
                 }, 101);
             });
