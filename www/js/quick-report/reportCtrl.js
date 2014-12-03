@@ -70,7 +70,7 @@ angular.module('acMobile.controllers')
                         template: 'There was a problem getting your position',
                         duration: 3000
                     });
-                    console.error("GeoLocation Error" + error);
+                    console.log(error);
                     return $q.reject(error);
                 });
         }
@@ -183,14 +183,14 @@ angular.module('acMobile.controllers')
             });
             $scope.sharePopup.then(function(provider) {
                 if (provider) {
-                    acMobileSocialShare.share(link, provider);
+                    acMobileSocialShare.share(provider, link);
                 }
                 $scope.resetForm();
             });
         }
 
         $scope.submit = function() {
-            if (true || $cordovaNetwork.isOnline()) { //TODO-JPB
+            if ($cordovaNetwork.isOnline()) { //TODO-JPB
                 if (auth.isAuthenticated) {
                     $ionicLoading.show({
                         template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'
