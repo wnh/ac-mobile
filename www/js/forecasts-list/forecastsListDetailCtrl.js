@@ -1,6 +1,6 @@
 angular.module('acMobile.controllers')
     .controller('ForecastsListDetailCtrl', function($scope, $timeout, $ionicScrollDelegate, $stateParams, forecast) {
-        console.log(forecast);
+
         $scope.forecast = forecast;
 
         $scope.resize = function() {
