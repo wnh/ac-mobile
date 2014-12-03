@@ -103,12 +103,12 @@
             </ul>
             <label class="item item-input item-dark item-stacked-label">
                 <span class="input-label">User Comments</span>
-            </label>
-            <label class="item item-input item-dark item-stacked-label">
+            <!-- </label>
+            <label class="item item-input item-dark item-stacked-label"> -->
                 <textarea class="large-textarea" placeholder="User comments" ng-model="report.comment"></textarea>
             </label>
             <label class="item item-dark">
-                <button class="button button-block button-energized" ng-click="submitForm()">
+                <button class="button button-block button-energized" ng-click="submit()">
                     <span ng-show="!minsubmitting"> SUBMIT FORM</span>
                     <span ng-show="minsubmitting"> SUBMITTING FORM</span>
                 </button>

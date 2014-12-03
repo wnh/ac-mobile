@@ -1,7 +1,7 @@
 angular.module('acMobile.services', ['ngCordova']);
 angular.module('acMobile.directives', ['acComponents']);
 angular.module('acMobile.controllers', ['acComponents']);
-//angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://avalanche-canada-env.elasticbeanstalk.com');
+angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://avalanche-canada-qa.elasticbeanstalk.com');
 angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'angular-jwt', 'acMobile.services', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
     .config(function(authProvider, $httpProvider, jwtInterceptorProvider) {
 
@@ -55,69 +55,68 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
         });
     })
+    .run(function($rootScope, auth, store, jwtHelper, acTerms, $state, $cordovaNetwork, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, $http) {
 
-.run(function($rootScope, auth, store, jwtHelper, acTerms, $state, $cordovaNetwork, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, $http) {
-
-    //
-    $ionicPlatform.ready().then(function() {
-        //TODO-JPB: create a state for signin on the rootscope and prevent the back button from doing anything here.
-        $ionicPlatform.registerBackButtonAction(function() {
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'Exit Avalanche Canada?',
-                template: '',
-                cancelType: "button-outline button-energized",
-                okType: "button-energized"
-            });
-            confirmPopup.then(function(res) {
-                if (res) {
-                    navigator.app.exitApp();
-                } else {
-
-                }
-            });
-        }, 100);
-    });
-
-    $rootScope.$on('$locationChangeStart', function() {
-        //TODO-JPB only do this if the user is online.
-        //pull authenticated data from local storage, if they have an old token, fetch a new one immediately.
-        if (!auth.isAuthenticated) {
-            var token = store.get('token');
-            if (token) {
-                if (!jwtHelper.isTokenExpired(token)) {
-                    auth.authenticate(store.get('profile'), token);
-                } else {
-                    return auth.refreshIdToken(refreshToken).then(function(idToken) {
-                        store.set('token', idToken);
-                    });
-                }
-            }
-        }
-    });
-
-    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-        if (toState.name != 'app.terms' && toState != 'app.loading' && !acTerms.termsAccepted()) {
-            console.log("Terms not accepted - re-routing to terms");
-            event.preventDefault();
-            $state.go('app.terms');
-        }
-        if (toState.data && toState.data.requiresOnline) {
-            $ionicPlatform.ready()
-                .then(function() {
-                    // TODO-JPB: re-enable online checks
-                    // if ($cordovaNetwork.isOffline()) {
-                    //     $ionicLoading.show({
-                    //         duration: 5000,
-                    //         template: "<i class='fa fa-chain-broken'></i> No network connection. Some portions of the app will not function without a connection."
-                    //     });
-                    // }
+        $ionicPlatform.ready().then(function() {
+            //TODO-JPB: create a state for signin on the rootscope and prevent the back button from doing anything here.
+            $ionicPlatform.registerBackButtonAction(function() {
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Exit Avalanche Canada?',
+                    template: '',
+                    cancelType: "button-outline button-energized",
+                    okType: "button-energized"
                 });
-        }
-    });
+                confirmPopup.then(function(res) {
+                    if (res) {
+                        navigator.app.exitApp();
+                    } else {
 
-    $http.get('/templates/min-report-form.html')
-        .success(function(result) {
-            $templateCache.put("min-report-form.html", result);
+                    }
+                });
+            }, 100);
         });
 
-});
+        $rootScope.$on('$locationChangeStart', function() {
+            //TODO-JPB only do this if the user is online.
+            //pull authenticated data from local storage, if they have an old token, fetch a new one immediately.
+            if (!auth.isAuthenticated) {
+                var token = store.get('token');
+                var refreshToken = store.get('refreshToken');
+                if (token && refreshToken) {
+                    if (!jwtHelper.isTokenExpired(token)) {
+                        auth.authenticate(store.get('profile'), token);
+                    } else {
+                        return auth.refreshIdToken(refreshToken).then(function(idToken) {
+                            store.set('token', idToken);
+                        });
+                    }
+                }
+            }
+        });
+
+        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            if (toState.name != 'app.terms' && toState != 'app.loading' && !acTerms.termsAccepted()) {
+                console.log("Terms not accepted - re-routing to terms");
+                event.preventDefault();
+                $state.go('app.terms');
+            }
+            if (toState.data && toState.data.requiresOnline) {
+                $ionicPlatform.ready()
+                    .then(function() {
+                        // TODO-JPB: re-enable online checks
+                        // if ($cordovaNetwork.isOffline()) {
+                        //     $ionicLoading.show({
+                        //         duration: 5000,
+                        //         template: "<i class='fa fa-chain-broken'></i> No network connection. Some portions of the app will not function without a connection."
+                        //     });
+                        // }
+                    });
+            }
+        });
+
+        $http.get('/templates/min-report-form.html')
+            .success(function(result) {
+                $templateCache.put("min-report-form.html", result);
+            });
+
+    });
