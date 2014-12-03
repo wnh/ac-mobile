@@ -12,7 +12,7 @@
         </header>
         <ion-content class="has-header">
             <ion-list>
-                <ion-item ng-if="!user.loggedIn" nav-clear menu-close class="item-dark" ng-click="login()" hxref="#/app/login">
+                <ion-item ng-if="!user.loggedIn" nav-clear menu-close class="item-dark" ng-click="login()">
                     Sign In
                 </ion-item>
                 <ion-item ng-if="user.loggedIn" nav-clear menu-close class="item-dark" ng-click="logout()">
