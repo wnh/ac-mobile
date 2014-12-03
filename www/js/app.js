@@ -58,7 +58,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
     .run(function($rootScope, $timeout, $http, $state, auth, store, jwtHelper, acTerms, $cordovaNetwork, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache) {
 
         $ionicPlatform.ready().then(function() {
-            //TODO-JPB: create a state for signin on the rootscope and prevent the back button from doing anything here.
             $ionicPlatform.registerBackButtonAction(function() {
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Exit Avalanche Canada?',
@@ -87,8 +86,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         });
 
         $rootScope.$on('$locationChangeStart', function() {
-            //TODO-JPB only do this if the user is online.
-            //pull authenticated data from local storage, if they have an old token, fetch a new one immediately.
+            //TODO-JPB-OK only do this if the user is online.
             if (!auth.isAuthenticated) {
                 var token = store.get('token');
                 var refreshToken = store.get('refreshToken');
@@ -113,13 +111,12 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             if (toState.data && toState.data.requiresOnline) {
                 $ionicPlatform.ready()
                     .then(function() {
-                        // TODO-JPB: re-enable online checks
-                        // if ($cordovaNetwork.isOffline()) {
-                        //     $ionicLoading.show({
-                        //         duration: 5000,
-                        //         template: "<i class='fa fa-chain-broken'></i> No network connection. Some portions of the app will not function without a connection."
-                        //     });
-                        // }
+                        if ($cordovaNetwork.isOffline()) {
+                            $ionicLoading.show({
+                                duration: 5000,
+                                template: "<i class='fa fa-chain-broken'></i> No network connection. Some portions of the app will not function without a connection."
+                            });
+                        }
                     });
             }
         });
