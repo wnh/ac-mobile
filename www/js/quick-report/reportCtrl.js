@@ -4,14 +4,18 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $http, $timeout, $state, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaFile, fileArrayCreator, AC_API_ROOT_URL, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+    .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaFile, fileArrayCreator, AC_API_ROOT_URL, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
 
         var Camera = navigator.camera;
-
-        $scope.display = {
-            "ridingInfo": false,
-            "avalancheConditions": false
-        };
+        angular.extend($scope, {
+            display: {
+                'ridingInfo': false,
+                'avalancheConditions': false
+            },
+            markerPosition: {
+                latlng: [0, 0]
+            }
+        });
 
         $scope.showLocationSheet = function() {
             var hideSheet = $ionicActionSheet.show({
@@ -24,26 +28,23 @@ angular.module('acMobile.controllers')
                 cancelText: "Cancel",
                 buttonClicked: function(index) {
                     if (index === 0) {
-                        getLocation()
-                            .then(function() {
-                                hideSheet();
-                            });
+                        getLocation().then(function() {
+                            hideSheet();
+                        });
                     } else if (index === 1) {
                         hideSheet();
-                        //if ($cordovaNetwork.isOnline()) {
-                        locationModal.show();
-                        // } else {
-                        //     $ionicLoading.show({
-                        //         duration: 3000,
-                        //         template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to pick from a map.</p>'
-                        //     });
-
-                        //                        }
+                        if ($cordovaNetwork.isOnline()) {
+                            $scope.locationModal.show();
+                        } else {
+                            $ionicLoading.show({
+                                duration: 3000,
+                                template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to pick from a map.</p>'
+                            });
+                        }
                     }
                 }
             });
         };
-
 
         function getLocation() {
             var options = {
@@ -74,9 +75,7 @@ angular.module('acMobile.controllers')
                 });
         }
 
-        $scope.markerPosition = {
-            latlng: [0, 0]
-        };
+
         $ionicModal.fromTemplateUrl('templates/location-modal.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -158,7 +157,7 @@ angular.module('acMobile.controllers')
         };
 
         function login() {
-            //TODO-JPB : this is repetive, we should extract to a service.
+            //TODO-JPB-OK : this is repetive, we should extract to a service.
             auth.signin({
                 authParams: {
                     scope: 'openid profile offline_access',
@@ -186,39 +185,65 @@ angular.module('acMobile.controllers')
                 if (provider) {
                     acMobileSocialShare.share(link, provider);
                 }
-                //TODO-JPB: $scope.resetForm();
+                $scope.resetForm();
             });
         }
 
         $scope.submit = function() {
-            if (auth.isAuthenticated) {
-                $ionicLoading.show({
-                    template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'
-                });
-                $scope.submitForm().then(function(result) {
-                    $ionicLoading.hide();
-                    var link = AC_API_ROOT_URL + '/api/min/submissions/' + $result.data.subid;
-                    sharePopup(link);
-                }).catch(function(error) {
-                    $ionicLoading.hide();
-                });
-            } else {
-                var confirmPopup = $ionicPopup.confirm({
-                    title: 'You must be logged in to submit a report',
-                    template: 'Would you like to log in now?',
-                    cancelType: "button-outline button-energized",
-                    okType: "button-energized"
-                });
-                confirmPopup.then(function(res) {
-                    if (res) {
-                        login();
-                    } else {
-                        console.log('User does not want to log in');
+            if (true || $cordovaNetwork.isOnline()) { //TODO-JPB
+                if (auth.isAuthenticated) {
+                    $ionicLoading.show({
+                        template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'
+                    });
+                    if (validateReport()) {
+                        $scope.submitForm().then(function(result) {
+                            $ionicLoading.hide();
+                            var link = AC_API_ROOT_URL + '/api/min/submissions/' + result.data.subid;
+                            sharePopup(link);
+                        }).catch(function(error) {
+                            $ionicLoading.hide();
+                        });
                     }
+                } else {
+                    var confirmPopup = $ionicPopup.confirm({
+                        title: 'You must be logged in to submit a report',
+                        template: 'Would you like to log in now?',
+                        cancelType: "button-outline button-energized",
+                        okType: "button-energized"
+                    });
+                    confirmPopup.then(function(res) {
+                        if (res) {
+                            login();
+                        }
+                    });
+                }
+            } else {
+                $ionicLoading.show({
+                    duration: 3000,
+                    template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to pick from a map.</p>'
                 });
             }
         };
 
+        function validateReport() {
+            var errors = '';
+            if ($scope.report.latlng.length === 0) {
+                errors += '<br/>Please specify a location';
+            }
+            if ($scope.report.datetime) {
+                if (moment($scope.report.datetime).unix() > moment().unix()) {
+                    errors += '<br/>Please specify a valid date/time';
+                }
+            }
+            if (errors.length) {
+                $ionicLoading.show({
+                    duration: 3000,
+                    template: '<i class="fa fa-warning"></i><p>The following problems were found with your report:</p>' + errors
+                });
+                return false;
+            }
+            return true;
+        }
 
         $scope.$on('$destroy', function() {
             $scope.locationModal.remove();
