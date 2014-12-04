@@ -1,6 +1,12 @@
 <ion-modal-view>
     <ion-header-bar class="bar-energized">
-        <h1 class="title">Observation</h1>
+     <div class="buttons">
+            <button class="button button-clear" ng-click="closeObModal()">Close</button>
+        </div>
+        <h1 class="title">Observation View</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="showShare()"><i class="fa fa-share-alt-square"></i> Share</button>
+        </div>
     </ion-header-bar>
     <ion-content id="ob-modal" padding="true">
     <div ng-show="showImage">
@@ -19,11 +25,6 @@
             <div class="row">
                 <div class="col">
                     <div id='obContent' ng-bind-html='obHtml'></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <button class='button button-block button-energized' ng-click='closeObModal()'>Close</button>
                 </div>
             </div>
         </div>

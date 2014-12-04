@@ -1,5 +1,5 @@
 angular.module('acMobile.controllers')
-    .controller('ForecastsMapCtrl', function($scope, $timeout, acForecast, forecasts, obs, $ionicModal, $ionicScrollDelegate) {
+    .controller('ForecastsMapCtrl', function($scope, $timeout, acForecast, forecasts, obs, $ionicModal, $ionicPopup, $ionicScrollDelegate, acMobileSocialShare) {
         angular.extend($scope, {
             current: {},
             drawer: {
@@ -8,6 +8,8 @@ angular.module('acMobile.controllers')
             regions: forecasts,
             obs: obs
         });
+
+        var shareMessage = "Check out this Mountain Information Network Report: ";
 
         $scope.resize = function() {
             //ac-components is built using bootstrap which doesn't have a tap/click handler to elimninate the 300ms
@@ -44,6 +46,20 @@ angular.module('acMobile.controllers')
             $scope.obModal.hide();
         };
 
+        $scope.showShare = function() {
+            $scope.sharePopup = $ionicPopup.show({
+                templateUrl: 'templates/post-share.html ',
+                title: "Share observation",
+                subTitle: "",
+                scope: $scope
+            });
+            $scope.sharePopup.then(function(provider) {
+                if (provider) {
+                    acMobileSocialShare.share(provider, $scope.shareUrl, shareMessage, null);
+                }
+            });
+        };
+
         function removeTags(text, tag) {
             var wrapped = $("<div>" + text + "</div>");
             wrapped.find(tag).remove();
@@ -58,7 +74,11 @@ angular.module('acMobile.controllers')
 
         $scope.$on('ac.min.obclicked', function(e, html) {
             var obHtml = removeTags(html, 'style');
+            var shareUrl = $(html).find('ul.ac-min-shares').data('ac-shareurl');
+            obHtml = removeTags(obHtml, 'ul.ac-min-shares');
+            obHtml = removeTags(obHtml, 'h5:last-of-type');
             $scope.obHtml = obHtml;
+            $scope.shareUrl = shareUrl;
             $scope.showObModal();
         });
 
