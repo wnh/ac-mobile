@@ -47,6 +47,7 @@ $popup-button-min-height: 45px !default;
 // Custom Styles
 //
 //--Map (Leaflet)
+
 #map {
   position: absolute;
   top: 0;
@@ -266,4 +267,45 @@ body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
   font-size: 25px;
   font-family: arial !important;
   content: 'close';
+}
+#ob-modal {
+  background-color: $dark;
+}
+#ob-modal .row {
+  margin: 0;
+}
+.min-popup h1 {
+  position: relative;
+  font-size: 20px;
+  border-bottom: 3px solid #000;
+  padding-bottom: 5px;
+}
+.min-popup h1:after {
+  content: '';
+  height: 100%;
+  width: 30px;
+  border-bottom: 3px solid $energized;
+  position: absolute;
+  left: 0;
+  top: 3px;
+}
+.min-popup h5 {
+  font-size: 14px;
+  line-height: 16px;
+}
+.min-popup p {
+  margin-left: 20px;
+  font-size: 12px;
+  line-height: 12px;
+}
+.min-popup ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  li {
+    font-size: 14px;
+  }
+}
+#ob-modal .image-view img {
+  width: 100%;
+  border: 3px solid #000;
 }
