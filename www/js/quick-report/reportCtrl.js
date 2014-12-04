@@ -7,6 +7,7 @@ angular.module('acMobile.controllers')
     .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaFile, fileArrayCreator, AC_API_ROOT_URL, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
 
         var Camera = navigator.camera;
+        var shareMessage = "Check out my Mountain Information Network Report: ";
         angular.extend($scope, {
             display: {
                 'ridingInfo': false,
@@ -183,7 +184,7 @@ angular.module('acMobile.controllers')
             });
             $scope.sharePopup.then(function(provider) {
                 if (provider) {
-                    acMobileSocialShare.share(provider, link);
+                    acMobileSocialShare.share(provider, link, shareMessage, null);
                 }
                 $scope.resetForm();
             });

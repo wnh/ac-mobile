@@ -1,9 +1,10 @@
 angular.module('acMobile.services')
     .service('acMobileSocialShare', function($q, $cordovaSocialSharing) {
 
-        this.share = function(provider, link) {
-            var message = "Check out my Mountain Information Network Report: ",
-                image = null;
+        this.share = function(provider, link, message, image) {
+
+            message = message || null;
+            image = image || null;
 
             if (provider == "twitter") {
                 return $cordovaSocialSharing
