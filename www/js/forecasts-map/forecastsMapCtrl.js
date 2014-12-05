@@ -99,4 +99,8 @@ angular.module('acMobile.controllers')
                 }, 800);
             }
         });
+
+        $scope.$on('$destroy', function() {
+            $scope.obModal.remove();
+        });
     });
