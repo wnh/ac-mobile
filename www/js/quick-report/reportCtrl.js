@@ -175,7 +175,7 @@ angular.module('acMobile.controllers')
             });
         }
 
-        function sharePopup(link) {
+        function sharePopup() {
             $scope.sharePopup = $ionicPopup.show({
                 templateUrl: 'templates/post-share.html ',
                 title: "Observation report saved",
@@ -184,14 +184,15 @@ angular.module('acMobile.controllers')
             });
             $scope.sharePopup.then(function(provider) {
                 if (provider) {
-                    acMobileSocialShare.share(provider, link, shareMessage, null);
+                    acMobileSocialShare.share(provider, $scope.report.shareUrl, shareMessage, null);
                 }
                 $scope.resetForm();
+                resetDisplay();
             });
         }
 
         $scope.submit = function() {
-            if ($cordovaNetwork.isOnline()) { //TODO-JPB
+            if ($cordovaNetwork.isOnline()) {
                 if (auth.isAuthenticated) {
                     $ionicLoading.show({
                         template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'
@@ -199,8 +200,7 @@ angular.module('acMobile.controllers')
                     if (validateReport()) {
                         $scope.submitForm().then(function(result) {
                             $ionicLoading.hide();
-                            var link = AC_API_ROOT_URL + '/api/min/submissions/' + result.data.subid;
-                            sharePopup(link);
+                            sharePopup();
                         }).catch(function(error) {
                             $ionicLoading.hide();
                         });
