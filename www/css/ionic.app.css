@@ -7862,6 +7862,8 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
     width: auto !important;
     display: block;
     padding: 0 !important; }
+  .ac-drawer-body .ac-forecast-mini ul.nav-pills li:last-child {
+    display: none; }
 
 a.item-content {
   white-space: normal; }
