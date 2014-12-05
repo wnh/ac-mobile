@@ -213,9 +213,18 @@ angular.module('acMobile.controllers')
                             $ionicLoading.hide();
                             sharePopup();
                         }).catch(function(error) {
+                            if (angular.isObject(error)) {
+                                //api responded w/error
+                                if (error.data && error.data.error) {
+                                    errorMsg = error.data.error;
+                                }
+                            } else {
+                                //generic error
+                                errorMsg = 'There was a problem sending your report';
+                            }
                             $ionicLoading.hide();
                             $ionicLoading.show({
-                                template: '<i class="fa fa-warning"></i> There was a problem sending your report.<p>' + error + '</p>',
+                                template: '<i class="fa fa-warning"></i><p>' + errorMsg + '</p>',
                                 duration: 4000
                             });
                         });
