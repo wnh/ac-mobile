@@ -7833,6 +7833,9 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
   padding-left: 8px;
   padding-top: 3px; }
 
+a[target*="_blank"] {
+  display: none !important; }
+
 .ac-forecast-container h3.ac-forecast-region {
   color: #000000; }
 .ac-forecast-container h4 {
@@ -7867,9 +7870,6 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
     padding: 0 !important; }
   .ac-drawer-body .ac-forecast-mini ul.nav-pills li:last-child {
     display: none; }
-
-a[target*="_blank"] {
-  display: none; }
 
 a.item-content {
   white-space: normal; }
