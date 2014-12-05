@@ -73,6 +73,10 @@ $popup-button-min-height: 45px !default;
   padding-left: 8px;
   padding-top: 3px;
 }
+//hides any external link that will break the app (external forecast links)
+a[target*="_blank"] {
+  display: none !important;
+}
 .ac-forecast-container {
   h3.ac-forecast-region {
     color: #000000;
