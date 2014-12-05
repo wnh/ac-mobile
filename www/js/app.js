@@ -122,7 +122,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
         });
 
-        $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error, $ionicPlatform, $cordovaNetwork) {
+        $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
             event.preventDefault();
             $ionicPlatform.ready()
                 .then(function() {
