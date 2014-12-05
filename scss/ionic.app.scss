@@ -318,6 +318,18 @@ body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
   width: 100%;
   border: 3px solid #000;
 }
+.ob-content {
+  position: absolute;
+  -webkit-transition: all linear 0.2s;
+  transition: all linear 0.2s;
+  opacity: 1;
+}
+.ob-content.ng-hide-add, .ob-content.ng-hide-remove {
+  display: block !important;
+}
+.ob-content.ng-hide {
+  opacity: 0;
+}
 //offline
 .offline-content {
   .row {

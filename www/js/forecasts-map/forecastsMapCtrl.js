@@ -30,6 +30,7 @@ angular.module('acMobile.controllers')
             $timeout(function() {
                 $scope.imgSrc = event.currentTarget.href;
                 $scope.showImage = true;
+                $ionicScrollDelegate.scrollTop(true);
             }, 0);
             event.preventDefault();
             return false;
@@ -50,6 +51,7 @@ angular.module('acMobile.controllers')
         $scope.closeObModal = function() {
             $("a").off('click', linkHandler);
             $scope.obModal.hide();
+            $scope.clearImage();
         };
 
         $scope.showShare = function() {

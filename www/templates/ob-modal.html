@@ -9,10 +9,10 @@
         </div>
     </ion-header-bar>
     <ion-content id="ob-modal" padding="true">
-    <div ng-show="showImage">
+    <div class="ob-content" ng-click="clearImage()" ng-show="showImage">
         <div class="row">
             <div class="col">
-                <div ng-click="clearImage()" class="image-view"><img ng-src="{{imgSrc}}"/></div>
+                <div class="image-view"><img ng-src="{{imgSrc}}"/></div>
             </div>
         </div>
         <div class="row">
@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-        <div ng-show="!showImage">
+        <div class="ob-content" ng-show="!showImage">
             <div class="row">
                 <div class="col">
                     <div id='obContent' ng-bind-html='obHtml'></div>
