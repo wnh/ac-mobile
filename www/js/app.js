@@ -128,6 +128,12 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
                 .then(function() {
                     if ($cordovaNetwork.isOffline()) {
                         $state.go('app.offline');
+                    } else {
+                        //generic API error most likely
+                        $ionicLoading.show({
+                            duration: 5000,
+                            template: "<i class='fa fa-warning'></i> We encountered an error, please try again."
+                        });
                     }
                 });
         });
