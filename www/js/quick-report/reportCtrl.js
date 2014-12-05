@@ -203,7 +203,7 @@ angular.module('acMobile.controllers')
         }
 
         $scope.submit = function() {
-            if (true || $cordovaNetwork.isOnline()) {
+            if ($cordovaNetwork.isOnline()) {
                 if (auth.isAuthenticated) {
                     $ionicLoading.show({
                         template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'
