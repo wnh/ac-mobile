@@ -239,18 +239,21 @@ angular.module('acMobile.controllers')
 
         function validateReport() {
             var errors = '';
+            if ($scope.report.title.length === 0) {
+                errors += 'Please enter a title<br/>';
+            }
             if ($scope.report.latlng.length === 0) {
-                errors += '<br/>Please specify a location';
+                errors += 'Please specify a location<br/>';
             }
             if ($scope.report.datetime) {
                 if (moment($scope.report.datetime).unix() > moment().unix()) {
-                    errors += '<br/>Please specify a valid date/time';
+                    errors += 'Please specify a valid date/time<br/>';
                 }
             }
             if (errors.length) {
                 $ionicLoading.show({
-                    duration: 3000,
-                    template: '<i class="fa fa-warning"></i><p>The following problems were found with your report:</p>' + errors
+                    duration: 4000,
+                    template: '<div class="form-error"><p><i class="fa fa-warning"></i> There was an error submittting you report:</p>' + errors + "</div>"
                 });
                 return false;
             }
