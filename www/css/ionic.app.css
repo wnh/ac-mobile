@@ -7848,6 +7848,9 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
     display: block;
     padding: 0 !important; }
 
+.ac-forecast-mini ul.nav-pills li:last-child {
+  display: none; }
+
 .ac-drawer-body h3.ac-forecast-region {
   color: #000000; }
 .ac-drawer-body h4 {
