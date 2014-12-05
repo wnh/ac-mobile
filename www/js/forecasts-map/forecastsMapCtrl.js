@@ -1,12 +1,18 @@
 angular.module('acMobile.controllers')
-    .controller('ForecastsMapCtrl', function($scope, $timeout, acForecast, forecasts, obs, $ionicModal, $ionicPopup, $ionicScrollDelegate, acMobileSocialShare) {
+    .controller('ForecastsMapCtrl', function($scope, $timeout, acForecast, acObservation, regions, obs, $ionicModal, $ionicPopup, $ionicScrollDelegate, acMobileSocialShare) {
         angular.extend($scope, {
-            current: {},
+            current: {
+                region: null
+            },
             drawer: {
                 visible: false
             },
-            regions: forecasts,
-            obs: obs
+            regions: regions,
+            obs: obs,
+            filters: {
+                obsPeriod: '48-hours'
+            }
+
         });
 
         var shareMessage = "Check out this Mountain Information Network Report: ";
@@ -99,6 +105,25 @@ angular.module('acMobile.controllers')
                 }, 800);
             }
         });
+
+        $scope.toggleFilter = function(filter) {
+            if (filter || !$scope.filters.obsPeriod) {
+                filter = filter || 'obsPeriod:48-hours';
+                var filterType = filter.split(':')[0];
+                var filterValue = filter.split(':')[1];
+
+                if (filterType === 'obsPeriod') {
+                    $scope.filters[filterType] = filterValue;
+                    var period = filterValue.replace('-', ':');
+                    acObservation.byPeriod(period).then(function(obs) {
+                        $scope.obs = obs;
+                    });
+                }
+            } else {
+                $scope.obs = [];
+                $scope.filters.obsPeriod = '';
+            }
+        };
 
         $scope.$on('$destroy', function() {
             $scope.obModal.remove();

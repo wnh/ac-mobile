@@ -19,7 +19,7 @@ angular.module('acMobile')
                     requiresOnline: true
                 },
                 resolve: {
-                    forecasts: function(acForecast) {
+                    regions: function(acForecast) {
                         return acForecast.fetch();
                     },
                     obs: function(acObservation) {
