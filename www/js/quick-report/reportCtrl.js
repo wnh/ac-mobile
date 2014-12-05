@@ -197,13 +197,13 @@ angular.module('acMobile.controllers')
                 if (provider) {
                     acMobileSocialShare.share(provider, $scope.report.shareUrl, shareMessage, null);
                 }
-                $scope.resetForm();
-                resetDisplay();
+                $scope.reset();
+
             });
         }
 
         $scope.submit = function() {
-            if ($cordovaNetwork.isOnline()) {
+            if (true || $cordovaNetwork.isOnline()) {
                 if (auth.isAuthenticated) {
                     $ionicLoading.show({
                         template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'
@@ -239,6 +239,11 @@ angular.module('acMobile.controllers')
                     template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to pick from a map.</p>'
                 });
             }
+        };
+
+        $scope.reset = function() {
+            $scope.resetForm();
+            resetDisplay();
         };
 
         function validateReport() {
