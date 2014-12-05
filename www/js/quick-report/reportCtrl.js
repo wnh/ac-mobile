@@ -214,6 +214,10 @@ angular.module('acMobile.controllers')
                             sharePopup();
                         }).catch(function(error) {
                             $ionicLoading.hide();
+                            $ionicLoading.show({
+                                template: '<i class="fa fa-warning"></i> There was a problem sending your report.',
+                                duration: 4000
+                            });
                         });
                     }
                 } else {
