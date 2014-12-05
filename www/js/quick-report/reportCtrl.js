@@ -18,6 +18,17 @@ angular.module('acMobile.controllers')
             }
         });
 
+        function resetDateTime() {
+            $scope.report.datetime = moment().format('YYYY-MM-DDTHH:mm:ss');
+        }
+        $timeout(resetDateTime, 0);
+
+        function resetDisplay() {
+            $scope.display.ridingInfo = false;
+            $scope.display.avalancheConditions = false;
+            $timeout(resetDateTime, 0);
+        }
+
         $scope.showLocationSheet = function() {
             var hideSheet = $ionicActionSheet.show({
                 buttons: [{
