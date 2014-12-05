@@ -7863,6 +7863,9 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
     display: block;
     padding: 0 !important; }
 
+a.item-content {
+  white-space: normal; }
+
 input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
   outline: none; }
 
@@ -7923,6 +7926,9 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
   display: block;
   width: 100%;
   text-align: center; }
+
+.min-title {
+  font-size: 13px; }
 
 .riding-info {
   padding-left: 10px; }
@@ -8027,3 +8033,10 @@ body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
 #ob-modal .image-view img {
   width: 100%;
   border: 3px solid #000; }
+
+.offline-content .row {
+  margin: 0; }
+.offline-content h2 {
+  margin: 40px 0; }
+.offline-content p {
+  font-size: 16px; }
