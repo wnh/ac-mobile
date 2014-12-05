@@ -103,7 +103,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         });
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-            if (toState.name != 'app.terms' && toState != 'app.loading' && !acTerms.termsAccepted()) {
+            if (toState.name != 'app.terms' && !acTerms.termsAccepted()) {
                 console.log("Terms not accepted - re-routing to terms");
                 event.preventDefault();
                 $state.go('app.terms');
@@ -112,14 +112,26 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
                 $ionicPlatform.ready()
                     .then(function() {
                         if ($cordovaNetwork.isOffline()) {
-                            $ionicLoading.show({
-                                duration: 5000,
-                                template: "<i class='fa fa-chain-broken'></i> No network connection. Some portions of the app will not function without a connection."
-                            });
+                            // $ionicLoading.show({
+                            //     duration: 5000,
+                            //     template: "<i class='fa fa-chain-broken'></i> No network connection. Some portions of the app will not function without a connection."
+                            // });
+                            $state.go('app.offline');
                         }
                     });
             }
         });
+
+        $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error, $ionicPlatform, $cordovaNetwork) {
+            event.preventDefault();
+            $ionicPlatform.ready()
+                .then(function() {
+                    if ($cordovaNetwork.isOffline()) {
+                        $state.go('app.offline');
+                    }
+                });
+        });
+
 
         $timeout(function() {
             $http.get('templates/min-report-form.html')

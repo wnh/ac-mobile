@@ -34,7 +34,11 @@ angular.module('acMobile')
                         templateUrl: "templates/forecasts-list.html",
                         controller: "ForecastsListCtrl"
                     }
+                },
+                data: {
+                    requiresOnline: true
                 }
+
             })
             .state('app.forecasts-list-detail', {
                 url: "/app/forecasts-list/:id",
@@ -48,6 +52,9 @@ angular.module('acMobile')
                     forecast: function($stateParams, acForecast) {
                         return acForecast.getOne($stateParams.id);
                     }
+                },
+                data: {
+                    requiresOnline: true
                 }
             })
             .state('app.report', {
@@ -57,6 +64,9 @@ angular.module('acMobile')
                         templateUrl: "templates/min.html",
                         controller: "ReportCtrl"
                     }
+                },
+                data: {
+                    requiresOnline: true
                 }
             })
             .state('app.gear', {
@@ -92,6 +102,14 @@ angular.module('acMobile')
                     'menuContent': {
                         templateUrl: "templates/post-share.html",
                         controller: "ShareCtrl"
+                    }
+                }
+            })
+            .state('app.offline', {
+                url: "/app/offline",
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/offline.html"
                     }
                 }
             });
