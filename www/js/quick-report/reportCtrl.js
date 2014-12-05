@@ -215,7 +215,7 @@ angular.module('acMobile.controllers')
                         }).catch(function(error) {
                             $ionicLoading.hide();
                             $ionicLoading.show({
-                                template: '<i class="fa fa-warning"></i> There was a problem sending your report.',
+                                template: '<i class="fa fa-warning"></i> There was a problem sending your report.<p>' + error + '</p>',
                                 duration: 4000
                             });
                         });
