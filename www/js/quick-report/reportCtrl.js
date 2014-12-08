@@ -208,6 +208,7 @@ angular.module('acMobile.controllers')
                     $ionicLoading.show({
                         template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'
                     });
+                    var errorMsg = '';
                     if (validateReport()) {
                         $scope.submitForm().then(function(result) {
                             $ionicLoading.hide();
