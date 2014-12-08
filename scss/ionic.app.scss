@@ -107,6 +107,31 @@ a[target*="_blank"] {
   }
 }
 //drawer
+.ac-forecast-mini .panel-collapse>.panel-body:after {
+  background-color: transparent;
+}
+.ac-drawer .ac-drawer-close {
+  i.fa-lg {
+    font-size: 3.0em;
+  }
+}
+.ac-forecast-mini .panel-collapse > .panel-body::after {
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+}
+.panel-body:after, .panel-body:before {
+  display: block;
+}
+//override forecast expansion prompt on smaller devices
+@media only screen and (max-width:355px) {
+  .ac-forecast-mini .panel-title small {
+    font-size: 10px;
+  }
+}
+@media only screen and (max-width:325px) {
+  .ac-forecast-mini .panel-title small {
+    display: none;
+  }
+}
 .ac-drawer-body {
   h3.ac-forecast-region {
     color: #000000;
