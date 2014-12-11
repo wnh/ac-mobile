@@ -66,7 +66,7 @@ angular.module('acMobile')
                     }
                 },
                 data: {
-                    requiresOnline: true
+                    requiresOnline: false
                 }
             })
             .state('app.gear', {

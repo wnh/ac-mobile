@@ -30,44 +30,52 @@ angular.module('acMobile.controllers')
         }
 
         $scope.showLocationSheet = function() {
-            var hideSheet = $ionicActionSheet.show({
-                buttons: [{
-                    text: "Use my location"
-                }, {
-                    text: "Pick position on map"
-                }],
-                titleText: "Report Location",
-                cancelText: "Cancel",
-                buttonClicked: function(index) {
-                    if (index === 0) {
-                        getLocation().then(function() {
+            if ($cordovaNetwork.isOnline()) {
+                var hideSheet = $ionicActionSheet.show({
+                    buttons: [{
+                        text: "Use my location"
+                    }, {
+                        text: "Pick position on map"
+                    }],
+                    titleText: "Report Location",
+                    cancelText: "Cancel",
+                    buttonClicked: function(index) {
+                        if (index === 0) {
                             hideSheet();
-                        });
-                    } else if (index === 1) {
-                        hideSheet();
-                        if ($cordovaNetwork.isOnline()) {
+                            getLocation();
+                        } else if (index === 1) {
+                            hideSheet();
+                            // if ($cordovaNetwork.isOnline()) {
                             $scope.locationModal.show();
-                        } else {
-                            $ionicLoading.show({
-                                duration: 3000,
-                                template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to pick from a map.</p>'
-                            });
+                            // } else {
+                            //     $ionicLoading.show({
+                            //         duration: 3000,
+                            //         template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to pick from a map.</p>'
+                            //     });
                         }
                     }
-                }
-            });
+                });
+            } else { //offline
+                getLocation();
+            }
+
         };
 
         function getLocation() {
             var options = {
                 enableHighAccuracy: true,
-                timeout: 5000,
+                timeout: 240000,
                 maximumAge: 0
             };
             return $ionicPlatform.ready()
                 .then(function() {
+                    var templateMsg = '<i class="fa fa-circle-o-notch fa-spin"></i> Acquiring Position';
+                    if (!$cordovaNetwork.isOnline()) {
+                        templateMsg = '<i class="fa fa-circle-o-notch fa-spin"></i> Acquiring Position<p>This may take a few minutes</p>';
+                    }
                     $ionicLoading.show({
-                        template: '<i class="fa fa-circle-o-notch fa-spin"></i> Acquiring Position',
+                        template: templateMsg,
+                        duration: 3000,
                         delay: 100
                     });
                     return $cordovaGeolocation.getCurrentPosition(options);
@@ -86,6 +94,7 @@ angular.module('acMobile.controllers')
                     return $q.reject(error);
                 });
         }
+
         $scope.sync = function() {
             acOfflineReports.synchronize();
         };
@@ -216,6 +225,7 @@ angular.module('acMobile.controllers')
                         $scope.submitForm().then(function(result) {
                             $ionicLoading.hide();
                             sharePopup();
+                            //attempt bg sync here?
                         }).catch(function(error) {
                             if (angular.isObject(error)) {
                                 //api responded w/error
@@ -251,15 +261,11 @@ angular.module('acMobile.controllers')
                     duration: 3000,
                     template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to submit. Your report will be submitted when you have a connection.</p>'
                 });
-                console.log("----adding to queue----");
-                console.log($scope.report.title);
-                acOfflineReports.push(angular.copy($scope.report));
-
-
-
-                //store the report to the reportQueue.
-
-
+                if (validateReport()) {
+                    console.log("----adding to queue----");
+                    console.log($scope.report.title);
+                    acOfflineReports.push(angular.copy($scope.report));
+                }
             }
         };
 
