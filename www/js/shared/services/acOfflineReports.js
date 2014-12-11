@@ -1,5 +1,5 @@
 angular.module('acMobile.services')
-    .service('acOfflineReports', function($q, auth, store, acSubmission, $ionicPlatform) {
+    .service('acOfflineReports', function($q, auth, store, acSubmission, acUser, $ionicPlatform, $cordovaNetwork, $rootScope) {
         var self = this;
 
         this.queue = store.get('acReportQueue') || [];
@@ -20,7 +20,7 @@ angular.module('acMobile.services')
             var retryQueue = [];
             angular.forEach(responses, function(response, index) {
                 console.log(response);
-                if (response.status != 201 && response.status != 500) {
+                if (response.status != 201 && response.status != 5000) {
                     retryQueue.push(self.queue[index]);
                 }
             });
@@ -30,7 +30,8 @@ angular.module('acMobile.services')
         }
 
         this.synchronize = function() {
-            if (self.queue.length) {
+            console.log("synchronize activated");
+            if (self.queue.length && $cordovaNetwork.isOnline()) {
                 if (auth.isAuthenticated) {
                     var promises = [];
                     angular.forEach(self.queue, function(report) {
@@ -43,15 +44,22 @@ angular.module('acMobile.services')
                             console.log('an error occurred synchronizing data');
                             return $q.reject(error);
                         });
+                } else {
+                    acUser.prompt('Please login to synchronize your stored reports');
                 }
-            } else {
-                //do authentication
-
             }
         };
 
-        this.cancelResumeSync = $ionicPlatform.on('resume', self.synchronize);
-        this.cancelOnlineSync = $ionicPlatform.on('online', self.synchronize);
+        this.cancelResumeSync = $ionicPlatform.on('resume', function() {
+            console.log("resume event");
+            self.synchronize();
+        });
+        this.cancelOnlineSync = $ionicPlatform.on('online', function() {
+            console.log("online event");
+            self.synchronize();
+        });
+        $rootScope.$on('userLoggedIn', self.synchronize);
 
+        //app startup event - runs first time this service is instantiated.
         self.synchronize();
     });
