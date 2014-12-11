@@ -1,5 +1,5 @@
 angular.module('acMobile.controllers')
-    .controller('AppCtrl', function($scope, $rootScope, $timeout, auth, store, $state, $ionicPlatform) {
+    .controller('AppCtrl', function($scope, $rootScope, $timeout, auth, store, $state, $ionicPlatform, acOfflineReports) {
         $scope.user = {};
         $scope.user.loggedIn = auth.isAuthenticated;
 
