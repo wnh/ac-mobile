@@ -12,6 +12,7 @@ angular.module('acMobile.services')
         function syncReport(report) {
             return acSubmission.submit(report, null)
                 .catch(function(error) {
+                    console.log("error: " + error.status);
                     return $q.when(error); //force the promise to resolve (not reject)
                 });
         }
@@ -19,8 +20,8 @@ angular.module('acMobile.services')
         function updateQueue(responses) {
             var retryQueue = [];
             angular.forEach(responses, function(response, index) {
-                console.log(response);
-                if (response.status != 201 && response.status != 5000) {
+                console.log(response.status);
+                if (response.status != 201 && response.status != 500) {
                     retryQueue.push(self.queue[index]);
                 }
             });
@@ -31,23 +32,26 @@ angular.module('acMobile.services')
 
         this.synchronize = function() {
             console.log("synchronize activated");
-            if (self.queue.length && $cordovaNetwork.isOnline()) {
-                if (auth.isAuthenticated) {
-                    var promises = [];
-                    angular.forEach(self.queue, function(report) {
-                        console.log("queued to send:" + report.title);
-                        promises.push(syncReport(report));
-                    });
-                    return $q.all(promises)
-                        .then(updateQueue)
-                        .catch(function(error) {
-                            console.log('an error occurred synchronizing data');
-                            return $q.reject(error);
+            $ionicPlatform.ready().then(function() {
+                if (self.queue.length && $cordovaNetwork.isOnline()) {
+                    if (auth.isAuthenticated) {
+                        var promises = [];
+                        angular.forEach(self.queue, function(report) {
+                            console.log("sending: " + report.title);
+                            promises.push(syncReport(report));
                         });
-                } else {
-                    acUser.prompt('Please login to synchronize your stored reports');
+                        return $q.all(promises)
+                            .then(updateQueue)
+                            .catch(function(error) {
+                                console.log('an error occurred synchronizing data');
+                                return $q.reject(error);
+                            });
+                    } else {
+                        acUser.prompt('Please login to synchronize your stored reports');
+                    }
                 }
-            }
+            });
+
         };
 
         this.cancelResumeSync = $ionicPlatform.on('resume', function() {
