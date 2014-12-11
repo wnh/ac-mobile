@@ -4,7 +4,7 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaFile, fileArrayCreator, AC_API_ROOT_URL, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID) {
+    .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaFile, fileArrayCreator, AC_API_ROOT_URL, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID, acOfflineReports) {
 
         var Camera = navigator.camera;
         var shareMessage = "Check out my Mountain Information Network Report: ";
@@ -86,6 +86,9 @@ angular.module('acMobile.controllers')
                     return $q.reject(error);
                 });
         }
+        $scope.sync = function() {
+            acOfflineReports.synchronize();
+        };
 
 
         $ionicModal.fromTemplateUrl('templates/location-modal.html', {
@@ -203,7 +206,7 @@ angular.module('acMobile.controllers')
         }
 
         $scope.submit = function() {
-            if ($cordovaNetwork.isOnline()) {
+            if (false && $cordovaNetwork.isOnline()) { // TODO-JPB remove false
                 if (auth.isAuthenticated) {
                     $ionicLoading.show({
                         template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'
@@ -246,8 +249,17 @@ angular.module('acMobile.controllers')
             } else {
                 $ionicLoading.show({
                     duration: 3000,
-                    template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to pick from a map.</p>'
+                    template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to submit. Your report will be submitted when you have a connection.</p>'
                 });
+                console.log("----adding to queue----");
+                console.log($scope.report.title);
+                acOfflineReports.push(angular.copy($scope.report));
+
+
+
+                //store the report to the reportQueue.
+
+
             }
         };
 

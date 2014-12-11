@@ -106,8 +106,11 @@
                 <textarea class="large-textarea" placeholder="User comments" ng-model="report.comment"></textarea>
             </label>
             <label class="item item-dark">
-                <button class="button button-block button-energized" ng-click="submit()">
+                <button type="button" class="button button-block button-energized" ng-click="submit()">
                     <span> SUBMIT FORM</span>
+                </button>
+                <button type="button" class="button button-block button-energized" ng-click="sync()">
+                    <span> Synchronize Offline Forms</span>
                 </button>
             </label>
         </ion-list>
