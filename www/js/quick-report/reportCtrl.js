@@ -215,7 +215,7 @@ angular.module('acMobile.controllers')
         }
 
         $scope.submit = function() {
-            if (false && $cordovaNetwork.isOnline()) { // TODO-JPB remove false
+            if ($cordovaNetwork.isOnline()) {
                 if (auth.isAuthenticated) {
                     $ionicLoading.show({
                         template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'
