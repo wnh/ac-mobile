@@ -1,8 +1,14 @@
 angular.module('acMobile.services')
     .service('fileArrayCreator', function($cordovaFile, $q) {
-        this.processImage = function(imagePath) {
+        this.processImage = function(imagePath, ignoreErrors) {
+            ignoreErrors = ignoreErrors || false;
             return $cordovaFile.readFileMetadataAbsolute(imagePath)
-                .then(createBlob);
+                .then(createBlob)
+                .catch(function(error) {
+                    if (!ignoreErrors) {
+                        return $q.reject(error);
+                    }
+                });
         };
 
         function createBlob(file) {

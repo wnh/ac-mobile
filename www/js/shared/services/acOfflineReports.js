@@ -1,5 +1,5 @@
 angular.module('acMobile.services')
-    .service('acOfflineReports', function($q, auth, store, acSubmission, acUser, $ionicPlatform, $cordovaNetwork, $rootScope) {
+    .service('acOfflineReports', function($q, auth, store, acSubmission, fileArrayCreator, acUser, $ionicPlatform, $cordovaNetwork, $rootScope) {
         var self = this;
 
         this.queue = store.get('acReportQueue') || [];
@@ -9,18 +9,51 @@ angular.module('acMobile.services')
             store.set('acReportQueue', self.queue);
         };
 
+        function prepareFiles(report) {
+            if (report.imageSources.length) {
+                console.log(report.imageSources);
+                report.files = [];
+                var promises = [];
+                angular.forEach(report.imageSources, function(imageUrl) {
+                    promises.push(fileArrayCreator.processImage(imageUrl, true));
+                });
+                return $q.all(promises)
+                    .then(function(result) {
+                        angular.forEach(result, function(fileBlob) {
+                            console.log('got a file blob');
+                            report.files.push(fileBlob);
+                        });
+                        return report;
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                        //if there's an error, we'll log it but still submit the report without files.
+                    });
+            } else {
+                return $q.when(report);
+            }
+        }
+
         function syncReport(report) {
-            return acSubmission.submit(report, null)
-                .catch(function(error) {
-                    console.log("error: " + error.status);
-                    return $q.when(error); //force the promise to resolve (not reject)
+            return prepareFiles(report)
+                .then(function(report) {
+                    return acSubmission.submit(report, null)
+                        .catch(function(error) {
+                            console.log("error: " + error.status);
+                            return $q.when(error); //force the promise to resolve (not reject)
+                        });
                 });
         }
 
         function updateQueue(responses) {
             var retryQueue = [];
             angular.forEach(responses, function(response, index) {
-                console.log(response.status);
+                if (response.data) {
+                    console.log(response.data.subid);
+                }
+                if (response.status) {
+                    console.log(response.status);
+                }
                 if (response.status != 201 && response.status != 500) {
                     retryQueue.push(self.queue[index]);
                 }

@@ -20,6 +20,7 @@ angular.module('acMobile.controllers')
 
         function resetDateTime() {
             $scope.report.datetime = moment().format('YYYY-MM-DDTHH:mm:ss');
+            $scope.report.imageSources = [];
         }
         $timeout(resetDateTime, 0);
 
@@ -123,6 +124,10 @@ angular.module('acMobile.controllers')
             return $ionicPlatform.ready()
                 .then(function() {
                     return $cordovaCamera.getPicture(options);
+                })
+                .then(function(imageUrl) {
+                    $scope.report.imageSources.push(imageUrl);
+                    return $q.when(imageUrl);
                 })
                 .then(fileArrayCreator.processImage)
                 .then(function(fileBlob) {

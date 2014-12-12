@@ -2,7 +2,7 @@ angular.module('acMobile.services', ['ngCordova']);
 angular.module('acMobile.directives', ['acComponents']);
 angular.module('acMobile.controllers', ['acComponents']);
 //angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://www.avalanche.ca');
-angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com');
+angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://avalanche-canada-qa.elasticbeanstalk.com');
 angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'angular-jwt', 'acMobile.services', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
     .config(function(authProvider, $httpProvider, jwtInterceptorProvider) {
 
@@ -32,7 +32,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         $httpProvider.interceptors.push('jwtInterceptor');
 
     })
-    .constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com')
+    .constant('AC_API_ROOT_URL', 'http://avalanche-canada-qa.elasticbeanstalk.com')
 //.constant('AC_API_ROOT_URL', 'http://www.avalanche.ca')
 .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
     .constant('MAPBOX_MAP_ID', 'tesera.jbnoj7kp')
