@@ -11,11 +11,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
         });
 
-        // TODO-JPB: change login events to use this one
-        // authProvider.on('loginSuccess', function() {
-
-        // });
-
         jwtInterceptorProvider.tokenGetter = function(store, jwtHelper, auth) {
             var idToken = store.get('token');
             var refreshToken = store.get('refreshToken');
@@ -35,6 +30,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
         };
         $httpProvider.interceptors.push('jwtInterceptor');
+
     })
     .constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com')
 //.constant('AC_API_ROOT_URL', 'http://www.avalanche.ca')
