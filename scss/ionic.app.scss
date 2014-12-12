@@ -27,6 +27,14 @@ $base-color: #fff;
 //-- list items
 $item-divider-bg: #242527;
 $item-divider-color: #242527;
+
+
+// $item-dark-bg:                    $button-dark-bg !default;
+// $item-dark-border:                $button-dark-border !default;
+// $item-dark-text:                  $button-dark-text !default;
+// $item-dark-active-bg:             $energized;
+// $item-dark-active-border:         $light;
+
 //-- inputs
 $input-bg: $base-background-color;
 $input-bg-disabled: #000;
@@ -161,6 +169,21 @@ a[target*="_blank"] {
 //menu
 a.item-content {
   white-space: normal;
+}
+a.item-content.activated {
+  //background-color: $energized;
+}
+item-content:active {
+  background-color: $energized !important;
+}
+item-content.activated {
+  background-color:$energized !important;
+}
+a.item-content.activated {
+  background-color:$energized !important;
+}
+ion-item.activated {
+  background-color:$energized;
 }
 //
 input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {

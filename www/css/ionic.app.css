@@ -7894,6 +7894,18 @@ a[target*="_blank"] {
 a.item-content {
   white-space: normal; }
 
+item-content:active {
+  background-color: #f79118 !important; }
+
+item-content.activated {
+  background-color: #f79118 !important; }
+
+a.item-content.activated {
+  background-color: #f79118 !important; }
+
+ion-item.activated {
+  background-color: #f79118; }
+
 input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
   outline: none; }
 
