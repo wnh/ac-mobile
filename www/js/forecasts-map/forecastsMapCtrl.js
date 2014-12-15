@@ -10,7 +10,7 @@ angular.module('acMobile.controllers')
             regions: regions,
             obs: obs,
             filters: {
-                obsPeriod: '48-hours'
+                obsPeriod: '7-days'
             }
 
         });
@@ -110,7 +110,7 @@ angular.module('acMobile.controllers')
 
         $scope.toggleFilter = function(filter) {
             if (filter || !$scope.filters.obsPeriod) {
-                filter = filter || 'obsPeriod:48-hours';
+                filter = filter || 'obsPeriod:7-days';
                 var filterType = filter.split(':')[0];
                 var filterValue = filter.split(':')[1];
 

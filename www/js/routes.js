@@ -23,7 +23,7 @@ angular.module('acMobile')
                         return acForecast.fetch();
                     },
                     obs: function(acObservation) {
-                        return acObservation.byPeriod('2:days');
+                        return acObservation.byPeriod('7:days');
                     }
                 }
             })
