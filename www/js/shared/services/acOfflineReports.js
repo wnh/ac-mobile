@@ -4,57 +4,58 @@ angular.module('acMobile.services')
 
         this.queue = store.get('acReportQueue') || [];
 
-        this.push = function(report) {
-            self.queue.push(report);
+        this.push = function(report, sources) {
+            self.queue.push({
+                report: angular.copy(report),
+                fileSrcs: angular.copy(sources),
+                attempts: 0
+            });
             store.set('acReportQueue', self.queue);
         };
 
-        function prepareFiles(report) {
-            if (report.imageSources.length) {
-                console.log(report.imageSources);
-                report.files = [];
-                var promises = [];
-                angular.forEach(report.imageSources, function(imageUrl) {
-                    promises.push(fileArrayCreator.processImage(imageUrl, true));
+        function prepareFiles(item) {
+            if (item.fileSrcs.length) {
+                item.report.files = [];
+                var promises = _.map(item.fileSrcs, function(source) {
+                    return fileArrayCreator.processImage(source, true);
                 });
                 return $q.all(promises)
-                    .then(function(result) {
-                        angular.forEach(result, function(fileBlob) {
-                            console.log('got a file blob');
-                            report.files.push(fileBlob);
+                    .then(function(blobs) {
+                        _.each(blobs, function(blob) {
+                            if (blob !== false) {
+                                item.report.files.push(blob);
+                            }
                         });
-                        return report;
+                        return $q.when(item);
                     })
                     .catch(function(error) {
-                        console.log(error);
-                        //if there's an error, we'll log it but still submit the report without files.
+                        return $q.reject(error);
                     });
             } else {
-                return $q.when(report);
+                return $q.when(item);
             }
         }
 
-        function syncReport(report) {
-            return prepareFiles(report)
-                .then(function(report) {
-                    return acSubmission.submit(report, null)
-                        .catch(function(error) {
-                            console.log("error: " + error.status);
-                            return $q.when(error); //force the promise to resolve (not reject)
-                        });
+        function syncReport(item) {
+            return prepareFiles(item)
+                .then(function(item) {
+                    return acSubmission.submit(item.report, null);
+                })
+                .catch(function(error) {
+                    console.log("error: " + error.status);
+                    item.attempts = parseInt(item.attempts) + 1;
+                    return $q.when(error); //force the promise to resolve (not reject)
                 });
         }
 
+
         function updateQueue(responses) {
             var retryQueue = [];
-            angular.forEach(responses, function(response, index) {
+            _.each(responses, function(response, index) {
                 if (response.data) {
                     console.log(response.data.subid);
                 }
-                if (response.status) {
-                    console.log(response.status);
-                }
-                if (response.status != 201 && response.status != 500) {
+                if (response.status != 201 && self.queue[index].attempts < 3) {
                     retryQueue.push(self.queue[index]);
                 }
             });
@@ -64,14 +65,14 @@ angular.module('acMobile.services')
         }
 
         this.synchronize = function() {
-            console.log("synchronize activated");
+            console.log("synchronize event activated");
             $ionicPlatform.ready().then(function() {
                 if (self.queue.length && $cordovaNetwork.isOnline()) {
                     if (auth.isAuthenticated) {
                         var promises = [];
-                        angular.forEach(self.queue, function(report) {
-                            console.log("sending: " + report.title);
-                            promises.push(syncReport(report));
+                        angular.forEach(self.queue, function(item) {
+                            console.log("sending: " + item.report.title);
+                            promises.push(syncReport(item));
                         });
                         return $q.all(promises)
                             .then(updateQueue)

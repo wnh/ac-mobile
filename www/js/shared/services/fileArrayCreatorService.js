@@ -8,8 +8,37 @@ angular.module('acMobile.services')
                     if (!ignoreErrors) {
                         return $q.reject(error);
                     }
+                    return $q.when(false);
                 });
         };
+
+        // these functions are used to cache an image if the device allows edits
+        // this.storeFiles = function(report, queueIndex) {
+        //     return $cordovaFile.createDir('avalanche', false)
+        //         .then(function() {
+        //             var promises = [];
+        //             angular.forEach(report.files, function(data) {
+        //                 var filepath = 'avalanche/' + moment.unix() + '-img';
+        //                 promises.push(writeFile(filepath, data));
+        //             });
+        //             return $q.all(promises);
+        //         });
+        // };
+
+
+        // function writeFile(filepath, data) {
+        //     console.log('writing:' + filepath);
+        //     return $cordovaFile.writeFile(filepath, data, {})
+        //         .then(function(result) {
+        //             console.log("wrote file:" + filepath);
+        //             return $q.when(filepath);
+        //         })
+        //         .catch(function(error) {
+        //             console.log(angular.toJson(error));
+        //             console.log("error writing file.");
+        //             return $q.when(false);
+        //         });
+        // }
 
         function createBlob(file) {
             var deferred = $q.defer();

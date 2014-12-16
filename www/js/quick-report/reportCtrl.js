@@ -15,12 +15,13 @@ angular.module('acMobile.controllers')
             },
             markerPosition: {
                 latlng: [0, 0]
-            }
+            },
+            imageSources: []
         });
 
         function resetDateTime() {
             $scope.report.datetime = moment().format('YYYY-MM-DDTHH:mm:ss');
-            $scope.report.imageSources = [];
+            $scope.imageSources = [];
         }
         $timeout(resetDateTime, 0);
 
@@ -96,10 +97,6 @@ angular.module('acMobile.controllers')
                 });
         }
 
-        $scope.sync = function() {
-            acOfflineReports.synchronize();
-        };
-
 
         $ionicModal.fromTemplateUrl('templates/location-modal.html', {
             scope: $scope,
@@ -126,10 +123,9 @@ angular.module('acMobile.controllers')
                     return $cordovaCamera.getPicture(options);
                 })
                 .then(function(imageUrl) {
-                    $scope.report.imageSources.push(imageUrl);
-                    return $q.when(imageUrl);
+                    $scope.imageSources.push(imageUrl);
+                    return fileArrayCreator.processImage(imageUrl);
                 })
-                .then(fileArrayCreator.processImage)
                 .then(function(fileBlob) {
                     $scope.report.files.push(fileBlob);
                     $ionicLoading.show({
@@ -161,8 +157,8 @@ angular.module('acMobile.controllers')
                             sourceType: Camera.PictureSourceType.CAMERA,
                             allowEdit: false,
                             encodingType: Camera.EncodingType.JPEG,
-                            targetWidth: 640,
-                            targetHeight: 480,
+                            // targetWidth: 640,
+                            // targetHeight: 480,
                             saveToPhotoAlbum: true
                         };
                         takePicture(options);
@@ -173,11 +169,11 @@ angular.module('acMobile.controllers')
                             quality: 75,
                             destinationType: Camera.DestinationType.FILE_URI,
                             sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-                            allowEdit: true,
-                            encodingType: Camera.EncodingType.JPEG,
-                            targetWidth: 640,
-                            targetHeight: 480,
-                            saveToPhotoAlbum: true
+                            allowEdit: false,
+                            encodingType: Camera.EncodingType.JPEG
+                            // targetWidth: 640,
+                            // targetHeight: 480
+                            // saveToPhotoAlbum: true
                         };
                         takePicture(options);
                     }
@@ -269,7 +265,7 @@ angular.module('acMobile.controllers')
                 if (validateReport()) {
                     console.log("----adding to queue----");
                     console.log($scope.report.title);
-                    acOfflineReports.push(angular.copy($scope.report));
+                    acOfflineReports.push($scope.report, $scope.imageSources);
                 }
             }
         };
