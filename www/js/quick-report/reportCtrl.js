@@ -148,8 +148,6 @@ angular.module('acMobile.controllers')
                             sourceType: Camera.PictureSourceType.CAMERA,
                             allowEdit: false,
                             encodingType: Camera.EncodingType.JPEG,
-                            // targetWidth: 640,
-                            // targetHeight: 480,
                             saveToPhotoAlbum: true
                         };
                         takePicture(options);
@@ -162,9 +160,6 @@ angular.module('acMobile.controllers')
                             sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
                             allowEdit: false,
                             encodingType: Camera.EncodingType.JPEG
-                            // targetWidth: 640,
-                            // targetHeight: 480
-                            // saveToPhotoAlbum: true
                         };
                         takePicture(options);
                     }
