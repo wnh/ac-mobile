@@ -11,7 +11,8 @@ angular.module('acMobile.controllers')
         angular.extend($scope, {
             display: {
                 'ridingInfo': false,
-                'avalancheConditions': false
+                'avalancheConditions': false,
+                'location': ''
             },
             markerPosition: {
                 latlng: [0, 0]
@@ -47,13 +48,7 @@ angular.module('acMobile.controllers')
                             getLocation();
                         } else if (index === 1) {
                             hideSheet();
-                            // if ($cordovaNetwork.isOnline()) {
                             $scope.locationModal.show();
-                            // } else {
-                            //     $ionicLoading.show({
-                            //         duration: 3000,
-                            //         template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to pick from a map.</p>'
-                            //     });
                         }
                     }
                 });
@@ -71,23 +66,19 @@ angular.module('acMobile.controllers')
             };
             return $ionicPlatform.ready()
                 .then(function() {
-                    var templateMsg = '<i class="fa fa-circle-o-notch fa-spin"></i> Acquiring Position';
                     if (!$cordovaNetwork.isOnline()) {
-                        templateMsg = '<i class="fa fa-circle-o-notch fa-spin"></i> Acquiring Position<p>This may take a few minutes</p>';
+                        $scope.display.location = 'Acquiring Position - may take a few minutes';
+                    } else {
+                        $scope.display.location = 'Acquiring Position';
                     }
-                    $ionicLoading.show({
-                        template: templateMsg,
-                        duration: 3000,
-                        delay: 100
-                    });
                     return $cordovaGeolocation.getCurrentPosition(options);
                 })
                 .then(function(position) {
-                    $ionicLoading.hide();
+                    $scope.display.location = '';
                     $scope.report.latlng = [position.coords.latitude, position.coords.longitude];
                 })
                 .catch(function(error) {
-                    $ionicLoading.hide();
+                    $scope.display.location = '';
                     $ionicLoading.show({
                         template: 'There was a problem getting your position',
                         duration: 3000
