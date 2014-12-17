@@ -7833,7 +7833,7 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
   padding-left: 8px;
   padding-top: 3px; }
 
-a[target*="_blank"] {
+.ac-forecast-mini a[target*="_blank"] {
   display: none !important; }
 
 .ac-forecast-container h3.ac-forecast-region {
@@ -7850,6 +7850,10 @@ a[target*="_blank"] {
     width: auto !important;
     display: block;
     padding: 0 !important; }
+
+.item-icon-left .forecast-icon {
+  height: 70%;
+  top: 15%; }
 
 .ac-forecast-mini ul.nav-pills li:last-child {
   display: none; }
