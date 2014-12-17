@@ -26,8 +26,8 @@ angular.module('acMobile.services')
                 store.set('profile', profile);
                 store.set('token', token);
                 store.set('refreshToken', refreshToken);
-                $cordovaGoogleAnalytics.setUserId(profile.email);
                 $rootScope.$broadcast('userLoggedIn');
+                $cordovaGoogleAnalytics.setUserId(profile.email);
 
             }, function(error) {
                 console.log("There was an error logging in", error);
@@ -39,5 +39,17 @@ angular.module('acMobile.services')
             store.remove('profile');
             store.remove('token');
             store.remove('refreshToken');
+            $rootScope.$broadcast('userLoggedOut');
         };
+
+        this.loggedIn = auth.isAuthenticated;
+
+        $rootScope.$on('userLoggedIn', function() {
+            self.loggedIn = auth.isAuthenticated;
+        });
+
+        $rootScope.$on('userLoggedOut', function() {
+            self.loggedIn = auth.isAuthenticated;
+        });
+
     });
