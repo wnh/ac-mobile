@@ -4,7 +4,7 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaFile, fileArrayCreator, AC_API_ROOT_URL, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID, acOfflineReports) {
+    .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaFile, $cordovaGoogleAnalytics, fileArrayCreator, AC_API_ROOT_URL, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID, acOfflineReports) {
 
         var Camera = navigator.camera;
         var shareMessage = "Check out my Mountain Information Network Report: ";
@@ -195,6 +195,7 @@ angular.module('acMobile.controllers')
             $scope.sharePopup.then(function(provider) {
                 if (provider) {
                     acMobileSocialShare.share(provider, $scope.report.shareUrl, shareMessage, null);
+                    $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Share', provider, '1');
                 }
                 $scope.reset();
 
@@ -211,6 +212,7 @@ angular.module('acMobile.controllers')
                     if (validateReport()) {
                         $scope.submitForm().then(function(result) {
                             $ionicLoading.hide();
+                            $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'success', '1');
                             sharePopup();
                             //attempt bg sync here?
                         }).catch(function(error) {
@@ -223,6 +225,7 @@ angular.module('acMobile.controllers')
                                 //generic error
                                 errorMsg = 'There was a problem sending your report';
                             }
+                            $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'failure', '1');
                             $ionicLoading.hide();
                             $ionicLoading.show({
                                 template: '<i class="fa fa-warning"></i><p>' + errorMsg + '</p>',
@@ -249,6 +252,7 @@ angular.module('acMobile.controllers')
                     template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to submit. Your report will be submitted when you have a connection.</p>'
                 });
                 if (validateReport()) {
+                    $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'queued', '1');
                     console.log("----adding to queue----");
                     console.log($scope.report.title);
                     acOfflineReports.push($scope.report, $scope.imageSources);

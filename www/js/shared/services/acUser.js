@@ -1,5 +1,5 @@
 angular.module('acMobile.services')
-    .service('acUser', function($rootScope, auth, store, $ionicPopup) {
+    .service('acUser', function($rootScope, auth, store, $ionicPopup, $cordovaGoogleAnalytics) {
         var self = this;
 
         this.prompt = function(title) {
@@ -26,6 +26,7 @@ angular.module('acMobile.services')
                 store.set('profile', profile);
                 store.set('token', token);
                 store.set('refreshToken', refreshToken);
+                $cordovaGoogleAnalytics.setUserId(profile.email);
                 $rootScope.$broadcast('userLoggedIn');
 
             }, function(error) {

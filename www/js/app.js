@@ -32,6 +32,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         $httpProvider.interceptors.push('jwtInterceptor');
 
     })
+    .constant('GA_ID', 'UA-4857222-16')
     .constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com')
 //.constant('AC_API_ROOT_URL', 'http://www.avalanche.ca')
 .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
@@ -51,9 +52,14 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
         });
     })
-    .run(function($rootScope, $timeout, $http, $state, auth, store, jwtHelper, acTerms, $cordovaNetwork, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache) {
+    .run(function($rootScope, $timeout, $http, $state, auth, store, jwtHelper, acTerms, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID) {
 
         $ionicPlatform.ready().then(function() {
+
+            $cordovaGoogleAnalytics.startTrackerWithId(GA_ID).then(function() {
+                console.log("initialized analytics");
+            });
+
             $ionicPlatform.registerBackButtonAction(function() {
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Exit Avalanche Canada?',
@@ -132,6 +138,10 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
                         });
                     }
                 });
+        });
+
+        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+            $cordovaGoogleAnalytics.trackView(toState.data.analyticsName);
         });
 
 

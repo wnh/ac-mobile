@@ -1,5 +1,5 @@
 angular.module('acMobile.controllers')
-    .controller('AppCtrl', function($scope, $rootScope, $timeout, auth, store, $state, $ionicPlatform, acOfflineReports) {
+    .controller('AppCtrl', function($scope, $rootScope, $timeout, auth, store, $state, $ionicPlatform, acOfflineReports, $cordovaGoogleAnalytics) {
         $scope.user = {};
         $scope.user.loggedIn = auth.isAuthenticated;
 
@@ -30,6 +30,7 @@ angular.module('acMobile.controllers')
                 store.set('profile', profile);
                 store.set('token', token);
                 store.set('refreshToken', refreshToken);
+                $cordovaGoogleAnalytics.setUserId(profile.email);
 
                 $rootScope.$broadcast('userLoggedIn');
             }, function(error) {

@@ -16,7 +16,8 @@ angular.module('acMobile')
                     }
                 },
                 data: {
-                    requiresOnline: true
+                    requiresOnline: true,
+                    analyticsName: 'forecasts-map'
                 },
                 resolve: {
                     regions: function(acForecast) {
@@ -36,7 +37,8 @@ angular.module('acMobile')
                     }
                 },
                 data: {
-                    requiresOnline: true
+                    requiresOnline: true,
+                    analyticsName: 'forecasts-list'
                 }
 
             })
@@ -54,7 +56,10 @@ angular.module('acMobile')
                     }
                 },
                 data: {
-                    requiresOnline: true
+                    requiresOnline: true,
+                    analyticsName: function($stateParams) {
+                        return 'forecasts-list-detail:' + $stateParams.id;
+                    }
                 }
             })
             .state('app.report', {
@@ -66,7 +71,8 @@ angular.module('acMobile')
                     }
                 },
                 data: {
-                    requiresOnline: false
+                    requiresOnline: false,
+                    analyticsName: 'min-report'
                 }
             })
             .state('app.gear', {
@@ -76,6 +82,10 @@ angular.module('acMobile')
                         templateUrl: "templates/gear.html",
                         controller: "GearCtrl"
                     }
+                },
+                data: {
+                    requiresOnline: false,
+                    analyticsName: 'gear'
                 }
             })
             .state('app.partner', {
@@ -85,6 +95,10 @@ angular.module('acMobile')
                         templateUrl: "templates/partner.html",
                         controller: "PartnersCtrl"
                     }
+                },
+                data: {
+                    requiresOnline: false,
+                    analyticsName: 'partners'
                 }
             })
             .state('app.terms', {
@@ -94,6 +108,10 @@ angular.module('acMobile')
                         templateUrl: "templates/terms.html",
                         controller: "TermsCtrl"
                     }
+                },
+                data: {
+                    requiresOnline: false,
+                    analyticsName: 'terms'
                 }
             })
             .state('app.post-share', {
@@ -111,6 +129,10 @@ angular.module('acMobile')
                     'menuContent': {
                         templateUrl: "templates/offline.html"
                     }
+                },
+                data: {
+                    requiresOnline: false,
+                    analyticsName: 'offline'
                 }
             });
         $urlRouterProvider.otherwise('/app/forecasts-map');
