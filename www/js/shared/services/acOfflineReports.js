@@ -3,6 +3,8 @@ angular.module('acMobile.services')
         var self = this;
 
         this.queue = store.get('acReportQueue') || [];
+        this.lastSync = 0;
+
 
         this.push = function(report, sources) {
             self.queue.push({
@@ -65,10 +67,12 @@ angular.module('acMobile.services')
         }
 
         this.synchronize = function() {
-            console.log("synchronize event activated");
+            var currentTime = moment().unix();
             $ionicPlatform.ready().then(function() {
-                if (self.queue.length && $cordovaNetwork.isOnline()) {
+                if ((currentTime > self.lastSync + (10 * 60 * 1000)) && self.queue.length && $cordovaNetwork.isOnline()) {
                     if (auth.isAuthenticated) {
+                        console.log('attempting report synchronization');
+                        self.lastSync = currentTime;
                         var promises = [];
                         angular.forEach(self.queue, function(item) {
                             console.log("sending: " + item.report.title);
@@ -97,6 +101,7 @@ angular.module('acMobile.services')
             self.synchronize();
         });
         $rootScope.$on('userLoggedIn', self.synchronize);
+
 
         //app startup event - runs first time this service is instantiated.
         self.synchronize();
