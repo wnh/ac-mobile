@@ -21,9 +21,14 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
             //If token is expired, get a new one
             if (jwtHelper.isTokenExpired(idToken)) {
-                return auth.refreshIdToken(refreshToken).then(function(idToken) {
-                    store.set('token', idToken);
-                    return idToken;
+                return auth.getToken({
+                    refresh_token: refreshToken,
+                    scope: 'openid profile offline_access',
+                    device: 'Mobile device',
+                    api: 'auth0'
+                }).then(function(newToken) {
+                    store.set('token', newToken);
+                    return newToken;
                 });
             } else {
                 return idToken;
@@ -88,20 +93,38 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         });
 
         $rootScope.$on('$locationChangeStart', function() {
-            //TODO-JPB-OK only do this if the user is online.
-            if (!auth.isAuthenticated) {
-                var token = store.get('token');
-                var refreshToken = store.get('refreshToken');
-                if (token && refreshToken) {
-                    if (!jwtHelper.isTokenExpired(token)) {
-                        auth.authenticate(store.get('profile'), token);
-                    } else {
-                        return auth.refreshIdToken(refreshToken).then(function(idToken) {
-                            store.set('token', idToken);
-                        });
+            $ionicPlatform.ready().then(function() {
+                if ($cordovaNetwork.isOnline() && !auth.isAuthenticated) {
+                    var token = store.get('token');
+                    var refreshToken = store.get('refreshToken');
+                    if (token) {
+                        if (!jwtHelper.isTokenExpired(token)) {
+                            auth.authenticate(store.get('profile'), token).then(function() {
+                                $rootScope.$broadcast('userLoggedIn');
+                            });
+
+                        } else {
+                            if (refreshToken) {
+                                return auth.getToken({
+                                        refresh_token: refreshToken,
+                                        scope: 'openid profile offline_access',
+                                        device: 'Mobile device',
+                                        api: 'auth0'
+                                    })
+                                    .then(function(idToken) {
+                                        store.set('token', idToken);
+                                        auth.authenticate(store.get('profile'), idToken)
+                                            .then(function() {
+                                                $rootScope.$broadcast('userLoggedIn');
+                                            }, function(error) {
+                                                console.log(error);
+                                            });
+                                    });
+                            }
+                        }
                     }
                 }
-            }
+            });
         });
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
