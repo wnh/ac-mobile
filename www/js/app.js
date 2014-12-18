@@ -137,10 +137,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
                 $ionicPlatform.ready()
                     .then(function() {
                         if ($cordovaNetwork.isOffline()) {
-                            // $ionicLoading.show({
-                            //     duration: 5000,
-                            //     template: "<i class='fa fa-chain-broken'></i> No network connection. Some portions of the app will not function without a connection."
-                            // });
                             $state.go('app.offline');
                         }
                     });
