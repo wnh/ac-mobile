@@ -85,7 +85,7 @@ angular.module('acMobile.services')
                     }
                 }
             });
-        }, (1000 * 60 * 10)); //throttled once every 10 mins max
+        }, (1000 * 60 * 2)); //throttled once every 10 mins max
 
         this.cancelResumeSync = $ionicPlatform.on('resume', function() {
             self.synchronize();
