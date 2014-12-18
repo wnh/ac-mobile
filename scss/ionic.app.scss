@@ -109,6 +109,10 @@ $popup-button-min-height: 45px !default;
   }
 }
 //forecast-list
+.item-icon-left .forecast-icon {
+  height:70%;
+  top:15%;
+}
 .ac-forecast-mini {
   ul.nav-pills {
     li:last-child {
