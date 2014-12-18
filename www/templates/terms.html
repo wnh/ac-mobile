@@ -117,7 +117,7 @@
     </ion-content>
     <div class="bar bar-dark bar-footer">
         <button class="button pull-right" ng-class="{'button-energized': !termsAccepted, 'button-balanced': termsAccepted}" ng-hide="acceptedTOU" ng-click="acceptTerms()">
-            <i ng-class="{'fa fa-check': termsAccepted}"></i><span ng-if="!termsAccepted"> Accept</span><span ng-if="termsAccepted"> Accepted</span>
+            <i ng-class="{'fa fa-check': termsAccepted}"></i><span ng-show="!termsAccepted"> Accept</span><span ng-show="termsAccepted"> Accepted</span>
         </button>
     </div>
 </ion-view>
