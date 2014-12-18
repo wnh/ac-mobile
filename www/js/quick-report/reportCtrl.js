@@ -4,7 +4,7 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $rootScope, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaFile, $cordovaGoogleAnalytics, fileArrayCreator, AC_API_ROOT_URL, MAPBOX_ACCESS_TOKEN, MAPBOX_MAP_ID, acOfflineReports, acUser) {
+    .controller('ReportCtrl', function($scope, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, fileArrayCreator, acOfflineReports, acUser) {
 
         var Camera = navigator.camera;
         var shareMessage = "Check out my Mountain Information Network Report: ";
@@ -177,7 +177,9 @@ angular.module('acMobile.controllers')
             $scope.sharePopup.then(function(provider) {
                 if (provider) {
                     acMobileSocialShare.share(provider, $scope.report.shareUrl, shareMessage, null);
-                    $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Share', provider, '1');
+                    if ($window.analytics) {
+                        $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Share', provider, '1');
+                    }
                 }
                 $scope.reset();
 
@@ -195,7 +197,9 @@ angular.module('acMobile.controllers')
                         $scope.submitForm().then(function(result) {
                             $ionicLoading.hide();
                             sharePopup();
-                            $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'success', '1');
+                            if ($window.analytics) {
+                                $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'success', '1');
+                            }
                             //attempt bg sync here?
                         }).catch(function(error) {
                             if (angular.isObject(error)) {
@@ -212,7 +216,9 @@ angular.module('acMobile.controllers')
                                 template: '<i class="fa fa-warning"></i><p>' + errorMsg + '</p>',
                                 duration: 4000
                             });
-                            $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'failure', '1');
+                            if ($window.analytics) {
+                                $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'failure', '1');
+                            }
                         });
                     }
                 } else {
@@ -225,7 +231,9 @@ angular.module('acMobile.controllers')
                 });
                 if (validateReport()) {
                     acOfflineReports.push($scope.report, $scope.imageSources);
-                    $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'queued', '1');
+                    if ($window.analytics) {
+                        $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'queued', '1');
+                    }
                 }
             }
         };

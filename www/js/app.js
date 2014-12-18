@@ -57,7 +57,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
         });
     })
-    .run(function($rootScope, $timeout, $http, $state, auth, store, jwtHelper, acTerms, acOfflineReports, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID) {
+    .run(function($rootScope, $timeout, $http, $state, $window, auth, store, jwtHelper, acTerms, acOfflineReports, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID) {
 
         $ionicPlatform.ready().then(function() {
             $ionicPlatform.registerBackButtonAction(function() {
@@ -87,10 +87,11 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             });
 
             acOfflineReports.synchronize();
-
-            $cordovaGoogleAnalytics.startTrackerWithId(GA_ID).then(function() {
-                console.log("initialized analytics");
-            });
+            if ($window.analytics) {
+                $cordovaGoogleAnalytics.startTrackerWithId(GA_ID).then(function() {
+                    console.log("initialized analytics");
+                });
+            }
 
         });
 
@@ -166,7 +167,9 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             if (toParams.id) {
                 track += ":" + toParams.id;
             }
-            $cordovaGoogleAnalytics.trackView(track);
+            if ($window.analytics) {
+                $cordovaGoogleAnalytics.trackView(track);
+            }
         });
 
 

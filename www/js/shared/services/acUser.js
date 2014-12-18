@@ -1,5 +1,5 @@
 angular.module('acMobile.services')
-    .service('acUser', function($rootScope, auth, store, $ionicPopup, $cordovaGoogleAnalytics) {
+    .service('acUser', function($rootScope, $window, auth, store, $ionicPopup, $cordovaGoogleAnalytics) {
         var self = this;
 
         this.prompt = function(title) {
@@ -28,7 +28,9 @@ angular.module('acMobile.services')
                 store.set('refreshToken', refreshToken);
                 self.loggedIn = auth.isAuthenticated;
                 $rootScope.$broadcast('userLoggedIn');
-                $cordovaGoogleAnalytics.setUserId(profile.email);
+                if ($window.analytics) {
+                    $cordovaGoogleAnalytics.setUserId(profile.email);
+                }
 
             }, function(error) {
                 console.log("There was an error logging in", error);
