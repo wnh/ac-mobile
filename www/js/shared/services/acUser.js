@@ -26,6 +26,7 @@ angular.module('acMobile.services')
                 store.set('profile', profile);
                 store.set('token', token);
                 store.set('refreshToken', refreshToken);
+                self.loggedIn = auth.isAuthenticated;
                 $rootScope.$broadcast('userLoggedIn');
                 $cordovaGoogleAnalytics.setUserId(profile.email);
 
@@ -39,6 +40,7 @@ angular.module('acMobile.services')
             store.remove('profile');
             store.remove('token');
             store.remove('refreshToken');
+            self.loggedIn = auth.isAuthenticated;
             $rootScope.$broadcast('userLoggedOut');
         };
 
