@@ -124,11 +124,9 @@ angular.module('acMobile.controllers')
                         $scope.obs = obs;
                     });
                     $timeout(function() {
-                        console.log('shoudl collapse');
                         var i = $scope.dateFilters.indexOf(filterValue);
                         $scope.dateFilters.splice(i, 1);
                         $scope.dateFilters.unshift(filterValue);
-                        console.log('shoudl collapse');
                         $scope.expanded = false;
                     }, 0);
                 }
