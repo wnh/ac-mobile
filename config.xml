@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<widget id="com.idearebel.avalanchereports" version="4.0.3" versionCode="9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.idearebel.avalanchereports" version="4.0.4" versionCode="10" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Avalanche Canada</name>
     <description>
         Go Farther with Avalanche Canada Improved decision-making information for winter backcountry users. Created in partnership with MEC and TECTERRA, an interactive map gives you access to layers of geo-tagged information, including daily regional avalanche forecasts. Watch for updates coming soon! www.avalanche.ca
@@ -49,6 +49,7 @@
     <gap:plugin name="com.ohh2ahh.plugins.appavailability" version="0.3.1" />
     <gap:plugin name="org.apache.cordova.splashscreen" version="0.3.4" />
     <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.0" />
+    <gap:plugin name="com.danielcwilson.plugins.googleanalytics" version="0.6.1" source="plugins.cordova.io" />
 
 
     <!-- Define app icon for each platform. -->
