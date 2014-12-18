@@ -57,7 +57,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
         });
     })
-    .run(function($rootScope, $timeout, $http, $state, auth, store, jwtHelper, acTerms, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID) {
+    .run(function($rootScope, $timeout, $http, $state, auth, store, jwtHelper, acTerms, acOfflineReports, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID) {
 
         $ionicPlatform.ready().then(function() {
             $ionicPlatform.registerBackButtonAction(function() {
@@ -85,6 +85,8 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             auth.config.auth0lib.on('hidden', function() {
                 deRegisterAuthClose();
             });
+
+            acOfflineReports.synchronize();
 
             $cordovaGoogleAnalytics.startTrackerWithId(GA_ID).then(function() {
                 console.log("initialized analytics");

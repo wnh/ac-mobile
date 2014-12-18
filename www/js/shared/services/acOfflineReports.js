@@ -5,7 +5,6 @@ angular.module('acMobile.services')
         this.queue = store.get('acReportQueue') || [];
         this.lastSync = 0;
 
-
         this.push = function(report, sources) {
             self.queue.push({
                 report: angular.copy(report),
@@ -50,7 +49,6 @@ angular.module('acMobile.services')
                 });
         }
 
-
         function updateQueue(responses) {
             var retryQueue = [];
             _.each(responses, function(response, index) {
@@ -66,16 +64,14 @@ angular.module('acMobile.services')
             store.set('acReportQueue', self.queue);
         }
 
-        this.synchronize = function() {
-            var currentTime = moment().unix();
+        this.synchronize = _.throttle(function() {
             $ionicPlatform.ready().then(function() {
-                if ((currentTime > self.lastSync + (10 * 60 * 1000)) && self.queue.length && $cordovaNetwork.isOnline()) {
+                if (self.queue.length && $cordovaNetwork.isOnline()) {
                     if (auth.isAuthenticated) {
                         console.log('attempting report synchronization');
-                        self.lastSync = currentTime;
                         var promises = [];
                         angular.forEach(self.queue, function(item) {
-                            console.log("sending: " + item.report.title);
+                            console.log("synching: " + item.report.title);
                             promises.push(syncReport(item));
                         });
                         return $q.all(promises)
@@ -89,20 +85,16 @@ angular.module('acMobile.services')
                     }
                 }
             });
-
-        };
+        }, (1000 * 60 * 10)); //throttled once every 10 mins max
 
         this.cancelResumeSync = $ionicPlatform.on('resume', function() {
-            console.log("resume event");
             self.synchronize();
         });
         this.cancelOnlineSync = $ionicPlatform.on('online', function() {
-            console.log("online event");
             self.synchronize();
         });
-        $rootScope.$on('userLoggedIn', self.synchronize);
+        $rootScope.$on('userLoggedIn', function() {
+            self.synchronize();
+        });
 
-
-        //app startup event - runs first time this service is instantiated.
-        self.synchronize();
     });
