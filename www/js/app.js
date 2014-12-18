@@ -60,11 +60,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
     .run(function($rootScope, $timeout, $http, $state, auth, store, jwtHelper, acTerms, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID) {
 
         $ionicPlatform.ready().then(function() {
-
-            $cordovaGoogleAnalytics.startTrackerWithId(GA_ID).then(function() {
-                console.log("initialized analytics");
-            });
-
             $ionicPlatform.registerBackButtonAction(function() {
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Exit Avalanche Canada?',
@@ -90,6 +85,11 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             auth.config.auth0lib.on('hidden', function() {
                 deRegisterAuthClose();
             });
+
+            $cordovaGoogleAnalytics.startTrackerWithId(GA_ID).then(function() {
+                console.log("initialized analytics");
+            });
+
         });
 
         $rootScope.$on('$locationChangeStart', function() {
@@ -164,7 +164,11 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         });
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-            $cordovaGoogleAnalytics.trackView(toState.data.analyticsName);
+            var track = toState.name;
+            if (toParams.id) {
+                track += ":" + toParams.id;
+            }
+            $cordovaGoogleAnalytics.trackView(track);
         });
 
 
