@@ -4,9 +4,9 @@
     </ion-nav-buttons>
     <ion-content scroll="false" class="has-header">
         <div data-tap-disabled="true">
-            <div ac-mapbox-map ac-map-sidebar="sidebar" ac-regions="regions" ac-region="current.region" ac-obs="obs" ac-ob="current.ob"></div>
+            <div ac-mapbox-map ac-map-sidebar="sidebar" ac-show-regions="regionsVisible" ac-regions="regions" ac-region="current.region" ac-obs="obs" ac-ob="current.ob"></div>
         </div>
-        <div data-tab-disabled="true" ac-drawer ng-class="{'ac-drawer--expanded': current.region && current.region.feature.properties.forecast && drawer.visible}">
+        <div data-tab-disabled="true" ac-drawer ng-class="{'ac-drawer--expanded': current.region && current.region.feature.properties.forecast && drawer.visible && drawer.enabled}">
             <div ng-click="resize()" ac-forecast-mini ac-forecast="current.region.feature.properties.forecast"></div>
         </div>
     </ion-content>

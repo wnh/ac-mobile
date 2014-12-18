@@ -5,14 +5,16 @@ angular.module('acMobile.controllers')
                 region: null
             },
             drawer: {
-                visible: false
+                visible: false,
+                enabled: true
             },
             regions: regions,
             obs: obs,
             filters: {
                 obsPeriod: '7-days'
-            }
-
+            },
+            regionsVisible: true,
+            expanded: false
         });
 
         var shareMessage = "Check out this Mountain Information Network Report: ";
@@ -108,22 +110,35 @@ angular.module('acMobile.controllers')
             }
         });
 
+        $scope.dateFilters = ['7-days', '14-days', '30-days'];
+
         $scope.toggleFilter = function(filter) {
-            if (filter || !$scope.filters.obsPeriod) {
-                filter = filter || 'obsPeriod:7-days';
+            if (filter) {
                 var filterType = filter.split(':')[0];
                 var filterValue = filter.split(':')[1];
 
-                if (filterType === 'obsPeriod') {
+                if (filterType === 'obsPeriod' && $scope.filters[filterType] !== filterValue) {
                     $scope.filters[filterType] = filterValue;
                     var period = filterValue.replace('-', ':');
                     acObservation.byPeriod(period).then(function(obs) {
                         $scope.obs = obs;
                     });
+                    $timeout(function() {
+                        console.log('shoudl collapse');
+                        var i = $scope.dateFilters.indexOf(filterValue);
+                        $scope.dateFilters.splice(i, 1);
+                        $scope.dateFilters.unshift(filterValue);
+                        console.log('shoudl collapse');
+                        $scope.expanded = false;
+                    }, 0);
                 }
             } else {
-                $scope.obs = [];
-                $scope.filters.obsPeriod = '';
+                if ($scope.filters.obsPeriod === '') {
+                    $scope.toggleFilter('obsPeriod:' + $scope.dateFilters[0]);
+                } else {
+                    $scope.obs = [];
+                    $scope.filters.obsPeriod = '';
+                }
             }
         };
 
