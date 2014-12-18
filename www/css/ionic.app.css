@@ -7938,6 +7938,10 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
   background: #1a1c1e;
   border-color: #000; }
 
+.item-icon-left .gear-icon {
+  height: 70%;
+  top: 15%; }
+
 .heading-icon {
   color: #ffffff;
   -webkit-filter: brightness(100); }

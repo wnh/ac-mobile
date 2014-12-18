@@ -109,10 +109,11 @@ $popup-button-min-height: 45px !default;
   }
 }
 //forecast-list
-.item-icon-left .forecast-icon {
+.item-icon-left .forecast-icon{
   height:70%;
   top:15%;
 }
+
 .ac-forecast-mini {
   ul.nav-pills {
     li:last-child {
@@ -225,12 +226,13 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
   background: $dark;
   border-color: #000;
 }
+.item-icon-left .gear-icon{
+  height:70%;
+  top:15%;
+}
 .heading-icon {
   color: #ffffff;
   -webkit-filter: brightness(100);
-  // margin-top: 10px;
-  // width: 25px;
-  // height: auto;
 }
 // -- Partner page
 .partner {
