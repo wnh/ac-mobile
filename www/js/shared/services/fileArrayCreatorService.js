@@ -49,11 +49,32 @@ angular.module('acMobile.services')
             return deferred.promise;
         }
 
+        function getType(filename) {
+            var arr = filename.split(".");
+            if (arr.length === 1) {
+                return 'image/jpeg';
+            } else {
+                var ext = arr.pop();
+                if (ext === "jpg" || "jpeg") {
+                    return 'image/jpeg';
+                } else if (ext === "png") {
+                    return 'image/png';
+                } else {
+                    return 'image/jpeg';
+                }
+            }
+        }
+
         function readSuccess(deferred, file) {
             return function(event) {
+                var fileType;
+                fileType = file.type || getType(file.name);
+
                 var newBlob = new Blob([event.target.result], {
-                    "type": file.type
+                    type: fileType,
+                    size: file.size
                 });
+
                 deferred.resolve(newBlob);
             };
         }
