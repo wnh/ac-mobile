@@ -234,6 +234,7 @@ angular.module('acMobile.controllers')
                     if ($window.analytics) {
                         $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'queued', '1');
                     }
+                    $scope.reset();
                 }
             }
         };
