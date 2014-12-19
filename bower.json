@@ -1,22 +1,22 @@
 {
-  "name": "ac-mobile",
-  "version": "0.0.2",
-  "private": "true",
-  "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0-beta.13"
-  },
-  "dependencies": {
-    "ac-components": "avalanche-canada/ac-components#0.0.5",
-    "lodash": "~2.4.1",
-    "jquery": "~2.1.1",
-    "mapbox.js": "~2.1.3",
-    "Leaflet.label": "~0.2.1",
-    "font-awesome": "~4.2.0",
-    "ngCordova": "~0.1.7-alpha",
-    "auth0-lock": ">= 6.3.0",
-    "auth0-angular": "~3.0.5",
-    "angular-jwt": "~0.0.4",
-    "a0-angular-storage": "~0.0.6",
-    "moment": "~2.8.3"
-  }
+    "name": "ac-mobile",
+    "version": "0.0.2",
+    "private": "true",
+    "devDependencies": {
+        "ionic": "driftyco/ionic-bower#1.0.0-beta.13"
+    },
+    "dependencies": {
+        "ac-components": "avalanche-canada/ac-components",
+        "lodash": "~2.4.1",
+        "jquery": "~2.1.1",
+        "mapbox.js": "~2.1.3",
+        "Leaflet.label": "~0.2.1",
+        "font-awesome": "~4.2.0",
+        "ngCordova": "~0.1.7-alpha",
+        "auth0-lock": ">= 6.3.0",
+        "auth0-angular": "~3.0.5",
+        "angular-jwt": "~0.0.4",
+        "a0-angular-storage": "~0.0.6",
+        "moment": "~2.8.3"
+    }
 }

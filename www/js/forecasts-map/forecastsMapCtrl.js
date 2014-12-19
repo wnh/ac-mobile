@@ -14,7 +14,9 @@ angular.module('acMobile.controllers')
                 obsPeriod: '7-days'
             },
             regionsVisible: true,
-            expanded: false
+            display: {
+                expanded: false
+            }
         });
 
         var shareMessage = "Check out this Mountain Information Network Report: ";
@@ -127,7 +129,7 @@ angular.module('acMobile.controllers')
                         var i = $scope.dateFilters.indexOf(filterValue);
                         $scope.dateFilters.splice(i, 1);
                         $scope.dateFilters.unshift(filterValue);
-                        $scope.expanded = false;
+                        $scope.display.expanded = false;
                     }, 0);
                 }
             } else {
