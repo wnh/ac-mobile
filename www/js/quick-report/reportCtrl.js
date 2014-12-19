@@ -189,8 +189,13 @@ angular.module('acMobile.controllers')
         $scope.submit = function() {
             if ($cordovaNetwork.isOnline()) {
                 if (auth.isAuthenticated) {
+                    submitTmpl = '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report';
+                    if ($scope.imageSources.length) {
+                        submitTmpl = '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report - this may take a few minutes';
+                    }
                     $ionicLoading.show({
-                        template: '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report'
+                        template: submitTmpl,
+                        duration: 600000
                     });
                     var errorMsg = '';
                     if (validateReport()) {
