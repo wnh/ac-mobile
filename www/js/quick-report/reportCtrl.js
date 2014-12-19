@@ -22,6 +22,7 @@ angular.module('acMobile.controllers')
 
         function resetDateTime() {
             $scope.report.datetime = moment().format('YYYY-MM-DDTHH:mm:ss');
+            $scope.report.title = '';
             $scope.imageSources = [];
         }
         $timeout(resetDateTime, 0);
@@ -252,7 +253,7 @@ angular.module('acMobile.controllers')
         function validateReport() {
             var errors = '';
             if ($scope.report.title.length === 0) {
-                errors += 'Please enter a title<br/>';
+                $scope.report.title = "auto: Quick Report";
             }
             if ($scope.report.latlng.length === 0) {
                 errors += 'Please specify a location<br/>';
