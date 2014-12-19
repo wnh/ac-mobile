@@ -37,7 +37,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         $httpProvider.interceptors.push('jwtInterceptor');
 
     })
-    .constant('GA_ID', 'UA-56758486-1')
+    .constant('GA_ID', 'UA-56758486-2')
     .constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com')
 //.constant('AC_API_ROOT_URL', 'http://www.avalanche.ca')
 .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
