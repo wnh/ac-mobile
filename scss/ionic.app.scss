@@ -1,0 +1,426 @@
+/* To customize the look and feel of Ionic, you can override the variables
+in ionic's _variables.scss file.
+
+For example, you might change some of the default colors: $light:#fff !default;
+$stable: #f8f8f8 !default;
+$positive: #4a87ee !default;
+$calm: #43cee6 !default;
+$balanced: #66cc33 !default;
+$energized: #f0b840 !default;
+$assertive: #ef4e3a !default;
+$royal: #8a6de9 !default;
+$dark: #444 !default;
+*/
+
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+//
+// Avalanche Canada theme colors
+//
+//-- colors
+$light: #fff;
+$energized: #f79118;
+$dark: #1a1c1e;
+//-- base
+$base-background-color: $dark;
+$base-color: #fff;
+//-- list items
+$item-divider-bg: #242527;
+$item-divider-color: #242527;
+
+
+// $item-dark-bg:                    $button-dark-bg !default;
+// $item-dark-border:                $button-dark-border !default;
+// $item-dark-text:                  $button-dark-text !default;
+// $item-dark-active-bg:             $energized;
+// $item-dark-active-border:         $light;
+
+//-- inputs
+$input-bg: $base-background-color;
+$input-bg-disabled: #000;
+$input-color: $energized;
+$input-label-color: $light;
+$input-color-placeholder: $energized;
+$checkbox-off-bg-color: $base-background-color;
+$item-divider-bg: $dark;
+$item-divider-color: $energized;
+//popups
+$popup-background-color: rgba($dark, 0.9);
+$popup-button-border-radius: 2px !default;
+$popup-button-line-height: 20px !default;
+$popup-button-min-height: 45px !default;
+// Include all of Ionic
+@import"www/lib/ionic/scss/ionic";
+//
+// Custom Styles
+//
+//--Map (Leaflet)
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+}
+.scroll {
+  height: 100%;
+  background: $dark;
+  //required for map rendering
+}
+.label-sm {
+  font-size: $font-size-base;
+}
+.no-border {
+  border-color: rgba(0, 0, 0, 0) !important;
+}
+// ac-component / bootstrap overrides (mostly due to ionic collisions)
+// TODO:may be able to simplify this in some cases
+.leaflet-control-locate a {
+  //override ac-component location icon misaligned
+  padding-left: 8px;
+  padding-top: 3px;
+}
+//hides any external link that will break the app (external forecast links)
+.ac-forecast-mini {
+  a[target*="_blank"] {
+    display: none !important;
+  }
+}
+.ac-forecast-container {
+  h3.ac-forecast-region {
+    color: #000000;
+  }
+  h4 {
+    color: #000000;
+    font-weight: bold;
+  }
+  h4.panel-title {
+    font-weight: bold;
+    color: #ffffff;
+  }
+  .ac-forecast-mini {
+    color: #000000;
+    .row {
+      width: auto !important;
+      display: block;
+      padding: 0 !important;
+    }
+  }
+}
+//forecast-list
+.item-icon-left .forecast-icon{
+  height:70%;
+  top:15%;
+}
+
+.ac-forecast-mini {
+  ul.nav-pills {
+    li:last-child {
+      display: none;
+    }
+  }
+}
+//drawer
+.ac-drawer {
+  top:0px;
+}
+.ac-forecast-mini .panel-collapse>.panel-body:after {
+  background-color: transparent;
+}
+.ac-drawer .ac-drawer-close {
+  i.fa-lg {
+    font-size: 3.0em;
+  }
+}
+.ac-forecast-mini .panel-collapse > .panel-body::after {
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+}
+.panel-body:after, .panel-body:before {
+  display: block;
+}
+//override forecast expansion prompt on smaller devices
+@media only screen and (max-width:355px) {
+  .ac-forecast-mini .panel-title small {
+    font-size: 10px;
+  }
+}
+@media only screen and (max-width:325px) {
+  .ac-forecast-mini .panel-title small {
+    display: none;
+  }
+}
+.ac-drawer-body {
+  h3.ac-forecast-region {
+    color: #000000;
+  }
+  h4 {
+    color: #000000;
+    font-weight: bold;
+  }
+  h4.panel-title {
+    font-weight: bold;
+    color: #ffffff;
+  }
+  .ac-forecast-mini {
+    color: #000000;
+    .row {
+      width: auto !important;
+      display: block;
+      padding: 0 !important;
+    }
+    ul.nav-pills {
+      li:last-child {
+        display: none;
+      }
+    }
+  }
+}
+//menu
+a.item-content {
+  white-space: normal;
+}
+a.item-content.activated {
+  //background-color: $energized;
+}
+item-content:active {
+  background-color: $energized !important;
+}
+item-content.activated {
+  background-color:$energized !important;
+}
+a.item-content.activated {
+  background-color:$energized !important;
+}
+ion-item.activated {
+  background-color:$energized;
+}
+//
+input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
+  outline: none;
+}
+.quick-report-conditions {
+  input[type=checkbox] {
+    float: none;
+    margin-left: 0px;
+  }
+  .item {
+    white-space: normal;
+  }
+}
+.action-sheet-title {
+  color: #000000;
+}
+.gearSection {
+  .row {
+    margin: 0;
+  }
+}
+.gearItem p {
+  white-space: normal;
+  padding-bottom: 12px;
+  color: #ffffff;
+}
+.gearList ion-item.item-divider.activated {
+  background: $dark;
+  border-color: #000;
+}
+.gearList ion-item {
+  background: $dark;
+  border-color: #000;
+}
+.item-icon-left .gear-icon{
+  height:70%;
+  top:15%;
+}
+.heading-icon {
+  color: #ffffff;
+  -webkit-filter: brightness(100);
+}
+// -- Partner page
+.partner {
+  .row {
+    margin: 0;
+  }
+  .intro-title {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .spacer-lg {
+    padding-top: 100px;
+    display: block;
+  }
+  .spacer-sm {
+    padding-top: 25px;
+    display: block;
+  }
+  .partner-logo {
+    display: inline-block;
+    width: 100%;
+    vertical-align: bottom;
+  }
+  .footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    .row, .col {
+      margin: 0;
+      padding: 0;
+      margin-left: -10px;
+    }
+  }
+}
+.centered {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+//min
+.min-title {
+  font-size: 13px;
+}
+.riding-info {
+  padding-left: 10px;
+  .item-content {
+    background: $dark;
+    color: #ffffff;
+    border: 0px;
+  }
+  input:checked ~ .item-content {
+    background: $energized;
+    color: #ffffff;
+    border: 0px;
+    margin-right: 10px;
+  }
+  .item.item-dark {
+    border: 0px;
+  }
+  .item.item-divider {
+    border: 0px;
+  }
+}
+//social
+.social-icons {
+  font-size: 3em;
+  text-align: center;
+  .fb {
+    color: #3B579D
+  }
+  .twitter {
+    color: #55ACEE
+  }
+  .gplus {
+    color: #D6492F
+  }
+}
+.large-textarea {
+  height: 80px;
+}
+.termsList {
+  li {
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+}
+.termsSubList {
+  list-style-type: disc;
+  li {
+    margin-left: 40px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+  }
+}
+.popup-body .row {
+  margin: 0;
+}
+h3.popup-title {
+  font-size: 16px;
+  font-weight: normal;
+}
+h5.popup-sub-title {
+  color: $energized;
+  font-size: 14px;
+}
+.popup-head {
+  padding: 15px 10px;
+  border-bottom: 1px solid $energized;
+}
+body #a0-lock.a0-theme-default .a0-panel .a0-close {
+  font-family: arial !important;
+  right: 10px;
+}
+body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
+  font-size: 25px;
+  font-family: arial !important;
+  content: 'close';
+}
+#ob-modal {
+  background-color: $dark;
+}
+#ob-modal .row {
+  margin: 0;
+}
+.min-popup h1 {
+  position: relative;
+  font-size: 20px;
+  border-bottom: 3px solid #000;
+  padding-bottom: 5px;
+}
+.min-popup h1:after {
+  content: '';
+  height: 100%;
+  width: 30px;
+  border-bottom: 3px solid $energized;
+  position: absolute;
+  left: 0;
+  top: 3px;
+}
+.min-popup h5 {
+  font-size: 14px;
+  line-height: 16px;
+}
+.min-popup p {
+  margin-left: 20px;
+  font-size: 12px;
+  line-height: 12px;
+}
+.min-popup ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  li {
+    font-size: 14px;
+  }
+}
+#ob-modal .image-view img {
+  width: 100%;
+  border: 3px solid #000;
+}
+.ob-content {
+  position: absolute;
+  -webkit-transition: all linear 0.2s;
+  transition: all linear 0.2s;
+  opacity: 1;
+}
+.ob-content.ng-hide-add, .ob-content.ng-hide-remove {
+  display: block !important;
+}
+.ob-content.ng-hide {
+  opacity: 0;
+}
+//offline
+.offline-content {
+  .row {
+    margin: 0;
+  }
+  h2 {
+    margin: 40px 0;
+  }
+  p {
+    font-size: 16px;
+  }
+}
+
+//date-filters
+.ac-date-filters ul li span {
+  padding-left:2px !important;
+}

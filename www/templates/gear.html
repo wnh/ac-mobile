@@ -1,0 +1,27 @@
+<ion-view hide-back-button="true" title="Gear">
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-content class="has-header gearSection">
+        <ion-list>
+            <div class="gearList" ng-repeat="gear in gearItems">
+                <ion-item class="item-divider item-icon-left item-icon-right" ng-click="openSection(gear)">
+                    <img class="icon heading-icon gear-icon" ng-src="{{gear.icon}}" />
+                    <div>
+                        {{gear.heading}}
+                    </div>
+                    <i class="icon heading-icon" ng-class="{'ion-ios7-arrow-up': !isGearDisplayed(gear), 'ion-ios7-arrow-down': isGearDisplayed(gear)}"></i>
+                </ion-item>
+                <ion-item ng-show="gearDisplayed === gear.heading" class="gearItem">
+                    <div class="gear-desc" ng-bind-html="gear.desc"></div>
+                    <button class="button button-small button-energized" ng-click="launchMec(gear.link)">{{gear.linkText}}</button>
+                </ion-item>
+            </div>
+        </ion-list>
+        <div class="row">
+            <div class="col">
+                <a class="button button-block button-energized" ng-click="launchMec('http://www.mec.ca')">Shop at mec.ca</a>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

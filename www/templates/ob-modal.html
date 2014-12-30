@@ -1,0 +1,32 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-energized">
+     <div class="buttons">
+            <button class="button button-clear" ng-click="closeObModal()">Close</button>
+        </div>
+        <h1 class="title">Observation View</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="showShare()"><i class="fa fa-share-alt-square"></i> Share</button>
+        </div>
+    </ion-header-bar>
+    <ion-content id="ob-modal" padding="true">
+    <div class="ob-content" ng-click="clearImage()" ng-show="showImage">
+        <div class="row">
+            <div class="col">
+                <div class="image-view"><img ng-src="{{imgSrc}}"/></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h5 class="centered">tap to close</h5>
+            </div>
+        </div>
+    </div>
+        <div class="ob-content" ng-show="!showImage">
+            <div class="row">
+                <div class="col">
+                    <div id='obContent' ng-bind-html='obHtml'></div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>

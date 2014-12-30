@@ -1,0 +1,42 @@
+<ion-side-menus>
+    <ion-side-menu-content drag-content="true">
+        <ion-nav-bar class="bar-energized nav-title-slide-ios7">
+            <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
+        </ion-nav-bar>
+        <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="left">
+        <header class="bar bar-header bar-energized">
+            <h1 class="title">Avalanche Canada</h1>
+        </header>
+        <ion-content class="has-header">
+            <ion-list>
+                <ion-item ng-if="!user.loggedIn" nav-clear menu-close class="item-dark" ng-click="user.login()">
+                    Sign In
+                </ion-item>
+                <ion-item ng-if="user.loggedIn" nav-clear menu-close class="item-dark" ng-click="user.logout()">
+                    Sign Out
+                </ion-item>
+                <ion-item nav-clear menu-close class="item-dark" href="#/app/forecasts-map">
+                    Forecasts Map
+                </ion-item>
+                <ion-item nav-clear menu-close class="item-dark" href="#/app/forecasts-list">
+                    Forecasts List
+                </ion-item>
+                <ion-item nav-clear menu-close class="item-dark" href="#/app/min">
+                    Mountain Information Network
+                </ion-item>
+                <ion-item nav-clear menu-close class="item-dark" href="#/app/gear">
+                    Gear
+                </ion-item>
+                <ion-item nav-clear menu-close class="item-dark" href="#/app/partner">
+                    Our Partners
+                </ion-item>
+                <ion-item nav-clear menu-close class="item-dark" href="#/app/terms">
+                    Terms of Use
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-side-menu>
+</ion-side-menus>
