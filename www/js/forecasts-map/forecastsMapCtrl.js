@@ -1,5 +1,5 @@
 angular.module('acMobile.controllers')
-    .controller('ForecastsMapCtrl', function($scope, $timeout, acForecast, acObservation, regions, obs, $ionicModal, $ionicPopup, $ionicScrollDelegate, acMobileSocialShare) {
+    .controller('ForecastsMapCtrl', function($scope, $timeout, $log, acForecast, acObservation, regions, obs, $ionicModal, $ionicPopup, $ionicScrollDelegate, acMobileSocialShare) {
         angular.extend($scope, {
             current: {
                 region: null
@@ -11,7 +11,7 @@ angular.module('acMobile.controllers')
             regions: regions,
             obs: obs,
             filters: {
-                obsPeriod: '7-days'
+                obsPeriod: '3-days'
             },
             regionsVisible: true,
             display: {
@@ -94,6 +94,11 @@ angular.module('acMobile.controllers')
             $scope.showObModal();
         });
 
+        $scope.$on('ac.acForecastMini.linkClicked', function(e, url) {
+            $log.info('external link opened');
+            window.open(url, '_system', 'location=yes');
+        });
+
         $scope.$watch('current.region', function(newRegion, oldRegion) {
             if (newRegion && newRegion !== oldRegion) {
                 //console.log(newRegion);
@@ -112,35 +117,46 @@ angular.module('acMobile.controllers')
             }
         });
 
-        $scope.dateFilters = ['7-days', '14-days', '30-days'];
+        $scope.dateFilters = ['1-days','7-days','30-days'];
 
-        $scope.toggleFilter = function(filter) {
-            if (filter) {
-                var filterType = filter.split(':')[0];
-                var filterValue = filter.split(':')[1];
 
-                if (filterType === 'obsPeriod' && $scope.filters[filterType] !== filterValue) {
-                    $scope.filters[filterType] = filterValue;
-                    var period = filterValue.replace('-', ':');
-                    acObservation.byPeriod(period).then(function(obs) {
-                        $scope.obs = obs;
-                    });
-                    $timeout(function() {
-                        var i = $scope.dateFilters.indexOf(filterValue);
-                        $scope.dateFilters.splice(i, 1);
-                        $scope.dateFilters.unshift(filterValue);
-                        $scope.display.expanded = false;
-                    }, 0);
-                }
-            } else {
-                if ($scope.filters.obsPeriod === '') {
-                    $scope.toggleFilter('obsPeriod:' + $scope.dateFilters[0]);
-                } else {
-                    $scope.obs = [];
-                    $scope.filters.obsPeriod = '';
-                }
+        var filterObsByDate = function(filter){
+          if(filter){
+            var filterType = filter.split(':')[0];
+            var filterValue = filter.split(':')[1];
+
+            if (filterType === 'obsPeriod' && $scope.filters[filterType] !== filterValue) {
+                $scope.filters[filterType] = filterValue;
+                var period = filterValue.replace('-', ':');
+                acObservation.byPeriod(period).then(function(obs) {
+                    $scope.obs = obs;
+                });
+                $timeout(function() {
+                    var i = $scope.dateFilters.indexOf(filterValue);
+                    $scope.dateFilters.splice(i, 1);
+                    $scope.dateFilters.unshift(filterValue);
+                    $scope.expanded = false;
+                }, 5);
             }
-        };
+          }
+        }
+
+        $scope.$on('ac.acDraw.toggleDate', function(e, filter) {
+          $log.info('toggle Date' + filter);
+          if(filter){
+            filterObsByDate(filter);
+          }
+        });
+
+        $scope.$on('ac.acDraw.toggleObs', function(e) {
+          $log.info('toggle obs');
+          if ($scope.filters.obsPeriod === '') {
+              filterObsByDate('obsPeriod:' + $scope.dateFilters[0]);
+          } else {
+              $scope.obs = [];
+              $scope.filters.obsPeriod = '';
+          }
+        });
 
         $scope.$on('$destroy', function() {
             $scope.obModal.remove();
