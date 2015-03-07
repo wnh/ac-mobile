@@ -16,15 +16,15 @@ angular.module('acMobile')
                     }
                 },
                 data: {
-                    requiresOnline: true
+                    requiresOnline: false
                 },
                 resolve: {
-                    regions: function(acForecast) {
-                        return acForecast.fetch();
-                    },
-                    obs: function(acObservation) {
-                        return acObservation.byPeriod('7:days');
-                    }
+                    // regions: function(acForecast) {
+                    //     return acForecast.fetch();
+                    // },
+                    // obs: function(acObservation) {
+                    //     return acObservation.byPeriod('7:days');
+                    // }
                 }
             })
             .state('app.forecasts-list', {
