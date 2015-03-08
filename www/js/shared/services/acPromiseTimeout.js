@@ -1,5 +1,5 @@
 angular.module('acMobile.services')
-    .factory('acPromiseWrapper', function($q, $timeout) {
+    .factory('acPromiseTimeout', function($q, $timeout) {
         return function(func, timeout) {
             var deferred = $q.defer();
 
