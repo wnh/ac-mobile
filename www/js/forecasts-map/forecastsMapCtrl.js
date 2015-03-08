@@ -1,15 +1,10 @@
 angular.module('acMobile.controllers')
-    .controller('ForecastsMapCtrl', function($scope, $timeout, $log, acForecast, acObservation, $ionicModal, $ionicPopup, $ionicScrollDelegate, acMobileSocialShare) {
+    .controller('ForecastsMapCtrl', function($q, $scope, $timeout, $log, acForecast, acObservation, $ionicModal, $ionicLoading, $ionicPopup, acPromiseWrapper, $ionicPlatform, $ionicScrollDelegate, acMobileSocialShare, $cordovaNetwork) {
 
-
-        if (false) {
-            acForecast.fetch().then(function(response) {
-                $scope.regions = response;
-
-            });
-            acObservation.byPeriod('7:days').then(function(response) {
-                $scope.obs = response;
-            });
+        function resolveData() {
+            var forecasts = acForecast.fetch();
+            var obs = acObservation.byPeriod('7:days');
+            return $q.all([forecasts, obs]);
         }
 
         angular.extend($scope, {
@@ -20,14 +15,36 @@ angular.module('acMobile.controllers')
                 visible: false,
                 enabled: true
             },
-            // regions: regions,
-            // obs: obs,
+            regions: null,
+            obs: null,
             filters: {
                 obsPeriod: '3-days'
             },
             regionsVisible: true,
             display: {
                 expanded: false
+            },
+            status: {
+                isOnline: true
+            }
+        });
+
+        $ionicPlatform.ready().then(function() {
+            $scope.status.isOnline = $cordovaNetwork.isOnline();
+            if ($scope.status.isOnline) {
+                $ionicLoading.show({
+                    template: '<i class="fa fa-circle-o-notch fa-spin"></i> Loading'
+                });
+                acPromiseWrapper(resolveData, 5000)
+                    .then(function(results) {
+                        $scope.regions = results[0];
+                        $scope.obs = results[1];
+                        $ionicLoading.hide();
+                    }, function(error) {
+                        console.log(error);
+                        $scope.status.isOnline = false;
+                        $ionicLoading.hide();
+                    });
             }
         });
 
@@ -151,7 +168,7 @@ angular.module('acMobile.controllers')
                     }, 5);
                 }
             }
-        }
+        };
 
         $scope.$on('ac.acDraw.toggleDate', function(e, filter) {
             $log.info('toggle Date' + filter);
