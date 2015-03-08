@@ -47,13 +47,8 @@ angular.module('acMobile')
                         controller: "ForecastsListDetailCtrl"
                     }
                 },
-                resolve: {
-                    forecast: function($stateParams, acForecast) {
-                        return acForecast.getOne($stateParams.id);
-                    }
-                },
                 data: {
-                    requiresOnline: true
+                    requiresOnline: false
                 }
             })
             .state('app.min', {

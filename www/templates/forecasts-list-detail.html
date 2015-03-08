@@ -1,11 +1,13 @@
-<ion-view title="Forecasts - List Detail">
+<ion-view title="Forecasts List Detail">
     <!-- Hiding the side menu nav bar since we're in a detail view -->
     <!-- <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons> -->
     <ion-content class="has-header" scroll="true">
-        <div class="ac-forecast-container" ng-click="resize()">
-            <div ac-forecast-mini ac-forecast="forecast"></div>
+        <div ac-offline message="Offline!" is-online="status.isOnline">
+            <div class="ac-forecast-container" ng-click="resize()">
+                <div ac-forecast-mini ac-forecast="forecast"></div>
+            </div>
         </div>
     </ion-content>
 </ion-view>
