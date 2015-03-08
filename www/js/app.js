@@ -134,14 +134,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
                 event.preventDefault();
                 $state.go('app.terms');
             }
-            if (toState.data && toState.data.requiresOnline) {
-                $ionicPlatform.ready()
-                    .then(function() {
-                        if ($cordovaNetwork.isOffline()) {
-                            $state.go('app.offline');
-                        }
-                    });
-            }
         });
 
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
