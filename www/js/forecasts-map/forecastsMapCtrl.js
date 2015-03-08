@@ -1,5 +1,5 @@
 angular.module('acMobile.controllers')
-    .controller('ForecastsMapCtrl', function($q, $scope, $timeout, $log, acForecast, acObservation, $ionicModal, $ionicLoading, $ionicPopup, acPromiseWrapper, $ionicPlatform, $ionicScrollDelegate, acMobileSocialShare, $cordovaNetwork) {
+    .controller('ForecastsMapCtrl', function($q, $scope, $timeout, $log, acForecast, acObservation, $ionicModal, $ionicLoading, $ionicPopup, acPromiseTimeout, $ionicPlatform, $ionicScrollDelegate, acMobileSocialShare, $cordovaNetwork) {
 
         function resolveData() {
             var forecasts = acForecast.fetch();
