@@ -138,18 +138,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
 
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
             event.preventDefault();
-            $ionicPlatform.ready()
-                .then(function() {
-                    if ($cordovaNetwork.isOffline()) {
-                        $state.go('app.offline');
-                    } else {
-                        //generic API error most likely
-                        $ionicLoading.show({
-                            duration: 5000,
-                            template: "<i class='fa fa-warning'></i> We encountered an error, please try again."
-                        });
-                    }
-                });
+            $state.go('app.offline');
         });
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
