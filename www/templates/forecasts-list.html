@@ -1,13 +1,15 @@
-<ion-view hide-back-button="true" title="Forecasts - List">
+<ion-view hide-back-button="true" title="Forecasts List">
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
     <ion-content class="has-header">
-        <ul class="list">
-            <li class="item item-icon-left item-dark" ui-sref="app.forecasts-list-detail({id: region.id})" ng-repeat="region in regions.features | orderBy: 'properties.name'">
-                <img class="icon forecast-icon" ng-src='{{rootUrl+region.properties.dangerIconUrl}}' />{{region.properties.name}}
-            </li>
-        </ul>
+        <div ac-offline is-online="status.isOnline" message="The forecast list view requires an internet connection. Please connect to the internet and try again later">
+            <ul class="list">
+                <li class="item item-icon-left item-dark" ui-sref="app.forecasts-list-detail({id: region.id})" ng-repeat="region in regions.features | orderBy: 'properties.name'">
+                    <img class="icon forecast-icon" ng-src='{{rootUrl+region.properties.dangerIconUrl}}' />{{region.properties.name}}
+                </li>
+            </ul>
+        </div>
 
     </ion-content>
 </ion-view>
