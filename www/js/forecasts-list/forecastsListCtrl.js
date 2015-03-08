@@ -16,7 +16,7 @@ angular.module('acMobile.controllers')
                 $ionicLoading.show({
                     template: '<i class="fa fa-circle-o-notch fa-spin"></i> Loading'
                 });
-                acPromiseTimeout(resolveData, 50)
+                acPromiseTimeout(resolveData, 5000)
                     .then(function(results) {
                         $scope.regions = results;
                         $ionicLoading.hide();
