@@ -1,0 +1,10 @@
+<div>
+    <div ng-if="!isOnline">
+        <h3>No Internet Connection</h3>
+        <p>{{message}}</p>
+    </div>
+    <div ng-if="isOnline">
+        <div ng-transclude>
+        </div>
+    </div>
+</div>
