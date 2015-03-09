@@ -5,6 +5,7 @@ angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://www.avalanche
 angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'angular-jwt', 'acMobile.services', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
     .config(function(authProvider, $httpProvider, jwtInterceptorProvider) {
 
+        //JPB-AUTH
         authProvider.init({
             domain: 'avalancheca.auth0.com',
             clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
@@ -41,7 +42,8 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
     .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
     .constant('MAPBOX_MAP_ID', 'avalanchecanada.k8o347c9')
     .run(function($ionicPlatform, auth) {
-        auth.hookEvents();
+        //JPB-AUTH
+        //auth.hookEvents();
 
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -55,7 +57,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
         });
     })
-    .run(function($rootScope, $timeout, $http, $state, $window, auth, store, jwtHelper, acTerms, acOfflineReports, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID) {
+    .run(function($rootScope, $timeout, $http, $state, $window, $document, auth, store, jwtHelper, acTerms, acOfflineReports, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID) {
 
         $ionicPlatform.ready().then(function() {
             $ionicPlatform.registerBackButtonAction(function() {
@@ -84,7 +86,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
                 deRegisterAuthClose();
             });
 
-            acOfflineReports.synchronize();
+            // acOfflineReports.synchronize();
             if ($window.analytics) {
                 $cordovaGoogleAnalytics.startTrackerWithId(GA_ID).then(function() {
                     console.log("initialized analytics");
@@ -106,36 +108,51 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
 
         $rootScope.$on('$locationChangeStart', function() {
             $ionicPlatform.ready().then(function() {
-                if ($cordovaNetwork.isOnline() && !auth.isAuthenticated) {
-                    var token = store.get('token');
-                    var refreshToken = store.get('refreshToken');
-                    if (token) {
-                        if (!jwtHelper.isTokenExpired(token)) {
-                            auth.authenticate(store.get('profile'), token).then(function() {
-                                $rootScope.$broadcast('userLoggedIn');
-                            });
+                //JPB-AUTH
+                // if (!auth.isAuthenticated) {
+                //     var token = store.get('token');
+                //     var refreshToken = store.get('refreshToken');
+                //     if (token) {
+                //         if (!jwtHelper.isTokenExpired(token)) {
+                //             auth.authenticate(store.get('profile'), token).then(function() {
+                //                 $rootScope.$broadcast('userLoggedIn');
+                //             });
 
-                        } else {
-                            if (refreshToken) {
-                                return auth.getToken({
-                                        refresh_token: refreshToken,
-                                        scope: 'openid profile offline_access',
-                                        device: 'Mobile device',
-                                        api: 'auth0'
-                                    })
-                                    .then(function(idToken) {
-                                        store.set('token', idToken);
-                                        auth.authenticate(store.get('profile'), idToken)
-                                            .then(function() {
-                                                $rootScope.$broadcast('userLoggedIn');
-                                            }, function(error) {
-                                                console.log(error);
-                                            });
-                                    });
-                            }
-                        }
-                    }
-                }
+                //         }
+                //     }
+                // }
+
+
+                // if ($cordovaNetwork.isOnline() && !auth.isAuthenticated) {
+                //     var token = store.get('token');
+                //     var refreshToken = store.get('refreshToken');
+                //     if (token) {
+                //         if (!jwtHelper.isTokenExpired(token)) {
+                //             auth.authenticate(store.get('profile'), token).then(function() {
+                //                 $rootScope.$broadcast('userLoggedIn');
+                //             });
+
+                //         } else {
+                //             if (refreshToken) {
+                //                 return auth.getToken({
+                //                         refresh_token: refreshToken,
+                //                         scope: 'openid profile offline_access',
+                //                         device: 'Mobile device',
+                //                         api: 'auth0'
+                //                     })
+                //                     .then(function(idToken) {
+                //                         store.set('token', idToken);
+                //                         auth.authenticate(store.get('profile'), idToken)
+                //                             .then(function() {
+                //                                 $rootScope.$broadcast('userLoggedIn');
+                //                             }, function(error) {
+                //                                 console.log(error);
+                //                             });
+                //                     });
+                //             }
+                //         }
+                //     }
+                // }
             });
         });
 

@@ -46,6 +46,10 @@ angular.module('acMobile.services')
             $rootScope.$broadcast('userLoggedOut');
         };
 
+
+        //JPB-AUTH : provide an authenticate method - this should not make an API call, just use existing token
+        //JPB-AUTH : provide a refresh token method to fetch a token if needed.
+
         this.loggedIn = auth.isAuthenticated;
 
         $rootScope.$on('userLoggedIn', function() {
