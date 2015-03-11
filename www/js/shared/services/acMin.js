@@ -15,17 +15,6 @@ angular.module('acMobile.services')
             store.set('acReportQueue', self.queue);
         };
 
-        this.markSubmitted = function(item) {
-            if (item.report.files) {
-                delete item.report.files;
-            }
-            if (item.submitting) {
-                delete item.submitting;
-            }
-            self.submittedReports.push(item);
-            store.set('acSubmittedReports', self.submittedReports);
-        };
-
         function prepareFiles(item) {
             if (item.fileSrcs.length) {
                 item.report.files = [];
@@ -49,111 +38,66 @@ angular.module('acMobile.services')
             }
         }
 
-        // function syncReport(item) {
-        //     return prepareFiles(item)
-        //         .then(function(item) {
-        //             return acSubmission.submit(item.report, null);
-        //         })
-        //         .catch(function(error) {
-        //             console.log("error: " + error.status);
-        //             item.attempts = parseInt(item.attempts) + 1;
-        //             return $q.when(error); //force the promise to resolve (not reject)
-        //         });
-        // }
+
 
         function removeSubmittedReport(item) {
-            var tempCopy = angular.copy(self.queue);
-            console.log(tempCopy);
-            if (item.report.files) {
-                delete item.report.files;
-            }
+            // if (item.report.files) {
+            delete item.report.files;
+            // }
+            // if (item.submitting) {
+            delete item.submitting;
+            // }
+
             _.pull(self.queue, item);
-            console.log('new Queue');
-            console.log(self.queue);
+
             store.set('acReportQueue', self.queue);
             self.submittedReports.push(item);
             store.set('acSubmittedReports', self.submittedReports);
         }
 
         this.sendReport = function(item) {
-            return self.processAndSend(item).then(function(result) {
-                    return (result);
-                })
-                .catch(function(error) {
-                    console.log(error);
-                    if (error === 'notLoggedIn') {
-                        //attempt to login the user with stored token and/or refresh token, if not, prompt.
-                        acUser.prompt("You are not logged in");
-                    } else if (error === 'offline') {
-
-                    } else {
-                        //error during submission, won't do anything to the queues.
-                    }
-
-                });
+            if (!auth.isAuthenticated) {
+                return acUser.authenticate()
+                    .then(function() {
+                        return self.processAndSend(item);
+                    })
+                    .then(function(result) {
+                        console.log(result);
+                        return result;
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                        return $q.reject(error);
+                    });
+            } else {
+                return self.processAndSend(item);
+            }
         };
 
         this.processAndSend = function(item) {
-            console.log('sending..');
             var deferred = $q.defer();
-            if ($cordovaNetwork.isOnline() || true) {
-                if (auth.isAuthenticated) {
-                    prepareFiles(item)
-                        .then(function(item) {
-                            return acSubmission.submit(item.report, null);
-                        })
-                        .then(function(result) {
-                            if (result.data && !('error' in result.data)) {
-                                item.report.subid = result.data.subid;
-                                item.report.shareUrl = result.data.obs[0].shareUrl;
-                                console.log('submission: ' + result.data.subid);
-                                return result;
-                            } else {
-                                return $q.reject('error');
-                            }
-                        })
-                        .then(function(response) {
-                            console.log(response);
-                            removeSubmittedReport(item);
-                            deferred.resolve(item);
-                        })
-                        .catch(function(error) {
-                            deferred.reject(error);
-                        });
-
-                } else {
-                    deferred.reject('notLoggedIn');
-                }
-            } else {
-                deferred.reject('offline');
-            }
+            prepareFiles(item)
+                .then(function(item) {
+                    return acSubmission.submit(item.report, null);
+                })
+                .then(function(result) {
+                    if (result.data && !('error' in result.data)) {
+                        item.report.subid = result.data.subid;
+                        item.report.shareUrl = result.data.obs[0].shareUrl;
+                        console.log('submission: ' + result.data.subid);
+                        return item;
+                    } else {
+                        return $q.reject('error');
+                    }
+                })
+                .then(function(item) {
+                    console.log(item);
+                    removeSubmittedReport(item);
+                    deferred.resolve(item);
+                })
+                .catch(function(error) {
+                    deferred.reject(error);
+                });
             return deferred.promise;
         };
-
-        // this.uploadReport = function(item) {
-        //     $ionicPlatform.ready().then(function() {
-        //         if ($cordovaNetwork.isOnline()) {
-        //             if (auth.isAuthenticated) {
-        //                 console.log('submitting: ' + item.report.title);
-        //                 return syncReport(item)
-        //                     .then(removeUploadedReport)
-        //                     .catch(function(error) {
-        //                         console.log(error);
-        //                         return $q.reject(error);
-        //                     });
-
-        //             } else {
-        //                 acUser.prompt('Please login to synchronize your stored reports');
-        //                 //JPB-TODO: after logging in, remember the report that was attempted and submit it!
-        //             }
-
-        //         } else {
-        //             //JPB-TODO device is offline - message, or change the state of the form and don't allow this to happen.
-
-        //         }
-        //     });
-        // };
-
-
-
     });
