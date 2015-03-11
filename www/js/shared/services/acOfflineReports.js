@@ -87,14 +87,14 @@ angular.module('acMobile.services')
             });
         }, (1000 * 60 * 2)); //throttled once every 10 mins max
 
-        this.cancelResumeSync = $ionicPlatform.on('resume', function() {
-            self.synchronize();
-        });
-        this.cancelOnlineSync = $ionicPlatform.on('online', function() {
-            self.synchronize();
-        });
-        $rootScope.$on('userLoggedIn', function() {
-            self.synchronize();
-        });
+        // this.cancelResumeSync = $ionicPlatform.on('resume', function() {
+        //     self.synchronize();
+        // });
+        // this.cancelOnlineSync = $ionicPlatform.on('online', function() {
+        //     self.synchronize();
+        // });
+        // $rootScope.$on('userLoggedIn', function() {
+        //     self.synchronize();
+        // });
 
     });
