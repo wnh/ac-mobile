@@ -1,5 +1,5 @@
 angular.module('acMobile.services')
-    .service('acUser', function($rootScope, $window, auth, store, $ionicPopup, $cordovaGoogleAnalytics) {
+    .service('acUser', function($rootScope, $q, $window, auth, jwtHelper, store, $ionicPopup, $cordovaGoogleAnalytics) {
         var self = this;
 
         this.prompt = function(title) {
@@ -9,14 +9,17 @@ angular.module('acMobile.services')
                 cancelType: "button-outline button-energized",
                 okType: "button-energized"
             });
-            confirmPopup.then(function(response) {
+            return confirmPopup.then(function(response) {
                 if (response) {
-                    self.login();
+                    return self.login();
+                } else {
+                    return $q.reject('cancelled');
                 }
             });
         };
 
         this.login = function() {
+            var deferred = $q.defer();
             auth.signin({
                 authParams: {
                     scope: 'openid profile offline_access',
@@ -31,10 +34,13 @@ angular.module('acMobile.services')
                 if ($window.analytics) {
                     $cordovaGoogleAnalytics.setUserId(profile.email);
                 }
+                deferred.resolve(profile);
 
             }, function(error) {
                 console.log("There was an error logging in", error);
+                deferred.reject(error);
             });
+            return deferred.promise;
         };
 
         this.logout = function() {
@@ -46,9 +52,46 @@ angular.module('acMobile.services')
             $rootScope.$broadcast('userLoggedOut');
         };
 
+        this.authenticate = function() {
+            var token = store.get('token');
+            var refreshToken = store.get('refreshToken');
+            if (token) {
+                if (!jwtHelper.isTokenExpired(token)) {
+                    return auth.authenticate(store.get('profile'), token)
+                        .then(function() {
+                            $rootScope.$broadcast('userLoggedIn');
+                            return 'authenticated';
+                        });
 
-        //JPB-AUTH : provide an authenticate method - this should not make an API call, just use existing token
-        //JPB-AUTH : provide a refresh token method to fetch a token if needed.
+                } else {
+                    if (refreshToken) {
+                        return auth.getToken({
+                                refresh_token: refreshToken,
+                                scope: 'openid profile offline_access',
+                                device: 'Mobile device',
+                                api: 'auth0'
+                            })
+                            .then(function(idToken) {
+                                store.set('token', idToken);
+                                return auth.authenticate(store.get('profile'), idToken);
+                            })
+                            .then(function() {
+                                $rootScope.$broadcast('userLoggedIn');
+                                return 'authenticated';
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                                return $q.reject(error);
+                            });
+
+                    } else {
+                        return self.prompt("You must be logged in to submit a report to the MIN");
+                    }
+                }
+            } else {
+                return self.prompt("You must be logged in to submit a report to the MIN");
+            }
+        };
 
         this.loggedIn = auth.isAuthenticated;
 
