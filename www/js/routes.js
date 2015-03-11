@@ -43,6 +43,15 @@ angular.module('acMobile')
                     }
                 }
             })
+            .state('app.min-history', {
+                url: "/app/min-history",
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/min-history.html",
+                        controller: "MinHistoryCtrl"
+                    }
+                }
+            })
             .state('app.gear', {
                 url: "/app/gear",
                 views: {
