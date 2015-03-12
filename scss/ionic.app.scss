@@ -221,9 +221,12 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
   padding-bottom: 12px;
   color: #ffffff;
 }
+.gearList ion-item.item-divider {
+  border-color: #333;
+}
 .gearList ion-item.item-divider.activated {
   background: $dark;
-  border-color: #000;
+  border-color: #333;
 }
 .gearList ion-item {
   background: $dark;
@@ -442,7 +445,8 @@ body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
   .row {
     margin:0;
   }
-}
-.disabled {
-  color:#333333;
+  .item-divider {
+    background: $dark;
+    border-color: #333;
+  }
 }
