@@ -200,7 +200,7 @@ angular.module('acMobile.controllers')
             }
             if (errors.length) {
                 $ionicLoading.show({
-                    duration: 4000,
+                    duration: 5000,
                     template: '<div class="form-error"><p><i class="fa fa-warning"></i> There was an error submittting you report:</p>' + errors + "</div>"
                 });
                 return false;
