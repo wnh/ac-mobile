@@ -4,7 +4,7 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, fileArrayCreator, acOfflineReports, acUser, acMin) {
+    .controller('ReportCtrl', function($scope, $state, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, fileArrayCreator, acOfflineReports, acUser, acMin) {
 
         var Camera = navigator.camera;
         var shareMessage = "Check out my Mountain Information Network Report: ";
@@ -168,83 +168,17 @@ angular.module('acMobile.controllers')
             });
         };
 
-        function sharePopup() {
-            $scope.sharePopup = $ionicPopup.show({
-                templateUrl: 'templates/post-share.html ',
-                title: "Observation report saved",
-                subTitle: "Share your report",
-                scope: $scope
-            });
-            $scope.sharePopup.then(function(provider) {
-                if (provider) {
-                    acMobileSocialShare.share(provider, $scope.report.shareUrl, shareMessage, null);
-                    if ($window.analytics) {
-                        $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Share', provider, '1');
-                    }
-                }
-                $scope.reset();
 
-            });
-        }
-
-        $scope.submit = function() {
-            if ($cordovaNetwork.isOnline()) {
-                if (auth.isAuthenticated) {
-                    submitTmpl = '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report';
-                    if ($scope.imageSources.length) {
-                        submitTmpl = '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report - this may take a few minutes';
-                    }
-                    $ionicLoading.show({
-                        template: submitTmpl,
-                        duration: 600000
-                    });
-                    var errorMsg = '';
-                    if (validateReport()) {
-                        $scope.submitForm().then(function(result) {
-                            $ionicLoading.hide();
-                            sharePopup();
-                            if ($window.analytics) {
-                                $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'success', '1');
-                            }
-                            //attempt bg sync here?
-                        }).catch(function(error) {
-                            if (angular.isObject(error)) {
-                                //api responded w/error
-                                if (error.data && error.data.error) {
-                                    errorMsg = error.data.error;
-                                }
-                            } else {
-                                //generic error
-                                errorMsg = 'There was a problem sending your report';
-                            }
-                            $ionicLoading.hide();
-                            $ionicLoading.show({
-                                template: '<i class="fa fa-warning"></i><p>' + errorMsg + '</p>',
-                                duration: 4000
-                            });
-                            if ($window.analytics) {
-                                $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'failure', '1');
-                            }
-                        });
-                    }
-                } else {
-                    acUser.prompt("You must be logged in to submit a report");
+        $scope.save = function() {
+            if (validateReport()) {
+                acMin.save($scope.report, $scope.imageSources);
+                if ($window.analytics) {
+                    $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'queued', '1');
                 }
-            } else {
-                $ionicLoading.show({
-                    duration: 3000,
-                    template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to submit. Your report will be submitted when you have a connection.</p>'
-                });
-                if (validateReport()) {
-                    //acOfflineReports.push($scope.report, $scope.imageSources);
-                    acMin.save($scope.report, $scope.imageSources);
-                    if ($window.analytics) {
-                        $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'queued', '1');
-                    }
-                    $scope.reset();
-                }
+                $state.go('app.min-history');
             }
         };
+
 
         $scope.reset = function() {
             $scope.resetForm();

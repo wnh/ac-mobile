@@ -34,7 +34,7 @@ angular.module('acMobile.services')
                 if ($window.analytics) {
                     $cordovaGoogleAnalytics.setUserId(profile.email);
                 }
-                deferred.resolve(profile);
+                deferred.resolve('authenticated');
 
             }, function(error) {
                 console.log("There was an error logging in", error);
@@ -53,43 +53,54 @@ angular.module('acMobile.services')
         };
 
         this.authenticate = function() {
-            var token = store.get('token');
-            var refreshToken = store.get('refreshToken');
-            if (token) {
-                if (!jwtHelper.isTokenExpired(token)) {
-                    return auth.authenticate(store.get('profile'), token)
-                        .then(function() {
-                            $rootScope.$broadcast('userLoggedIn');
-                            return 'authenticated';
-                        });
-
-                } else {
-                    if (refreshToken) {
-                        return auth.getToken({
-                                refresh_token: refreshToken,
-                                scope: 'openid profile offline_access',
-                                device: 'Mobile device',
-                                api: 'auth0'
-                            })
-                            .then(function(idToken) {
-                                store.set('token', idToken);
-                                return auth.authenticate(store.get('profile'), idToken);
-                            })
+            if (!auth.authenticated) {
+                console.log('acUser authenticate');
+                var token = store.get('token');
+                var refreshToken = store.get('refreshToken');
+                if (token) {
+                    if (!jwtHelper.isTokenExpired(token)) {
+                        console.log('authenticating...token not expired');
+                        return auth.authenticate(store.get('profile'), token)
                             .then(function() {
+                                console.log('user authenticated!');
                                 $rootScope.$broadcast('userLoggedIn');
                                 return 'authenticated';
-                            })
-                            .catch(function(error) {
-                                console.log(error);
-                                return $q.reject(error);
                             });
 
                     } else {
-                        return self.prompt("You must be logged in to submit a report to the MIN");
+                        if (refreshToken) {
+                            console.log('getting new token');
+                            return auth.getToken({
+                                    refresh_token: refreshToken,
+                                    scope: 'openid profile offline_access',
+                                    device: 'Mobile device',
+                                    api: 'auth0'
+                                })
+                                .then(function(idToken) {
+                                    console.log('new token is: ' + token);
+                                    store.set('token', idToken);
+                                    return auth.authenticate(store.get('profile'), idToken);
+                                })
+                                .then(function() {
+                                    console.log('ready now!');
+                                    $rootScope.$broadcast('userLoggedIn');
+                                    return 'authenticated';
+                                })
+                                .catch(function(error) {
+                                    console.log(error);
+                                    return $q.reject(error);
+                                });
+
+                        } else {
+                            return self.prompt("You must be logged in to submit a report to the MIN");
+                        }
                     }
+                } else {
+                    return self.prompt("You must be logged in to submit a report to the MIN");
                 }
             } else {
-                return self.prompt("You must be logged in to submit a report to the MIN");
+                console.log('already auth');
+                return $q.when('authenticated');
             }
         };
 

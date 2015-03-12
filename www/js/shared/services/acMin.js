@@ -2,17 +2,24 @@ angular.module('acMobile.services')
     .service('acMin', function($q, auth, store, acSubmission, fileArrayCreator, acUser, $ionicPlatform, $cordovaNetwork, $rootScope) {
         var self = this;
 
-        this.queue = store.get('acReportQueue') || []; //keep name for backwards compatibility
-
+        this.pendingReports = store.get('acReportQueue') || []; //keep name for backwards compatibility
         this.submittedReports = store.get('acSubmittedReports') || [];
 
         this.save = function(report, sources) {
-            self.queue.push({
+            self.pendingReports.push({
                 report: angular.copy(report),
-                fileSrcs: angular.copy(sources),
-                attempts: 0
+                fileSrcs: angular.copy(sources)
             });
-            store.set('acReportQueue', self.queue);
+            store.set('acReportQueue', self.pendingReports);
+        };
+
+        this.delete = function(item) {
+            _.pull(self.pendingReports, item);
+            store.set('acReportQueue', self.pendingReports);
+        };
+
+        this.edit = function(item) {
+            //TODO
         };
 
         function prepareFiles(item) {
@@ -40,64 +47,54 @@ angular.module('acMobile.services')
 
 
 
-        function removeSubmittedReport(item) {
-            // if (item.report.files) {
+        function markReportSubmitted(item) {
             delete item.report.files;
-            // }
-            // if (item.submitting) {
             delete item.submitting;
-            // }
 
-            _.pull(self.queue, item);
+            self.delete(item);
+            // _.pull(self.pendingReports, item);
+            // store.set('acReportQueue', self.pendingReports);
 
-            store.set('acReportQueue', self.queue);
             self.submittedReports.push(item);
             store.set('acSubmittedReports', self.submittedReports);
         }
 
-        this.sendReport = function(item) {
-            if (!auth.isAuthenticated) {
-                return acUser.authenticate()
-                    .then(function() {
-                        return self.processAndSend(item);
-                    })
-                    .then(function(result) {
-                        console.log(result);
-                        return result;
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                        return $q.reject(error);
-                    });
-            } else {
-                return self.processAndSend(item);
-            }
-        };
 
-        this.processAndSend = function(item) {
+        this.sendReport = function(item) {
             var deferred = $q.defer();
-            prepareFiles(item)
+            acUser.authenticate()
+                .then(function() {
+                    item.submitting = true;
+                    return prepareFiles(item);
+                })
                 .then(function(item) {
-                    return acSubmission.submit(item.report, null);
+                    var token = store.get('token');
+                    return acSubmission.submit(item.report, token);
                 })
                 .then(function(result) {
+                    item.submitted = false;
                     if (result.data && !('error' in result.data)) {
                         item.report.subid = result.data.subid;
                         item.report.shareUrl = result.data.obs[0].shareUrl;
                         console.log('submission: ' + result.data.subid);
-                        return item;
+                        markReportSubmitted(item);
+                        deferred.resolve(item);
                     } else {
                         return $q.reject('error');
                     }
                 })
-                .then(function(item) {
-                    console.log(item);
-                    removeSubmittedReport(item);
-                    deferred.resolve(item);
-                })
                 .catch(function(error) {
+                    console.log(error);
+                    if (angular.isObject(error) && error.status == 401) {
+                        acUser.logout();
+                        acUser.prompt('There was a problem with your credentials, please login and try again');
+                    }
+                    if (item.submitting) {
+                        item.submitting = false;
+                    }
                     deferred.reject(error);
                 });
+
             return deferred.promise;
         };
     });

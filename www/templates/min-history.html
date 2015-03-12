@@ -1,6 +1,7 @@
 <ion-view hide-back-button="true" title="MIN Stored Reports">
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        <button ng-click="status.isOnline=!status.isOnline">Toggle</button>
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
         <button class="button button-clear" ui-sref="app.min"><i class="icon ion-plus"></i></button>
@@ -14,38 +15,31 @@
         </div>
         <div ng-if="!savedReports.length && !submittedReports.length" class="center'"><h3 class="centered"> No stored reports found </h3></div>
         <ion-list ng-if="savedReports.length">
-            <ion-item class="item-divider">Pending Submission</ion-item>
-            <ion-item ng-repeat="item in savedReports" class="item-dark item-icon-left item-icon-right">
-                <i class="icon fa fa-circle-thin"></i>
+            <ion-item class="item-divider">Saved Reports</ion-item>
+            <ion-item ng-click="showPendingActionSheet(item)" ng-repeat="item in savedReports" class="item-dark item-icon-right">
+
+                <!-- <i class="icon fa fa-circle-thin"></i> -->
                 <span class="ellipsis">{{item.report.title}}</span>
                 <span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
-                <i class="icon fa " ng-click="submit(item)"
+                <i class="icon fa "
                     ng-class="
-                    {'fa-cloud-upload':!item.submitting&&status.isOnline,
+                    {'fa-hdd-o':!item.submitting && status.isOnline,
                      'fa-circle-o-notch':item.submitting,
                      'fa-spin':item.submitting,
                      'ion-flash-off':!status.isOnline,
                      'disabled':!status.isOnline}">
 
                 </i>
-                <ion-option-button class="button-positive"
-                       ng-click="share(item)">
-                            Share
-                </ion-option-button>
-                <ion-option-button class="button-info"
-                       ng-click="edit(item)">
-                        Edit
-                </ion-option-button>
             </ion-item>
         </ion-list>
         <ul ng-if="submittedReports.length" class="list">
-            <li class="item item-divider">Submitted</li>
-            <li ng-repeat="item in submittedReports" class="item item-dark item-icon-left item-icon-right">
-                <i class="icon fa fa-check-circle-o"></i>
+            <li class="item item-divider">Submitted Reports</li>
+            <li ng-repeat="item in submittedReports track by $index" class="item item-dark item-icon-right">
+                <!-- <i class="icon fa fa-check-circle-o"></i> -->
                 <span class="ellipsis">{{item.report.title}}</span><span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
                 <i ng-click="showShare(item)" class="icon" ng-class="{'ion-share':status.isOnline, 'ion-flash-off': !status.isOnline, 'disabled': !status.isOnline}"></i>
             </li>
         </ul>
-        <button ng-click="status.isOnline=!status.isOnline">Toggle</button>
+
     </ion-content>
 </ion-view>

@@ -3,39 +3,13 @@ angular.module('acMobile.directives', ['acComponents']);
 angular.module('acMobile.controllers', ['acComponents']);
 angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://www.avalanche.ca');
 angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'angular-jwt', 'acMobile.services', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
-    .config(function(authProvider, $httpProvider, jwtInterceptorProvider) {
+    .config(function(authProvider, $httpProvider) {
 
         //JPB-AUTH
         authProvider.init({
             domain: 'avalancheca.auth0.com',
             clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
         });
-
-        jwtInterceptorProvider.tokenGetter = function(store, jwtHelper, auth) {
-            var idToken = store.get('token');
-            var refreshToken = store.get('refreshToken');
-
-            // If no token return null
-            if (!idToken || !refreshToken) {
-                return null;
-            }
-            //If token is expired, get a new one
-            if (jwtHelper.isTokenExpired(idToken)) {
-                return auth.getToken({
-                    refresh_token: refreshToken,
-                    scope: 'openid profile offline_access',
-                    device: 'Mobile device',
-                    api: 'auth0'
-                }).then(function(newToken) {
-                    store.set('token', newToken);
-                    return newToken;
-                });
-            } else {
-                return idToken;
-            }
-        };
-        $httpProvider.interceptors.push('jwtInterceptor');
-
     })
     .constant('GA_ID', 'UA-56758486-2')
 //.constant('AC_API_ROOT_URL', 'http://www.avalanche.ca')
@@ -105,56 +79,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
 
 
 
-        });
-
-        $rootScope.$on('$locationChangeStart', function() {
-            $ionicPlatform.ready().then(function() {
-                //JPB-AUTH
-                // if (!auth.isAuthenticated) {
-                //     var token = store.get('token');
-                //     var refreshToken = store.get('refreshToken');
-                //     if (token) {
-                //         if (!jwtHelper.isTokenExpired(token)) {
-                //             auth.authenticate(store.get('profile'), token).then(function() {
-                //                 $rootScope.$broadcast('userLoggedIn');
-                //             });
-
-                //         }
-                //     }
-                // }
-
-
-                // if ($cordovaNetwork.isOnline() && !auth.isAuthenticated) {
-                //     var token = store.get('token');
-                //     var refreshToken = store.get('refreshToken');
-                //     if (token) {
-                //         if (!jwtHelper.isTokenExpired(token)) {
-                //             auth.authenticate(store.get('profile'), token).then(function() {
-                //                 $rootScope.$broadcast('userLoggedIn');
-                //             });
-
-                //         } else {
-                //             if (refreshToken) {
-                //                 return auth.getToken({
-                //                         refresh_token: refreshToken,
-                //                         scope: 'openid profile offline_access',
-                //                         device: 'Mobile device',
-                //                         api: 'auth0'
-                //                     })
-                //                     .then(function(idToken) {
-                //                         store.set('token', idToken);
-                //                         auth.authenticate(store.get('profile'), idToken)
-                //                             .then(function() {
-                //                                 $rootScope.$broadcast('userLoggedIn');
-                //                             }, function(error) {
-                //                                 console.log(error);
-                //                             });
-                //                     });
-                //             }
-                //         }
-                //     }
-                // }
-            });
         });
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
