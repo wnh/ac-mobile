@@ -68,7 +68,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
                 });
             }
 
-            document.addEventListener('resume', function(e) {
+            $ionicPlatform.on('resume', function(e) {
                 console.log("app resumed from background");
                 $state.transitionTo($state.current, $state.current.params, {
                     reload: true,
