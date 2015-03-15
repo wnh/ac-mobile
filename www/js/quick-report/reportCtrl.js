@@ -4,7 +4,19 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $state, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, fileArrayCreator, acOfflineReports, acUser, acMin) {
+    .controller('ReportCtrl', function($scope, $stateParams, $state, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, fileArrayCreator, acOfflineReports, acUser, acMin) {
+
+        if ($stateParams.index) {
+            var index = $stateParams.index;
+            console.log('edit mode');
+            console.log('rport:');
+            console.log(acMin.pendingReports[index].report);
+            $timeout(function() {
+                $scope.report = acMin.pendingReports[index].report;
+            }, 0);
+        } else {
+            $timeout(resetDateTime, 0);
+        }
 
         var Camera = navigator.camera;
         var shareMessage = "Check out my Mountain Information Network Report: ";
@@ -25,7 +37,7 @@ angular.module('acMobile.controllers')
             $scope.report.title = '';
             $scope.imageSources = [];
         }
-        $timeout(resetDateTime, 0);
+
 
         function resetDisplay() {
             $scope.display.ridingInfo = false;

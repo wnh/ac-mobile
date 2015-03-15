@@ -13,10 +13,10 @@
                 <p class="centered">You are currently offline, submitting saved reports and sharing is disabled</p>
             </div>
         </div>
-        <div ng-if="!savedReports.length && !submittedReports.length" class="center'"><h3 class="centered"> No stored reports found </h3></div>
-        <ion-list ng-if="savedReports.length">
+        <div ng-if="!pendingReports.length && !submittedReports.length" class="center'"><h3 class="centered"> No stored reports found </h3></div>
+        <ion-list ng-if="pendingReports.length">
             <ion-item class="item-divider">Saved Reports</ion-item>
-            <ion-item ng-click="showPendingActionSheet(item)" ng-repeat="item in savedReports" class="item-dark item-icon-right">
+            <ion-item ng-click="showPendingActionSheet(item)" ng-repeat="item in pendingReports" class="item-dark item-icon-right">
 
                 <!-- <i class="icon fa fa-circle-thin"></i> -->
                 <span class="ellipsis">{{item.report.title}}</span>

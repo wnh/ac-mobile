@@ -35,7 +35,7 @@ angular.module('acMobile')
                 }
             })
             .state('app.min', {
-                url: "/app/min",
+                url: "/app/min/:index",
                 views: {
                     'menuContent': {
                         templateUrl: "templates/min.html",

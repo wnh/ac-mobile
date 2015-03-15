@@ -10,10 +10,10 @@ angular.module('acMobile.controllers')
             }
         };
     })
-    .controller('MinHistoryCtrl', function(store, $q, $scope, $timeout, acMin, acMobileSocialShare, $ionicActionSheet, $cordovaGoogleAnalytics, $ionicPopup, $cordovaNetwork) {
+    .controller('MinHistoryCtrl', function(store, $state, $q, $scope, $timeout, acMin, acMobileSocialShare, $ionicActionSheet, $cordovaGoogleAnalytics, $ionicPopup, $cordovaNetwork) {
         var shareMessage = "Check out my Mountain Information Network Report: ";
 
-        $scope.savedReports = acMin.pendingReports;
+        $scope.pendingReports = acMin.pendingReports;
         $scope.submittedReports = acMin.submittedReports;
         $scope.status = {};
         $scope.status.isOnline = $cordovaNetwork.isOnline();
@@ -51,8 +51,12 @@ angular.module('acMobile.controllers')
                             hideSheet();
                             $scope.submit(item);
                         } else if (index === 1) {
-                            hideSheet();
+                            //hideSheet();
                             //edit
+                            var idx = _.indexOf($scope.pendingReports, item);
+                            $state.go('app.min', {
+                                index: idx
+                            });
                         }
                     } else {
                         if (index === 0) {
