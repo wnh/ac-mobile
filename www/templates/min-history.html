@@ -8,39 +8,29 @@
         </button>
     </ion-nav-buttons>
     <ion-content scroll="false" class="has-header min-history">
-        <div class="row" ng-if="!status.isOnline">
-            <div class="col">
-                <h3 class="centered energized"><i class="ion-flash-off"></i> Offline</h3>
-                <p class="centered">You are currently offline, submitting saved reports and sharing is disabled</p>
-            </div>
-        </div>
-        <div class="row" ng-if="!pendingReports.length && !submittedReports.length">
+        <div ac-offline is-online="status.isOnline" message="You are currently offline, submitting draft reports and sharing is disabled"></div>
+        <div class="row" ng-if="!draftReports.length && !submittedReports.length">
             <div class="col">
                 <h3 class="centered energized"><i class="icon ion-map"></i> Mountain Information Network</h3>
                 <p class="centered">To create a Mountain Information Network report, tap the <i class="icon ion-plus"></i> above</p>
             </div>
         </div>
-        <ion-list ng-if="pendingReports.length">
-            <ion-item class="item-divider">Saved Reports</ion-item>
-            <ion-item ng-click="showPendingActionSheet(item)" ng-repeat="item in pendingReports | orderBy: '-report.datetime'" class="item-dark item-icon-right">
-
-                <!-- <i class="icon fa fa-circle-thin"></i> -->
+        <ion-list ng-if="draftReports.length">
+            <ion-item class="item-divider">Draft Reports</ion-item>
+            <ion-item ng-click="showPendingActionSheet(item)" ng-repeat="item in draftReports | orderBy: '-report.datetime'" class="item-dark item-icon-right">
                 <span class="ellipsis">{{item.report.title}}</span>
                 <span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
                 <i class="icon fa " ng-class="
-                    {'fa-hdd-o':!item.submitting && status.isOnline,
+                    {'fa-hdd-o':!item.submitting,
                      'fa-circle-o-notch':item.submitting,
-                     'fa-spin':item.submitting,
-                     'ion-flash-off':!status.isOnline,
-                     'disabled':!status.isOnline}">
-
+                     'fa-spin':item.submitting
+                     }">
                 </i>
             </ion-item>
         </ion-list>
         <ul ng-if="submittedReports.length" class="list">
             <li class="item item-divider">Submitted Reports</li>
             <li ng-repeat="item in submittedReports track by $index" class="item item-dark item-icon-right">
-                <!-- <i class="icon fa fa-check-circle-o"></i> -->
                 <span class="ellipsis">{{item.report.title}}</span><span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
                 <i ng-click="showShare(item)" class="icon" ng-class="{'ion-share':status.isOnline, 'ion-flash-off': !status.isOnline, 'disabled': !status.isOnline}"></i>
             </li>

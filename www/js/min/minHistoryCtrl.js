@@ -13,7 +13,7 @@ angular.module('acMobile.controllers')
     .controller('MinHistoryCtrl', function(store, $state, $q, $scope, $timeout, acMin, acMobileSocialShare, $ionicActionSheet, $cordovaGoogleAnalytics, $ionicPopup, $cordovaNetwork) {
         var shareMessage = "Check out my Mountain Information Network Report: ";
 
-        $scope.pendingReports = acMin.pendingReports;
+        $scope.draftReports = acMin.draftReports;
         $scope.submittedReports = acMin.submittedReports;
         $scope.status = {};
         $scope.status.isOnline = $cordovaNetwork.isOnline();
@@ -30,20 +30,20 @@ angular.module('acMobile.controllers')
             var availableButtons = [];
             if ($scope.status.isOnline) {
                 availableButtons = [{
-                    text: '<b><i class="icon fa fa-cloud-upload"></i> Submit</b>'
+                    text: '<b>Submit</b>'
                 }, {
-                    text: '<i class="icon ion-edit"></i> Edit'
+                    text: 'Edit'
                 }];
             } else {
                 availableButtons = [{
-                    text: '<i class="icon ion-edit"></i> Edit'
+                    text: 'Edit'
                 }];
 
             }
             var hideSheet = $ionicActionSheet.show({
-                titleText: "Pending Report",
+                titleText: "Draft Report",
                 buttons: availableButtons,
-                destructiveText: '<i class="icon ion-trash-b"></i> Delete',
+                destructiveText: 'Delete',
                 cancelText: "Cancel",
                 buttonClicked: function(index) {
                     if ($scope.status.isOnline) {
@@ -53,7 +53,7 @@ angular.module('acMobile.controllers')
                         } else if (index === 1) {
                             //hideSheet();
                             //edit
-                            var idx = _.indexOf($scope.pendingReports, item);
+                            var idx = _.indexOf($scope.draftReports, item);
                             $state.go('app.min', {
                                 index: idx
                             });

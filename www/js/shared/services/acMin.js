@@ -2,26 +2,26 @@ angular.module('acMobile.services')
     .service('acMin', function($q, auth, store, acSubmission, fileArrayCreator, acUser, $ionicPlatform, $cordovaNetwork, $rootScope) {
         var self = this;
 
-        this.pendingReports = store.get('acReportQueue') || []; //keep name for backwards compatibility
+        this.draftReports = store.get('acReportQueue') || []; //keep name for backwards compatibility
         this.submittedReports = store.get('acSubmittedReports') || [];
 
         this.update = function(index, report, sources) {
-            self.pendingReports[index].report = angular.copy(report);
-            self.pendingReports[index].fileSrcs = angular.copy(sources);
-            store.set('acReportQueue', self.pendingReports);
+            self.draftReports[index].report = angular.copy(report);
+            self.draftReports[index].fileSrcs = angular.copy(sources);
+            store.set('acReportQueue', self.draftReports);
         };
 
         this.save = function(report, sources) {
-            self.pendingReports.push({
+            self.draftReports.push({
                 report: angular.copy(report),
                 fileSrcs: angular.copy(sources)
             });
-            store.set('acReportQueue', self.pendingReports);
+            store.set('acReportQueue', self.draftReports);
         };
 
         this.delete = function(item) {
-            _.pull(self.pendingReports, item);
-            store.set('acReportQueue', self.pendingReports);
+            _.pull(self.draftReports, item);
+            store.set('acReportQueue', self.draftReports);
         };
 
         this.edit = function(item) {
@@ -58,8 +58,8 @@ angular.module('acMobile.services')
             delete item.submitting;
 
             self.delete(item);
-            // _.pull(self.pendingReports, item);
-            // store.set('acReportQueue', self.pendingReports);
+            // _.pull(self.draftReports, item);
+            // store.set('acReportQueue', self.draftReports);
 
             self.submittedReports.push(item);
             store.set('acSubmittedReports', self.submittedReports);
