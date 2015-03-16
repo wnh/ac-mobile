@@ -1,10 +1,11 @@
-<div>
-    <div ng-if="!isOnline">
-        <h3>No Internet Connection</h3>
-        <p>{{message}}</p>
+<div id="ac-offline" class="ac-offline">
+    <div class="row" ng-if="!isOnline">
+        <div class="col">
+            <h3 class="centered energized"><i class="ion-flash-off"></i> Offline</h3>
+            <p class="centered">{{message}}</p>
+        </div>
     </div>
     <div ng-if="isOnline">
-        <div ng-transclude>
-        </div>
+        <div ng-transclude></div>
     </div>
 </div>
