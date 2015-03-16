@@ -8122,6 +8122,9 @@ body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
   font-style: italic;
   text-align: left; }
 
+#ac-offline .row {
+  margin: 0 !important; }
+
 .min-history .row {
   margin: 0; }
 .min-history .item-divider {
