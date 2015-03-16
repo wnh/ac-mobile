@@ -1,10 +1,11 @@
-<ion-view hide-back-button="true" title="MIN Stored Reports">
+<ion-view hide-back-button="true" title="MIN Reports">
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
         <button ng-click="status.isOnline=!status.isOnline">Toggle</button>
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
-        <button class="button button-clear" ui-sref="app.min"><i class="icon ion-plus"></i></button>
+        <button class="button button-clear" ui-sref="app.min"><i class="icon ion-plus"></i>
+        </button>
     </ion-nav-buttons>
     <ion-content scroll="false" class="has-header min-history">
         <div class="row" ng-if="!status.isOnline">
@@ -13,16 +14,20 @@
                 <p class="centered">You are currently offline, submitting saved reports and sharing is disabled</p>
             </div>
         </div>
-        <div ng-if="!pendingReports.length && !submittedReports.length" class="center'"><h3 class="centered"> No stored reports found </h3></div>
+        <div class="row" ng-if="!pendingReports.length && !submittedReports.length">
+            <div class="col">
+                <h3 class="centered energized"><i class="icon ion-map"></i> Mountain Information Network</h3>
+                <p class="centered">To create a Mountain Information Network report, tap the <i class="icon ion-plus"></i> above</p>
+            </div>
+        </div>
         <ion-list ng-if="pendingReports.length">
             <ion-item class="item-divider">Saved Reports</ion-item>
-            <ion-item ng-click="showPendingActionSheet(item)" ng-repeat="item in pendingReports" class="item-dark item-icon-right">
+            <ion-item ng-click="showPendingActionSheet(item)" ng-repeat="item in pendingReports | orderBy: '-report.datetime'" class="item-dark item-icon-right">
 
                 <!-- <i class="icon fa fa-circle-thin"></i> -->
                 <span class="ellipsis">{{item.report.title}}</span>
                 <span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
-                <i class="icon fa "
-                    ng-class="
+                <i class="icon fa " ng-class="
                     {'fa-hdd-o':!item.submitting && status.isOnline,
                      'fa-circle-o-notch':item.submitting,
                      'fa-spin':item.submitting,

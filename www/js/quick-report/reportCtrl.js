@@ -6,17 +6,6 @@ angular.module('acMobile.controllers')
     })
     .controller('ReportCtrl', function($scope, $stateParams, $state, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, fileArrayCreator, acOfflineReports, acUser, acMin) {
 
-        if ($stateParams.index) {
-            var index = $stateParams.index;
-            console.log('edit mode');
-            console.log('rport:');
-            console.log(acMin.pendingReports[index].report);
-            $timeout(function() {
-                $scope.report = acMin.pendingReports[index].report;
-            }, 0);
-        } else {
-            $timeout(resetDateTime, 0);
-        }
 
         var Camera = navigator.camera;
         var shareMessage = "Check out my Mountain Information Network Report: ";
@@ -29,13 +18,13 @@ angular.module('acMobile.controllers')
             markerPosition: {
                 latlng: [0, 0]
             },
-            imageSources: []
+            fileSrcs: []
         });
 
         function resetDateTime() {
             $scope.report.datetime = moment().format('YYYY-MM-DDTHH:mm:ss');
             $scope.report.title = '';
-            $scope.imageSources = [];
+            $scope.fileSrcs = [];
         }
 
 
@@ -44,6 +33,20 @@ angular.module('acMobile.controllers')
             $scope.display.avalancheConditions = false;
             $timeout(resetDateTime, 0);
         }
+
+        if ($stateParams.index) {
+            var index = $stateParams.index;
+            console.log('edit mode');
+            console.log('rport:');
+            console.log(acMin.pendingReports[index].report);
+            $timeout(function() {
+                $scope.report = angular.copy(acMin.pendingReports[index].report);
+                $scope.fileSrcs = angular.copy(acMin.pendingReports[index].fileSrcs) || [];
+            }, 0);
+        } else {
+            $timeout(resetDateTime, 0);
+        }
+
 
         $scope.showLocationSheet = function() {
             if ($cordovaNetwork.isOnline()) {
@@ -127,7 +130,7 @@ angular.module('acMobile.controllers')
                     return $cordovaCamera.getPicture(options);
                 })
                 .then(function(imageUrl) {
-                    $scope.imageSources.push(imageUrl);
+                    $scope.fileSrcs.push(imageUrl);
                     return fileArrayCreator.processImage(imageUrl);
                 })
                 .then(function(fileBlob) {
@@ -183,9 +186,13 @@ angular.module('acMobile.controllers')
 
         $scope.save = function() {
             if (validateReport()) {
-                acMin.save($scope.report, $scope.imageSources);
-                if ($window.analytics) {
-                    $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'queued', '1');
+                if ($stateParams.index) {
+                    acMin.update(index, $scope.report, $scope.fileSrcs);
+                } else {
+                    acMin.save($scope.report, $scope.fileSrcs);
+                    if ($window.analytics) {
+                        $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'queued', '1');
+                    }
                 }
                 $state.go('app.min-history');
             }
@@ -221,7 +228,9 @@ angular.module('acMobile.controllers')
         }
 
         $scope.$on('$destroy', function() {
-            $scope.locationModal.remove();
+            if ($scope.locationModal) {
+                $scope.locationModal.remove();
+            }
         });
 
     });

@@ -5,6 +5,12 @@ angular.module('acMobile.services')
         this.pendingReports = store.get('acReportQueue') || []; //keep name for backwards compatibility
         this.submittedReports = store.get('acSubmittedReports') || [];
 
+        this.update = function(index, report, sources) {
+            self.pendingReports[index].report = angular.copy(report);
+            self.pendingReports[index].fileSrcs = angular.copy(sources);
+            store.set('acReportQueue', self.pendingReports);
+        };
+
         this.save = function(report, sources) {
             self.pendingReports.push({
                 report: angular.copy(report),
