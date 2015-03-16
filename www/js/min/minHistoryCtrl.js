@@ -66,7 +66,7 @@ angular.module('acMobile.controllers')
                     }
                 },
                 destructiveButtonClicked: function() {
-                    console.log('DESTRUCT');
+                    acMin.delete(item);
                     return true;
                 },
                 cancelButtonClicked: function() {
