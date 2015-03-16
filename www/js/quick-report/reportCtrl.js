@@ -200,8 +200,17 @@ angular.module('acMobile.controllers')
 
 
         $scope.reset = function() {
-            $scope.resetForm();
-            resetDisplay();
+            if ($stateParams.index) {
+                var index = $stateParams.index;
+                $scope.report = angular.copy(acMin.draftReports[index].report);
+                $scope.fileSrcs = angular.copy(acMin.draftReports[index].fileSrcs) || [];
+                $scope.display.ridingInfo = false;
+                $scope.display.avalancheConditions = false;
+            } else {
+                $scope.resetForm();
+                resetDisplay();
+            }
+
         };
 
         function validateReport() {
