@@ -38,10 +38,10 @@ angular.module('acMobile.controllers')
             var index = $stateParams.index;
             console.log('edit mode');
             console.log('rport:');
-            console.log(acMin.pendingReports[index].report);
+            console.log(acMin.draftReports[index].report);
             $timeout(function() {
-                $scope.report = angular.copy(acMin.pendingReports[index].report);
-                $scope.fileSrcs = angular.copy(acMin.pendingReports[index].fileSrcs) || [];
+                $scope.report = angular.copy(acMin.draftReports[index].report);
+                $scope.fileSrcs = angular.copy(acMin.draftReports[index].fileSrcs) || [];
             }, 0);
         } else {
             $timeout(resetDateTime, 0);
