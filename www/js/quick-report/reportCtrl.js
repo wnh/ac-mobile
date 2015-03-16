@@ -39,10 +39,12 @@ angular.module('acMobile.controllers')
             console.log('edit mode');
             console.log('rport:');
             console.log(acMin.draftReports[index].report);
-            $timeout(function() {
-                $scope.report = angular.copy(acMin.draftReports[index].report);
-                $scope.fileSrcs = angular.copy(acMin.draftReports[index].fileSrcs) || [];
-            }, 0);
+            //  $timeout(function() {
+            $scope.report = angular.copy(acMin.draftReports[index].report);
+            $scope.fileSrcs = angular.copy(acMin.draftReports[index].fileSrcs) || [];
+            console.log('we copied them');
+            console.log($scope.report);
+            //}, 0);
         } else {
             $timeout(resetDateTime, 0);
         }
@@ -131,15 +133,15 @@ angular.module('acMobile.controllers')
                 })
                 .then(function(imageUrl) {
                     $scope.fileSrcs.push(imageUrl);
-                    return fileArrayCreator.processImage(imageUrl);
+                    //return fileArrayCreator.processImage(imageUrl);
                 })
-                .then(function(fileBlob) {
-                    $scope.report.files.push(fileBlob);
-                    $ionicLoading.show({
-                        duration: 1000,
-                        template: '<i class="fa fa-camera"></i> Picture attached'
-                    });
-                })
+                // .then(function(fileBlob) {
+                //     $scope.report.files.push(fileBlob);
+                //     $ionicLoading.show({
+                //         duration: 1000,
+                //         template: '<i class="fa fa-camera"></i> Picture attached'
+                //     });
+                // })
                 .catch(function(error) {
                     console.log(error);
                 });
