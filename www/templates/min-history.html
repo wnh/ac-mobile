@@ -20,20 +20,25 @@
                 <span class="ellipsis">{{item.report.title}}</span>
                 <span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
                 <i class="icon fa " ng-class="
-                    {'fa-hdd-o':!item.submitting,
+                    {'fa-hdd-o':!item.submitting && !item.error,
                      'fa-circle-o-notch':item.submitting,
-                     'fa-spin':item.submitting
+                     'fa-spin':item.submitting,
+                     'fa-exclamation-triangle' : item.error
                      }">
                 </i>
             </ion-item>
         </ion-list>
-        <ul ng-if="submittedReports.length" class="list">
-            <li class="item item-divider">Submitted Reports</li>
-            <li ng-repeat="item in submittedReports track by $index" class="item item-dark item-icon-right">
-                <span class="ellipsis">{{item.report.title}}</span><span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
-                <i ng-click="showShare(item)" class="icon" ng-class="{'ion-share':status.isOnline, 'ion-flash-off': !status.isOnline, 'disabled': !status.isOnline}"></i>
-            </li>
-        </ul>
+        <ion-list ng-if="submittedReports.length" class="list">
+            <ion-item class="item item-divider">Submitted Reports</ion-item>
+            <ion-item ng-repeat="item in submittedReports | orderBy: '-report.datetime' | limitTo:10" class="item item-dark item-icon-right" ng-click="showShare(item)">
+                <span class="ellipsis">{{item.report.title}}</span>
+                <span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
+                <i class="icon" ng-class="{
+                    'ion-share':status.isOnline,
+                    'ion-flash-off': !status.isOnline,
+                    'disabled': !status.isOnline}"></i>
+            </ion-item>
+        </ion-list>
 
     </ion-content>
 </ion-view>
