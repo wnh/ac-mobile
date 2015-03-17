@@ -30,43 +30,45 @@ angular.module('acMobile.controllers')
             var availableButtons = [];
             if ($scope.status.isOnline) {
                 availableButtons = [{
-                    text: '<b>Submit</b>'
+                    text: '<b>Submit Report</b>'
                 }, {
-                    text: 'Edit'
+                    text: 'Edit Report'
                 }];
             } else {
                 availableButtons = [{
-                    text: 'Edit'
+                    text: 'Edit Report'
                 }];
 
             }
             var hideSheet = $ionicActionSheet.show({
                 titleText: "Draft Report",
                 buttons: availableButtons,
-                destructiveText: 'Delete',
+                destructiveText: 'Delete Report',
                 cancelText: "Cancel",
                 buttonClicked: function(index) {
                     if ($scope.status.isOnline) {
                         if (index === 0) {
                             hideSheet();
-                            $scope.submit(item);
+                            confirmSubmit(item);
                         } else if (index === 1) {
-                            //hideSheet();
-                            //edit
                             var idx = _.indexOf($scope.draftReports, item);
                             $state.go('app.min', {
                                 index: idx
                             });
+                            return true;
                         }
                     } else {
                         if (index === 0) {
-                            hideSheet();
-                            //edit
+                            var idx = _.indexOf($scope.draftReports, item);
+                            $state.go('app.min', {
+                                index: idx
+                            });
+                            return true;
                         }
                     }
                 },
                 destructiveButtonClicked: function() {
-                    acMin.delete(item);
+                    confirmDelete(item);
                     return true;
                 },
                 cancelButtonClicked: function() {
@@ -76,6 +78,37 @@ angular.module('acMobile.controllers')
             });
         };
 
+        function confirmDelete(item) {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Delete Report',
+                template: 'Are you sure you want to delete the report?',
+                cancelType: 'button-outline button-energized',
+                okType: 'button-energized',
+                okText: 'Yes',
+                cancelText: 'No'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    acMin.delete(item);
+                }
+            });
+        }
+
+        function confirmSubmit(item) {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Submit Report',
+                template: 'Are you sure you want to submit the report?',
+                cancelType: 'button-outline button-energized',
+                okType: 'button-energized',
+                okText: 'Yes',
+                cancelText: 'No'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $scope.submit(item);
+                }
+            });
+        }
 
         $scope.showShare = function(item) {
             if ($scope.status.isOnline) {
