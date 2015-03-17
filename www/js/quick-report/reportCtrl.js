@@ -4,11 +4,11 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $stateParams, $state, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, fileArrayCreator, acOfflineReports, acUser, acMin) {
+    .controller('ReportCtrl', function($scope, $stateParams, $state, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, fileArrayCreator, acOfflineReports, acUser, acMin, acQuickReportData) {
 
-
-        var Camera = navigator.camera;
+        //var Camera = navigator.camera;
         var shareMessage = "Check out my Mountain Information Network Report: ";
+
         angular.extend($scope, {
             display: {
                 'ridingInfo': false,
@@ -20,6 +20,18 @@ angular.module('acMobile.controllers')
             },
             fileSrcs: []
         });
+
+        var reportTemplate = {
+            title: 'auto: Quick Report',
+            datetime: moment().format('YYYY-MM-DD hh:mm A'),
+            latlng: [],
+            files: [],
+            ridingConditions: angular.copy(acQuickReportData.ridingConditions),
+            avalancheConditions: angular.copy(acQuickReportData.avalancheConditions),
+            comment: null
+        };
+
+
 
         function resetDateTime() {
             $scope.report.datetime = moment().format('YYYY-MM-DDTHH:mm:ss');
@@ -36,18 +48,30 @@ angular.module('acMobile.controllers')
 
         if ($stateParams.index) {
             var index = $stateParams.index;
-            console.log('edit mode');
-            console.log('rport:');
-            console.log(acMin.draftReports[index].report);
-            //  $timeout(function() {
             $scope.report = angular.copy(acMin.draftReports[index].report);
             $scope.fileSrcs = angular.copy(acMin.draftReports[index].fileSrcs) || [];
-            console.log('we copied them');
-            console.log($scope.report);
-            //}, 0);
         } else {
+            $scope.report = angular.copy(reportTemplate);
             $timeout(resetDateTime, 0);
         }
+
+        $scope.resetForm = function() {
+            $timeout(function() {
+                for (var field in $scope.report) {
+                    if (field in reportTemplate) {
+                        if (field === 'ridingConditions' || field === 'avalancheConditions') {
+                            $scope.report[field] = angular.copy(reportTemplate[field]);
+                        } else {
+                            $scope.report[field] = reportTemplate[field];
+                        }
+                    }
+                }
+                delete $scope.report.subid;
+                $scope.minsubmitting = false;
+                $scope.minerror = false;
+            }, 0);
+        }
+
 
 
         $scope.showLocationSheet = function() {
@@ -129,22 +153,29 @@ angular.module('acMobile.controllers')
         function takePicture(options) {
             return $ionicPlatform.ready()
                 .then(function() {
-                    return $cordovaCamera.getPicture(options);
-                })
-                .then(function(imageUrl) {
-                    $scope.fileSrcs.push(imageUrl);
-                    //return fileArrayCreator.processImage(imageUrl);
-                })
-                // .then(function(fileBlob) {
-                //     $scope.report.files.push(fileBlob);
-                //     $ionicLoading.show({
-                //         duration: 1000,
-                //         template: '<i class="fa fa-camera"></i> Picture attached'
-                //     });
-                // })
-                .catch(function(error) {
-                    console.log(error);
+                    console.log(options);
+                    //return $cordovaCamera.getPicture(options);
+                    console.log(navigator.camera);
+                    navigator.camera.getPicture(function(imageData) {
+                        console.log(imageData);
+                    }, function(error) {
+                        console.log(error);
+                    }, options);
                 });
+            // .then(function(imageUrl) {
+            //     $scope.fileSrcs.push(imageUrl);
+            //     //return fileArrayCreator.processImage(imageUrl);
+            // })
+            // // .then(function(fileBlob) {
+            // //     $scope.report.files.push(fileBlob);
+            // //     $ionicLoading.show({
+            // //         duration: 1000,
+            // //         template: '<i class="fa fa-camera"></i> Picture attached'
+            // //     });
+            // // })
+            // .catch(function(error) {
+            //     console.log(error);
+            // });
         }
 
         $scope.showPictureSheet = function() {
