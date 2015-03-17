@@ -1,6 +1,6 @@
 angular.module('acMobile.services')
     .factory('acPromiseTimeout', function($q, $timeout) {
-        return function(func, timeout) {
+        return function(func, params, timeout) {
             var deferred = $q.defer();
 
             var timer = $timeout(function() {
@@ -8,7 +8,7 @@ angular.module('acMobile.services')
 
             }, timeout);
 
-            $q.when(func()).then(function(result) {
+            $q.when(func(params)).then(function(result) {
                 $timeout.cancel(timer);
                 deferred.resolve(result);
             }, function(error) {
