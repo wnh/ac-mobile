@@ -1,5 +1,5 @@
 angular.module('acMobile.services')
-    .service('acMin', function($q, auth, store, acSubmission, fileArrayCreator, acUser, $ionicPlatform, $cordovaNetwork, $rootScope) {
+    .service('acMin', function($q, auth, store, acPromiseTimeout, acSubmission, fileArrayCreator, acUser, $ionicPlatform, $cordovaNetwork, $rootScope) {
         var self = this;
 
         this.draftReports = store.get('acReportQueue') || []; //keep name for backwards compatibility
@@ -66,17 +66,19 @@ angular.module('acMobile.services')
             store.set('acSubmittedReports', self.submittedReports);
         }
 
-
         this.sendReport = function(item) {
             var deferred = $q.defer();
             acUser.authenticate()
                 .then(function() {
+                    if (item.error) {
+                        item.error = false;
+                    }
                     item.submitting = true;
                     return prepareFiles(item);
                 })
                 .then(function(item) {
                     var token = store.get('token');
-                    return acSubmission.submit(item.report, token);
+                    return acPromiseTimeout(acSubmission.submit, [item.report, token], 5000);
                 })
                 .then(function(result) {
                     item.submitted = false;
@@ -96,6 +98,7 @@ angular.module('acMobile.services')
                         acUser.logout();
                         acUser.prompt('There was a problem with your credentials, please login and try again');
                     }
+                    item.error = true;
                     if (item.submitting) {
                         item.submitting = false;
                     }

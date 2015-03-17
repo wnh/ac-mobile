@@ -8,7 +8,7 @@ angular.module('acMobile.services')
 
             }, timeout);
 
-            $q.when(func(params)).then(function(result) {
+            $q.when(func.apply(this, params)).then(function(result) {
                 $timeout.cancel(timer);
                 deferred.resolve(result);
             }, function(error) {
