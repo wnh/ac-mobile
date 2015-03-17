@@ -54,12 +54,10 @@ angular.module('acMobile.services')
 
         this.authenticate = function() {
             if (!auth.authenticated) {
-                console.log('acUser authenticate');
                 var token = store.get('token');
                 var refreshToken = store.get('refreshToken');
                 if (token) {
                     if (!jwtHelper.isTokenExpired(token)) {
-                        console.log('authenticating...token not expired');
                         return auth.authenticate(store.get('profile'), token)
                             .then(function() {
                                 console.log('user authenticated!');
@@ -69,7 +67,6 @@ angular.module('acMobile.services')
 
                     } else {
                         if (refreshToken) {
-                            console.log('getting new token');
                             return auth.getToken({
                                     refresh_token: refreshToken,
                                     scope: 'openid profile offline_access',
@@ -77,12 +74,10 @@ angular.module('acMobile.services')
                                     api: 'auth0'
                                 })
                                 .then(function(idToken) {
-                                    console.log('new token is: ' + token);
                                     store.set('token', idToken);
                                     return auth.authenticate(store.get('profile'), idToken);
                                 })
                                 .then(function() {
-                                    console.log('ready now!');
                                     $rootScope.$broadcast('userLoggedIn');
                                     return 'authenticated';
                                 })
