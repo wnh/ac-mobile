@@ -54,14 +54,15 @@ angular.module('acMobile.services')
 
 
         function markReportSubmitted(item) {
-            delete item.report.files;
-            delete item.submitting;
-
             self.delete(item);
-            // _.pull(self.draftReports, item);
-            // store.set('acReportQueue', self.draftReports);
-
-            self.submittedReports.push(item);
+            self.submittedReports.push({
+                report: {
+                    subid: item.report.subid,
+                    title: item.report.title,
+                    datetime: item.report.datetime,
+                    shareUrl: item.report.shareUrl
+                }
+            });
             store.set('acSubmittedReports', self.submittedReports);
         }
 
