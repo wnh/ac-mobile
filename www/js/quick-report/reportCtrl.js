@@ -154,28 +154,26 @@ angular.module('acMobile.controllers')
             return $ionicPlatform.ready()
                 .then(function() {
                     console.log(options);
-                    //return $cordovaCamera.getPicture(options);
-                    console.log(navigator.camera);
-                    navigator.camera.getPicture(function(imageData) {
-                        console.log(imageData);
-                    }, function(error) {
-                        console.log(error);
-                    }, options);
+                    return $cordovaCamera.getPicture(options);
+                })
+                .then(function(imageUrl) {
+                    $scope.fileSrcs.push(imageUrl);
+                    $ionicLoading.show({
+                        duration: 1000,
+                        template: '<i class="fa fa-camera"></i> Picture attached'
+                    });
+                    //return fileArrayCreator.processImage(imageUrl);
+                })
+                // .then(function(fileBlob) {
+                //     $scope.report.files.push(fileBlob);
+                //     $ionicLoading.show({
+                //         duration: 1000,
+                //         template: '<i class="fa fa-camera"></i> Picture attached'
+                //     });
+                // })
+                .catch(function(error) {
+                    console.log(error);
                 });
-            // .then(function(imageUrl) {
-            //     $scope.fileSrcs.push(imageUrl);
-            //     //return fileArrayCreator.processImage(imageUrl);
-            // })
-            // // .then(function(fileBlob) {
-            // //     $scope.report.files.push(fileBlob);
-            // //     $ionicLoading.show({
-            // //         duration: 1000,
-            // //         template: '<i class="fa fa-camera"></i> Picture attached'
-            // //     });
-            // // })
-            // .catch(function(error) {
-            //     console.log(error);
-            // });
         }
 
         $scope.showPictureSheet = function() {
@@ -197,7 +195,7 @@ angular.module('acMobile.controllers')
                             sourceType: Camera.PictureSourceType.CAMERA,
                             allowEdit: false,
                             encodingType: Camera.EncodingType.JPEG,
-                            saveToPhotoAlbum: true
+                            saveToPhotoAlbum: true,
                         };
                         takePicture(options);
 
@@ -261,7 +259,7 @@ angular.module('acMobile.controllers')
             }
             if (errors.length) {
                 $ionicLoading.show({
-                    duration: 5000,
+                    duration: 3000,
                     template: '<div class="form-error"><p><i class="fa fa-warning"></i> There was an error submittting you report:</p>' + errors + "</div>"
                 });
                 return false;
