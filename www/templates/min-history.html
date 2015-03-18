@@ -6,7 +6,7 @@
         <button class="button button-clear" ui-sref="app.min"><i class="icon ion-plus"></i>
         </button>
     </ion-nav-buttons>
-    <ion-content scroll="false" class="has-header min-history">
+    <ion-content scroll="true" class="has-header min-history">
         <div ac-offline is-online="status.isOnline" message="You are currently offline, submitting draft reports and sharing is disabled"></div>
         <div class="row" ng-if="!draftReports.length && !submittedReports.length">
             <div class="col">
@@ -30,7 +30,7 @@
         </ion-list>
         <ion-list ng-if="submittedReports.length" class="list">
             <ion-item class="item item-divider">Submitted Reports</ion-item>
-            <ion-item ng-repeat="item in submittedReports | orderBy: '-report.datetime' | limitTo:10" class="item item-dark item-icon-right" ng-click="showShare(item)">
+            <ion-item ng-repeat="item in submittedReports | orderBy: '-report.datetime' | limitTo:10 track by  item.report.subid" class="item item-dark item-icon-right" ng-click="showShare(item)">
                 <span class="ellipsis">{{item.report.title}}</span>
                 <span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
                 <i class="icon" ng-class="{
