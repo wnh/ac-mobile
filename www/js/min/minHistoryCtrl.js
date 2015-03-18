@@ -10,7 +10,7 @@ angular.module('acMobile.controllers')
             }
         };
     })
-    .controller('MinHistoryCtrl', function(store, $state, $q, $scope, $timeout, acMin, acMobileSocialShare, $ionicActionSheet, $cordovaGoogleAnalytics, $ionicPopup, $cordovaNetwork) {
+    .controller('MinHistoryCtrl', function(store, $state, $q, $scope, $window, $timeout, acMin, acMobileSocialShare, $ionicActionSheet, $cordovaGoogleAnalytics, $ionicPopup, $cordovaNetwork, $ionicLoading) {
         var shareMessage = "Check out my Mountain Information Network Report: ";
 
         $scope.draftReports = acMin.draftReports;
@@ -18,64 +18,82 @@ angular.module('acMobile.controllers')
         $scope.status = {};
         $scope.status.isOnline = $cordovaNetwork.isOnline();
 
-
+        var globalSubmitting = false;
         $scope.submit = function(item) {
-            acMin.sendReport(item)
-                .then(function(result) {
-                    console.log(result);
-                });
+            if (globalSubmitting) {
+                $ionicLoading.show({
+                    template: 'You can only submit one report at a time',
+                    duration: 2000
+                })
+            } else {
+                globalSubmitting = true;
+                acMin.sendReport(item)
+                    .then(function(result) {
+                        globalSubmitting = false;
+                        console.log(result);
+                    })
+                    .catch(function(error) {
+                        globalSubmitting = false;
+                    });
+            }
         };
 
         $scope.showPendingActionSheet = function(item) {
-            var availableButtons = [];
-            if ($scope.status.isOnline) {
-                availableButtons = [{
-                    text: '<b>Submit Report</b>'
-                }, {
-                    text: 'Edit Report'
-                }];
-            } else {
-                availableButtons = [{
-                    text: 'Edit Report'
-                }];
+            if (!item.submitting) {
+                var availableButtons = [];
+                if ($scope.status.isOnline) {
+                    availableButtons = [{
+                        text: '<b>Submit Report</b>'
+                    }, {
+                        text: 'Edit Report'
+                    }];
+                } else {
+                    availableButtons = [{
+                        text: 'Edit Report'
+                    }];
 
-            }
-            var hideSheet = $ionicActionSheet.show({
-                titleText: "Draft Report",
-                buttons: availableButtons,
-                destructiveText: 'Delete Report',
-                cancelText: "Cancel",
-                buttonClicked: function(index) {
-                    if ($scope.status.isOnline) {
-                        if (index === 0) {
-                            hideSheet();
-                            confirmSubmit(item);
-                        } else if (index === 1) {
-                            var idx = _.indexOf($scope.draftReports, item);
-                            $state.go('app.min', {
-                                index: idx
-                            });
-                            return true;
-                        }
-                    } else {
-                        if (index === 0) {
-                            var idx = _.indexOf($scope.draftReports, item);
-                            $state.go('app.min', {
-                                index: idx
-                            });
-                            return true;
-                        }
-                    }
-                },
-                destructiveButtonClicked: function() {
-                    confirmDelete(item);
-                    return true;
-                },
-                cancelButtonClicked: function() {
-                    console.log('cancel');
-                    return true;
                 }
-            });
+                var hideSheet = $ionicActionSheet.show({
+                    titleText: "Draft Report",
+                    buttons: availableButtons,
+                    destructiveText: 'Delete Report',
+                    cancelText: "Cancel",
+                    buttonClicked: function(index) {
+                        if ($scope.status.isOnline) {
+                            if (index === 0) {
+                                hideSheet();
+                                confirmSubmit(item);
+                            } else if (index === 1) {
+                                var idx = _.indexOf($scope.draftReports, item);
+                                $state.go('app.min', {
+                                    index: idx
+                                });
+                                return true;
+                            }
+                        } else {
+                            if (index === 0) {
+                                var idx = _.indexOf($scope.draftReports, item);
+                                $state.go('app.min', {
+                                    index: idx
+                                });
+                                return true;
+                            }
+                        }
+                    },
+                    destructiveButtonClicked: function() {
+                        confirmDelete(item);
+                        return true;
+                    },
+                    cancelButtonClicked: function() {
+                        return true;
+                    }
+                });
+            } else {
+                $ionicLoading.show({
+                    template: 'This report is currently being submitted',
+                    duration: 2500
+                });
+            }
         };
 
         function confirmDelete(item) {
