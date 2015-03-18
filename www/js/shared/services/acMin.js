@@ -1,14 +1,21 @@
 angular.module('acMobile.services')
-    .service('acMin', function($q, auth, store, acPromiseTimeout, acSubmission, fileArrayCreator, acUser, $ionicPlatform, $cordovaNetwork, $rootScope) {
+    .service('acMin', function($q, auth, store, acPromiseTimeout, acSubmission, fileArrayCreator, acUser, $ionicPlatform, $ionicLoading, $cordovaNetwork, $rootScope) {
         var self = this;
 
         this.draftReports = store.get('acReportQueue') || []; //keep name for backwards compatibility
         this.submittedReports = store.get('acSubmittedReports') || [];
 
+        this.storeDraftReports = function() {
+            _.each(self.draftReports, function(item) {
+                delete item.submitting;
+                delete item.error;
+            });
+            store.set('acReportQueue', self.draftReports);
+        }
         this.update = function(index, report, sources) {
             self.draftReports[index].report = angular.copy(report);
             self.draftReports[index].fileSrcs = angular.copy(sources);
-            store.set('acReportQueue', self.draftReports);
+            self.storeDraftReports();
         };
 
         this.save = function(report, sources) {
@@ -16,16 +23,13 @@ angular.module('acMobile.services')
                 report: angular.copy(report),
                 fileSrcs: angular.copy(sources)
             });
-            store.set('acReportQueue', self.draftReports);
+            self.storeDraftReports();
+
         };
 
         this.delete = function(item) {
             _.pull(self.draftReports, item);
-            store.set('acReportQueue', self.draftReports);
-        };
-
-        this.edit = function(item) {
-            //TODO
+            self.storeDraftReports();
         };
 
         function prepareFiles(item) {
@@ -78,7 +82,7 @@ angular.module('acMobile.services')
                 })
                 .then(function(item) {
                     var token = store.get('token');
-                    return acPromiseTimeout(acSubmission.submit, [item.report, token], 5000 + (5000 * item.report.files.length));
+                    return acPromiseTimeout(acSubmission.submit, [item.report, token], 5000 + (120000 * item.report.files.length));
                 })
                 .then(function(result) {
                     item.submitted = false;
@@ -97,6 +101,16 @@ angular.module('acMobile.services')
                     if (angular.isObject(error) && error.status == 401) {
                         acUser.logout();
                         acUser.prompt('There was a problem with your credentials, please login and try again');
+                    } else if (error === 'timeout') {
+                        $ionicLoading.show({
+                            template: 'Submitting your report took too long. Please try again with a faster internet connection',
+                            duration: 2500
+                        });
+                    } else {
+                        $ionicLoading.show({
+                            template: 'There was a problem submitting your report. Please ensure you have an internet connection',
+                            duration: 2500
+                        });
                     }
                     item.error = true;
                     if (item.submitting) {
