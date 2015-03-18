@@ -22,15 +22,16 @@
   },
   "cordovaPlugins": [
     "com.ionic.keyboard",
-    "org.apache.cordova.camera",
-    "org.apache.cordova.file",
     "org.apache.cordova.device",
     "org.apache.cordova.geolocation",
     "org.apache.cordova.inappbrowser",
     "org.apache.cordova.network-information",
     "com.ohh2ahh.plugins.appavailability",
-    "org.apache.cordova.splashscreen",
     "nl.x-services.plugins.socialsharing",
-    "com.danielcwilson.plugins.googleanalytics"
+    "com.danielcwilson.plugins.googleanalytics",
+    "org.apache.cordova.camera@0.3.2",
+    "org.apache.cordova.camera@0.3.5",
+    "org.apache.cordova.splashscreen",
+    "org.apache.cordova.file@1.3.1"
   ]
 }
