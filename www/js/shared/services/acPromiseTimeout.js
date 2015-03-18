@@ -4,7 +4,8 @@ angular.module('acMobile.services')
             var deferred = $q.defer();
 
             var timer = $timeout(function() {
-                deferred.reject('timeout exceeded : ' + timeout + 'ms');
+                console.log('timeout exceeded : ' + timeout + 'ms');
+                deferred.reject('timeout');
 
             }, timeout);
 
