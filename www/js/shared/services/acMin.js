@@ -5,6 +5,11 @@ angular.module('acMobile.services')
         this.draftReports = store.get('acReportQueue') || []; //keep name for backwards compatibility
         this.submittedReports = store.get('acSubmittedReports') || [];
 
+        this.purgeStoredData = function() {
+            store.remove('acReportQueue');
+            store.remove('acSubmittedReports');
+        };
+
         this.storeDraftReports = function() {
             _.each(self.draftReports, function(item) {
                 delete item.submitting;
@@ -121,4 +126,10 @@ angular.module('acMobile.services')
 
             return deferred.promise;
         };
+
+
+        $ionicPlatform.on('resume', function(e) {
+            this.draftReports = store.get('acReportQueue') || [];
+            this.submittedReports = store.get('acSubmittedReports') || [];
+        });
     });
