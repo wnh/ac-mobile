@@ -211,7 +211,7 @@ angular.module('acMobile.controllers')
                 } else {
                     acMin.save($scope.report, $scope.fileSrcs);
                     if ($window.analytics) {
-                        $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'queued', '1');
+                        $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'saved', '1');
                     }
                 }
                 $state.go('app.min-history');

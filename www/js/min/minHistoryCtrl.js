@@ -22,6 +22,9 @@ angular.module('acMobile.controllers')
         $scope.submit = function(item) {
             acMin.sendReport(item)
                 .then(function(result) {
+                    if ($window.analytics) {
+                        $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'submitted', '1');
+                    }
                     globalSubmitting = false;
                     console.log(result);
                 })
@@ -140,7 +143,7 @@ angular.module('acMobile.controllers')
                     if (provider) {
                         acMobileSocialShare.share(provider, item.report.shareUrl, shareMessage, null);
                         if ($window.analytics) {
-                            //      $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Share', provider, '1');
+                            $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Share', provider, '1');
                         }
                     }
                 });
