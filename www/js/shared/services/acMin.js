@@ -2,12 +2,15 @@ angular.module('acMobile.services')
     .service('acMin', function($q, auth, store, acPromiseTimeout, acSubmission, fileArrayCreator, acUser, $ionicPlatform, $ionicLoading, $cordovaNetwork, $rootScope) {
         var self = this;
 
+
         this.draftReports = store.get('acReportQueue') || []; //keep name for backwards compatibility
         this.submittedReports = store.get('acSubmittedReports') || [];
 
         this.globalSubmitting = false;
 
         this.purgeStoredData = function() {
+            self.draftReports = [];
+            self.submittedReports = [];
             store.remove('acReportQueue');
             store.remove('acSubmittedReports');
         };
