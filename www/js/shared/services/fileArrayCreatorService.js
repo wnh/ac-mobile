@@ -1,5 +1,108 @@
 angular.module('acMobile.services')
-    .service('fileArrayCreator', function($cordovaFile, $q) {
+    .service('fileArrayCreator', function($cordovaFile, $q, $window) {
+
+
+        this.saveImagePersistently = function(imagePath) {
+            console.log('---- start ----');
+            console.log(imagePath);
+            var filename = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+            var filepath = imagePath.substr(0, imagePath.lastIndexOf('/'));
+            console.log(filename);
+            console.log(filepath);
+            //return $q.when(imagePath);
+            console.log(cordova.file.dataDirectory);
+
+            //$window.resolveLocalFileSystemURI(file, resolveOnSuccess, resOnError);
+            var fileEntry;
+            console.log('attempting getFileFromURI');
+            return getFileFromURI(imagePath).then(function(result) {
+
+                    fileEntry = result;
+                    var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+
+                    console.log('attempting createDIR');
+                    console.log('folder:' + cordova.file.dataDirectory + '/min-image');
+
+                    return getFileFromURI(cordova.file.dataDirectory);
+                })
+                .then(function(targetEntry) {
+                    return copyFile(fileEntry, targetEntry, name)
+
+                }).then(function(success) {
+                    console.log('done!');
+                    console.log(success);
+                    return success;
+                })
+                .catch(function(error) {
+                    console.log('err');
+                    console.log(error);
+                });
+
+        }
+
+        function copyFile(sourceEntry, targetEntry, targetName) {
+            var deferred = $q.defer();
+            sourceEntry.copyTo(targetEntry, targetName, function(success) {
+                    deferred.resolve(success);
+                },
+                function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        }
+
+        function moveFile(entry, name, target) {
+            var deferred = $q.defer();
+            entry.moveTo(target, name, function(result) {
+                deferred.resolve(result);
+            }, function(error) {
+                deferred.reject(error);
+            })
+            return deferred.promise;
+        }
+
+        function getFileFromURI(url) {
+                var deferred = $q.defer();
+                $window.resolveLocalFileSystemURL(url, function(result) {
+                    deferred.resolve(result);
+                }, function(error) {
+                    deferred.reject(result);
+
+                })
+                return deferred.promise;
+            }
+            // return $cordovaFile.moveFile(filepath, filename, cordova.file.dataDirectory)
+            //     .then(function (result) {
+            //         console.log(result);
+            //     // success
+            //     }, function (error) {
+            // // error
+            // });
+            //}
+
+        // function moveFile(fileEntry) {
+        //     var d = new Date();
+        //     var n = d.getTime();
+        //     //new file name
+        //     var newFileName = n + ".jpg";
+        //     var myFolderApp = "min-images";
+
+        //     $window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
+        //             //The folder is created if doesn't exist
+        //             fileSys.root.getDirectory(myFolderApp, {
+        //                     create: true,
+        //                     exclusive: false
+        //                 },
+        //                 function(directory) {
+        //                     entry.moveTo(directory, newFileName, successMove, resOnError);
+        //                 },
+        //                 resOnError);
+        //         },
+        //         resOnError);
+
+        // }
+
+
         this.processImage = function(imagePath, ignoreErrors) {
             ignoreErrors = ignoreErrors || false;
             return $cordovaFile.readFileMetadataAbsolute(imagePath)

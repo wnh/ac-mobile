@@ -157,23 +157,29 @@ angular.module('acMobile.controllers')
                     return $cordovaCamera.getPicture(options);
                 })
                 .then(function(imageUrl) {
-                    $scope.fileSrcs.push(imageUrl);
+                    //$scope.fileSrcs.push(imageUrl);
                     $ionicLoading.show({
                         duration: 1000,
                         template: '<i class="fa fa-camera"></i> Picture attached'
                     });
                     //return fileArrayCreator.processImage(imageUrl);
+                    return fileArrayCreator.saveImagePersistently(imageUrl);
                 })
-                // .then(function(fileBlob) {
-                //     $scope.report.files.push(fileBlob);
-                //     $ionicLoading.show({
-                //         duration: 1000,
-                //         template: '<i class="fa fa-camera"></i> Picture attached'
-                //     });
-                // })
-                .catch(function(error) {
-                    console.log(error);
-                });
+                .then(function(fileEntry) {
+                    $scope.fileSrcs.push(fileEntry.nativeURL);
+                    console.log('pushed:' + fileEntry.nativeURL);
+                })
+
+            // .then(function(fileBlob) {
+            //     $scope.report.files.push(fileBlob);
+            //     $ionicLoading.show({
+            //         duration: 1000,
+            //         template: '<i class="fa fa-camera"></i> Picture attached'
+            //     });
+            // })
+            .catch(function(error) {
+                console.log(error);
+            });
         }
 
         $scope.showPictureSheet = function() {
