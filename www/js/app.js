@@ -69,9 +69,7 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
 
             $ionicPlatform.on('resume', function(e) {
                 console.log("app resumed from background");
-                console.log($state.current);
                 if ($state.current.name !== 'app.min') {
-                    console.log('reloading...');
                     $state.transitionTo($state.current, $state.current.params, {
                         reload: true,
                         inherit: true,
