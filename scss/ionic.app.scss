@@ -59,17 +59,21 @@ $popup-button-min-height: 45px !default;
     height: 100%;
     width: 100%;
 }
+
 .scroll {
     height: 100%;
     background: $dark;
     //required for map rendering
 }
+
 .label-sm {
     font-size: $font-size-base;
 }
+
 .no-border {
     border-color: rgba(0, 0, 0, 0) !important;
 }
+
 // ac-component / bootstrap overrides (mostly due to ionic collisions)
 // TODO:may be able to simplify this in some cases
 .leaflet-control-locate a {
@@ -77,12 +81,14 @@ $popup-button-min-height: 45px !default;
     padding-left: 8px;
     padding-top: 3px;
 }
+
 //hides any external link that will break the app (external forecast links)
 .ac-forecast-mini {
     a[target*="_blank"] {
         display: none !important;
     }
 }
+
 .ac-forecast-container {
     h3.ac-forecast-region {
         color: #000000;
@@ -104,11 +110,13 @@ $popup-button-min-height: 45px !default;
         }
     }
 }
+
 //forecast-list
 .item-icon-left .forecast-icon {
     height: 70%;
     top: 15%;
 }
+
 .ac-forecast-mini {
     ul.nav-pills {
         li:last-child {
@@ -116,35 +124,44 @@ $popup-button-min-height: 45px !default;
         }
     }
 }
+
 //drawer
 .ac-drawer {
     top: 0px;
 }
+
 .ac-forecast-mini .panel-collapse>.panel-body:after {
     background-color: transparent;
 }
+
 .ac-drawer .ac-drawer-close {
     i.fa-lg {
         font-size: 3.0em;
     }
 }
+
 .ac-forecast-mini .panel-collapse > .panel-body::after {
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
 }
-.panel-body:after, .panel-body:before {
+
+.panel-body:after,
+.panel-body:before {
     display: block;
 }
+
 //override forecast expansion prompt on smaller devices
 @media only screen and (max-width: 355px) {
     .ac-forecast-mini .panel-title small {
         font-size: 10px;
     }
 }
+
 @media only screen and (max-width: 325px) {
     .ac-forecast-mini .panel-title small {
         display: none;
     }
 }
+
 .ac-drawer-body {
     h3.ac-forecast-region {
         color: #000000;
@@ -171,29 +188,40 @@ $popup-button-min-height: 45px !default;
         }
     }
 }
+
 //menu
 a.item-content {
     white-space: normal;
 }
+
 a.item-content.activated {
     //background-color: $energized;
 }
+
 item-content:active {
     background-color: $energized !important;
 }
+
 item-content.activated {
     background-color: $energized !important;
 }
+
 a.item-content.activated {
     background-color: $energized !important;
 }
+
 ion-item.activated {
     background-color: $energized;
 }
+
 //
-input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
+input[type=checkbox]:focus,
+select:focus,
+textarea:focus,
+button:focus {
     outline: none;
 }
+
 .quick-report-conditions {
     input[type=checkbox] {
         float: none;
@@ -203,38 +231,47 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
         white-space: normal;
     }
 }
+
 .action-sheet-title {
     color: #000000;
 }
+
 .gearSection {
     .row {
         margin: 0;
     }
 }
+
 .gearItem p {
     white-space: normal;
     padding-bottom: 12px;
     color: #ffffff;
 }
+
 .gearList ion-item.item-divider {
     border-color: #333;
 }
+
 .gearList ion-item.item-divider.activated {
     background: $dark;
     border-color: #333;
 }
+
 .gearList ion-item {
     background: $dark;
     border-color: #000;
 }
+
 .item-icon-left .gear-icon {
     height: 70%;
     top: 15%;
 }
+
 .heading-icon {
     color: #ffffff;
     -webkit-filter: brightness(100);
 }
+
 // -- Partner page
 .partner {
     .row {
@@ -268,15 +305,18 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
         }
     }
 }
+
 .centered {
     display: block;
     width: 100%;
     text-align: center;
 }
+
 //min
 .min-title {
     font-size: 13px;
 }
+
 .riding-info {
     padding-left: 10px;
     .item-content {
@@ -297,6 +337,7 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
         border: 0px;
     }
 }
+
 //social
 .social-icons {
     font-size: 3em;
@@ -311,15 +352,18 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
         color: #D6492F
     }
 }
+
 .large-textarea {
     height: 80px;
 }
+
 .termsList {
     li {
         margin-top: 30px;
         margin-bottom: 10px;
     }
 }
+
 .termsSubList {
     list-style-type: disc;
     li {
@@ -328,42 +372,52 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
         margin-bottom: 10px;
     }
 }
+
 .popup-body .row {
     margin: 0;
 }
+
 h3.popup-title {
     font-size: 16px;
     font-weight: normal;
 }
+
 h5.popup-sub-title {
     color: $energized;
     font-size: 14px;
 }
+
 .popup-head {
     padding: 15px 10px;
     border-bottom: 1px solid $energized;
 }
+
 body #a0-lock.a0-theme-default .a0-panel .a0-close {
     font-family: arial !important;
     right: 10px;
 }
+
 body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
     font-size: 25px;
     font-family: arial !important;
     content: 'close';
 }
+
 #ob-modal {
     background-color: $dark;
 }
+
 #ob-modal .row {
     margin: 0;
 }
+
 .min-popup h1 {
     position: relative;
     font-size: 20px;
     border-bottom: 3px solid #000;
     padding-bottom: 5px;
 }
+
 .min-popup h1:after {
     content: '';
     height: 100%;
@@ -373,15 +427,18 @@ body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
     left: 0;
     top: 3px;
 }
+
 .min-popup h5 {
     font-size: 14px;
     line-height: 16px;
 }
+
 .min-popup p {
     margin-left: 20px;
     font-size: 12px;
     line-height: 12px;
 }
+
 .min-popup ul {
     list-style-type: disc;
     padding-left: 20px;
@@ -389,22 +446,28 @@ body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
         font-size: 14px;
     }
 }
+
 #ob-modal .image-view img {
     width: 100%;
     border: 3px solid #000;
 }
+
 .ob-content {
     position: absolute;
     -webkit-transition: all linear 0.2s;
     transition: all linear 0.2s;
     opacity: 1;
 }
-.ob-content.ng-hide-add, .ob-content.ng-hide-remove {
+
+.ob-content.ng-hide-add,
+.ob-content.ng-hide-remove {
     display: block !important;
 }
+
 .ob-content.ng-hide {
     opacity: 0;
 }
+
 //offline
 .offline-content {
     .row {
@@ -417,15 +480,18 @@ body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
         font-size: 16px;
     }
 }
+
 //date-filters
 .ac-date-filters ul li span {
     padding-left: 2px !important;
 }
+
 .ellipsis {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .timeAgo {
     display: block;
     font-size: 0.75em;
@@ -433,11 +499,13 @@ body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
     font-style: italic;
     text-align: left;
 }
+
 #ac-offline {
     .row {
         margin: 0 !important;
     }
 }
+
 .min-history {
     .row {
         margin: 0;
