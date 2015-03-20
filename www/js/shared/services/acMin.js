@@ -87,7 +87,8 @@ angular.module('acMobile.services')
                 })
                 .then(function(item) {
                     var token = store.get('token');
-                    return acPromiseTimeout(acSubmission.submit, [item.report, token], 5000 + (120000 * item.report.files.length));
+                    var promTime = new acPromiseTimeout();
+                    return promTime.start(acSubmission.submit, [item.report, token], 5000 + (120000 * item.report.files.length));
                 })
                 .then(function(result) {
                     item.submitted = false;
