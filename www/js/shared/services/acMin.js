@@ -5,6 +5,8 @@ angular.module('acMobile.services')
         this.draftReports = store.get('acReportQueue') || []; //keep name for backwards compatibility
         this.submittedReports = store.get('acSubmittedReports') || [];
 
+        this.globalSubmitting = false;
+
         this.purgeStoredData = function() {
             store.remove('acReportQueue');
             store.remove('acSubmittedReports');
@@ -82,6 +84,7 @@ angular.module('acMobile.services')
                     if (item.error) {
                         item.error = false;
                     }
+                    self.globalSubmitting = true;
                     item.submitting = true;
                     return prepareFiles(item);
                 })
@@ -91,7 +94,8 @@ angular.module('acMobile.services')
                     return promTime.start(acSubmission.submit, [item.report, token], 5000 + (120000 * item.report.files.length));
                 })
                 .then(function(result) {
-                    item.submitted = false;
+                    self.globalSubmitting = false;
+                    item.submitting = false;
                     if (result.data && !('error' in result.data)) {
                         item.report.subid = result.data.subid;
                         item.report.shareUrl = result.data.obs[0].shareUrl;
@@ -122,6 +126,7 @@ angular.module('acMobile.services')
                     if (item.submitting) {
                         item.submitting = false;
                     }
+                    self.globalSubmitting = false;
                     deferred.reject(error);
                 });
 

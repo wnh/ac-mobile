@@ -15,27 +15,20 @@ angular.module('acMobile.controllers')
 
         $scope.draftReports = acMin.draftReports;
         $scope.submittedReports = acMin.submittedReports;
+
         $scope.status = {};
         $scope.status.isOnline = $cordovaNetwork.isOnline();
 
-        var globalSubmitting = false;
         $scope.submit = function(item) {
-            if (globalSubmitting) {
-                $ionicLoading.show({
-                    template: 'You can only submit one report at a time',
-                    duration: 2000
+            acMin.sendReport(item)
+                .then(function(result) {
+                    globalSubmitting = false;
+                    console.log(result);
                 })
-            } else {
-                globalSubmitting = true;
-                acMin.sendReport(item)
-                    .then(function(result) {
-                        globalSubmitting = false;
-                        console.log(result);
-                    })
-                    .catch(function(error) {
-                        globalSubmitting = false;
-                    });
-            }
+                .catch(function(error) {
+                    console.log(error);
+                    return $q.reject(error);
+                });
         };
 
         $scope.showPendingActionSheet = function(item) {
@@ -62,7 +55,14 @@ angular.module('acMobile.controllers')
                         if ($scope.status.isOnline) {
                             if (index === 0) {
                                 hideSheet();
-                                confirmSubmit(item);
+                                if (acMin.globalSubmitting === true) {
+                                    $ionicLoading.show({
+                                        template: 'You can only submit one report at a time',
+                                        duration: 2000
+                                    })
+                                } else {
+                                    confirmSubmit(item);
+                                }
                             } else if (index === 1) {
                                 var idx = _.indexOf($scope.draftReports, item);
                                 $state.go('app.min', {
