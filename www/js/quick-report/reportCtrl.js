@@ -153,33 +153,22 @@ angular.module('acMobile.controllers')
         function takePicture(options) {
             return $ionicPlatform.ready()
                 .then(function() {
-                    console.log(options);
                     return $cordovaCamera.getPicture(options);
                 })
                 .then(function(imageUrl) {
-                    //$scope.fileSrcs.push(imageUrl);
                     $ionicLoading.show({
                         duration: 1000,
                         template: '<i class="fa fa-camera"></i> Picture attached'
                     });
-                    //return fileArrayCreator.processImage(imageUrl);
                     return fileArrayCreator.saveImagePersistently(imageUrl);
                 })
                 .then(function(fileEntry) {
                     $scope.fileSrcs.push(fileEntry.nativeURL);
-                    console.log('pushed:' + fileEntry.nativeURL);
                 })
-
-            // .then(function(fileBlob) {
-            //     $scope.report.files.push(fileBlob);
-            //     $ionicLoading.show({
-            //         duration: 1000,
-            //         template: '<i class="fa fa-camera"></i> Picture attached'
-            //     });
-            // })
-            .catch(function(error) {
-                console.log(error);
-            });
+                .catch(function(error) {
+                    console.log(error);
+                    return $q.reject(error);
+                });
         }
 
         $scope.showPictureSheet = function() {
@@ -193,29 +182,23 @@ angular.module('acMobile.controllers')
                 titleText: "Add a picture",
                 cancelText: "Cancel",
                 buttonClicked: function(index) {
+                    var cameraOptions = {
+                        quality: 75,
+                        destinationType: Camera.DestinationType.FILE_URI,
+                        sourceType: Camera.PictureSourceType.CAMERA,
+                        allowEdit: false,
+                        encodingType: Camera.EncodingType.JPEG,
+                        saveToPhotoAlbum: true
+                    }
                     if (index === 0) {
-                        hidePictureSheet();
-                        options = {
-                            quality: 75,
-                            destinationType: Camera.DestinationType.FILE_URI,
-                            sourceType: Camera.PictureSourceType.CAMERA,
-                            allowEdit: false,
-                            encodingType: Camera.EncodingType.JPEG,
-                            saveToPhotoAlbum: true,
-                        };
-                        takePicture(options);
+                        options = cameraOptions;
 
                     } else if (index === 1) {
-                        hidePictureSheet();
-                        options = {
-                            quality: 75,
-                            destinationType: Camera.DestinationType.FILE_URI,
-                            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-                            allowEdit: false,
-                            encodingType: Camera.EncodingType.JPEG
-                        };
-                        takePicture(options);
+                        cameraOptions.sourceType = Camera.PictureSourceType.PHOTOLIBRARY
+                        options = cameraOptions;
                     }
+                    hidePictureSheet();
+                    takePicture(options);
                 }
             });
         };
