@@ -36,6 +36,14 @@ angular.module('acMobile.services')
         };
 
         this.delete = function(item) {
+            if (item.fileSrcs.length) {
+                var cleanUp = _.map(item.fileSrcs, function(filePath) {
+                    return fileArrayCreator.delete(filePath);
+                });
+                $q.all(cleanUp).then(function() {
+                    console.log('image data deleted');
+                });
+            }
             _.pull(self.draftReports, item);
             self.storeDraftReports();
         };
@@ -62,8 +70,6 @@ angular.module('acMobile.services')
                 return $q.when(item);
             }
         }
-
-
 
         function markReportSubmitted(item) {
             self.delete(item);
@@ -102,7 +108,18 @@ angular.module('acMobile.services')
                         item.report.shareUrl = result.data.obs[0].shareUrl;
                         console.log('submission: ' + result.data.subid);
                         markReportSubmitted(item);
-                        deferred.resolve(item);
+                        if (item.fileSrcs.length) {
+                            var cleanUp = _.map(item.fileSrcs, function(filePath) {
+                                return fileArrayCreator.delete(filePath);
+                            });
+                            $q.all(cleanUp).then(function() {
+                                console.log('image data deleted');
+                            });
+                            deferred.resolve(item); // we don't really care if an error occurs during deletion, the report was submitted.
+                        } else {
+                            deferred.resolve(item);
+                        }
+
                     } else {
                         return $q.reject('error');
                     }
