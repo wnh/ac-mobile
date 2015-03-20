@@ -1,5 +1,5 @@
 angular.module('acMobile.services')
-    .service('fileArrayCreator', function($cordovaFile, $q, $window) {
+    .service('acFileService', function($cordovaFile, $q, $window) {
 
         this.delete = function(path) {
             return getFileFromURI(path)

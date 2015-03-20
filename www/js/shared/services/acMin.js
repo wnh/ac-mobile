@@ -1,5 +1,5 @@
 angular.module('acMobile.services')
-    .service('acMin', function($q, auth, store, acPromiseTimeout, acSubmission, fileArrayCreator, acUser, $ionicPlatform, $ionicLoading, $cordovaNetwork, $rootScope) {
+    .service('acMin', function($q, auth, store, acPromiseTimeout, acSubmission, acFileService, acUser, $ionicPlatform, $ionicLoading, $cordovaNetwork, $rootScope) {
         var self = this;
 
 
@@ -41,7 +41,7 @@ angular.module('acMobile.services')
         this.delete = function(item) {
             if (item.fileSrcs.length) {
                 var cleanUp = _.map(item.fileSrcs, function(filePath) {
-                    return fileArrayCreator.delete(filePath);
+                    return acFileService.delete(filePath);
                 });
                 $q.all(cleanUp).then(function() {
                     console.log('image data deleted');
@@ -55,7 +55,7 @@ angular.module('acMobile.services')
             if (item.fileSrcs.length) {
                 item.report.files = [];
                 var promises = _.map(item.fileSrcs, function(source) {
-                    return fileArrayCreator.processImage(source, true);
+                    return acFileService.processImage(source, true);
                 });
                 return $q.all(promises)
                     .then(function(blobs) {
@@ -113,7 +113,7 @@ angular.module('acMobile.services')
                         markReportSubmitted(item);
                         if (item.fileSrcs.length) {
                             var cleanUp = _.map(item.fileSrcs, function(filePath) {
-                                return fileArrayCreator.delete(filePath);
+                                return acFileService.delete(filePath);
                             });
                             $q.all(cleanUp).then(function() {
                                 console.log('image data deleted');

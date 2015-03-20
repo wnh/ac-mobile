@@ -4,7 +4,7 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $stateParams, $state, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, fileArrayCreator, acUser, acMin, acQuickReportData) {
+    .controller('ReportCtrl', function($scope, $stateParams, $state, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, acFileService, acUser, acMin, acQuickReportData) {
 
         //var Camera = navigator.camera;
         var shareMessage = "Check out my Mountain Information Network Report: ";
@@ -160,7 +160,7 @@ angular.module('acMobile.controllers')
                         duration: 1000,
                         template: '<i class="fa fa-camera"></i> Picture attached'
                     });
-                    return fileArrayCreator.saveImagePersistently(imageUrl);
+                    return acFileService.saveImagePersistently(imageUrl);
                 })
                 .then(function(fileEntry) {
                     $scope.fileSrcs.push(fileEntry.nativeURL);
@@ -192,8 +192,8 @@ angular.module('acMobile.controllers')
                     }
                     if (index === 0) {
                         options = cameraOptions;
-
                     } else if (index === 1) {
+                        cameraOptions.saveToPhotoAlbum = false;
                         cameraOptions.sourceType = Camera.PictureSourceType.PHOTOLIBRARY
                         options = cameraOptions;
                     }
