@@ -49,15 +49,14 @@ angular.module('acMobile.services')
 
         this.processImage = function(imagePath, ignoreErrors) {
             ignoreErrors = ignoreErrors || false;
-            console.log('processing: ' + imagePath);
             return $cordovaFile.readFileMetadataAbsolute(imagePath)
                 .then(createBlob)
                 .catch(function(error) {
-                    console.log('error occured, but may ignore it');
                     console.log(error);
                     if (!ignoreErrors) {
                         return $q.reject(error);
                     }
+                    console.log('image errors ignored');
                     return $q.when(false);
                 });
         };
