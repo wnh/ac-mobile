@@ -155,8 +155,5 @@ angular.module('acMobile.services')
         };
 
 
-        $ionicPlatform.on('resume', function(e) {
-            this.draftReports = store.get('acReportQueue') || [];
-            this.submittedReports = store.get('acSubmittedReports') || [];
-        });
+
     });
