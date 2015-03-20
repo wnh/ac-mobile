@@ -13,11 +13,12 @@ angular.module('acMobile.services')
         };
 
         this.storeDraftReports = function() {
-            _.each(self.draftReports, function(item) {
+            var tempReports = angular.copy(self.draftReports);
+            _.each(tempReports, function(item) {
                 delete item.submitting;
                 delete item.error;
             });
-            store.set('acReportQueue', self.draftReports);
+            store.set('acReportQueue', tempReports);
         }
         this.update = function(index, report, sources) {
             self.draftReports[index].report = angular.copy(report);
