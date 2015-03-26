@@ -1,6 +1,29 @@
 angular.module('acMobile.services')
-    .service('acUser', function($rootScope, $q, $window, auth, jwtHelper, store, $ionicPopup, $cordovaGoogleAnalytics) {
+    .service('acUser', function($rootScope, $timeout, $q, $window, auth, jwtHelper, store, $ionicPopup, $ionicLoading, $ionicPlatform, $cordovaGoogleAnalytics) {
         var self = this;
+
+        this.init = function() {
+            $timeout(function() {
+                auth.config.init({
+                    domain: 'avalancheca.auth0.com',
+                    clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
+                });
+
+                var deRegisterAuthClose;
+
+                auth.config.auth0lib.on('shown', function() {
+                    deRegisterAuthClose = $ionicPlatform.registerBackButtonAction(function() {
+                        auth.config.auth0lib.hide();
+                    }, 101);
+                    $ionicLoading.hide();
+                });
+
+                auth.config.auth0lib.on('hidden', function() {
+                    deRegisterAuthClose();
+                    $ionicLoading.hide();
+                });
+            }, 0);
+        };
 
         this.prompt = function(title) {
             var confirmPopup = $ionicPopup.confirm({
@@ -11,6 +34,9 @@ angular.module('acMobile.services')
             });
             return confirmPopup.then(function(response) {
                 if (response) {
+                    $ionicLoading.show({
+                        template: '<i class="fa fa-circle-o-notch fa-spin"></i> Loading'
+                    });
                     return self.login();
                 } else {
                     return $q.reject('cancelled');
@@ -26,6 +52,7 @@ angular.module('acMobile.services')
                     device: 'Mobile device'
                 }
             }, function(profile, token, accessToken, state, refreshToken) {
+                $ionicLoading.hide();
                 store.set('profile', profile);
                 store.set('token', token);
                 store.set('refreshToken', refreshToken);
@@ -37,6 +64,7 @@ angular.module('acMobile.services')
                 deferred.resolve('authenticated');
 
             }, function(error) {
+                $ionicLoading.hide();
                 console.log("There was an error logging in", error);
                 deferred.reject(error);
             });
@@ -94,7 +122,7 @@ angular.module('acMobile.services')
                     return self.prompt("You must be logged in to submit a report to the MIN");
                 }
             } else {
-                console.log('already auth');
+                console.log('already authenticated');
                 return $q.when('authenticated');
             }
         };

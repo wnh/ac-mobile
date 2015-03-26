@@ -2,21 +2,14 @@ angular.module('acMobile.services', ['ngCordova']);
 angular.module('acMobile.directives', ['acComponents']);
 angular.module('acMobile.controllers', ['acComponents']);
 angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://www.avalanche.ca');
-angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'angular-jwt', 'acMobile.services', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
-    .config(function(authProvider, $httpProvider) {
+angular.module('acMobile', ['ionic', 'ngCordova', 'auth0','angular-storage', 'angular-jwt', 'acMobile.services', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
 
-        //JPB-AUTH
-        authProvider.init({
-            domain: 'avalancheca.auth0.com',
-            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
-        });
-    })
     .constant('GA_ID', 'UA-56758486-2')
     //.constant('AC_API_ROOT_URL', 'http://www.avalanche.ca')
     .constant('AC_API_ROOT_URL', 'http://avalanche-canada-qa.elasticbeanstalk.com')
     .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
     .constant('MAPBOX_MAP_ID', 'avalanchecanada.k8o347c9')
-    .run(function($ionicPlatform, auth) {
+    .run(function($ionicPlatform) {
         //JPB-AUTH
         //auth.hookEvents();
 
@@ -32,7 +25,9 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             }
         });
     })
-    .run(function($rootScope, $timeout, $http, $state, $window, $document, auth, store, jwtHelper, acTerms, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID) {
+    .run(function($rootScope, $timeout, $http, $state, $window, $document, store, jwtHelper, acTerms, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID, acUser) {
+
+        acUser.init();
 
         $ionicPlatform.ready().then(function() {
             $ionicPlatform.registerBackButtonAction(function() {
@@ -51,15 +46,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
                 });
             }, 100);
 
-            var deRegisterAuthClose;
-            auth.config.auth0lib.on('shown', function() {
-                deRegisterAuthClose = $ionicPlatform.registerBackButtonAction(function() {
-                    auth.config.auth0lib.hide();
-                }, 101);
-            });
-            auth.config.auth0lib.on('hidden', function() {
-                deRegisterAuthClose();
-            });
 
             if ($window.analytics) {
                 $cordovaGoogleAnalytics.startTrackerWithId(GA_ID).then(function() {
@@ -77,9 +63,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
                     });
                 }
             }, false);
-
-
-
         });
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
@@ -115,5 +98,4 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         //             //console.log(error);
         //         });
         // }, 250);
-
     });
