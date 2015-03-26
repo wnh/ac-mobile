@@ -30,12 +30,6 @@
                 <ion-item nav-clear menu-close class="item-dark" href="#/app/terms">
                     Terms of Use
                 </ion-item>
-                <ion-item ng-if="user.loggedIn" nav-clear menu-close class="item-dark" ng-click="user.logout()">
-                    Reset Credentials
-                </ion-item>
-                <ion-item ng-if="isDataStored" nav-clear menu-close class="item-dark" ng-click="resetStorage()">
-                    Purge All Stored Reports
-                </ion-item>
             </ion-list>
         </ion-content>
     </ion-side-menu>
