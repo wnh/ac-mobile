@@ -189,6 +189,9 @@ angular.module('acMobile.controllers')
         });
 
         $scope.$on('$destroy', function() {
-            $scope.obModal.remove();
+            if ($scope.obModal) {
+                $scope.obModal.remove();
+            }
+
         });
     });
