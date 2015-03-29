@@ -10,14 +10,20 @@ angular.module('acMobile.controllers')
             }
         };
     })
-    .controller('MinHistoryCtrl', function(store, $state, $q, $scope, $window, $timeout, acMin, acMobileSocialShare, $ionicActionSheet, $cordovaGoogleAnalytics, $ionicPopup, $cordovaNetwork, $ionicLoading) {
+    .controller('MinHistoryCtrl', function(store, $state, $q, $scope, $window, $timeout, acMin, acMobileSocialShare, $ionicActionSheet, $cordovaGoogleAnalytics, $ionicPopup, $cordovaNetwork, $ionicLoading, $ionicPlatform) {
         var shareMessage = "Check out my Mountain Information Network Report: ";
 
         $scope.draftReports = acMin.draftReports;
         $scope.submittedReports = acMin.submittedReports;
 
         $scope.status = {};
-        $scope.status.isOnline = $cordovaNetwork.isOnline();
+        $ionicPlatform.ready().then(function() {
+            $timeout(function() {
+                $scope.status.isOnline = $cordovaNetwork.isOnline();
+                console.log('status');
+                console.log($scope.status.isOnline);
+            }, 0);
+        });
 
         $scope.submit = function(item) {
             acMin.sendReport(item)
