@@ -20,7 +20,7 @@
                 <span class="ellipsis">{{item.report.title}}</span>
                 <span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
                 <i class="icon fa " ng-class="
-                    {'fa-hdd-o':!item.submitting && !item.error,
+                    {'icon-small fa-paper-plane-o':!item.submitting && !item.error,
                      'fa-circle-o-notch':item.submitting,
                      'fa-spin':item.submitting,
                      'fa-exclamation-triangle' : item.error
@@ -33,10 +33,7 @@
             <ion-item ng-repeat="item in submittedReports | orderBy: '-report.datetime' | limitTo:10 track by  item.report.subid" class="item item-dark item-icon-right" ng-click="showShare(item)">
                 <span class="ellipsis">{{item.report.title}}</span>
                 <span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
-                <i class="icon" ng-class="{
-                    'ion-share':status.isOnline,
-                    'ion-flash-off': !status.isOnline,
-                    'disabled': !status.isOnline}"></i>
+                <i class="icon ion-share"></i>
             </ion-item>
         </ion-list>
     </ion-content>
