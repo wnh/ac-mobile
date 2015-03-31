@@ -20,8 +20,6 @@ angular.module('acMobile.controllers')
         $ionicPlatform.ready().then(function() {
             $timeout(function() {
                 $scope.status.isOnline = $cordovaNetwork.isOnline();
-                console.log('status');
-                console.log($scope.status.isOnline);
             }, 0);
         });
 
@@ -132,39 +130,43 @@ angular.module('acMobile.controllers')
         }
 
         function confirmSubmit(item) {
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'Submit Report',
-                template: 'Are you sure you want to submit the report?',
-                cancelType: 'button-outline button-energized',
-                okType: 'button-energized',
-                okText: 'Yes',
-                cancelText: 'No'
-            });
-            confirmPopup.then(function(res) {
-                if (res) {
-                    $scope.submit(item);
-                }
-            });
-        }
-
-        $scope.showShare = function(item) {
-            if ($scope.status.isOnline) {
-                $scope.sharePopup = $ionicPopup.show({
-                    templateUrl: 'templates/post-share.html ',
-                    title: "Share Observations",
-                    subTitle: "Share your MIN report",
-                    scope: $scope
+            if (!item.report.latlng.length) {
+                $ionicLoading.show({
+                    template: '<i class="fa fa-map-marker"></i> Location Missing<br/>Please edit the report and add location before submitting',
+                    duration: 2500
                 });
-                $scope.sharePopup.then(function(provider) {
-                    if (provider) {
-                        acMobileSocialShare.share(provider, item.report.shareUrl, shareMessage, null);
-                        if ($window.analytics) {
-                            $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Share', provider, '1');
-                        }
+
+            } else {
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Submit Report',
+                    template: 'Are you sure you want to submit the report?',
+                    cancelType: 'button-outline button-energized',
+                    okType: 'button-energized',
+                    okText: 'Yes',
+                    cancelText: 'No'
+                });
+                confirmPopup.then(function(res) {
+                    if (res) {
+                        $scope.submit(item);
                     }
                 });
             }
+        }
+
+        $scope.showShare = function(item) {
+            $scope.sharePopup = $ionicPopup.show({
+                templateUrl: 'templates/post-share.html ',
+                title: "Share Observations",
+                subTitle: "Share your MIN report",
+                scope: $scope
+            });
+            $scope.sharePopup.then(function(provider) {
+                if (provider) {
+                    acMobileSocialShare.share(provider, item.report.shareUrl, shareMessage, null);
+                    if ($window.analytics) {
+                        $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Share', provider, '1');
+                    }
+                }
+            });
         };
-
-
     });
