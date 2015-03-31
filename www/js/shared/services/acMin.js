@@ -101,7 +101,7 @@ angular.module('acMobile.services')
                 .then(function(item) {
                     var token = store.get('token');
                     var promTime = new acPromiseTimeout();
-                    return promTime.start(acSubmission.submit, [item.report, token], 5000 + (120000 * item.report.files.length));
+                    return promTime.start(acSubmission.submit, [item.report, token], 10000 + (120000 * item.report.files.length));
                 })
                 .then(function(result) {
                     self.globalSubmitting = false;

@@ -16,7 +16,7 @@ angular.module('acMobile.controllers')
                     template: '<i class="fa fa-circle-o-notch fa-spin"></i> Loading'
                 });
                 var promTime = new acPromiseTimeout();
-                promTime.start(resolveData, [], 5000)
+                promTime.start(resolveData, [], 10000)
                     .then(function(results) {
                         $scope.forecast = results;
                         $ionicLoading.hide();
