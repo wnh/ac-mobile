@@ -132,14 +132,9 @@ angular.module('acMobile.services')
                     if (angular.isObject(error) && error.status == 401) {
                         acUser.logout();
                         acUser.prompt('There was a problem with your credentials, please login and try again');
-                    } else if (error === 'timeout') {
-                        $ionicLoading.show({
-                            template: 'Submitting your report took too long. Please try again with a faster internet connection',
-                            duration: 2500
-                        });
                     } else {
                         $ionicLoading.show({
-                            template: 'There was a problem submitting your report. Please ensure you have an internet connection',
+                            template: 'There was an error submitting your report. Please check your connection and try again.',
                             duration: 2500
                         });
                     }
