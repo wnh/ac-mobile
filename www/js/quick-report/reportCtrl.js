@@ -238,9 +238,6 @@ angular.module('acMobile.controllers')
             if ($scope.report.title.length === 0) {
                 $scope.report.title = "auto: Quick Report";
             }
-            if ($scope.report.latlng.length === 0) {
-                errors += 'Please specify a location<br/>';
-            }
             if ($scope.report.datetime) {
                 if (moment($scope.report.datetime).unix() > moment().unix()) {
                     errors += 'Please specify a valid date/time<br/>';
