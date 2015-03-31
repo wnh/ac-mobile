@@ -45,20 +45,24 @@ angular.module('acMobile.controllers')
                 var availableButtons = [];
                 if ($scope.status.isOnline) {
                     availableButtons = [{
-                        text: '<b>Submit Report</b>'
+                        text: '<b>Submit</b>'
                     }, {
-                        text: 'Edit Report'
+                        text: 'Edit'
+                    }, {
+                        text: 'Delete'
                     }];
                 } else {
                     availableButtons = [{
-                        text: 'Edit Report'
+                        text: 'Edit'
+                    }, {
+                        text: 'Delete'
                     }];
 
                 }
                 var hideSheet = $ionicActionSheet.show({
-                    titleText: "Draft Report",
+                    //titleText: "Draft Report",
                     buttons: availableButtons,
-                    destructiveText: 'Delete Report',
+                    //destructiveText: 'Delete',
                     cancelText: "Cancel",
                     buttonClicked: function(index) {
                         if ($scope.status.isOnline) {
@@ -78,6 +82,9 @@ angular.module('acMobile.controllers')
                                     index: idx
                                 });
                                 return true;
+                            } else if (index === 2) {
+                                confirmDelete(item);
+                                return true;
                             }
                         } else {
                             if (index === 0) {
@@ -85,6 +92,9 @@ angular.module('acMobile.controllers')
                                 $state.go('app.min', {
                                     index: idx
                                 });
+                                return true;
+                            } else if (index === 1) {
+                                confirmDelete(item);
                                 return true;
                             }
                         }
