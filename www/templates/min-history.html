@@ -15,7 +15,7 @@
             </div>
         </div>
         <ion-list ng-if="draftReports.length">
-            <ion-item class="item-divider">Draft Reports</ion-item>
+            <ion-item class="item-divider">Draft Reports - tap report to Submit</ion-item>
             <ion-item ng-click="showPendingActionSheet(item)" ng-repeat="item in draftReports | orderBy: '-report.datetime'" class="item-dark item-icon-right">
                 <span class="ellipsis">{{item.report.title}}</span>
                 <span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
