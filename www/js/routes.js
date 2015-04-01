@@ -78,15 +78,6 @@ angular.module('acMobile')
                     }
                 }
             })
-            .state('app.post-share', {
-                url: "/app/post-share",
-                views: {
-                    'menuContent': {
-                        templateUrl: "templates/post-share.html",
-                        controller: "ShareCtrl"
-                    }
-                }
-            })
             .state('app.offline', {
                 url: "/app/offline",
                 views: {
