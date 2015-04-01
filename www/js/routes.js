@@ -4,8 +4,7 @@ angular.module('acMobile')
             .state('app', {
                 url: "",
                 abstract: true,
-                templateUrl: "templates/menu.html",
-                controller: 'AppCtrl'
+                templateUrl: "templates/menu.html"
             })
             .state('app.forecasts-map', {
                 url: "/app/forecasts-map",
