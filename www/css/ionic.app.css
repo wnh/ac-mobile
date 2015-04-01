@@ -8130,3 +8130,5 @@ body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
 .min-history .item-divider {
   background: #1a1c1e;
   border-color: #333; }
+.min-history .icon-small {
+  font-size: 24px; }
