@@ -1,5 +1,5 @@
 angular.module('acMobile.controllers')
-    .controller('ForecastsMapCtrl', function($q, $scope, $timeout, $log, acForecast, acObservation, $ionicModal, $ionicLoading, $ionicPopup, acPromiseTimeout, $ionicPlatform, $ionicScrollDelegate, acMobileSocialShare, $cordovaNetwork) {
+    .controller('ForecastsMapCtrl', function($q, $scope, $timeout, $log, acForecast, acObservation, $ionicModal, $ionicLoading, $ionicPopup, acPromiseTimeout, $ionicPlatform, $ionicScrollDelegate, acMobileSocialShare, $cordovaNetwork, acConnection) {
 
         function resolveData() {
             var forecasts = acForecast.fetch();
@@ -26,28 +26,37 @@ angular.module('acMobile.controllers')
             },
             status: {
                 isOnline: true
-            }
+            },
+            connectionChecked: false
         });
 
-        $ionicPlatform.ready().then(function() {
-            $scope.status.isOnline = $cordovaNetwork.isOnline();
-            if ($scope.status.isOnline) {
-                $ionicLoading.show({
-                    template: '<i class="fa fa-circle-o-notch fa-spin"></i> Loading'
-                });
-                var promTime = new acPromiseTimeout();
-                promTime.start(resolveData, [], 10000)
-                    .then(function(results) {
-                        $scope.regions = results[0];
-                        $scope.obs = results[1];
-                        $ionicLoading.hide();
-                    }, function(error) {
-                        console.log(error);
-                        $scope.status.isOnline = false;
-                        $ionicLoading.hide();
+        $ionicPlatform.ready()
+            .then(acConnection.check)
+            .then(function(result) {
+                $scope.status.isOnline = result;
+                $scope.connectionChecked = true;
+
+                if ($scope.status.isOnline) {
+                    $ionicLoading.show({
+                        template: '<i class="fa fa-circle-o-notch fa-spin"></i> Loading'
                     });
-            }
-        });
+                    var promTime = new acPromiseTimeout();
+                    promTime.start(resolveData, [], 10000)
+                        .then(function(results) {
+                            $scope.regions = results[0];
+                            $scope.obs = results[1];
+                            $ionicLoading.hide();
+                        }, function(error) {
+                            console.log(error);
+                            $scope.status.isOnline = false;
+                            $ionicLoading.hide();
+                        });
+                }
+            })
+            .catch(function(error){
+                $scope.status.isOnline = false;
+                $scope.connectionChecked = true;
+            });
 
         var shareMessage = "Check out this Mountain Information Network Report: ";
 
