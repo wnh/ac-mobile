@@ -1,28 +1,45 @@
 angular.module('acMobile.services')
-    .service('acUser', function($rootScope, $timeout, $q, $window, auth, jwtHelper, store, $ionicPopup, $ionicLoading, $ionicPlatform, $cordovaGoogleAnalytics) {
+    .service('acUser', function($timeout, $q, $window, auth, jwtHelper, store, $ionicPopup, $ionicLoading, $ionicPlatform, $cordovaGoogleAnalytics, acConnection) {
         var self = this;
 
+        this.initialized = false;
+
+        function initAuth0() {
+            auth.config.init({
+                domain: 'avalancheca.auth0.com',
+                clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
+            });
+
+            var deRegisterAuthClose;
+            auth.config.auth0lib.on('shown', function() {
+                deRegisterAuthClose = $ionicPlatform.registerBackButtonAction(function() {
+                    auth.config.auth0lib.hide();
+                }, 101);
+                $ionicLoading.hide();
+            });
+
+            auth.config.auth0lib.on('hidden', function() {
+                deRegisterAuthClose();
+                $ionicLoading.hide();
+            });
+        }
+
         this.init = function() {
-            $timeout(function() {
-                auth.config.init({
-                    domain: 'avalancheca.auth0.com',
-                    clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
-                });
-
-                var deRegisterAuthClose;
-
-                auth.config.auth0lib.on('shown', function() {
-                    deRegisterAuthClose = $ionicPlatform.registerBackButtonAction(function() {
-                        auth.config.auth0lib.hide();
-                    }, 101);
-                    $ionicLoading.hide();
-                });
-
-                auth.config.auth0lib.on('hidden', function() {
-                    deRegisterAuthClose();
-                    $ionicLoading.hide();
-                });
-            }, 0);
+            if (self.initialized) {
+                return $q.when(true);
+            } else {
+                return acConnection.check()
+                    .then(function(result) {
+                        if (result) {
+                            initAuth0();
+                            console.log('auth0 initialized');
+                            self.initialized = true;
+                            return $q.when(true);
+                        } else {
+                            return $q.reject(false);
+                        }
+                    });
+            }
         };
 
         this.prompt = function(title) {
@@ -32,6 +49,7 @@ angular.module('acMobile.services')
                 cancelType: "button-outline button-energized",
                 okType: "button-energized"
             });
+
             return confirmPopup.then(function(response) {
                 if (response) {
                     $ionicLoading.show({
@@ -45,30 +63,31 @@ angular.module('acMobile.services')
         };
 
         this.login = function() {
-            var deferred = $q.defer();
-            auth.signin({
-                authParams: {
-                    scope: 'openid profile offline_access',
-                    device: 'Mobile device'
-                }
-            }, function(profile, token, accessToken, state, refreshToken) {
-                $ionicLoading.hide();
-                store.set('profile', profile);
-                store.set('token', token);
-                store.set('refreshToken', refreshToken);
-                self.loggedIn = auth.isAuthenticated;
-                $rootScope.$broadcast('userLoggedIn');
-                if ($window.analytics) {
-                    $cordovaGoogleAnalytics.setUserId(profile.email);
-                }
-                deferred.resolve('authenticated');
+            return self.init()
+                .then(function() {
+                    var deferred = $q.defer();
+                    auth.signin({
+                        authParams: {
+                            scope: 'openid profile offline_access',
+                            device: 'Mobile device'
+                        }
+                    }, function(profile, token, accessToken, state, refreshToken) {
+                        $ionicLoading.hide();
+                        store.set('profile', profile);
+                        store.set('token', token);
+                        store.set('refreshToken', refreshToken);
+                        if ($window.analytics) {
+                            $cordovaGoogleAnalytics.setUserId(profile.email);
+                        }
+                        deferred.resolve('authenticated');
 
-            }, function(error) {
-                $ionicLoading.hide();
-                console.log("There was an error logging in", error);
-                deferred.reject(error);
-            });
-            return deferred.promise;
+                    }, function(error) {
+                        $ionicLoading.hide();
+                        console.log("There was an error logging in", error);
+                        deferred.reject(error);
+                    });
+                    return deferred.promise;
+                })
         };
 
         this.logout = function() {
@@ -76,38 +95,34 @@ angular.module('acMobile.services')
             store.remove('profile');
             store.remove('token');
             store.remove('refreshToken');
-            self.loggedIn = auth.isAuthenticated;
-            $rootScope.$broadcast('userLoggedOut');
         };
 
+
         this.authenticate = function() {
-            if (!auth.authenticated) {
+            if (!auth.isAuthenticated) {
                 var token = store.get('token');
                 var refreshToken = store.get('refreshToken');
+
                 if (token) {
                     if (!jwtHelper.isTokenExpired(token)) {
-                        return auth.authenticate(store.get('profile'), token)
+                        return self.init()
                             .then(function() {
-                                console.log('user authenticated!');
-                                $rootScope.$broadcast('userLoggedIn');
-                                return 'authenticated';
+                                return auth.authenticate(store.get('profile'), token);
                             });
-
                     } else {
                         if (refreshToken) {
-                            return auth.getToken({
-                                    refresh_token: refreshToken,
-                                    scope: 'openid profile offline_access',
-                                    device: 'Mobile device',
-                                    api: 'auth0'
-                                })
-                                .then(function(idToken) {
-                                    store.set('token', idToken);
-                                    return auth.authenticate(store.get('profile'), idToken);
-                                })
+                            return self.init()
                                 .then(function() {
-                                    $rootScope.$broadcast('userLoggedIn');
-                                    return 'authenticated';
+                                    return auth.getToken({
+                                        refresh_token: refreshToken,
+                                        scope: 'openid profile offline_access',
+                                        device: 'Mobile device',
+                                        api: 'auth0'
+                                    });
+                                })
+                                .then(function(tokenObj) {
+                                    store.set('token', tokenObj.id_token);
+                                    return auth.authenticate(store.get('profile'), tokenObj.id_token);
                                 })
                                 .catch(function(error) {
                                     console.log(error);
@@ -126,15 +141,5 @@ angular.module('acMobile.services')
                 return $q.when('authenticated');
             }
         };
-
-        this.loggedIn = auth.isAuthenticated;
-
-        $rootScope.$on('userLoggedIn', function() {
-            self.loggedIn = auth.isAuthenticated;
-        });
-
-        $rootScope.$on('userLoggedOut', function() {
-            self.loggedIn = auth.isAuthenticated;
-        });
 
     });

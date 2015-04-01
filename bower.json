@@ -14,7 +14,7 @@
     "font-awesome": "~4.2.0",
     "ngCordova": "~0.1.7-alpha",
     "auth0-lock": ">= 6.3.0",
-    "auth0-angular": "~3.0.5",
+    "auth0-angular": "~4.0.1",
     "angular-jwt": "~0.0.4",
     "a0-angular-storage": "~0.0.6",
     "moment": "~2.8.3"

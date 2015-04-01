@@ -27,8 +27,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0','angular-storage', 'an
     })
     .run(function($rootScope, $timeout, $http, $state, $window, $document, store, jwtHelper, acTerms, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID, acUser) {
 
-        acUser.init();
-
         $ionicPlatform.ready().then(function() {
             $ionicPlatform.registerBackButtonAction(function() {
                 var confirmPopup = $ionicPopup.confirm({
