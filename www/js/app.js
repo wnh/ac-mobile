@@ -3,8 +3,7 @@ angular.module('acMobile.directives', ['acComponents']);
 angular.module('acMobile.controllers', ['acComponents']);
 angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://www.avalanche.ca');
 angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'angular-jwt', 'acMobile.services', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
-
-.constant('GA_ID', 'UA-56758486-2')
+    .constant('GA_ID', 'UA-56758486-2')
     //.constant('AC_API_ROOT_URL', 'http://www.avalanche.ca')
     .constant('AC_API_ROOT_URL', 'http://avalanche-canada-qa.elasticbeanstalk.com')
     .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
@@ -31,6 +30,11 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
         console.log('Avalanche Canada Mobile App v4.06');
 
         $ionicPlatform.ready().then(function() {
+            $timeout(function() {
+                console.log('hide splash');
+                $cordovaSplashscreen.hide();
+            }, 200);
+
             $ionicPlatform.registerBackButtonAction(function() {
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Exit Avalanche Canada?',
@@ -46,7 +50,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
                     }
                 });
             }, 100);
-
 
             if ($window.analytics) {
                 $cordovaGoogleAnalytics.startTrackerWithId(GA_ID).then(function() {
