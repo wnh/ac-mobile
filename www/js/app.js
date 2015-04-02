@@ -26,7 +26,9 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
             ionic.Platform.isFullScreen = true;
         });
     })
-    .run(function($rootScope, $timeout, $http, $state, $window, $document, store, jwtHelper, acTerms, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID, acUser) {
+    .run(function($rootScope, $timeout, $http, $state, $window, $document, store, jwtHelper, acTerms, $cordovaNetwork, $cordovaGoogleAnalytics, $ionicLoading, $ionicPlatform, $ionicPopup, $templateCache, GA_ID, acUser, $cordovaSplashscreen) {
+
+        console.log('Avalanche Canada Mobile App v4.06');
 
         $ionicPlatform.ready().then(function() {
             $ionicPlatform.registerBackButtonAction(function() {
