@@ -30,7 +30,6 @@ angular.module('acMobile.controllers')
                         $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'submitted', '1');
                     }
                     globalSubmitting = false;
-                    console.log(result);
                 })
                 .catch(function(error) {
                     console.log(error);
