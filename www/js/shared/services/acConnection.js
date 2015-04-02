@@ -5,7 +5,7 @@ angular.module('acMobile.services')
 
         function connectionTest() {
             var apiUrl = AC_API_ROOT_URL;
-            return $http.get(apiUrl + '/api/forecasts');
+            return $http.get(apiUrl + '/api/forecasts', {cache:false});
         }
 
         this.check = function() {
