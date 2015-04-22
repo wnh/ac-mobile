@@ -8382,7 +8382,7 @@ button.close {
   #header #navigation .navbar-header #nav-donate:hover {
     background-color: #b2212a;
   }
-  
+
   /* header ends */
   /* sponsor-bar */
   #sponsor-bar #sponsor-ad-container {
@@ -8404,7 +8404,7 @@ button.close {
   #sponsor-bar #sponsor-ad-container #sponsor-link {
     float: right;
   }
-  
+
   /* sponsor-bar ends */
   /* know-more */
   #know-more-sled {
@@ -8436,7 +8436,7 @@ button.close {
     float: right;
     clear: none;
   }
-  
+
   /* know-more */
   #know-more {
     height: 243px;
@@ -8467,7 +8467,7 @@ button.close {
     float: right;
     clear: none;
   }
-  
+
   /* know-more ends */
   #events #events-articles {
     margin-bottom: 30px;
@@ -8512,7 +8512,7 @@ button.close {
     width: 334px;
     float: right;
   }
-  
+
   /* events ends */
   /* news */
   #news #news-articles {
@@ -8558,7 +8558,7 @@ button.close {
     width: 334px;
     float: right;
   }
-  
+
   /* news ends */
   /* videos */
   #videos #video-featured #video-container #video-body {
@@ -8583,7 +8583,7 @@ button.close {
     margin-left: auto;
     margin-right: auto;
   }
-  
+
   /* videos ends */
   /* blog */
   #blog #blog-articles {
@@ -8608,7 +8608,7 @@ button.close {
     padding: 0 0 0 18px;
     border: none;
   }
-  
+
   /* blog ends */
   /* communities */
   #communities .communities-box {
@@ -8629,7 +8629,7 @@ button.close {
   #communities #communities-youtube .posted-by {
     margin-bottom: 59px;
   }
-  
+
   /* communities ends */
   /* auction */
   #auction #auction-header {
@@ -8770,7 +8770,7 @@ button.close {
   #auction #auction-other article.list-row-last {
     padding-right: 0;
   }
-  
+
   /* auction ends */
   /* footer */
   #footer ul {
@@ -8795,7 +8795,7 @@ button.close {
   #footer h6 br {
     display: none;
   }
-  
+
   /* footer ends */
 }
 @media screen and (min-width:1025px) {
@@ -9038,7 +9038,7 @@ button.close {
   #header #navigation .navbar-collapse #nav-search-desktop:visited, #header #navigation .navbar-collapse #nav-search-desktop:hover, #header #navigation .navbar-collapse #nav-search-desktop:active, #header #navigation .navbar-collapse #nav-search-desktop:focus {
     color: #b1b1b1;
   }
-  
+
   /* header ends */
   #know-more-sled article footer {
     width: 680px;
@@ -9053,7 +9053,7 @@ button.close {
   #know-more-sled article footer a.button-right {
     float: right;
   }
-  
+
   /* know-more */
   #know-more article footer {
     width: 680px;
@@ -9068,7 +9068,7 @@ button.close {
   #know-more article footer a.button-right {
     float: right;
   }
-  
+
   /* know-more ends */
   #events #events-articles {
     min-height: 1px;
@@ -9144,7 +9144,7 @@ button.close {
   #events #events-articles > article.list-row-last {
     border-bottom: none;
   }
-  
+
   /* events ends */
   /* news */
   #news #news-articles {
@@ -9221,7 +9221,7 @@ button.close {
   #news #news-articles > article.list-row-last {
     border-bottom: none;
   }
-  
+
   /* news ends */
   /* videos */
   #videos #video-featured header h2 {
@@ -9255,7 +9255,7 @@ button.close {
     background: transparent url(../assets/images/video-sponsor-bg-desktop.png) center center no-repeat;
     padding-top: 54px;
   }
-  
+
   /* videos ends */
   /* blog */
   #blog #blog-articles {
@@ -9280,7 +9280,7 @@ button.close {
   #blog #blog-articles > article.list-row-last {
     border-right: none;
   }
-  
+
   /* blog ends */
   /* communities */
   #communities .communities-box {
@@ -9316,7 +9316,7 @@ button.close {
   #communities #communities-youtube .posted-by {
     margin-bottom: 65px;
   }
-  
+
   /* communities ends */
   /* auction */
   #auction #auction-tagline-wrap {
@@ -9368,7 +9368,7 @@ button.close {
   #auction #auction-other article.list-row-last {
     border: none;
   }
-  
+
   /* auction ends */
   /* footer */
   #footer ul {
@@ -9383,7 +9383,7 @@ button.close {
   #footer h6 br {
     display: none;
   }
-  
+
   /* footer ends */
 }
 .ac-no-gutter {
@@ -10821,30 +10821,30 @@ aside .sidebar-related-links li p {
 .ac-forecast-base .ac-forecast-nowcast, #forecast .ac-forecast-nowcast, .ac-forecast-mini .ac-forecast-nowcast {
   padding: 0;
   overflow: hidden;
-  height: 150px;
+  min-height: 150px;
 }
 @media (min-width:600px) {
   .ac-forecast-base .ac-forecast-nowcast, #forecast .ac-forecast-nowcast, .ac-forecast-mini .ac-forecast-nowcast {
-    height: 120px;
+    min-height: 120px;
   }
 }
 @media (min-width:1025px) {
   .ac-forecast-base .ac-forecast-nowcast, #forecast .ac-forecast-nowcast, .ac-forecast-mini .ac-forecast-nowcast {
-    height: 150px;
+    min-height: 150px;
   }
 }
 .ac-forecast-base .ac-forecast-nowcast .ac-nowcast, #forecast .ac-forecast-nowcast .ac-nowcast, .ac-forecast-mini .ac-forecast-nowcast .ac-nowcast {
-  height: 100px;
+  min-height: 100px;
   z-index: 1;
 }
 @media (min-width:600px) {
   .ac-forecast-base .ac-forecast-nowcast .ac-nowcast, #forecast .ac-forecast-nowcast .ac-nowcast, .ac-forecast-mini .ac-forecast-nowcast .ac-nowcast {
-    height: 120px;
+    min-height: 120px;
   }
 }
 @media (min-width:1025px) {
   .ac-forecast-base .ac-forecast-nowcast .ac-nowcast, #forecast .ac-forecast-nowcast .ac-nowcast, .ac-forecast-mini .ac-forecast-nowcast .ac-nowcast {
-    height: 150px;
+    min-height: 150px;
   }
 }
 .ac-forecast-base .ac-problem-icon, #forecast .ac-problem-icon, .ac-forecast-mini .ac-problem-icon {
@@ -12261,12 +12261,12 @@ aside .sidebar-related-links li p {
 }
 @media (min-width:600px) {
   .ac-forecast-base .ac-forecast-nowcast, #forecast .ac-forecast-nowcast, .ac-forecast-mini .ac-forecast-nowcast {
-    height: 120px;
+    min-height: 120px;
   }
 }
 @media (min-width:1025px) {
   .ac-forecast-base .ac-forecast-nowcast, #forecast .ac-forecast-nowcast, .ac-forecast-mini .ac-forecast-nowcast {
-    height: 150px;
+    min-height: 150px;
   }
 }
 .ac-forecast-base .ac-forecast-nowcast .ac-nowcast, #forecast .ac-forecast-nowcast .ac-nowcast, .ac-forecast-mini .ac-forecast-nowcast .ac-nowcast {
@@ -12275,12 +12275,12 @@ aside .sidebar-related-links li p {
 }
 @media (min-width:600px) {
   .ac-forecast-base .ac-forecast-nowcast .ac-nowcast, #forecast .ac-forecast-nowcast .ac-nowcast, .ac-forecast-mini .ac-forecast-nowcast .ac-nowcast {
-    height: 120px;
+    min-height: 120px;
   }
 }
 @media (min-width:1025px) {
   .ac-forecast-base .ac-forecast-nowcast .ac-nowcast, #forecast .ac-forecast-nowcast .ac-nowcast, .ac-forecast-mini .ac-forecast-nowcast .ac-nowcast {
-    height: 150px;
+    min-height: 150px;
   }
 }
 .ac-forecast-base .ac-problem-icon, #forecast .ac-problem-icon, .ac-forecast-mini .ac-problem-icon {
