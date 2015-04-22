@@ -10820,7 +10820,6 @@ aside .sidebar-related-links li p {
 }
 .ac-forecast-base .ac-forecast-nowcast, #forecast .ac-forecast-nowcast, .ac-forecast-mini .ac-forecast-nowcast {
   padding: 0;
-  overflow: hidden;
   min-height: 150px;
 }
 @media (min-width:600px) {
@@ -12256,7 +12255,6 @@ aside .sidebar-related-links li p {
 }
 .ac-forecast-base .ac-forecast-nowcast, #forecast .ac-forecast-nowcast, .ac-forecast-mini .ac-forecast-nowcast {
   padding: 0;
-  overflow: hidden;
   height: 150px;
 }
 @media (min-width:600px) {
