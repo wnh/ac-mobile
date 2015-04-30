@@ -73,36 +73,43 @@ angular.module('acMobile.controllers')
         };
 
         $scope.showLocationSheet = function() {
-            $ionicPlatform.ready()
-                .then(acConnection.check)
-                .then(function(result) {
-                    if (result) {
-                        var hideSheet = $ionicActionSheet.show({
-                            buttons: [{
-                                text: "Use my location"
-                            }, {
-                                text: "Pick position on map"
-                            }],
-                            titleText: "Report Location",
-                            cancelText: "Cancel",
-                            buttonClicked: function(index) {
-                                if (index === 0) {
-                                    hideSheet();
-                                    return getLocation();
-                                } else if (index === 1) {
-                                    hideSheet();
-                                    return displayMapModal();
-                                }
-                            }
-                        });
-                    } else { //offline
+            var hideSheet = $ionicActionSheet.show({
+                buttons: [{
+                    text: "Use my location"
+                }, {
+                    text: "Pick position on map"
+                }],
+                titleText: "Report Location",
+                cancelText: "Cancel",
+                buttonClicked: function(index) {
+                    if (index === 0) {
+                        hideSheet();
                         return getLocation();
+                    } else if (index === 1) {
+                        hideSheet();
+                        return $ionicPlatform.ready()
+                            .then(acConnection.check)
+                            .then(function(result) {
+                                if (result) {
+                                    return displayMapModal();
+                                } else {
+                                    $ionicLoading.show({
+                                        template: 'Picking a position on the map requires an internet connection. Please connect to the internet and try again, or save the report and pick your position later.',
+                                        duration: 7000
+                                    });
+                                    return $q.reject(error);
+                                }
+                            })
+                            .catch(function(error) {
+                                $ionicLoading.show({
+                                    template: 'Picking a position on the map requires an internet connection. Please connect to the internet and try again, or save the report and pick your position later.',
+                                    duration: 7000
+                                });
+                                return $q.reject(error);
+                            });
                     }
-                })
-                .catch(function(error) {
-                    //offline
-                    return getLocation();
-                });
+                }
+            });
         };
 
         function displayMapModal() {
