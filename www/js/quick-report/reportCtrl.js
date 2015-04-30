@@ -4,7 +4,7 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $stateParams, $state, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, acFileService, acUser, acMin, acQuickReportData) {
+    .controller('ReportCtrl', function($scope, $stateParams, $state, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, acFileService, acUser, acMin, acQuickReportData, acConnection) {
 
         //var Camera = navigator.camera;
         var shareMessage = "Check out my Mountain Information Network Report: ";
@@ -70,35 +70,51 @@ angular.module('acMobile.controllers')
                 $scope.minsubmitting = false;
                 $scope.minerror = false;
             }, 0);
-        }
-
-
+        };
 
         $scope.showLocationSheet = function() {
-            if ($cordovaNetwork.isOnline()) {
-                var hideSheet = $ionicActionSheet.show({
-                    buttons: [{
-                        text: "Use my location"
-                    }, {
-                        text: "Pick position on map"
-                    }],
-                    titleText: "Report Location",
-                    cancelText: "Cancel",
-                    buttonClicked: function(index) {
-                        if (index === 0) {
-                            hideSheet();
-                            getLocation();
-                        } else if (index === 1) {
-                            hideSheet();
-                            $scope.locationModal.show();
-                        }
+            $ionicPlatform.ready()
+                .then(acConnection.check)
+                .then(function(result) {
+                    if (result) {
+                        var hideSheet = $ionicActionSheet.show({
+                            buttons: [{
+                                text: "Use my location"
+                            }, {
+                                text: "Pick position on map"
+                            }],
+                            titleText: "Report Location",
+                            cancelText: "Cancel",
+                            buttonClicked: function(index) {
+                                if (index === 0) {
+                                    hideSheet();
+                                    return getLocation();
+                                } else if (index === 1) {
+                                    hideSheet();
+                                    return displayMapModal();
+                                }
+                            }
+                        });
+                    } else { //offline
+                        return getLocation();
                     }
+                })
+                .catch(function(error) {
+                    //offline
+                    return getLocation();
                 });
-            } else { //offline
-                getLocation();
-            }
-
         };
+
+        function displayMapModal() {
+            return $ionicModal.fromTemplateUrl('templates/location-modal.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function(modal) {
+                $scope.locationModal = modal;
+                $scope.locationModal.show();
+            });
+
+        }
 
         function getLocation() {
             var options = {
@@ -122,7 +138,7 @@ angular.module('acMobile.controllers')
                 .catch(function(error) {
                     $scope.display.location = '';
                     $ionicLoading.show({
-                        template: 'There was a problem getting your position',
+                        template: 'There was a problem acquiring your position',
                         duration: 3000
                     });
                     console.log(error);
@@ -131,12 +147,6 @@ angular.module('acMobile.controllers')
         }
 
 
-        $ionicModal.fromTemplateUrl('templates/location-modal.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-        }).then(function(modal) {
-            $scope.locationModal = modal;
-        });
 
         $scope.confirmLocation = function() {
             if ($scope.markerPosition.latlng[0] !== 0) {
