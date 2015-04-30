@@ -31,7 +31,6 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
 
         $ionicPlatform.ready().then(function() {
             $timeout(function() {
-                console.log('hide splash');
                 $cordovaSplashscreen.hide();
             }, 200);
 
