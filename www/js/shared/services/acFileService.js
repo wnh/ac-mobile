@@ -1,44 +1,65 @@
 angular.module('acMobile.services')
-    .service('fileArrayCreator', function($cordovaFile, $q) {
+    .service('acFileService', function($cordovaFile, $q, $window) {
+
+        this.delete = function(path) {
+            return getFileFromURI(path)
+                .then(deleteFile);
+        };
+
+        this.saveImagePersistently = function(imagePath) {
+            var fileEntry, name;
+
+            return getFileFromURI(imagePath).then(function(result) {
+                    fileEntry = result;
+                    name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+                    return getFileFromURI(cordova.file.dataDirectory);
+                })
+                .then(function(targetEntry) {
+                    return copyFile(fileEntry, targetEntry, name)
+                })
+                .catch(function(error) {
+                    console.log(error);
+                    return $q.reject(error);
+                });
+        }
+
+        function deleteFile(entry) {
+            var deferred = $q.defer();
+            entry.remove(deferred.resolve, deferred.reject);
+            return deferred.promise;
+        }
+
+        function copyFile(sourceEntry, targetEntry, targetName) {
+            var deferred = $q.defer();
+            sourceEntry.copyTo(targetEntry, targetName, deferred.resolve, deferred.reject);
+            return deferred.promise;
+        }
+
+        function moveFile(entry, name, target) {
+            var deferred = $q.defer();
+            entry.moveTo(target, name, deferred.resolve, deferred.reject);
+            return deferred.promise;
+        }
+
+        function getFileFromURI(url) {
+            var deferred = $q.defer();
+            $window.resolveLocalFileSystemURL(url, deferred.resolve, deferred.reject);
+            return deferred.promise;
+        }
+
         this.processImage = function(imagePath, ignoreErrors) {
             ignoreErrors = ignoreErrors || false;
             return $cordovaFile.readFileMetadataAbsolute(imagePath)
                 .then(createBlob)
                 .catch(function(error) {
+                    console.log(error);
                     if (!ignoreErrors) {
                         return $q.reject(error);
                     }
+                    console.log('image errors ignored');
                     return $q.when(false);
                 });
         };
-
-        // these functions are used to cache an image if the device allows edits
-        // this.storeFiles = function(report, queueIndex) {
-        //     return $cordovaFile.createDir('avalanche', false)
-        //         .then(function() {
-        //             var promises = [];
-        //             angular.forEach(report.files, function(data) {
-        //                 var filepath = 'avalanche/' + moment.unix() + '-img';
-        //                 promises.push(writeFile(filepath, data));
-        //             });
-        //             return $q.all(promises);
-        //         });
-        // };
-
-
-        // function writeFile(filepath, data) {
-        //     console.log('writing:' + filepath);
-        //     return $cordovaFile.writeFile(filepath, data, {})
-        //         .then(function(result) {
-        //             console.log("wrote file:" + filepath);
-        //             return $q.when(filepath);
-        //         })
-        //         .catch(function(error) {
-        //             console.log(angular.toJson(error));
-        //             console.log("error writing file.");
-        //             return $q.when(false);
-        //         });
-        // }
 
         function createBlob(file) {
             var deferred = $q.defer();

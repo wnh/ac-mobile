@@ -1,5 +1,12 @@
 angular.module('acMobile.controllers')
-    .controller('ForecastsMapCtrl', function($scope, $timeout, $log, acForecast, acObservation, regions, obs, $ionicModal, $ionicPopup, $ionicScrollDelegate, acMobileSocialShare) {
+    .controller('ForecastsMapCtrl', function($q, $scope, $timeout, $log, acForecast, acObservation, $ionicModal, $ionicLoading, $ionicPopup, acPromiseTimeout, $ionicPlatform, $ionicScrollDelegate, acMobileSocialShare, $cordovaNetwork, acConnection) {
+
+        function resolveData() {
+            var forecasts = acForecast.fetch();
+            var obs = acObservation.byPeriod('7:days');
+            return $q.all([forecasts, obs]);
+        }
+
         angular.extend($scope, {
             current: {
                 region: null
@@ -8,16 +15,48 @@ angular.module('acMobile.controllers')
                 visible: false,
                 enabled: true
             },
-            regions: regions,
-            obs: obs,
+            regions: null,
+            obs: null,
             filters: {
                 obsPeriod: '3-days'
             },
             regionsVisible: true,
             display: {
                 expanded: false
-            }
+            },
+            status: {
+                isOnline: true
+            },
+            connectionChecked: false
         });
+
+        $ionicPlatform.ready()
+            .then(acConnection.check)
+            .then(function(result) {
+                $scope.status.isOnline = result;
+                $scope.connectionChecked = true;
+
+                if ($scope.status.isOnline) {
+                    $ionicLoading.show({
+                        template: '<i class="fa fa-circle-o-notch fa-spin"></i> Loading'
+                    });
+                    var promTime = new acPromiseTimeout();
+                    promTime.start(resolveData, [], 10000)
+                        .then(function(results) {
+                            $scope.regions = results[0];
+                            $scope.obs = results[1];
+                            $ionicLoading.hide();
+                        }, function(error) {
+                            console.log(error);
+                            $scope.status.isOnline = false;
+                            $ionicLoading.hide();
+                        });
+                }
+            })
+            .catch(function(error){
+                $scope.status.isOnline = false;
+                $scope.connectionChecked = true;
+            });
 
         var shareMessage = "Check out this Mountain Information Network Report: ";
 
@@ -117,48 +156,51 @@ angular.module('acMobile.controllers')
             }
         });
 
-        $scope.dateFilters = ['1-days','7-days','30-days'];
+        $scope.dateFilters = ['1-days', '7-days', '30-days'];
 
 
-        var filterObsByDate = function(filter){
-          if(filter){
-            var filterType = filter.split(':')[0];
-            var filterValue = filter.split(':')[1];
+        var filterObsByDate = function(filter) {
+            if (filter) {
+                var filterType = filter.split(':')[0];
+                var filterValue = filter.split(':')[1];
 
-            if (filterType === 'obsPeriod' && $scope.filters[filterType] !== filterValue) {
-                $scope.filters[filterType] = filterValue;
-                var period = filterValue.replace('-', ':');
-                acObservation.byPeriod(period).then(function(obs) {
-                    $scope.obs = obs;
-                });
-                $timeout(function() {
-                    var i = $scope.dateFilters.indexOf(filterValue);
-                    $scope.dateFilters.splice(i, 1);
-                    $scope.dateFilters.unshift(filterValue);
-                    $scope.expanded = false;
-                }, 5);
+                if (filterType === 'obsPeriod' && $scope.filters[filterType] !== filterValue) {
+                    $scope.filters[filterType] = filterValue;
+                    var period = filterValue.replace('-', ':');
+                    acObservation.byPeriod(period).then(function(obs) {
+                        $scope.obs = obs;
+                    });
+                    $timeout(function() {
+                        var i = $scope.dateFilters.indexOf(filterValue);
+                        $scope.dateFilters.splice(i, 1);
+                        $scope.dateFilters.unshift(filterValue);
+                        $scope.expanded = false;
+                    }, 5);
+                }
             }
-          }
-        }
+        };
 
         $scope.$on('ac.acDraw.toggleDate', function(e, filter) {
-          $log.info('toggle Date' + filter);
-          if(filter){
-            filterObsByDate(filter);
-          }
+            $log.info('toggle Date' + filter);
+            if (filter) {
+                filterObsByDate(filter);
+            }
         });
 
         $scope.$on('ac.acDraw.toggleObs', function(e) {
-          $log.info('toggle obs');
-          if ($scope.filters.obsPeriod === '') {
-              filterObsByDate('obsPeriod:' + $scope.dateFilters[0]);
-          } else {
-              $scope.obs = [];
-              $scope.filters.obsPeriod = '';
-          }
+            $log.info('toggle obs');
+            if ($scope.filters.obsPeriod === '') {
+                filterObsByDate('obsPeriod:' + $scope.dateFilters[0]);
+            } else {
+                $scope.obs = [];
+                $scope.filters.obsPeriod = '';
+            }
         });
 
         $scope.$on('$destroy', function() {
-            $scope.obModal.remove();
+            if ($scope.obModal) {
+                $scope.obModal.remove();
+            }
+
         });
     });

@@ -1,0 +1,40 @@
+<ion-view hide-back-button="true" title="MIN Reports">
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ui-sref="app.min"><i class="icon ion-plus"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content scroll="true" class="has-header min-history">
+        <div ac-offline is-online="status.isOnline" message="You are currently offline, submitting draft reports and sharing is disabled"></div>
+        <div class="row" ng-if="!draftReports.length && !submittedReports.length">
+            <div class="col">
+                <h3 class="centered energized"><i class="icon ion-map"></i> Mountain Information Network</h3>
+                <p class="centered">To create a Mountain Information Network report, tap the <i class="icon ion-plus"></i> above</p>
+            </div>
+        </div>
+        <ion-list ng-if="draftReports.length">
+            <ion-item class="item-divider">Draft Reports - tap report to Submit</ion-item>
+            <ion-item ng-click="showPendingActionSheet(item)" ng-repeat="item in draftReports | orderBy: '-report.datetime'" class="item-dark item-icon-right">
+                <span class="ellipsis">{{item.report.title}}</span>
+                <span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
+                <i class="icon fa " ng-class="
+                    {'icon-small fa-paper-plane-o':!item.submitting && !item.error,
+                     'fa-circle-o-notch':item.submitting,
+                     'fa-spin':item.submitting,
+                     'fa-exclamation-triangle' : item.error
+                     }">
+                </i>
+            </ion-item>
+        </ion-list>
+        <ion-list ng-if="submittedReports.length" class="list">
+            <ion-item class="item item-divider">Submitted Reports</ion-item>
+            <ion-item ng-repeat="item in submittedReports | orderBy: '-report.datetime' | limitTo:10 track by  item.report.subid" class="item item-dark item-icon-right" ng-click="showShare(item)">
+                <span class="ellipsis">{{item.report.title}}</span>
+                <span class="timeAgo">{{item.report.datetime | timeAgo}} </span>
+                <i class="icon ion-share"></i>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

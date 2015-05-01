@@ -1,6 +1,6 @@
 {
   "name": "ac-mobile",
-  "app_id": "",
+  "app_id": "19a8551d",
   "gulpStartupTasks": [
     "sass",
     "watch"
