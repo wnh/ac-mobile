@@ -36,7 +36,7 @@ angular.module('acMobile.controllers')
             //content of the div is shown onscreen.
             $timeout(function() {
                 $ionicScrollDelegate.resize();
-            }, 310);
+            }, 0);
         };
 
 
