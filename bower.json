@@ -3,10 +3,10 @@
   "version": "0.0.2",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0-beta.13"
+    "ionic": "driftyco/ionic-bower#1.0.0-rc.5"
   },
   "dependencies": {
-    "ac-components": "avalanche-canada/ac-components#v0.0.8-mobile",
+    "ac-components": "avalanche-canada/ac-components#master",
     "lodash": "~2.4.1",
     "jquery": "~2.1.1",
     "mapbox.js": "~2.1.3",
