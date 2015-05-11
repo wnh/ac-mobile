@@ -7,6 +7,7 @@ angular.module('acMobile')
                 templateUrl: "templates/menu.html"
             })
             .state('app.forecasts-map', {
+                cache:false,
                 url: "/app/forecasts-map",
                 views: {
                     'menuContent': {
@@ -16,6 +17,7 @@ angular.module('acMobile')
                 }
             })
             .state('app.forecasts-list', {
+                cache:false,
                 url: "/app/forecasts-list",
                 views: {
                     'menuContent': {
@@ -25,6 +27,7 @@ angular.module('acMobile')
                 }
             })
             .state('app.forecasts-list-detail', {
+                cache:false,
                 url: "/app/forecasts-list/:id",
                 views: {
                     'menuContent': {
