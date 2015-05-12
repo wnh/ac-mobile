@@ -24,6 +24,7 @@ angular.module('acMobile.controllers')
         });
 
         $scope.submit = function(item) {
+            item.datetime = moment(item.report.datetime).format('YYYY-MM-DD hh:mm A'); //reformat to what server is expecting
             acMin.sendReport(item)
                 .then(function(result) {
                     if ($window.analytics) {

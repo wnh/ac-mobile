@@ -23,7 +23,7 @@ angular.module('acMobile.controllers')
 
         var reportTemplate = {
             title: 'auto: Quick Report',
-            datetime: moment().format('YYYY-MM-DD hh:mm A'),
+            datetime: new Date(), //now use plain old js date object to satisfy ng-model
             latlng: [],
             files: [],
             ridingConditions: angular.copy(acQuickReportData.ridingConditions),
@@ -33,8 +33,9 @@ angular.module('acMobile.controllers')
 
 
 
+
         function resetDateTime() {
-            $scope.report.datetime = moment().format('YYYY-MM-DDTHH:mm:ss');
+            $scope.report.datetime = new Date(); //now use plain old js date object to satisfy ng-model
             $scope.report.title = '';
             $scope.fileSrcs = [];
         }
@@ -49,6 +50,7 @@ angular.module('acMobile.controllers')
         if ($stateParams.index) {
             var index = $stateParams.index;
             $scope.report = angular.copy(acMin.draftReports[index].report);
+            $scope.report.datetime = moment($scope.report.datetime).toDate();
             $scope.fileSrcs = angular.copy(acMin.draftReports[index].fileSrcs) || [];
         } else {
             $scope.report = angular.copy(reportTemplate);
@@ -240,6 +242,7 @@ angular.module('acMobile.controllers')
             if ($stateParams.index) {
                 var index = $stateParams.index;
                 $scope.report = angular.copy(acMin.draftReports[index].report);
+                $scope.report.datetime = moment($scope.report.datetime).toDate();
                 $scope.fileSrcs = angular.copy(acMin.draftReports[index].fileSrcs) || [];
                 $scope.display.ridingInfo = false;
                 $scope.display.avalancheConditions = false;
