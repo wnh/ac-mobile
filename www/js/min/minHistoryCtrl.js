@@ -2,7 +2,7 @@ angular.module('acMobile.controllers')
     .filter('timeAgo', function() {
         return function(date) {
             var today = moment();
-            var reportDate = moment(date);
+            var reportDate = moment(new Date(date));
             if (today.diff(reportDate, 'days') < 7) {
                 return reportDate.fromNow();
             } else {
