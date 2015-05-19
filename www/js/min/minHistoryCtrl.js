@@ -24,7 +24,6 @@ angular.module('acMobile.controllers')
         });
 
         $scope.submit = function(item) {
-            item.datetime = moment(item.report.datetime).format('YYYY-MM-DD hh:mm A'); //reformat to what server is expecting
             acMin.sendReport(item)
                 .then(function(result) {
                     if ($window.analytics) {
@@ -70,7 +69,7 @@ angular.module('acMobile.controllers')
                                     $ionicLoading.show({
                                         template: 'You can only submit one report at a time',
                                         duration: 2000
-                                    })
+                                    });
                                 } else {
                                     confirmSubmit(item);
                                 }
