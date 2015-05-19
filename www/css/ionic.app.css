@@ -7997,3 +7997,7 @@ body #a0-lock.a0-theme-default .a0-icon-budicon-3:before {
   border-color: #333; }
 .min-history .icon-small {
   font-size: 24px; }
+
+/*android*/
+.platform-android .action-sheet {
+  color: #000000; }
