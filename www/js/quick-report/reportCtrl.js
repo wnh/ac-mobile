@@ -50,7 +50,7 @@ angular.module('acMobile.controllers')
         if ($stateParams.index) {
             var index = $stateParams.index;
             $scope.report = angular.copy(acMin.draftReports[index].report);
-            $scope.report.datetime = moment($scope.report.datetime).toDate();
+            $scope.report.datetime = new Date($scope.report.datetime);
             $scope.fileSrcs = angular.copy(acMin.draftReports[index].fileSrcs) || [];
         } else {
             $scope.report = angular.copy(reportTemplate);
@@ -208,12 +208,12 @@ angular.module('acMobile.controllers')
                         allowEdit: false,
                         encodingType: Camera.EncodingType.JPEG,
                         saveToPhotoAlbum: true
-                    }
+                    };
                     if (index === 0) {
                         options = cameraOptions;
                     } else if (index === 1) {
                         cameraOptions.saveToPhotoAlbum = false;
-                        cameraOptions.sourceType = Camera.PictureSourceType.PHOTOLIBRARY
+                        cameraOptions.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
                         options = cameraOptions;
                     }
                     hidePictureSheet();
