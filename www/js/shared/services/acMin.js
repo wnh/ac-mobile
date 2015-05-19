@@ -22,20 +22,24 @@ angular.module('acMobile.services')
                 delete item.error;
             });
             store.set('acReportQueue', tempReports);
-        }
+        };
+
         this.update = function(index, report, sources) {
-            self.draftReports[index].report = angular.copy(report);
+            var targetReport = angular.copy(report);
+            targetReport.datetime = targetReport.datetime.toISOString(); //store date this way for future handling by moment
+            self.draftReports[index].report = angular.copy(targetReport);
             self.draftReports[index].fileSrcs = angular.copy(sources);
             self.storeDraftReports();
         };
 
         this.save = function(report, sources) {
+            var targetReport = angular.copy(report);
+            targetReport.datetime = targetReport.datetime.toISOString(); //store date this way for future handling by moment
             self.draftReports.push({
-                report: angular.copy(report),
+                report: angular.copy(targetReport),
                 fileSrcs: angular.copy(sources)
             });
             self.storeDraftReports();
-
         };
 
         this.delete = function(item) {
