@@ -9,7 +9,9 @@ angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'a
     .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
     .constant('MAPBOX_MAP_ID', 'avalanchecanada.k8o347c9')
     .config(function($ionicConfigProvider){
-       // $ionicConfigProvider.views.maxCache(0);
+        $ionicConfigProvider.views.maxCache(0); //disable view caching
+        $ionicConfigProvider.navBar.alignTitle('center'); //force centered title
+
     })
     .run(function($ionicPlatform) {
         //JPB-AUTH
