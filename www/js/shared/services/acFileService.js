@@ -15,13 +15,13 @@ angular.module('acMobile.services')
                     return getFileFromURI(cordova.file.dataDirectory);
                 })
                 .then(function(targetEntry) {
-                    return copyFile(fileEntry, targetEntry, name)
+                    return copyFile(fileEntry, targetEntry, name);
                 })
                 .catch(function(error) {
                     console.log(error);
                     return $q.reject(error);
                 });
-        }
+        };
 
         function deleteFile(entry) {
             var deferred = $q.defer();
@@ -49,8 +49,19 @@ angular.module('acMobile.services')
 
         this.processImage = function(imagePath, ignoreErrors) {
             ignoreErrors = ignoreErrors || false;
-            return $cordovaFile.readFileMetadataAbsolute(imagePath)
-                .then(createBlob)
+            var arr = imagePath.split('/');
+            var filename = arr.pop();
+            var path = arr.join('/');
+
+            return $cordovaFile.readAsArrayBuffer(path, filename)
+            .then(function(result) {
+                    var fileType = getType(filename);
+                    var newBlob = new Blob([result], {
+                        type: fileType,
+                        size: result.byteLength
+                    });
+                    return newBlob;
+                })
                 .catch(function(error) {
                     console.log(error);
                     if (!ignoreErrors) {
@@ -61,14 +72,7 @@ angular.module('acMobile.services')
                 });
         };
 
-        function createBlob(file) {
-            var deferred = $q.defer();
-            var reader = new FileReader();
-            reader.onloadend = readSuccess(deferred, file);
-            reader.onerror = readError(deferred);
-            reader.readAsArrayBuffer(file);
-            return deferred.promise;
-        }
+
 
         function getType(filename) {
             var arr = filename.split(".");
