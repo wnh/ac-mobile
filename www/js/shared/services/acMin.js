@@ -26,7 +26,6 @@ angular.module('acMobile.services')
 
         this.update = function(index, report, sources) {
             var targetReport = angular.copy(report);
-            targetReport.datetime = targetReport.datetime.toISOString(); //store date this way for future handling by moment
             self.draftReports[index].report = angular.copy(targetReport);
             self.draftReports[index].fileSrcs = angular.copy(sources);
             self.storeDraftReports();
@@ -34,7 +33,6 @@ angular.module('acMobile.services')
 
         this.save = function(report, sources) {
             var targetReport = angular.copy(report);
-            targetReport.datetime = targetReport.datetime.toISOString(); //store date this way for future handling by moment
             self.draftReports.push({
                 report: angular.copy(targetReport),
                 fileSrcs: angular.copy(sources)

@@ -24,6 +24,7 @@ angular.module('acMobile.controllers')
         });
 
         $scope.submit = function(item) {
+            item.report.datetime = moment(item.report.datetime).format(); //sets right format for submission
             acMin.sendReport(item)
                 .then(function(result) {
                     if ($window.analytics) {
