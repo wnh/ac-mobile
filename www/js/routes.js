@@ -4,68 +4,54 @@ angular.module('acMobile')
             .state('app', {
                 url: "",
                 abstract: true,
-                templateUrl: "templates/menu.html",
-                controller: 'AppCtrl'
+                templateUrl: "templates/menu.html"
             })
             .state('app.forecasts-map', {
+                cache:false,
                 url: "/app/forecasts-map",
                 views: {
                     'menuContent': {
                         templateUrl: "templates/forecasts-map.html",
                         controller: "ForecastsMapCtrl"
                     }
-                },
-                data: {
-                    requiresOnline: true
-                },
-                resolve: {
-                    regions: function(acForecast) {
-                        return acForecast.fetch();
-                    },
-                    obs: function(acObservation) {
-                        return acObservation.byPeriod('7:days');
-                    }
                 }
             })
             .state('app.forecasts-list', {
+                cache:false,
                 url: "/app/forecasts-list",
                 views: {
                     'menuContent': {
                         templateUrl: "templates/forecasts-list.html",
                         controller: "ForecastsListCtrl"
                     }
-                },
-                data: {
-                    requiresOnline: true
                 }
             })
             .state('app.forecasts-list-detail', {
+                cache:false,
                 url: "/app/forecasts-list/:id",
                 views: {
                     'menuContent': {
                         templateUrl: "templates/forecasts-list-detail.html",
                         controller: "ForecastsListDetailCtrl"
                     }
-                },
-                resolve: {
-                    forecast: function($stateParams, acForecast) {
-                        return acForecast.getOne($stateParams.id);
-                    }
-                },
-                data: {
-                    requiresOnline: true
                 }
             })
             .state('app.min', {
-                url: "/app/min",
+                url: "/app/min/:index",
                 views: {
                     'menuContent': {
                         templateUrl: "templates/min.html",
                         controller: "ReportCtrl"
                     }
-                },
-                data: {
-                    requiresOnline: false
+                }
+            })
+            .state('app.min-history', {
+                url: "/app/min-history",
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/min-history.html",
+                        controller: "MinHistoryCtrl"
+                    }
                 }
             })
             .state('app.gear', {
@@ -75,9 +61,6 @@ angular.module('acMobile')
                         templateUrl: "templates/gear.html",
                         controller: "GearCtrl"
                     }
-                },
-                data: {
-                    requiresOnline: false
                 }
             })
             .state('app.partner', {
@@ -87,9 +70,6 @@ angular.module('acMobile')
                         templateUrl: "templates/partner.html",
                         controller: "PartnersCtrl"
                     }
-                },
-                data: {
-                    requiresOnline: false
                 }
             })
             .state('app.terms', {
@@ -99,18 +79,6 @@ angular.module('acMobile')
                         templateUrl: "templates/terms.html",
                         controller: "TermsCtrl"
                     }
-                },
-                data: {
-                    requiresOnline: false
-                }
-            })
-            .state('app.post-share', {
-                url: "/app/post-share",
-                views: {
-                    'menuContent': {
-                        templateUrl: "templates/post-share.html",
-                        controller: "ShareCtrl"
-                    }
                 }
             })
             .state('app.offline', {
@@ -119,9 +87,6 @@ angular.module('acMobile')
                     'menuContent': {
                         templateUrl: "templates/offline.html"
                     }
-                },
-                data: {
-                    requiresOnline: false
                 }
             });
         $urlRouterProvider.otherwise('/app/forecasts-map');

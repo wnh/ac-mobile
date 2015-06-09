@@ -4,10 +4,11 @@ angular.module('acMobile.controllers')
             return string.substr(0, maxlength);
         };
     })
-    .controller('ReportCtrl', function($scope, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, fileArrayCreator, acOfflineReports, acUser) {
+    .controller('ReportCtrl', function($scope, $stateParams, $state, $rootScope, $window, auth, store, $q, $timeout, acMobileSocialShare, $ionicPlatform, $ionicPopup, $ionicLoading, $ionicActionSheet, $ionicModal, $cordovaGeolocation, $cordovaNetwork, $cordovaSocialSharing, $cordovaCamera, $cordovaGoogleAnalytics, acFileService, acUser, acMin, acQuickReportData, acConnection) {
 
-        var Camera = navigator.camera;
+        //var Camera = navigator.camera;
         var shareMessage = "Check out my Mountain Information Network Report: ";
+
         angular.extend($scope, {
             display: {
                 'ridingInfo': false,
@@ -17,15 +18,28 @@ angular.module('acMobile.controllers')
             markerPosition: {
                 latlng: [0, 0]
             },
-            imageSources: []
+            fileSrcs: []
         });
 
+        var reportTemplate = {
+            title: 'auto: Quick Report',
+            datetime: new Date(), //now use plain old js date object to satisfy ng-model
+            latlng: [],
+            files: [],
+            ridingConditions: angular.copy(acQuickReportData.ridingConditions),
+            avalancheConditions: angular.copy(acQuickReportData.avalancheConditions),
+            comment: null
+        };
+
+
+
+
         function resetDateTime() {
-            $scope.report.datetime = moment().format('YYYY-MM-DDTHH:mm:ss');
+            $scope.report.datetime = new Date(); //now use plain old js date object to satisfy ng-model
             $scope.report.title = '';
-            $scope.imageSources = [];
+            $scope.fileSrcs = [];
         }
-        $timeout(resetDateTime, 0);
+
 
         function resetDisplay() {
             $scope.display.ridingInfo = false;
@@ -33,31 +47,83 @@ angular.module('acMobile.controllers')
             $timeout(resetDateTime, 0);
         }
 
-        $scope.showLocationSheet = function() {
-            if ($cordovaNetwork.isOnline()) {
-                var hideSheet = $ionicActionSheet.show({
-                    buttons: [{
-                        text: "Use my location"
-                    }, {
-                        text: "Pick position on map"
-                    }],
-                    titleText: "Report Location",
-                    cancelText: "Cancel",
-                    buttonClicked: function(index) {
-                        if (index === 0) {
-                            hideSheet();
-                            getLocation();
-                        } else if (index === 1) {
-                            hideSheet();
-                            $scope.locationModal.show();
+        if ($stateParams.index) {
+            var index = $stateParams.index;
+            $scope.report = angular.copy(acMin.draftReports[index].report);
+            $scope.report.datetime = new Date($scope.report.datetime);
+            $scope.fileSrcs = angular.copy(acMin.draftReports[index].fileSrcs) || [];
+        } else {
+            $scope.report = angular.copy(reportTemplate);
+            $timeout(resetDateTime, 0);
+        }
+
+        $scope.resetForm = function() {
+            $timeout(function() {
+                for (var field in $scope.report) {
+                    if (field in reportTemplate) {
+                        if (field === 'ridingConditions' || field === 'avalancheConditions') {
+                            $scope.report[field] = angular.copy(reportTemplate[field]);
+                        } else {
+                            $scope.report[field] = reportTemplate[field];
                         }
                     }
-                });
-            } else { //offline
-                getLocation();
-            }
-
+                }
+                delete $scope.report.subid;
+                $scope.minsubmitting = false;
+                $scope.minerror = false;
+            }, 0);
         };
+
+        $scope.showLocationSheet = function() {
+            var hideSheet = $ionicActionSheet.show({
+                buttons: [{
+                    text: "Use my location"
+                }, {
+                    text: "Pick position on map"
+                }],
+                titleText: "Report Location",
+                cancelText: "Cancel",
+                buttonClicked: function(index) {
+                    if (index === 0) {
+                        hideSheet();
+                        return getLocation();
+                    } else if (index === 1) {
+                        hideSheet();
+                        return $ionicPlatform.ready()
+                            .then(acConnection.check)
+                            .then(function(result) {
+                                if (result) {
+                                    return displayMapModal();
+                                } else {
+                                    $ionicLoading.show({
+                                        template: 'Picking a position on the map requires an internet connection. Please connect to the internet and try again, or save the report and pick your position later.',
+                                        duration: 7000
+                                    });
+                                    return $q.reject(error);
+                                }
+                            })
+                            .catch(function(error) {
+                                $ionicLoading.show({
+                                    template: 'Picking a position on the map requires an internet connection. Please connect to the internet and try again, or save the report and pick your position later.',
+                                    duration: 7000
+                                });
+                                return $q.reject(error);
+                            });
+                    }
+                }
+            });
+        };
+
+        function displayMapModal() {
+            return $ionicModal.fromTemplateUrl('templates/location-modal.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function(modal) {
+                $scope.locationModal = modal;
+                $scope.locationModal.show();
+            });
+
+        }
 
         function getLocation() {
             var options = {
@@ -81,7 +147,7 @@ angular.module('acMobile.controllers')
                 .catch(function(error) {
                     $scope.display.location = '';
                     $ionicLoading.show({
-                        template: 'There was a problem getting your position',
+                        template: 'There was a problem acquiring your position',
                         duration: 3000
                     });
                     console.log(error);
@@ -90,12 +156,6 @@ angular.module('acMobile.controllers')
         }
 
 
-        $ionicModal.fromTemplateUrl('templates/location-modal.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-        }).then(function(modal) {
-            $scope.locationModal = modal;
-        });
 
         $scope.confirmLocation = function() {
             if ($scope.markerPosition.latlng[0] !== 0) {
@@ -115,18 +175,18 @@ angular.module('acMobile.controllers')
                     return $cordovaCamera.getPicture(options);
                 })
                 .then(function(imageUrl) {
-                    $scope.imageSources.push(imageUrl);
-                    return fileArrayCreator.processImage(imageUrl);
-                })
-                .then(function(fileBlob) {
-                    $scope.report.files.push(fileBlob);
                     $ionicLoading.show({
                         duration: 1000,
                         template: '<i class="fa fa-camera"></i> Picture attached'
                     });
+                    return acFileService.saveImagePersistently(imageUrl);
+                })
+                .then(function(fileEntry) {
+                    $scope.fileSrcs.push(fileEntry.nativeURL);
                 })
                 .catch(function(error) {
                     console.log(error);
+                    return $q.reject(error);
                 });
         }
 
@@ -141,122 +201,62 @@ angular.module('acMobile.controllers')
                 titleText: "Add a picture",
                 cancelText: "Cancel",
                 buttonClicked: function(index) {
+                    var cameraOptions = {
+                        quality: 75,
+                        destinationType: Camera.DestinationType.FILE_URI,
+                        sourceType: Camera.PictureSourceType.CAMERA,
+                        allowEdit: false,
+                        encodingType: Camera.EncodingType.JPEG,
+                        saveToPhotoAlbum: true
+                    };
                     if (index === 0) {
-                        hidePictureSheet();
-                        options = {
-                            quality: 75,
-                            destinationType: Camera.DestinationType.FILE_URI,
-                            sourceType: Camera.PictureSourceType.CAMERA,
-                            allowEdit: false,
-                            encodingType: Camera.EncodingType.JPEG,
-                            saveToPhotoAlbum: true
-                        };
-                        takePicture(options);
-
+                        options = cameraOptions;
                     } else if (index === 1) {
-                        hidePictureSheet();
-                        options = {
-                            quality: 75,
-                            destinationType: Camera.DestinationType.FILE_URI,
-                            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-                            allowEdit: false,
-                            encodingType: Camera.EncodingType.JPEG
-                        };
-                        takePicture(options);
+                        cameraOptions.saveToPhotoAlbum = false;
+                        cameraOptions.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
+                        options = cameraOptions;
                     }
+                    hidePictureSheet();
+                    takePicture(options);
                 }
             });
         };
 
-        function sharePopup() {
-            $scope.sharePopup = $ionicPopup.show({
-                templateUrl: 'templates/post-share.html ',
-                title: "Observation report saved",
-                subTitle: "Share your report",
-                scope: $scope
-            });
-            $scope.sharePopup.then(function(provider) {
-                if (provider) {
-                    acMobileSocialShare.share(provider, $scope.report.shareUrl, shareMessage, null);
-                    if ($window.analytics) {
-                        $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Share', provider, '1');
-                    }
-                }
-                $scope.reset();
 
-            });
-        }
-
-        $scope.submit = function() {
-            if ($cordovaNetwork.isOnline()) {
-                if (auth.isAuthenticated) {
-                    submitTmpl = '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report';
-                    if ($scope.imageSources.length) {
-                        submitTmpl = '<i class="fa fa-circle-o-notch fa-spin"></i> Sending report - this may take a few minutes';
-                    }
-                    $ionicLoading.show({
-                        template: submitTmpl,
-                        duration: 600000
-                    });
-                    var errorMsg = '';
-                    if (validateReport()) {
-                        $scope.submitForm().then(function(result) {
-                            $ionicLoading.hide();
-                            sharePopup();
-                            if ($window.analytics) {
-                                $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'success', '1');
-                            }
-                            //attempt bg sync here?
-                        }).catch(function(error) {
-                            if (angular.isObject(error)) {
-                                //api responded w/error
-                                if (error.data && error.data.error) {
-                                    errorMsg = error.data.error;
-                                }
-                            } else {
-                                //generic error
-                                errorMsg = 'There was a problem sending your report';
-                            }
-                            $ionicLoading.hide();
-                            $ionicLoading.show({
-                                template: '<i class="fa fa-warning"></i><p>' + errorMsg + '</p>',
-                                duration: 4000
-                            });
-                            if ($window.analytics) {
-                                $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'failure', '1');
-                            }
-                        });
-                    }
+        $scope.save = function() {
+            if (validateReport()) {
+                if ($stateParams.index) {
+                    acMin.update(index, $scope.report, $scope.fileSrcs);
                 } else {
-                    acUser.prompt("You must be logged in to submit a report");
-                }
-            } else {
-                $ionicLoading.show({
-                    duration: 3000,
-                    template: '<i class="fa fa-chain-broken"></i> <p>You must be connected to the network to submit. Your report will be submitted when you have a connection.</p>'
-                });
-                if (validateReport()) {
-                    acOfflineReports.push($scope.report, $scope.imageSources);
+                    acMin.save($scope.report, $scope.fileSrcs);
                     if ($window.analytics) {
-                        $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'queued', '1');
+                        $cordovaGoogleAnalytics.trackEvent('MIN', 'Quick Report Submit', 'saved', '1');
                     }
-                    $scope.reset();
                 }
+                $state.go('app.min-history');
             }
         };
 
+
         $scope.reset = function() {
-            $scope.resetForm();
-            resetDisplay();
+            if ($stateParams.index) {
+                var index = $stateParams.index;
+                $scope.report = angular.copy(acMin.draftReports[index].report);
+                $scope.report.datetime = moment($scope.report.datetime).toDate();
+                $scope.fileSrcs = angular.copy(acMin.draftReports[index].fileSrcs) || [];
+                $scope.display.ridingInfo = false;
+                $scope.display.avalancheConditions = false;
+            } else {
+                $scope.resetForm();
+                resetDisplay();
+            }
+
         };
 
         function validateReport() {
             var errors = '';
             if ($scope.report.title.length === 0) {
                 $scope.report.title = "auto: Quick Report";
-            }
-            if ($scope.report.latlng.length === 0) {
-                errors += 'Please specify a location<br/>';
             }
             if ($scope.report.datetime) {
                 if (moment($scope.report.datetime).unix() > moment().unix()) {
@@ -265,8 +265,8 @@ angular.module('acMobile.controllers')
             }
             if (errors.length) {
                 $ionicLoading.show({
-                    duration: 4000,
-                    template: '<div class="form-error"><p><i class="fa fa-warning"></i> There was an error submittting you report:</p>' + errors + "</div>"
+                    duration: 3000,
+                    template: '<div class="form-error"><p><i class="fa fa-warning"></i> There was an error saving you report:</p>' + errors + "</div>"
                 });
                 return false;
             }
@@ -274,7 +274,9 @@ angular.module('acMobile.controllers')
         }
 
         $scope.$on('$destroy', function() {
-            $scope.locationModal.remove();
+            if ($scope.locationModal) {
+                $scope.locationModal.remove();
+            }
         });
 
     });

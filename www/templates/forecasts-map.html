@@ -1,13 +1,16 @@
-<ion-view hide-back-button="true" title="Forecasts - Map">
+<ion-view hide-back-button="true" title="Forecasts Map">
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
     <ion-content scroll="false" class="has-header">
-        <div data-tap-disabled="true">
-            <div ac-mapbox-map ac-map-sidebar="sidebar" ac-show-regions="regionsVisible" ac-regions="regions" ac-region="current.region" ac-obs="obs" ac-ob="current.ob" top-offset="0"></div>
-        </div>
-        <div data-tab-disabled="true" ac-drawer ng-class="{'ac-drawer--expanded': current.region && current.region.feature.properties.forecast && drawer.visible && drawer.enabled && regionsVisible}">
-            <div ng-click="resize()" ac-forecast-mini ac-forecast="current.region.feature.properties.forecast"></div>
+        <div ng-if="!connectionChecked"></div>
+        <div ng-if="connectionChecked" ac-offline is-online="status.isOnline" message="Retrieving forecasts and the map requires an internet connection. Please connect to the internet and try again later">
+            <div data-tap-disabled="true">
+                <div ac-mapbox-map ac-map-sidebar="sidebar" ac-show-regions="regionsVisible" ac-regions="regions" ac-region="current.region" ac-obs="obs" ac-ob="current.ob" top-offset="0"></div>
+            </div>
+            <div data-tab-disabled="true" ac-drawer ng-class="{'ac-drawer--expanded': current.region && current.region.feature.properties.forecast && drawer.visible && drawer.enabled && regionsVisible}">
+                <div ng-click="resize()" ac-forecast-mini ac-forecast="current.region.feature.properties.forecast"></div>
+            </div>
         </div>
     </ion-content>
 </ion-view>

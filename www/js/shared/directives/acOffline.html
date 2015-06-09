@@ -1,0 +1,14 @@
+<div id="ac-offline" class="ac-offline">
+    <div class="row" ng-if="!isOnline">
+        <div class="col">
+            <h3 class="centered energized"><i class="ion-flash-off"></i> Offline</h3>
+            <p class="centered">{{message}}</p>
+            <div class="centered">
+                <button class="button button-energized button-large" ng-click="retryOffline()">Retry Connection</button>
+            </div>
+        </div>
+    </div>
+    <div ng-if="isOnline">
+        <div ng-transclude></div>
+    </div>
+</div>
