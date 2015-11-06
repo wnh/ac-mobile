@@ -2,7 +2,7 @@ angular.module('acMobile.services', ['ngCordova']);
 angular.module('acMobile.directives', ['acComponents']);
 angular.module('acMobile.controllers', ['acComponents']);
 angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://www.avalanche.ca');
-angular.module('acMobile', ['ionic', 'ngCordova', 'auth0', 'angular-storage', 'angular-jwt', 'acMobile.services', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
+angular.module('acMobile', ['ionic', 'ngIOS9UIWebViewPatch', 'ngCordova', 'auth0', 'angular-storage', 'angular-jwt', 'acMobile.services', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
     .constant('GA_ID', 'UA-56758486-2')
     .constant('AC_API_ROOT_URL', 'http://www.avalanche.ca')
     // .constant('AC_API_ROOT_URL', 'http://avalanche-canada-qa.elasticbeanstalk.com')
