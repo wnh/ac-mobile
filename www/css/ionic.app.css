@@ -7880,9 +7880,9 @@ input[type=checkbox]:focus, select:focus, textarea:focus, button:focus {
     background: #1a1c1e;
     color: #ffffff;
     border: 0px; }
-  .riding-info input:checked ~ .item-content {
-    background: #f79118;
-    color: #ffffff;
+  .riding-info input:checked + .radio-content .item-content {
+    background: #f79118 !important;
+    color: #ffffff !important;
     border: 0px;
     margin-right: 10px; }
   .riding-info .item.item-dark {

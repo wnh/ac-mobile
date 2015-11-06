@@ -340,9 +340,9 @@ button:focus {
     color: #ffffff;
     border: 0px;
   }
-  input:checked ~ .item-content {
-    background: $energized;
-    color: #ffffff;
+  input:checked + .radio-content .item-content {
+    background: $energized !important;
+    color: #ffffff !important;
     border: 0px;
     margin-right: 10px;
   }
