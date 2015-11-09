@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.idearebel.avalanchereports" version="4.0.6" versionCode="12" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.idearebel.avalanchereports" version="4.0.7" versionCode="13" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
   <name>Avalanche Canada</name>
   <description>
         Go Farther with Avalanche Canada Improved decision-making information for winter backcountry users. Created in partnership with MEC and TECTERRA, an interactive map gives you access to layers of geo-tagged information, including daily regional avalanche forecasts. Watch for updates coming soon! www.avalanche.ca
@@ -19,6 +19,7 @@
   <preference name="AutoHideSplashScreen" value="false"/>
   <preference name="ShowSplashScreenSpinner" value="false"/>
   <preference name="Fullscreen" value="true"/>
+  <preference name="android-build-tool" value="gradle" />
   <preference name="android-minSdkVersion" value="14"/>
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
@@ -45,18 +46,20 @@
   <feature name="http://api.phonegap.com/1.0/geolocation"/>
   <feature name="http://api.phonegap.com/1.0/media"/>
   <feature name="http://api.phonegap.com/1.0/network"/>
-  <gap:plugin name="com.ionic.keyboard" version="1.0.4" source="plugins.cordova.io"/>
-  <gap:plugin name="org.apache.cordova.camera" version="0.3.5" source="plugins.cordova.io"/>
+  <gap:plugin name="ionic-plugin-keyboard" version="1.0.4" source="npm"/>
+  <gap:plugin name="org.apache.cordova.camera" version="0.3.5" source="npm"/>
   <gap:plugin name="org.apache.cordova.file" version="1.3.1"/>
   <gap:plugin name="org.apache.cordova.console" version="0.2.11"/>
   <gap:plugin name="org.apache.cordova.device" version="0.2.12"/>
   <gap:plugin name="org.apache.cordova.geolocation" version="0.3.10"/>
   <gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2"/>
-  <gap:plugin name="org.apache.cordova.network-information" version="0.2.15" source="plugins.cordova.io"/>
+  <gap:plugin name="org.apache.cordova.network-information" version="0.2.15" source="npm"/>
   <gap:plugin name="com.ohh2ahh.plugins.appavailability" version="0.3.1"/>
   <gap:plugin name="org.apache.cordova.splashscreen" version="0.3.4"/>
   <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.0"/>
-  <gap:plugin name="com.danielcwilson.plugins.googleanalytics" version="0.8.1" source="plugins.cordova.io"/>
+  <gap:plugin name="cordova-plugin-google-analytics" version="0.8.1" source="npm"/>
+    <gap:plugin name="cordova-plugin-transport-security" source="npm" version="0.1.1"/>
+
   <icon src="icon.png"/>
   <icon src="www/pg/ios/pg180.png" gap:platform="ios" width="180" height="180"/>
   <icon src="www/pg/ios/pg60.png" gap:platform="ios" width="60" height="60"/>
@@ -136,4 +139,5 @@
     <splash src="resources/android/splash/drawable-port-xxhdpi-screen.png" density="port-xxhdpi"/>
     <splash src="resources/android/splash/drawable-port-xxxhdpi-screen.png" density="port-xxxhdpi"/>
   </platform>
+  <hook type="after_prepare" src="package-hooks/ios9_allow_http.sh" />
 </widget>

@@ -35,7 +35,8 @@
     {
       "locator": "https://github.com/danwilson/google-analytics-plugin.git",
       "id": "cordova-plugin-google-analytics"
-    }
+    },
+    "cordova-plugin-transport-security"
   ],
   "cordovaPlatforms": [
     "android",
