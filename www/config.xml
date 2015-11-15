@@ -22,7 +22,7 @@
     <preference name="auto-hide-splash-screen" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="ShowSplashScreenSpinner" value="false" />
-    <preference name="Fullscreen" value="true" />
+    <preference name="Fullscreen" value="false" />
     <preference name="android-build-tool" value="gradle" />
     <preference name="android-minSdkVersion" value="14" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
