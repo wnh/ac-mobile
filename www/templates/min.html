@@ -34,7 +34,7 @@
             </label>
             <div class="riding-info" ng-show="display.ridingInfo">
                 <div class="item item-divider">{{report.ridingConditions.ridingQuality.prompt}}</div>
-                <ion-radio icon="x" ng-repeat="option in report.ridingConditions.ridingQuality.options" class="item-dark" ng-model="report.ridingConditions.ridingQuality.selected" ng-value="option">{{option}}</ion-radio>
+                <ion-radio-fix icon="x" ng-repeat="option in report.ridingConditions.ridingQuality.options" class="item-dark" ng-model="report.ridingConditions.ridingQuality.selected" ng-value="option">{{option}}</ion-radio-fix>
                 <div class="item item-divider">{{report.ridingConditions.snowConditions.prompt}}</div>
                 <ul class="list quick-report-conditions">
                     <li ng-repeat="(option, enabled) in report.ridingConditions.snowConditions.options" class="item item-dark no-border label-sm item-checkbox checkbox-energized">
