@@ -39,7 +39,7 @@
                 <ul class="list quick-report-conditions">
                     <li ng-repeat="(option, enabled) in report.ridingConditions.snowConditions.options" class="item item-dark no-border label-sm item-checkbox checkbox-energized">
                         <label class="checkbox">
-                            <input type="checkbox" ng-model="report.ridingConditions.snowConditions[option]">
+                            <input type="checkbox" ng-model="report.ridingConditions.snowConditions.options[option]">
                         </label>
                         {{option}}
                     </li>
@@ -48,7 +48,7 @@
                 <ul class="list quick-report-conditions">
                     <li ng-repeat="(option, enabled) in report.ridingConditions.rideType.options" class="item item-dark no-border label-sm item-checkbox checkbox-energized">
                         <label class="checkbox">
-                            <input type="checkbox" ng-model="report.ridingConditions.rideType[option]">
+                            <input type="checkbox" ng-model="report.ridingConditions.rideType.options[option]">
                         </label>
                         {{option}}
                     </li>
@@ -57,7 +57,7 @@
                 <ul class="list quick-report-conditions">
                     <li ng-repeat="(option, enabled) in report.ridingConditions.stayedAway.options" class="item item-dark no-border label-sm item-checkbox checkbox-energized">
                         <label class="checkbox">
-                            <input type="checkbox" ng-model="report.ridingConditions.stayedAway[option]">
+                            <input type="checkbox" ng-model="report.ridingConditions.stayedAway.options[option]">
                         </label>
                         {{option}}
                     </li>
