@@ -9,7 +9,7 @@ node_modules/
 npm-debug.log
 
 #bower components
-www/lib
+#www/lib
 
 # Cordova/Ionic
 platforms/
