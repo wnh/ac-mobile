@@ -1,10 +1,11 @@
+var API_DOMAIN='https://wnh.ngrok.io';
 angular.module('acMobile.services', ['ngCordova']);
 angular.module('acMobile.directives', ['acComponents']);
 angular.module('acMobile.controllers', ['acComponents']);
-angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://www.avalanche.ca');
+angular.module('acComponents').constant('AC_API_ROOT_URL', API_DOMAIN);
 angular.module('acMobile', ['ionic', 'ngIOS9UIWebViewPatch', 'ngCordova', 'auth0', 'angular-storage', 'angular-jwt', 'acMobile.services', 'acMobile.controllers', 'acMobile.directives', 'acComponents'])
     .constant('GA_ID', 'UA-56758486-2')
-    .constant('AC_API_ROOT_URL', 'https://www.avalanche.ca')
+    .constant('AC_API_ROOT_URL', API_DOMAIN)
     //.constant('AC_API_ROOT_URL', 'http://avalanche-canada-qa.elasticbeanstalk.com')
     .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
     .constant('MAPBOX_MAP_ID', 'avalanchecanada.k8o347c9')
@@ -20,9 +21,11 @@ angular.module('acMobile', ['ionic', 'ngIOS9UIWebViewPatch', 'ngCordova', 'auth0
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
+            /* TODO(wnh): fix this keyboard stuff
             if (window.cordova && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             }
+            */
             if (window.StatusBar) {
                 // org.apache.cordova.statusbar required
                 StatusBar.styleDefault();
